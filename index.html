@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Hidayathul Islam Madrasa Achangi - Rabi'ul Awwal Programme Management System">
-  <meta name="theme-color" content="#0d5c3a">
-  <title>Hidayathul Islam Madrasa - Achangi | Rabi'ul Awwal Programme Management System</title>
+  <title>Hidayathul Islam Madrasa - Achangi | Rabi'ul Awwal Management System</title>
   
   <!-- Font Awesome Icons & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -38,22 +37,11 @@
       transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
-    body.light-mode {
-      background-color: var(--bg-light);
-      color: var(--text-dark);
-    }
+    body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
+    body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
-    body.dark-mode {
-      background-color: var(--bg-dark);
-      color: var(--text-light);
-    }
+    .app-container { display: flex; min-height: 100vh; }
 
-    .app-container {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Glassmorphism Cards */
     .glass-card {
       background: var(--card-bg-light);
       backdrop-filter: blur(12px);
@@ -63,14 +51,12 @@
       padding: 1.5rem;
       box-shadow: var(--shadow-light);
     }
-
     body.dark-mode .glass-card {
       background: var(--card-bg-dark);
       border-color: var(--glass-border-dark);
       box-shadow: var(--shadow-dark);
     }
 
-    /* Sidebar Navigation */
     .sidebar {
       width: 290px;
       background: linear-gradient(180deg, #072e1d 0%, #0d5c3a 100%);
@@ -78,9 +64,7 @@
       display: flex;
       flex-direction: column;
       position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
+      top: 0; bottom: 0; left: 0;
       z-index: 100;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -93,30 +77,19 @@
       border-bottom: 1px solid rgba(212, 175, 55, 0.25);
     }
 
-    .sidebar-logo {
-      font-size: 2.2rem;
-      color: var(--accent-gold);
-    }
+    .sidebar-logo { font-size: 2.2rem; color: var(--accent-gold); }
+    .sidebar-title h3 { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; }
+    .sidebar-title p { font-size: 0.72rem; color: var(--accent-gold); font-weight: 500; }
 
-    .sidebar-title h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      line-height: 1.2;
+    .team-switcher-container {
+      padding: 1rem 1.5rem;
+      background: rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
+    .team-switcher-container label { font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); display: block; margin-bottom: 0.3rem; }
+    .team-select-dropdown { background: rgba(255, 255, 255, 0.1); color: white; border-color: var(--accent-gold); font-weight: 600; }
 
-    .sidebar-title p {
-      font-size: 0.72rem;
-      color: var(--accent-gold);
-      font-weight: 500;
-      margin-top: 2px;
-    }
-
-    .sidebar-menu {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0.8rem 0;
-    }
+    .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.8rem 0; }
 
     .nav-item {
       display: flex;
@@ -127,21 +100,15 @@
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
-      transition: all 0.2s;
     }
-
     .nav-item:hover, .nav-item.active {
       background: rgba(212, 175, 55, 0.18);
       color: var(--accent-gold);
       border-left: 4px solid var(--accent-gold);
     }
 
-    .sidebar-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
-    /* Main Area Layout */
     .main-content {
       flex: 1;
       margin-left: 290px;
@@ -159,40 +126,15 @@
       border-bottom: 1px solid var(--glass-border-light);
       background: var(--card-bg-light);
       backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 90;
+      position: sticky; top: 0; z-index: 90;
     }
+    body.dark-mode .topbar { background: var(--card-bg-dark); border-bottom-color: var(--glass-border-dark); }
 
-    body.dark-mode .topbar {
-      background: var(--card-bg-dark);
-      border-bottom-color: var(--glass-border-dark);
-    }
+    .view-container { padding: 2rem; flex: 1; }
+    .app-view { display: none; }
+    .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-    .topbar-left, .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-    }
-
-    .view-container {
-      padding: 2rem;
-      flex: 1;
-    }
-
-    .app-view {
-      display: none;
-    }
-
-    .app-view.active {
-      display: block;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
     .hero-banner {
       background: linear-gradient(135deg, #072e1d 0%, var(--primary-green) 60%, var(--secondary-green) 100%);
@@ -205,194 +147,74 @@
       margin-bottom: 1.5rem;
       border: 1px solid var(--glass-border-light);
     }
+    .hero-banner h1 { font-size: 1.7rem; color: var(--accent-gold); }
+    .hero-badge { background: var(--accent-gold); color: #072e1d; padding: 0.6rem 1.2rem; border-radius: 30px; font-weight: 700; font-size: 0.85rem; }
 
-    .hero-banner h1 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: var(--accent-gold);
-      letter-spacing: 0.5px;
-    }
+    .team-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem; }
+    .highlight-gold { color: var(--accent-gold); font-weight: 700; }
 
-    .hero-badge {
-      background: var(--accent-gold);
-      color: #0d5c3a;
-      padding: 0.6rem 1.2rem;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; }
     .stat-card {
       background: var(--card-bg-light);
       border: 1px solid var(--glass-border-light);
       border-radius: 12px;
       padding: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 1.1rem;
+      display: flex; align-items: center; gap: 1.1rem;
     }
+    body.dark-mode .stat-card { background: var(--card-bg-dark); border-color: var(--glass-border-dark); }
 
-    body.dark-mode .stat-card {
-      background: var(--card-bg-dark);
-      border-color: var(--glass-border-dark);
-    }
+    .stat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; }
+    .stat-icon.green { background: #10b981; } .stat-icon.blue { background: #3b82f6; } .stat-icon.pink { background: #ec4899; }
+    .stat-icon.gold { background: #f59e0b; } .stat-icon.purple { background: #8b5cf6; } .stat-icon.teal { background: #14b8a6; }
 
-    .stat-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: white;
-    }
-
-    .stat-icon.green { background: #10b981; }
-    .stat-icon.blue { background: #3b82f6; }
-    .stat-icon.pink { background: #ec4899; }
-    .stat-icon.gold { background: #f59e0b; }
-    .stat-icon.purple { background: #8b5cf6; }
-    .stat-icon.teal { background: #14b8a6; }
-
-    .stat-info p { font-size: 0.82rem; opacity: 0.8; font-weight: 500; }
-    .stat-info h3 { font-size: 1.6rem; font-weight: 700; }
-
-    /* Progress and Activity Components */
     .progress-bar-container { margin-top: 1rem; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem; font-weight: 500; }
-    .progress-track { height: 10px; background: rgba(0, 0, 0, 0.08); border-radius: 6px; overflow: hidden; }
-    body.dark-mode .progress-track { background: rgba(255, 255, 255, 0.1); }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem; }
+    .progress-track { height: 10px; background: rgba(0,0,0,0.08); border-radius: 6px; overflow: hidden; }
+    body.dark-mode .progress-track { background: rgba(255,255,255,0.1); }
     .progress-fill { height: 100%; transition: width 0.5s ease; }
 
-    .bg-success { background-color: #10b981; }
-    .bg-warning { background-color: #f59e0b; }
-    .bg-danger { background-color: #ef4444; }
+    .bg-success { background-color: #10b981; } .bg-warning { background-color: #f59e0b; } .bg-danger { background-color: #ef4444; }
 
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
+    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .activity-list { list-style: none; max-height: 260px; overflow-y: auto; }
     .activity-list li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.88rem; }
-    body.dark-mode .activity-list li { border-bottom-color: rgba(255, 255, 255, 0.05); }
 
-    /* Form UI Elements */
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-group label { font-size: 0.85rem; font-weight: 600; opacity: 0.9; }
-    .form-group.full-width { grid-column: 1 / -1; }
 
     .form-control {
       padding: 0.75rem 1rem;
       border-radius: 8px;
       border: 1px solid rgba(0,0,0,0.15);
       background: rgba(255, 255, 255, 0.8);
-      font-size: 0.92rem;
-      outline: none;
+      font-size: 0.92rem; outline: none;
     }
+    body.dark-mode .form-control { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.15); color: white; }
 
-    body.dark-mode .form-control {
-      background: rgba(0, 0, 0, 0.35);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: white;
-    }
-
-    .form-control:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); }
-
-    .btn-primary {
-      background: var(--primary-green);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.25rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: background-color 0.2s;
-    }
-
+    .btn-primary { background: var(--primary-green); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-primary:hover { background: var(--secondary-green); }
+    .btn-secondary { background: var(--accent-gold); color: #072e1d; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
+    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
-    .btn-secondary {
-      background: var(--accent-gold);
-      color: #0d5c3a;
-      border: none;
-      padding: 0.75rem 1.25rem;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .btn-secondary:hover { background: var(--accent-gold-hover); }
-
-    .btn-danger {
-      background: #dc2626;
-      color: white;
-      border: none;
-      padding: 0.5rem 0.85rem;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; padding: 0.3rem; }
-    .full-width { width: 100%; }
-    .mt-1 { margin-top: 0.5rem; }
-    .mt-2 { margin-top: 1rem; }
-    .mb-2 { margin-bottom: 1rem; }
-    .flex-gap { display: flex; gap: 1rem; }
-
-    /* Tables & Responsive Display */
     .table-responsive { width: 100%; overflow-x: auto; }
     .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; }
     .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
-    body.dark-mode .data-table th, body.dark-mode .data-table td { border-bottom-color: rgba(255, 255, 255, 0.06); }
-    .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0, 0, 0, 0.02); }
-    body.dark-mode .data-table th { background: rgba(255, 255, 255, 0.02); }
+    .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
 
-    .student-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold); }
     .badge { padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
     .badge-visitor { background: #6b7280; color: white; }
     .badge-admin { background: var(--accent-gold); color: #072e1d; }
 
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
-    .programme-card { border-left: 4px solid var(--accent-gold); }
+    .programme-card { border-left: 4px solid var(--accent-gold); cursor: pointer; }
 
     .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
     .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    body.dark-mode .tab-btn { background: rgba(255, 255, 255, 0.05); }
     .tab-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
 
-    /* Modals */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
     .modal.active { display: flex; }
     .modal-content { width: 100%; max-width: 480px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; }
     body.dark-mode .modal-content { background: var(--bg-dark); border-color: var(--glass-border-dark); }
@@ -403,51 +225,18 @@
     .filter-bar { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; }
     .action-header { display: flex; justify-content: space-between; align-items: center; }
     .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; }
-    body.dark-mode .divider { background: var(--glass-border-dark); }
 
-    /* Overlay Loaders & Toast */
-    .loading-screen {
-      position: fixed;
-      top:0; left:0; width:100vw; height:100vh;
-      background: #072e1d;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
-    }
-
-    .spinner {
-      width: 52px; height: 52px;
-      border: 5px solid rgba(255,255,255,0.15);
-      border-top-color: var(--accent-gold);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 1.2rem;
-    }
-
+    .loading-screen { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #072e1d; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+    .spinner { width: 52px; height: 52px; border: 5px solid rgba(255,255,255,0.15); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1.2rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .toast-container {
-      position: fixed; bottom: 24px; right: 24px;
-      z-index: 2000; display: flex; flex-direction: column; gap: 0.6rem;
-    }
-
-    .toast {
-      padding: 0.9rem 1.3rem; border-radius: 8px;
-      background: #222; color: #fff; font-size: 0.9rem; font-weight: 500;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-      animation: slideIn 0.3s ease;
-    }
-
-    .toast.success { background: #10b981; }
-    .toast.error { background: #ef4444; }
-    .toast.warning { background: #f59e0b; color: #000; }
-
+    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 0.6rem; }
+    .toast { padding: 0.9rem 1.3rem; border-radius: 8px; background: #222; color: #fff; font-size: 0.9rem; font-weight: 500; animation: slideIn 0.3s ease; }
+    .toast.success { background: #10b981; } .toast.error { background: #ef4444; } .toast.warning { background: #f59e0b; color: #000; }
     @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
     .mobile-only { display: none; }
+    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
 
     @media (max-width: 900px) {
       .sidebar { transform: translateX(-100%); }
@@ -468,19 +257,17 @@
 </head>
 <body class="light-mode">
 
-  <!-- Application Loading Overlay -->
+  <!-- Loading Screen -->
   <div id="loading-screen" class="loading-screen">
     <div class="spinner"></div>
     <h2 style="font-family:'Amiri', serif; font-size: 2rem; color: var(--accent-gold);">Hidayathul Islam Madrasa</h2>
-    <p>Loading Rabi'ul Awwal Management System...</p>
+    <p>Rabi'ul Awwal Programme Management System</p>
   </div>
 
-  <!-- Toast Container -->
+  <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
 
-  <!-- Main Container -->
   <div class="app-container">
-
     <!-- Sidebar Navigation -->
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
@@ -489,29 +276,36 @@
           <h3>HIDAYATHUL ISLAM</h3>
           <p>ACHANGI - RABI'UL AWWAL</p>
         </div>
-        <button id="close-sidebar" class="mobile-only icon-btn" style="color:white; margin-left:auto;"><i class="fa-solid fa-xmark"></i></button>
+        <button id="close-sidebar" class="mobile-only icon-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Team Selector Switcher -->
+      <div class="team-switcher-container">
+        <label><i class="fa-solid fa-people-roof"></i> Active Team Data</label>
+        <select id="active-team-select" class="form-control team-select-dropdown">
+          <option value="MADEENATHU-SSALAM">MADEENATHU-SSALAM</option>
+          <option value="MADEENATHU-NNOOR">MADEENATHU-NNOOR</option>
+        </select>
       </div>
 
       <nav class="sidebar-menu">
         <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
         <a href="#" class="nav-item" data-view="teams"><i class="fa-solid fa-users-gear"></i> <span>Team Management</span></a>
         <a href="#" class="nav-item" data-view="students"><i class="fa-solid fa-user-graduate"></i> <span>Student Management</span></a>
-        <a href="#" class="nav-item" data-view="boys-sec"><i class="fa-solid fa-child"></i> <span>Boys Section</span></a>
-        <a href="#" class="nav-item" data-view="girls-sec"><i class="fa-solid fa-child-dress"></i> <span>Girls Section</span></a>
-        <a href="#" class="nav-item" data-view="prog-forms"><i class="fa-solid fa-list-check"></i> <span>Programme Forms</span></a>
-        <a href="#" class="nav-item" data-view="common-progs"><i class="fa-solid fa-star-and-crescent"></i> <span>Common Programmes</span></a>
-        <a href="#" class="nav-item" data-view="mixed-groups"><i class="fa-solid fa-people-group"></i> <span>Mixed Groups</span></a>
-        <a href="#" class="nav-item" data-view="assignments"><i class="fa-solid fa-clipboard-list"></i> <span>Programme Assignment</span></a>
-        <a href="#" class="nav-item" data-view="practice"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
-        <a href="#" class="nav-item" data-view="attendance"><i class="fa-solid fa-calendar-check"></i> <span>Attendance</span></a>
+        <a href="#" class="nav-item" data-view="mixed-groups"><i class="fa-solid fa-people-group"></i> <span>Mixed Groups (Burda etc.)</span></a>
+        <a href="#" class="nav-item" data-view="boys-section"><i class="fa-solid fa-child"></i> <span>Boys Section</span></a>
+        <a href="#" class="nav-item" data-view="girls-section"><i class="fa-solid fa-child-dress"></i> <span>Girls Section</span></a>
+        <a href="#" class="nav-item" data-view="stage-programmes"><i class="fa-solid fa-microphone"></i> <span>Stage Programmes</span></a>
+        <a href="#" class="nav-item" data-view="non-stage-programmes"><i class="fa-solid fa-pen-ruler"></i> <span>Non Stage Programmes</span></a>
+        <a href="#" class="nav-item" data-view="assignments"><i class="fa-solid fa-clipboard-list"></i> <span>Assignments</span></a>
+        <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports & Export</span></a>
         <a href="#" class="nav-item" data-view="search"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a>
-        <a href="#" class="nav-item" data-view="settings"><i class="fa-solid fa-sliders"></i> <span>Settings</span></a>
       </nav>
 
       <div class="sidebar-footer">
         <div id="auth-status" class="auth-status mb-2">
-          <span class="badge badge-visitor" id="role-badge">Visitor Mode</span>
+          <span class="badge badge-visitor" id="role-badge">View Only</span>
         </div>
         <button id="btn-auth-action" class="btn-primary full-width"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
       </div>
@@ -522,10 +316,10 @@
       <header class="topbar">
         <div class="topbar-left">
           <button id="toggle-sidebar" class="icon-btn mobile-only"><i class="fa-solid fa-bars"></i></button>
-          <h2 id="page-title" style="font-weight: 600;">Dashboard</h2>
+          <h2 id="page-title">Dashboard</h2>
         </div>
         <div class="topbar-right">
-          <button id="theme-toggle" class="icon-btn" title="Toggle Mode"><i class="fa-solid fa-moon"></i></button>
+          <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
           <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;">
             <i class="fa-solid fa-circle-user" style="color:var(--accent-gold); font-size:1.4rem;"></i>
             <span id="user-display-name">Visitor</span>
@@ -535,22 +329,22 @@
 
       <div id="view-container" class="view-container">
 
-        <!-- HOME DASHBOARD -->
+        <!-- DASHBOARD VIEW -->
         <section id="view-dashboard" class="app-view active">
           <div class="hero-banner">
             <div>
-              <h1 id="dash-title-madrasa">HIDAYATHUL ISLAM MADRASA – ACHANGI</h1>
-              <p style="opacity: 0.9; font-size:0.95rem;">RABI'UL AWWAL PROGRAMME MANAGEMENT SYSTEM</p>
+              <h1 id="dash-madrasa-name">HIDAYATHUL ISLAM MADRASA – ACHANGI</h1>
+              <p>RABI'UL AWWAL PROGRAMME MANAGEMENT SYSTEM</p>
             </div>
-            <div class="hero-badge"><i class="fa-solid fa-gem"></i> Premium Islamic Dashboard</div>
+            <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Team Isolated Data</div>
           </div>
 
           <div class="glass-card mb-2">
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
-              <div><strong style="color:var(--accent-gold);">Team Name:</strong> <span id="dash-team-name">Loading...</span></div>
-              <div><strong style="color:var(--accent-gold);">Advisors:</strong> <span id="dash-advisors">Loading...</span></div>
-              <div><strong style="color:var(--accent-gold);">Boys Leaders:</strong> <span id="dash-boys-leaders">Loading...</span></div>
-              <div><strong style="color:var(--accent-gold);">Girls Leaders:</strong> <span id="dash-girls-leaders">Loading...</span></div>
+            <div class="team-info-grid">
+              <div><strong>Active Team:</strong> <span id="dash-team-name" class="highlight-gold">Loading...</span></div>
+              <div><strong>Advisors:</strong> <span id="dash-advisors">N/A</span></div>
+              <div><strong>Boys Leaders:</strong> <span id="dash-boys-leaders">N/A</span></div>
+              <div><strong>Girls Leaders:</strong> <span id="dash-girls-leaders">N/A</span></div>
             </div>
           </div>
 
@@ -569,24 +363,24 @@
             </div>
             <div class="stat-card">
               <div class="stat-icon gold"><i class="fa-solid fa-microphone"></i></div>
-              <div class="stat-info"><p>Boys Stage Progs</p><h3 id="stat-boys-stage">0</h3></div>
+              <div class="stat-info"><p>Stage Programmes</p><h3 id="stat-stage-progs">0</h3></div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon purple"><i class="fa-solid fa-microphone-lines"></i></div>
-              <div class="stat-info"><p>Girls Stage Progs</p><h3 id="stat-girls-stage">0</h3></div>
+              <div class="stat-icon purple"><i class="fa-solid fa-people-group"></i></div>
+              <div class="stat-info"><p>Mixed Groups (Burda)</p><h3 id="stat-mixed-groups">0</h3></div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon teal"><i class="fa-solid fa-star"></i></div>
-              <div class="stat-info"><p>Common Programmes</p><h3 id="stat-common-progs">0</h3></div>
+              <div class="stat-icon teal"><i class="fa-solid fa-user-check"></i></div>
+              <div class="stat-info"><p>Assigned Students</p><h3 id="stat-assigned-students">0</h3></div>
             </div>
           </div>
 
           <div class="dashboard-grid mt-2">
             <div class="glass-card">
-              <h3><i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i> Practice Progress Analytics</h3>
+              <h3><i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i> Practice Readiness Analytics</h3>
               <hr class="divider">
               <div class="progress-bar-container">
-                <div class="progress-label"><span>Ready For Stage</span><span id="label-ready-count">0</span></div>
+                <div class="progress-label"><span>Stage Ready</span><span id="label-ready-count">0</span></div>
                 <div class="progress-track"><div id="bar-ready" class="progress-fill bg-success" style="width:0%"></div></div>
               </div>
               <div class="progress-bar-container">
@@ -600,43 +394,46 @@
             </div>
 
             <div class="glass-card">
-              <h3><i class="fa-solid fa-clock-rotate-left" style="color:var(--accent-gold);"></i> Recent Activity Feed</h3>
+              <h3><i class="fa-solid fa-bell" style="color:var(--accent-gold);"></i> System Audit Log</h3>
               <hr class="divider">
-              <ul id="notifications-list" class="activity-list">
-                <li class="empty-state">System monitoring active. No activities logged yet.</li>
+              <ul id="activity-list" class="activity-list">
+                <li class="empty-state">No recent activities for this team.</li>
               </ul>
             </div>
           </div>
         </section>
 
-        <!-- TEAM MANAGEMENT -->
+        <!-- TEAM MANAGEMENT VIEW -->
         <section id="view-teams" class="app-view">
           <div class="glass-card">
-            <h2><i class="fa-solid fa-users-gear" style="color:var(--accent-gold);"></i> Team & Leadership Settings</h2>
+            <h2><i class="fa-solid fa-users-gear" style="color:var(--accent-gold);"></i> Team Leadership Settings</h2>
+            <p style="font-size:0.85rem; opacity:0.8;">Updates apply exclusively to the currently active team.</p>
             <hr class="divider">
             <form id="form-team-settings">
               <div class="form-grid">
                 <div class="form-group">
                   <label>Team Name</label>
-                  <input type="text" id="team-name" class="form-control" required placeholder="e.g. Al Huda Team">
+                  <input type="text" id="team-name-input" class="form-control" required readonly>
                 </div>
                 <div class="form-group">
                   <label>Advisors</label>
-                  <input type="text" id="advisors" class="form-control" placeholder="Names of advisors">
+                  <input type="text" id="team-advisors-input" class="form-control" placeholder="Advisor names">
                 </div>
                 <div class="form-group">
-                  <label>Boys Team Leaders</label></div>
+                  <label>Boys Team Leaders</label>
+                  <input type="text" id="team-boys-leaders-input" class="form-control" placeholder="Boys team leaders">
+                </div>
                 <div class="form-group">
                   <label>Girls Team Leaders</label>
-                  <input type="text" id="girls-leaders" class="form-control" placeholder="Girls team leaders">
+                  <input type="text" id="team-girls-leaders-input" class="form-control" placeholder="Girls team leaders">
                 </div>
               </div>
-              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-floppy-disk"></i> Update Team Information</button>
+              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-floppy-disk"></i> Save Team Settings</button>
             </form>
           </div>
         </section>
 
-        <!-- STUDENT MANAGEMENT -->
+        <!-- STUDENT MANAGEMENT VIEW -->
         <section id="view-students" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
@@ -645,13 +442,13 @@
             </div>
             <hr class="divider">
             <div class="filter-bar">
-              <input type="text" id="search-student-input" class="form-control" placeholder="Search by student name or guardian...">
-              <select id="filter-gender" class="form-control">
+              <input type="text" id="filter-search-student" class="form-control" placeholder="Search student name or ID...">
+              <select id="filter-student-gender" class="form-control">
                 <option value="">All Genders</option>
                 <option value="Male">Boys</option>
                 <option value="Female">Girls</option>
               </select>
-              <select id="filter-category" class="form-control">
+              <select id="filter-student-category" class="form-control">
                 <option value="">All Categories</option>
                 <option value="Sub Junior">Sub Junior</option>
                 <option value="Junior">Junior</option>
@@ -666,19 +463,38 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Photo</th><th>Student Name</th><th>Gender</th><th>Category</th><th>Class</th><th>Guardian Name</th><th>Phone</th><th>Actions</th>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Class</th>
+                    <th>Category</th>
+                    <th>Team</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody id="tbody-students">
-                  <tr><td colspan="8" class="text-center">Loading student records...</td></tr>
-                </tbody>
+                <tbody id="tbody-students"></tbody>
               </table>
             </div>
           </div>
         </section>
 
-        <!-- BOYS SECTION -->
-        <section id="view-boys-sec" class="app-view">
+        <!-- MIXED GROUPS VIEW (Burda, Nasheeda, etc.) -->
+        <section id="view-mixed-groups" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <div>
+                <h2><i class="fa-solid fa-people-group" style="color:var(--accent-gold);"></i> Mixed Category Groups</h2>
+                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Combine Sub Junior, Junior, Senior, & General categories for Burda, Nasheeda, Drama, etc.</p>
+              </div>
+              <button id="btn-add-mixed-group" class="btn-primary"><i class="fa-solid fa-plus"></i> Create Mixed Group</button>
+            </div>
+            <hr class="divider">
+          </div>
+          <div id="mixed-groups-list" class="cards-grid"></div>
+        </section>
+
+        <!-- BOYS SECTION VIEW -->
+        <section id="view-boys-section" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-child" style="color:var(--accent-gold);"></i> Boys Section Overview</h2>
             <hr class="divider">
@@ -692,8 +508,8 @@
           </div>
         </section>
 
-        <!-- GIRLS SECTION -->
-        <section id="view-girls-sec" class="app-view">
+        <!-- GIRLS SECTION VIEW -->
+        <section id="view-girls-section" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-child-dress" style="color:var(--accent-gold);"></i> Girls Section Overview</h2>
             <hr class="divider">
@@ -707,81 +523,31 @@
           </div>
         </section>
 
-        <!-- PROGRAMME FORMS (SEPARATE FORM CATEGORIES) -->
-        <section id="view-prog-forms" class="app-view">
-          <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Individual Programme Forms</h2>
-            <p style="font-size: 0.9rem; opacity: 0.8;">Select section, stage type, and category to manage specific programmes independently.</p>
-            <hr class="divider">
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Section</label>
-                <select id="prog-form-section" class="form-control">
-                  <option value="boys">Boys</option>
-                  <option value="girls">Girls</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Type</label>
-                <select id="prog-form-type" class="form-control">
-                  <option value="stage">Stage</option>
-                  <option value="non_stage">Non Stage</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Category</label>
-                <select id="prog-form-category" class="form-control">
-                  <option value="Sub Junior">Sub Junior</option>
-                  <option value="Junior">Junior</option>
-                  <option value="Senior">Senior</option>
-                  <option value="General">General</option>
-                </select>
-              </div>
-            </div>
-            <button id="btn-open-prog-modal" class="btn-primary mt-2"><i class="fa-solid fa-plus"></i> Add Programme To Selected Form</button>
-          </div>
-
-          <div class="glass-card">
-            <h3 id="prog-form-active-heading">Boys Stage → Sub Junior Programmes</h3>
-            <hr class="divider">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr><th>Programme Name</th><th>Max Participants</th><th>Assigned</th><th>Remaining Seats</th><th>Actions</th></tr>
-                </thead>
-                <tbody id="tbody-prog-form-list"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- COMMON PROGRAMMES -->
-        <section id="view-common-progs" class="app-view">
+        <!-- STAGE PROGRAMMES VIEW -->
+        <section id="view-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
-              <h2><i class="fa-solid fa-star-and-crescent" style="color:var(--accent-gold);"></i> Common Programmes</h2>
-              <button id="btn-add-common-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Common Programme</button>
+              <h2><i class="fa-solid fa-microphone" style="color:var(--accent-gold);"></i> Stage Programmes</h2>
+              <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
             </div>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Programs like Burda, Qaseedathul Burda, Nasheeda, Badr Moulid, Manqoos Moulid available for ALL students.</p>
             <hr class="divider">
           </div>
-          <div id="common-programmes-list" class="cards-grid"></div>
+          <div id="stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- MIXED GROUPS -->
-        <section id="view-mixed-groups" class="app-view">
+        <!-- NON-STAGE PROGRAMMES VIEW -->
+        <section id="view-non-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
-              <h2><i class="fa-solid fa-people-group" style="color:var(--accent-gold);"></i> Mixed Group Management</h2>
-              <button id="btn-add-mixed-group" class="btn-primary"><i class="fa-solid fa-plus"></i> Create Mixed Group</button>
+              <h2><i class="fa-solid fa-pen-ruler" style="color:var(--accent-gold);"></i> Non-Stage Programmes</h2>
+              <button id="btn-add-non-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
             </div>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Groups combining Sub Junior, Junior, Senior, General, Boys, or Girls for Drama, Burda, Nasheeda, etc.</p>
             <hr class="divider">
           </div>
-          <div id="mixed-groups-list" class="cards-grid"></div>
+          <div id="non-stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- PROGRAMME ASSIGNMENT -->
+        <!-- PROGRAMME ASSIGNMENTS VIEW -->
         <section id="view-assignments" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Workflow</h2>
@@ -789,17 +555,17 @@
             <form id="form-assign-programme">
               <div class="form-grid">
                 <div class="form-group">
-                  <label>1. Filter Gender</label>
-                  <select id="assign-filter-gender" class="form-control">
-                    <option value="">All Genders</option>
+                  <label>1. Gender Section</label>
+                  <select id="assign-gender-select" class="form-control" required>
+                    <option value="">-- Select Gender --</option>
                     <option value="Male">Boys</option>
                     <option value="Female">Girls</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>2. Filter Category</label>
-                  <select id="assign-filter-category" class="form-control">
-                    <option value="">All Categories</option>
+                  <label>2. Category</label>
+                  <select id="assign-category-select" class="form-control" required>
+                    <option value="">-- Select Category --</option>
                     <option value="Sub Junior">Sub Junior</option>
                     <option value="Junior">Junior</option>
                     <option value="Senior">Senior</option>
@@ -807,12 +573,12 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>3. Select Student</label>
-                  <select id="assign-student-id" class="form-control" required></select>
+                  <label>3. Student</label>
+                  <select id="assign-student-select" class="form-control" required></select>
                 </div>
                 <div class="form-group">
-                  <label>4. Select Programme / Group</label>
-                  <select id="assign-programme-id" class="form-control" required></select>
+                  <label>4. Programme</label>
+                  <select id="assign-prog-select" class="form-control" required></select>
                 </div>
               </div>
               <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-check"></i> Assign Student to Programme</button>
@@ -820,12 +586,20 @@
           </div>
 
           <div class="glass-card">
-            <h3>Active Programme Assignments</h3>
+            <h3>Active Assignments for Active Team</h3>
             <hr class="divider">
             <div class="table-responsive">
               <table class="data-table">
                 <thead>
-                  <tr><th>Student Name</th><th>Gender / Category</th><th>Programme Name</th><th>Type</th><th>Actions</th></tr>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Gender</th>
+                    <th>Category</th>
+                    <th>Programme</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                  </tr>
                 </thead>
                 <tbody id="tbody-assignments"></tbody>
               </table>
@@ -833,69 +607,39 @@
           </div>
         </section>
 
-        <!-- PRACTICE TRACKER -->
-        <section id="view-practice" class="app-view">
+        <!-- PRACTICE TRACKER VIEW -->
+        <section id="view-practice-tracker" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
             <hr class="divider">
             <div class="table-responsive">
               <table class="data-table">
                 <thead>
-                  <tr><th>Student Name</th><th>Programme</th><th>Type</th><th>Current Status</th><th>One-Click Update Status</th></tr>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Programme</th>
+                    <th>Gender / Category</th>
+                    <th>Current Status</th>
+                    <th>Change Practice Status</th>
+                  </tr>
                 </thead>
-                <tbody id="tbody-practice"></tbody>
+                <tbody id="tbody-practice-tracker"></tbody>
               </table>
             </div>
           </div>
         </section>
 
-        <!-- ATTENDANCE -->
-        <section id="view-attendance" class="app-view">
-          <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-calendar-check" style="color:var(--accent-gold);"></i> Student Attendance Register</h2>
-            <hr class="divider">
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Date</label>
-                <input type="date" id="attendance-date" class="form-control">
-              </div>
-              <div class="form-group">
-                <label>Filter Category</label>
-                <select id="attendance-filter-category" class="form-control">
-                  <option value="">All Categories</option>
-                  <option value="Sub Junior">Sub Junior</option>
-                  <option value="Junior">Junior</option>
-                  <option value="Senior">Senior</option>
-                  <option value="General">General</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="glass-card">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr><th>Student Name</th><th>Category</th><th>Gender</th><th>Status</th><th>Mark Attendance</th></tr>
-                </thead>
-                <tbody id="tbody-attendance"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- REPORTS -->
+        <!-- REPORTS VIEW -->
         <section id="view-reports" class="app-view">
           <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-file-invoice" style="color:var(--accent-gold);"></i> Comprehensive Reports & Export</h2>
+            <h2><i class="fa-solid fa-file-invoice" style="color:var(--accent-gold);"></i> Reports & Export Manager</h2>
             <hr class="divider">
             <div class="form-group">
               <label>Select Report Type</label>
-              <select id="report-type" class="form-control">
-                <option value="students">Student Master Register</option>
-                <option value="assignments">Programme Assignments Report</option>
-                <option value="practice">Practice Progress Report</option>
-                <option value="attendance">Attendance Summary Report</option>
+              <select id="report-type-select" class="form-control">
+                <option value="students">Student Master List</option>
+                <option value="programme">Programme-wise Participants Report</option>
+                <option value="practice">Practice Status Summary Report</option>
               </select>
             </div>
             <div class="flex-gap mt-2">
@@ -903,30 +647,19 @@
               <button id="btn-print-report" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Report</button>
             </div>
           </div>
-          <div class="glass-card" id="report-preview-card">
+          <div class="glass-card">
             <div id="report-output-table" class="table-responsive"></div>
           </div>
         </section>
 
-        <!-- SEARCH -->
+        <!-- SEARCH VIEW -->
         <section id="view-search" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-magnifying-glass" style="color:var(--accent-gold);"></i> Unified Global Search</h2>
             <hr class="divider">
-            <input type="text" id="global-search-input" class="form-control" placeholder="Search student name, category, class, or programme name...">
+            <input type="text" id="global-search-input" class="form-control" placeholder="Search by student name, programme, class, or category...">
           </div>
           <div id="global-search-results" class="cards-grid"></div>
-        </section>
-
-        <!-- SETTINGS -->
-        <section id="view-settings" class="app-view">
-          <div class="glass-card">
-            <h2><i class="fa-solid fa-sliders" style="color:var(--accent-gold);"></i> System Settings & Information</h2>
-            <hr class="divider">
-            <p><strong>System Name:</strong> Hidayathul Islam Madrasa - Achangi | Rabi'ul Awwal Management System</p>
-            <p class="mt-1"><strong>Firebase Realtime Connection:</strong> Active</p>
-            <p class="mt-1"><strong>PWA & Offline Capability:</strong> Enabled</p>
-          </div>
         </section>
 
       </div>
@@ -934,11 +667,11 @@
   </div>
 
   <!-- MODALS -->
-  <!-- Auth Modal -->
+  <!-- Admin Authentication Modal -->
   <div id="modal-auth" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-shield-halved" style="color:var(--accent-gold);"></i> Admin Sign In</h3>
+        <h3><i class="fa-solid fa-shield-halved"></i> Admin Login</h3>
         <button class="close-modal">×</button>
       </div>
       <form id="form-login">
@@ -955,7 +688,7 @@
     </div>
   </div>
 
-  <!-- Student CRUD Modal -->
+  <!-- Student Add/Edit Modal -->
   <div id="modal-student" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
@@ -966,40 +699,28 @@
         <input type="hidden" id="student-doc-id">
         <div class="form-grid">
           <div class="form-group">
-            <label>Full Student Name</label>
-            <input type="text" id="student-name" class="form-control" required>
+            <label>Student Name</label>
+            <input type="text" id="student-name-input" class="form-control" required>
           </div>
           <div class="form-group">
             <label>Gender</label>
-            <select id="student-gender" class="form-control" required>
+            <select id="student-gender-input" class="form-control" required>
               <option value="Male">Male (Boy)</option>
               <option value="Female">Female (Girl)</option>
             </select>
           </div>
           <div class="form-group">
+            <label>Class</label>
+            <input type="text" id="student-class-input" class="form-control" required placeholder="e.g. Class 5">
+          </div>
+          <div class="form-group">
             <label>Category</label>
-            <select id="student-category" class="form-control" required>
+            <select id="student-category-input" class="form-control" required>
               <option value="Sub Junior">Sub Junior</option>
               <option value="Junior">Junior</option>
               <option value="Senior">Senior</option>
               <option value="General">General</option>
             </select>
-          </div>
-          <div class="form-group">
-            <label>Class / Grade</label>
-            <input type="text" id="student-class" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>Guardian Name</label>
-            <input type="text" id="student-guardian" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="student-phone" class="form-control" required>
-          </div>
-          <div class="form-group full-width">
-            <label>Student Photo</label>
-            <input type="file" id="student-photo" class="form-control" accept="image/*">
           </div>
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Student Record</button>
@@ -1007,7 +728,7 @@
     </div>
   </div>
 
-  <!-- Separate Specific Programme Form Modal -->
+  <!-- Programme Add/Edit Modal -->
   <div id="modal-programme" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
@@ -1016,14 +737,30 @@
       </div>
       <form id="form-programme">
         <input type="hidden" id="prog-doc-id">
-        <input type="hidden" id="prog-target-collection">
+        <input type="hidden" id="prog-type-hidden">
         <div class="form-group">
           <label>Programme Name</label>
-          <input type="text" id="prog-name" class="form-control" required placeholder="e.g. Qira'at">
+          <input type="text" id="prog-name-input" class="form-control" required placeholder="e.g. Qaseeda">
+        </div>
+        <div class="form-group mt-1">
+          <label>Gender Section</label>
+          <select id="prog-gender-input" class="form-control" required>
+            <option value="Male">Boys</option>
+            <option value="Female">Girls</option>
+          </select>
+        </div>
+        <div class="form-group mt-1">
+          <label>Category</label>
+          <select id="prog-category-input" class="form-control" required>
+            <option value="Sub Junior">Sub Junior</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+            <option value="General">General</option>
+          </select>
         </div>
         <div class="form-group mt-1">
           <label>Max Participants Limit</label>
-          <input type="number" id="prog-max" class="form-control" min="1" value="1" required>
+          <input type="number" id="prog-max-input" class="form-control" min="1" value="1" required>
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Programme</button>
       </form>
@@ -1031,56 +768,52 @@
   </div>
 
   <!-- Mixed Group Modal -->
-<div id="modal-mixed-group" class="modal">
+  <div id="modal-mixed-group" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
-        <h3>Create Mixed Group</h3>
+        <h3>Create Mixed Category Group</h3>
         <button class="close-modal">×</button>
       </div>
       <form id="form-mixed-group">
-        <input type="hidden" id="mixed-group-doc-id">
         <div class="form-group">
           <label>Group Name</label>
-          <input type="text" id="mixed-group-name" class="form-control" required placeholder="e.g. Burda Group A">
+          <input type="text" id="mixed-group-name" class="form-control" placeholder="e.g. Burda Group A" required>
         </div>
         <div class="form-group mt-1">
-          <label>Programme / Item</label>
-          <input type="text" id="mixed-group-programme" class="form-control" required placeholder="e.g. Qaseedathul Burda">
+          <label>Item Name</label>
+          <input type="text" id="mixed-item-name" class="form-control" placeholder="e.g. Qaseedathul Burda" required>
         </div>
         <div class="form-group mt-1">
           <label>Select Participants (Multiple Categories Allowed)</label>
-          <div id="mixed-group-student-selector" style="max-height: 200px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 8px;"></div>
+          <div id="mixed-students-checklist" style="max-height: 180px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 8px;"></div>
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Mixed Group</button>
       </form>
     </div>
   </div>
 
-  <!-- Student Profile View Modal -->
-  <div id="modal-student-profile" class="modal">
+  <!-- Programme Details Modal -->
+  <div id="modal-prog-details" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
-        <h3>Student Profile</h3>
+        <h3 id="details-prog-title">Programme Details</h3>
         <button class="close-modal">×</button>
       </div>
-      <div id="student-profile-body"></div>
+      <div id="details-prog-body"></div>
     </div>
   </div>
 
-  <!-- FIREBASE API & ES MODULE APPLICATION CODE -->
+  <!-- FIREBASE API & ES MODULE SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { 
-      getFirestore, collection, doc, setDoc, getDocs, addDoc, updateDoc, deleteDoc, onSnapshot 
+      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, enableIndexedDbPersistence 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { 
-      getStorage, ref, uploadBytes, getDownloadURL 
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-    // Preserved Firebase Configuration
+    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCnSz248OfMbDr3V3kD9NAZkVxxON2fIvE",
       authDomain: "madrasa-4c7e2.firebaseapp.com",
@@ -1093,27 +826,26 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
-    // Global App State Store
+    // Offline Cache Support
+    enableIndexedDbPersistence(db).catch((err) => {
+      if (err.code === 'failed-precondition') console.warn('Persistence enabled in first tab only.');
+    });
+
+    // Application State
     const state = {
       currentUser: null,
       isAdmin: false,
+      activeTeam: 'MADEENATHU-SSALAM',
       students: [],
-      programmes: {
-        boys_stage: [],
-        girls_stage: [],
-        boys_non_stage: [],
-        girls_non_stage: [],
-        common_programmes: []
-      },
-      mixedGroups: [],
+      programmes: [],
       assignments: [],
       practice: [],
-      attendance: [],
-      teamSettings: {},
-      notifications: []
+      mixedGroups: [],
+      teamSettings: {}
     };
+
+    let activeSnapshotUnsubscribers = [];
 
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
@@ -1123,7 +855,14 @@
       setupNavigation();
       setupEventListeners();
       setupAuthObserver();
-      setupRealtimeListeners();
+      
+      const teamSelect = document.getElementById('active-team-select');
+      teamSelect.value = state.activeTeam;
+      teamSelect.addEventListener('change', (e) => {
+        state.activeTeam = e.target.value;
+        showToast(`Switched active team to: ${state.activeTeam}`, 'warning');
+        setupRealtimeListeners();
+      });
 
       setTimeout(() => {
         const loader = document.getElementById('loading-screen');
@@ -1134,7 +873,6 @@
       }, 800);
     }
 
-    /* Navigation Controller */
     function setupNavigation() {
       const navItems = document.querySelectorAll('.nav-item');
       const views = document.querySelectorAll('.app-view');
@@ -1172,11 +910,10 @@
       });
     }
 
-    /* Event Listeners Initialization */
     function setupEventListeners() {
       document.getElementById('btn-auth-action').addEventListener('click', () => {
         if (state.currentUser) {
-          signOut(auth).then(() => showToast('Logged out successfully', 'success'));
+          signOut(auth).then(() => showToast('Signed out successfully', 'success'));
         } else {
           openModal('modal-auth');
         }
@@ -1191,31 +928,30 @@
         try {
           await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value);
           closeModal('modal-auth');
-          showToast('Authenticated as Admin', 'success');
+          showToast('Admin mode granted', 'success');
         } catch (err) {
-          showToast('Invalid authentication credentials', 'error');
+          showToast('Invalid admin credentials', 'error');
         }
       });
 
       document.getElementById('form-team-settings').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin access required', 'error');
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
         const data = {
-          teamName: document.getElementById('team-name').value,
-          advisors: document.getElementById('advisors').value,
-          boysLeaders: document.getElementById('boys-leaders').value,
-          girlsLeaders: document.getElementById('girls-leaders').value
+          advisors: document.getElementById('team-advisors-input').value,
+          boysLeaders: document.getElementById('team-boys-leaders-input').value,
+          girlsLeaders: document.getElementById('team-girls-leaders-input').value
         };
         try {
-          await setDoc(doc(db, 'settings', 'team_info'), data);
+          await setDoc(doc(db, 'teams', state.activeTeam), data, { merge: true });
           showToast('Team settings saved', 'success');
         } catch (err) {
-          showToast('Error updating team info', 'error');
+          showToast('Error saving settings', 'error');
         }
       });
 
       document.getElementById('btn-add-student').addEventListener('click', () => {
-        if (!state.isAdmin) return showToast('Admin access required', 'error');
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
         document.getElementById('form-student').reset();
         document.getElementById('student-doc-id').value = '';
         document.getElementById('modal-student-title').textContent = 'Add Student';
@@ -1224,172 +960,156 @@
 
       document.getElementById('form-student').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin access required', 'error');
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
 
         const docId = document.getElementById('student-doc-id').value;
-        const photoFile = document.getElementById('student-photo').files[0];
-        let photoURL = '';
+        const studentData = {
+          name: document.getElementById('student-name-input').value,
+          gender: document.getElementById('student-gender-input').value,
+          class: document.getElementById('student-class-input').value,
+          category: document.getElementById('student-category-input').value,
+          team: state.activeTeam
+        };
 
         try {
-          if (photoFile) {
-            const storageRef = ref(storage, `students/${Date.now()}_${photoFile.name}`);
-            const snapshot = await uploadBytes(storageRef, photoFile);
-            photoURL = await getDownloadURL(snapshot.ref);
-          }
-
-          const studentData = {
-            name: document.getElementById('student-name').value,
-            gender: document.getElementById('student-gender').value,
-            category: document.getElementById('student-category').value,
-            class: document.getElementById('student-class').value,
-            guardian: document.getElementById('student-guardian').value,
-            phone: document.getElementById('student-phone').value,
-            ...(photoURL && { photoURL })
-          };
-
           if (docId) {
             await updateDoc(doc(db, 'students', docId), studentData);
-            showToast('Student details updated', 'success');
+            showToast('Student record updated', 'success');
           } else {
+            studentData.studentId = 'STD-' + Math.floor(1000 + Math.random() * 9000);
             await addDoc(collection(db, 'students'), studentData);
             showToast('New student added', 'success');
           }
           closeModal('modal-student');
         } catch (err) {
-          showToast('Failed to save student record', 'error');
+          showToast('Failed to save student', 'error');
         }
       });
 
-      // Individual Separate Programme Form Selector Handlers
-      document.getElementById('prog-form-section').addEventListener('change', renderSpecificProgFormTable);
-      document.getElementById('prog-form-type').addEventListener('change', renderSpecificProgFormTable);
-      document.getElementById('prog-form-category').addEventListener('change', renderSpecificProgFormTable);
-
-      document.getElementById('btn-open-prog-modal').addEventListener('click', () => {
-        if (!state.isAdmin) return showToast('Admin required', 'error');
-        const sec = document.getElementById('prog-form-section').value;
-        const type = document.getElementById('prog-form-type').value;
-        const col = `${sec}_${type}`;
-        document.getElementById('form-programme').reset();
-        document.getElementById('prog-doc-id').value = '';
-        document.getElementById('prog-target-collection').value = col;
-        openModal('modal-programme');
-      });
-
-      document.getElementById('form-programme').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin access required', 'error');
-
-        const docId = document.getElementById('prog-doc-id').value;
-        const targetCol = document.getElementById('prog-target-collection').value || 'common_programmes';
-        const cat = document.getElementById('prog-form-category').value;
-
-        const progData = {
-          name: document.getElementById('prog-name').value,
-          category: cat,
-          maxParticipants: parseInt(document.getElementById('prog-max').value, 10)
-        };
-
-        try {
-          if (docId) await updateDoc(doc(db, targetCol, docId), progData);
-          else await addDoc(collection(db, targetCol), progData);
-          closeModal('modal-programme');
-          showToast('Programme saved', 'success');
-        } catch (err) {
-          showToast('Error saving programme', 'error');
-        }
-      });
-
-      // Common Programme Add Button
-      document.getElementById('btn-add-common-prog').addEventListener('click', () => {
-        if (!state.isAdmin) return showToast('Admin access required', 'error');
-        document.getElementById('form-programme').reset();
-        document.getElementById('prog-doc-id').value = '';
-        document.getElementById('prog-target-collection').value = 'common_programmes';
-        openModal('modal-programme');
-      });
-
-      // Mixed Groups Workflow
+      // Mixed Group Handlers
       document.getElementById('btn-add-mixed-group').addEventListener('click', () => {
-        if (!state.isAdmin) return showToast('Admin access required', 'error');
-        document.getElementById('form-mixed-group').reset();
-        document.getElementById('mixed-group-doc-id').value = '';
-        renderMixedGroupStudentSelector([]);
+        if(!state.isAdmin) return showToast('Admin required', 'error');
+        renderMixedStudentChecklist();
         openModal('modal-mixed-group');
       });
 
       document.getElementById('form-mixed-group').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin required', 'error');
-        const checkboxes = document.querySelectorAll('.mixed-student-cb:checked');
-        const selectedIds = Array.from(checkboxes).map(c => c.value);
-
-        const data = {
+        if(!state.isAdmin) return showToast('Admin required', 'error');
+        const selected = Array.from(document.querySelectorAll('.mixed-cb:checked')).map(c => c.value);
+        await addDoc(collection(db, 'mixed_groups'), {
           groupName: document.getElementById('mixed-group-name').value,
-          programmeName: document.getElementById('mixed-group-programme').value,
-          participantIds: selectedIds,
-          practiceStatus: 'Learning'
-        };
-
-        const docId = document.getElementById('mixed-group-doc-id').value;
-        if (docId) await updateDoc(doc(db, 'mixed_groups', docId), data);
-        else await addDoc(collection(db, 'mixed_groups'), data);
-
+          itemName: document.getElementById('mixed-item-name').value,
+          members: selected,
+          team: state.activeTeam,
+          status: 'Learning'
+        });
         closeModal('modal-mixed-group');
-        showToast('Mixed Group Saved', 'success');
+        showToast('Mixed Group Created', 'success');
       });
 
-      // Programme Assignment Workflow & Conflict Detection
-      document.getElementById('assign-filter-gender').addEventListener('change', populateAssignmentDropdowns);
-      document.getElementById('assign-filter-category').addEventListener('change', populateAssignmentDropdowns);
+      document.getElementById('btn-add-stage-prog').addEventListener('click', () => openProgrammeModal('Stage'));
+      document.getElementById('btn-add-non-stage-prog').addEventListener('click', () => openProgrammeModal('Non-Stage'));
+
+      document.getElementById('form-programme').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+
+        const docId = document.getElementById('prog-doc-id').value;
+        const progData = {
+          name: document.getElementById('prog-name-input').value,
+          gender: document.getElementById('prog-gender-input').value,
+          category: document.getElementById('prog-category-input').value,
+          type: document.getElementById('prog-type-hidden').value,
+          maxParticipants: parseInt(document.getElementById('prog-max-input').value, 10),
+          team: state.activeTeam
+        };
+
+        try {
+          if (docId) await updateDoc(doc(db, 'programmes', docId), progData);
+          else await addDoc(collection(db, 'programmes'), progData);
+          closeModal('modal-programme');
+          showToast('Programme saved', 'success');
+        } catch (err) {
+          showToast('Failed to save programme', 'error');
+        }
+      });
+
+      document.getElementById('assign-gender-select').addEventListener('change', populateAssignmentDropdowns);
+      document.getElementById('assign-category-select').addEventListener('change', populateAssignmentDropdowns);
 
       document.getElementById('form-assign-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!state.isAdmin) return showToast('Admin access required', 'error');
 
-        const studentId = document.getElementById('assign-student-id').value;
-        const progVal = document.getElementById('assign-programme-id').value;
-        const [col, progId] = progVal.split(':');
+        const studentId = document.getElementById('assign-student-select').value;
+        const programmeId = document.getElementById('assign-prog-select').value;
 
         const student = state.students.find(s => s.id === studentId);
-        if (!student) return;
+        const prog = state.programmes.find(p => p.id === programmeId);
 
-        // Conflict Detection: Duplicate assignment
-        const exists = state.assignments.find(a => a.studentId === studentId && a.programmeId === progId);
-        if (exists) return showToast('Warning: Student is already assigned to this programme!', 'warning');
+        if (!student || !prog) return showToast('Selection error', 'error');
 
-        const assignRef = await addDoc(collection(db, 'assignments'), {
-          studentId, studentName: student.name, programmeId: progId, collection: col, assignedAt: new Date().toISOString()
-        });
+        if (student.gender !== prog.gender) {
+          return showToast(`Validation Error: ${student.gender} student cannot be assigned to ${prog.gender} programme!`, 'error');
+        }
 
-        await addDoc(collection(db, 'practice'), {
-          assignmentId: assignRef.id, studentId, studentName: student.name, programmeId: progId, status: 'Learning'
-        });
+        if (student.category !== prog.category) {
+          return showToast(`Validation Error: Student category (${student.category}) does not match programme category (${prog.category})!`, 'error');
+        }
 
-        showToast('Student assigned successfully', 'success');
+        const duplicate = state.assignments.find(a => a.studentDocId === student.id && a.programmeDocId === prog.id);
+        if (duplicate) {
+          return showToast('Warning: Student already assigned to this programme!', 'warning');
+        }
+
+        const activeCount = state.assignments.filter(a => a.programmeDocId === prog.id).length;
+        if (activeCount >= prog.maxParticipants) {
+          return showToast(`Warning: Programme reached limit (${prog.maxParticipants})!`, 'warning');
+        }
+
+        try {
+          const assignDoc = await addDoc(collection(db, 'assignments'), {
+            studentDocId: student.id,
+            studentCustomId: student.studentId,
+            studentName: student.name,
+            studentGender: student.gender,
+            studentCategory: student.category,
+            programmeDocId: prog.id,
+            programmeName: prog.name,
+            programmeType: prog.type,
+            team: state.activeTeam
+          });
+
+          await addDoc(collection(db, 'practice'), {
+            assignmentDocId: assignDoc.id,
+            studentName: student.name,
+            programmeName: prog.name,
+            studentGender: student.gender,
+            studentCategory: student.category,
+            team: state.activeTeam,
+            status: 'Learning'
+          });
+
+          showToast('Student successfully assigned to programme!', 'success');
+        } catch (err) {
+          showToast('Assignment failed', 'error');
+        }
       });
 
-      // Section Category Switchers
-      setupSectionTabHandlers('boys');
-      setupSectionTabHandlers('girls');
+      setupSectionTabs('boys');
+      setupSectionTabs('girls');
 
-      // Attendance Tracker Setup
-      document.getElementById('attendance-date').valueAsDate = new Date();
-      document.getElementById('attendance-date').addEventListener('change', renderAttendanceRegister);
-      document.getElementById('attendance-filter-category').addEventListener('change', renderAttendanceRegister);
-
-      // Search & Reports Event Setup
-      document.getElementById('search-student-input').addEventListener('input', renderStudentsTable);
-      document.getElementById('filter-gender').addEventListener('change', renderStudentsTable);
-      document.getElementById('filter-category').addEventListener('change', renderStudentsTable);
+      document.getElementById('filter-search-student').addEventListener('input', renderStudentsTable);
+      document.getElementById('filter-student-gender').addEventListener('change', renderStudentsTable);
+      document.getElementById('filter-student-category').addEventListener('change', renderStudentsTable);
       document.getElementById('global-search-input').addEventListener('input', renderGlobalSearchResults);
 
-      document.getElementById('report-type').addEventListener('change', renderReportTable);
+      document.getElementById('report-type-select').addEventListener('change', renderReportOutput);
       document.getElementById('btn-export-csv').addEventListener('click', exportReportCSV);
       document.getElementById('btn-print-report').addEventListener('click', () => window.print());
     }
 
-    /* Auth Observer */
     function setupAuthObserver() {
       onAuthStateChanged(auth, (user) => {
         state.currentUser = user;
@@ -1405,25 +1125,44 @@
           btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
           userDisplay.textContent = user.email.split('@')[0];
         } else {
-          roleBadge.textContent = 'Visitor Mode';
+          roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
           userDisplay.textContent = 'Visitor';
         }
-        renderAllViews();
+
+        setupRealtimeListeners();
       });
     }
 
-    /* Realtime Firestore Collections Listeners */
     function setupRealtimeListeners() {
-      onSnapshot(doc(db, 'settings', 'team_info'), (s) => {
+      activeSnapshotUnsubscribers.forEach(unsub => unsub());
+      activeSnapshotUnsubscribers = [];
+
+      document.getElementById('team-name-input').value = state.activeTeam;
+
+      const unsubTeam = onSnapshot(doc(db, 'teams', state.activeTeam), (s) => {
         if (s.exists()) {
           state.teamSettings = s.data();
-          updateTeamDashboard();
+          document.getElementById('dash-team-name').textContent = state.activeTeam;
+          document.getElementById('dash-advisors').textContent = state.teamSettings.advisors || 'N/A';
+          document.getElementById('dash-boys-leaders').textContent = state.teamSettings.boysLeaders || 'N/A';
+          document.getElementById('dash-girls-leaders').textContent = state.teamSettings.girlsLeaders || 'N/A';
+
+          document.getElementById('team-advisors-input').value = state.teamSettings.advisors || '';
+          document.getElementById('team-boys-leaders-input').value = state.teamSettings.boysLeaders || '';
+          document.getElementById('team-girls-leaders-input').value = state.teamSettings.girlsLeaders || '';
+        } else {
+          document.getElementById('dash-team-name').textContent = state.activeTeam;
+          document.getElementById('dash-advisors').textContent = 'N/A';
+          document.getElementById('dash-boys-leaders').textContent = 'N/A';
+          document.getElementById('dash-girls-leaders').textContent = 'N/A';
         }
       });
+      activeSnapshotUnsubscribers.push(unsubTeam);
 
-      onSnapshot(collection(db, 'students'), (s) => {
+      const qStudents = query(collection(db, 'students'), where('team', '==', state.activeTeam));
+      const unsubStudents = onSnapshot(qStudents, (s) => {
         state.students = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderStudentsTable();
         updateDashboardStats();
@@ -1431,71 +1170,361 @@
         renderSectionOverview('boys');
         renderSectionOverview('girls');
       });
+      activeSnapshotUnsubscribers.push(unsubStudents);
 
-      const cols = ['boys_stage', 'girls_stage', 'boys_non_stage', 'girls_non_stage', 'common_programmes'];
-      cols.forEach(col => {
-        onSnapshot(collection(db, col), (s) => {
-          state.programmes[col] = s.docs.map(d => ({ id: d.id, ...d.data() }));
-          renderSpecificProgFormTable();
-          renderCommonProgrammesList();
-          populateAssignmentDropdowns();
-          updateDashboardStats();
-        });
-      });
-
-      onSnapshot(collection(db, 'mixed_groups'), (s) => {
+      const qMixed = query(collection(db, 'mixed_groups'), where('team', '==', state.activeTeam));
+      const unsubMixed = onSnapshot(qMixed, (s) => {
         state.mixedGroups = s.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderMixedGroupsCards();
+        renderMixedGroups();
+        updateDashboardStats();
       });
+      activeSnapshotUnsubscribers.push(unsubMixed);
 
-      onSnapshot(collection(db, 'assignments'), (s) => {
+      const qProgrammes = query(collection(db, 'programmes'), where('team', '==', state.activeTeam));
+      const unsubProgrammes = onSnapshot(qProgrammes, (s) => {
+        state.programmes = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderProgrammeCards();
+        updateDashboardStats();
+        populateAssignmentDropdowns();
+      });
+      activeSnapshotUnsubscribers.push(unsubProgrammes);
+
+      const qAssignments = query(collection(db, 'assignments'), where('team', '==', state.activeTeam));
+      const unsubAssignments = onSnapshot(qAssignments, (s) => {
         state.assignments = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderAssignmentsTable();
         updateDashboardStats();
       });
+      activeSnapshotUnsubscribers.push(unsubAssignments);
 
-      onSnapshot(collection(db, 'practice'), (s) => {
+      const qPractice = query(collection(db, 'practice'), where('team', '==', state.activeTeam));
+      const unsubPractice = onSnapshot(qPractice, (s) => {
         state.practice = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderPracticeTable();
         updateDashboardStats();
       });
-
-      onSnapshot(collection(db, 'attendance'), (s) => {
-        state.attendance = s.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderAttendanceRegister();
-      });
-    }
-
-    /* Dashboard & Header Updaters */
-    function updateTeamDashboard() {
-      const t = state.teamSettings;
-      document.getElementById('dash-team-name').textContent = t.teamName || 'N/A';
-      document.getElementById('dash-advisors').textContent = t.advisors || 'N/A';
-      document.getElementById('dash-boys-leaders').textContent = t.boysLeaders || 'N/A';
-      document.getElementById('dash-girls-leaders').textContent = t.girlsLeaders || 'N/A';
-
-      document.getElementById('team-name').value = t.teamName || '';
-      document.getElementById('advisors').value = t.advisors || '';
-      document.getElementById('boys-leaders').value = t.boysLeaders || '';
-      document.getElementById('girls-leaders').value = t.girlsLeaders || '';
+      activeSnapshotUnsubscribers.push(unsubPractice);
     }
 
     function updateDashboardStats() {
       document.getElementById('stat-total-students').textContent = state.students.length;
       document.getElementById('stat-total-boys').textContent = state.students.filter(s => s.gender === 'Male').length;
       document.getElementById('stat-total-girls').textContent = state.students.filter(s => s.gender === 'Female').length;
-      document.getElementById('stat-boys-stage').textContent = state.programmes.boys_stage.length;
-      document.getElementById('stat-girls-stage').textContent = state.programmes.girls_stage.length;
-      document.getElementById('stat-common-progs').textContent = state.programmes.common_programmes.length;
+      document.getElementById('stat-stage-progs').textContent = state.programmes.filter(p => p.type === 'Stage').length;
+      document.getElementById('stat-mixed-groups').textContent = state.mixedGroups.length;
+      document.getElementById('stat-assigned-students').textContent = new Set(state.assignments.map(a => a.studentDocId)).size;
 
       const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
       const completed = state.practice.filter(p => p.status === 'Completed').length;
-      const pending = state.practice.filter(p => p.status === 'Learning' || p.status === 'Practicing' || !p.status).length;
+      const pending = state.practice.filter(p => p.status === 'Learning' || !p.status).length;
       const total = state.practice.length || 1;
 
       document.getElementById('label-ready-count').textContent = ready;
       document.getElementById('label-completed-count').textContent = completed;
       document.getElementById('label-pending-count').textContent = pending;
 
-      document.getElementById('bar-ready').
-                  <input type="text" id="boys-leaders" class="form-control" placeholder="Boys team leaders">
+      document.getElementById('bar-ready').style.width = `${(ready / total) * 100}%`;
+      document.getElementById('bar-completed').style.width = `${(completed / total) * 100}%`;
+      document.getElementById('bar-pending').style.width = `${(pending / total) * 100}%`;
+    }
+
+    function renderStudentsTable() {
+      const tbody = document.getElementById('tbody-students');
+      if (!tbody) return;
+
+      const search = document.getElementById('filter-search-student').value.toLowerCase();
+      const gender = document.getElementById('filter-student-gender').value;
+      const category = document.getElementById('filter-student-category').value;
+
+      const filtered = state.students.filter(s => {
+        const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toLowerCase().includes(search));
+        const matchGender = !gender || s.gender === gender;
+        const matchCategory = !category || s.category === category;
+        return matchSearch && matchGender && matchCategory;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No student records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(s => `
+        <tr>
+          <td><strong>${s.studentId || '-'}</strong></td>
+          <td>${s.name}</td>
+          <td>${s.gender}</td>
+          <td>${s.class}</td>
+          <td><span class="badge badge-visitor">${s.category}</span></td>
+          <td>${s.team}</td>
+          <td>
+            ${state.isAdmin ? `
+              <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+            ` : 'Read-Only'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.editStudent = (id) => {
+      const s = state.students.find(x => x.id === id);
+      if (!s) return;
+      document.getElementById('student-doc-id').value = s.id;
+      document.getElementById('student-name-input').value = s.name;
+      document.getElementById('student-gender-input').value = s.gender;
+      document.getElementById('student-class-input').value = s.class;
+      document.getElementById('student-category-input').value = s.category;
+      document.getElementById('modal-student-title').textContent = 'Edit Student Record';
+      openModal('modal-student');
+    };
+
+    window.deleteStudent = async (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      if (confirm('Delete student record?')) {
+        await deleteDoc(doc(db, 'students', id));
+        showToast('Student deleted', 'success');
+      }
+    };
+
+    function renderMixedStudentChecklist() {
+      const container = document.getElementById('mixed-students-checklist');
+      if (!container) return;
+      container.innerHTML = state.students.map(s => `
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
+          <input type="checkbox" value="${s.id}" class="mixed-cb">
+          <span>${s.name} (${s.category} - ${s.gender})</span>
+        </div>
+      `).join('');
+    }
+
+    function renderMixedGroups() {
+      const container = document.getElementById('mixed-groups-list');
+      if (!container) return;
+      container.innerHTML = state.mixedGroups.map(g => `
+        <div class="glass-card">
+          <h3>${g.groupName}</h3>
+          <p><strong>Item:</strong> ${g.itemName}</p>
+          <p><strong>Participants:</strong> ${g.members ? g.members.length : 0}</p>
+          <p class="mt-1"><span class="badge badge-admin">${g.status || 'Learning'}</span></p>
+          ${state.isAdmin ? `<button class="btn-danger mt-1" onclick="window.deleteMixedGroup('${g.id}')">Delete Group</button>` : ''}
+        </div>
+      `).join('');
+    }
+
+    window.deleteMixedGroup = async (id) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      await deleteDoc(doc(db, 'mixed_groups', id));
+      showToast('Mixed group deleted', 'success');
+    };
+
+    function openProgrammeModal(type) {
+      if (!state.isAdmin) return showToast('Admin mode required', 'error');
+      document.getElementById('form-programme').reset();
+      document.getElementById('prog-doc-id').value = '';
+      document.getElementById('prog-type-hidden').value = type;
+      document.getElementById('modal-prog-title').textContent = `Add ${type} Programme`;
+      openModal('modal-programme');
+    }
+
+    function renderProgrammeCards() {
+      const stageContainer = document.getElementById('stage-programmes-list');
+      const nonStageContainer = document.getElementById('non-stage-programmes-list');
+
+      const createCard = (p) => {
+        const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+        const percent = Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100));
+        return `
+          <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')">
+            <h3>${p.name}</h3>
+            <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender}</span> <span class="badge badge-visitor">${p.category}</span></p>
+            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: ${assignedCount} / ${p.maxParticipants}</p>
+            <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
+            ${state.isAdmin ? `
+              <div style="margin-top:0.8rem; text-align:right;">
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')">Delete</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      };
+
+      if (stageContainer) stageContainer.innerHTML = state.programmes.filter(p => p.type === 'Stage').map(createCard).join('');
+      if (nonStageContainer) nonStageContainer.innerHTML = state.programmes.filter(p => p.type === 'Non-Stage').map(createCard).join('');
+    }
+
+    window.viewProgrammeDetails = (id) => {
+      const p = state.programmes.find(x => x.id === id);
+      if (!p) return;
+
+      const assigned = state.assignments.filter(a => a.programmeDocId === p.id);
+      const body = document.getElementById('details-prog-body');
+      
+      body.innerHTML = `
+        <p><strong>Team:</strong> ${p.team}</p>
+        <p><strong>Section:</strong> ${p.gender} | <strong>Category:</strong> ${p.category}</p>
+        <p><strong>Max Participants:</strong> ${p.maxParticipants}</p>
+        <hr class="divider">
+        <h4>Assigned Participants (${assigned.length})</h4>
+        <ul class="activity-list">
+          ${assigned.length ? assigned.map(a => `<li>${a.studentName} (${a.studentCustomId || '-'})</li>`).join('') : '<li>No students assigned yet.</li>'}
+        </ul>
+      `;
+      openModal('modal-prog-details');
+    };
+
+    window.deleteProgramme = async (id) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      if (confirm('Delete programme?')) {
+        await deleteDoc(doc(db, 'programmes', id));
+        showToast('Programme deleted', 'success');
+      }
+    };
+
+    function populateAssignmentDropdowns() {
+      const gender = document.getElementById('assign-gender-select').value;
+      const category = document.getElementById('assign-category-select').value;
+      const sSelect = document.getElementById('assign-student-select');
+      const pSelect = document.getElementById('assign-prog-select');
+
+      if (sSelect) {
+        const filteredStudents = state.students.filter(s => (!gender || s.gender === gender) && (!category || s.category === category));
+        sSelect.innerHTML = '<option value="">-- Select Student --</option>' + filteredStudents.map(s => `<option value="${s.id}">${s.name} (${s.studentId || '-'})</option>`).join('');
+      }
+
+      if (pSelect) {
+        const filteredProgrammes = state.programmes.filter(p => (!gender || p.gender === gender) && (!category || p.category === category));
+        pSelect.innerHTML = '<option value="">-- Select Programme --</option>' + filteredProgrammes.map(p => `<option value="${p.id}">${p.name} [${p.type}]</option>`).join('');
+      }
+    }
+
+    function renderAssignmentsTable() {
+      const tbody = document.getElementById('tbody-assignments');
+      if (!tbody) return;
+      tbody.innerHTML = state.assignments.map(a => `
+        <tr>
+          <td>${a.studentCustomId || '-'}</td>
+          <td><strong>${a.studentName}</strong></td>
+          <td>${a.studentGender}</td>
+          <td>${a.studentCategory}</td>
+          <td>${a.programmeName}</td>
+          <td><span class="badge badge-admin">${a.programmeType}</span></td>
+          <td>${state.isAdmin ? `<button class="btn-danger" onclick="window.deleteAssignment('${a.id}')">Remove</button>` : 'Read-Only'}</td>
+        </tr>
+      `).join('');
+    }
+
+    window.deleteAssignment = async (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      await deleteDoc(doc(db, 'assignments', id));
+      showToast('Assignment removed', 'success');
+    };
+
+    function renderPracticeTable() {
+      const tbody = document.getElementById('tbody-practice-tracker');
+      if (!tbody) return;
+      tbody.innerHTML = state.practice.map(p => `
+        <tr>
+          <td><strong>${p.studentName}</strong></td>
+          <td>${p.programmeName}</td>
+          <td>${p.studentGender} / ${p.studentCategory}</td>
+          <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
+          <td>
+            ${state.isAdmin ? `
+              <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
+                <option value="Not Assigned" ${p.status === 'Not Assigned' ? 'selected' : ''}>Not Assigned</option>
+                <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
+                <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
+                <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
+              </select>
+            ` : 'Read-Only'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.updatePracticeStatus = async (id, status) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      await updateDoc(doc(db, 'practice', id), { status });
+      showToast('Practice status updated', 'success');
+    };
+
+    function setupSectionTabs(sec) {
+      const btns = document.querySelectorAll(`#view-${sec}-section .tab-btn`);
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderSectionOverview(sec);
+        });
+      });
+    }
+
+    function renderSectionOverview(sec) {
+      const activeTab = document.querySelector(`#view-${sec}-section .tab-btn.active`);
+      const container = document.getElementById(`${sec}-section-content`);
+      if (!activeTab || !container) return;
+
+      const category = activeTab.getAttribute('data-cat');
+      const gender = sec === 'boys' ? 'Male' : 'Female';
+
+      const students = state.students.filter(s => s.gender === gender && s.category === category);
+      container.innerHTML = students.length ? `
+        <table class="data-table">
+          <thead><tr><th>Student ID</th><th>Name</th><th>Class</th></tr></thead>
+          <tbody>${students.map(s => `<tr><td>${s.studentId || '-'}</td><td><strong>${s.name}</strong></td><td>${s.class}</td></tr>`).join('')}</tbody>
+        </table>
+      ` : '<p class="mt-2 text-center">No students registered in this category.</p>';
+    }
+
+    function renderGlobalSearchResults() {
+      const queryVal = document.getElementById('global-search-input').value.toLowerCase();
+      const container = document.getElementById('global-search-results');
+      if (!container || !queryVal) return;
+
+      const matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal));
+      container.innerHTML = matched.map(s => `
+        <div class="glass-card">
+          <h3>${s.name} (${s.studentId || '-'})</h3>
+          <p>${s.gender} | ${s.category} | Class: ${s.class}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderReportOutput() {
+      const type = document.getElementById('report-type-select').value;
+      const container = document.getElementById('report-output-table');
+      if (!container) return;
+
+      if (type === 'students') {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${state.students.map(s => `<tr><td>${s.studentId || '-'}</td><td>${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>${s.class}</td></tr>`).join('')}</tbody></table>`;
+      } else if (type === 'programme') {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${state.assignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
+      } else {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${state.practice.map(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
+      }
+    }
+
+    function exportReportCSV() {
+      let csv = "ID,Name,Gender,Category,Class\n" + state.students.map(s => `"${s.studentId || '-'}","${s.name}","${s.gender}","${s.category}","${s.class}"`).join("\n");
+      const link = document.createElement("a");
+      link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+      link.download = `Madrasa_Report_${state.activeTeam}.csv`;
+      link.click();
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+  </script>
+</body>
+</html>
+
+
