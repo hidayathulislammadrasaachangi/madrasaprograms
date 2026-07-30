@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hidayathul Islam Madrasa Achangi - Rabi'ul Awwal Programme Management System">
+  <title>Hidayathul Islam Madrasa - Achangi | Rabi'ul Awwal Management System</title>
+  
+  <!-- Font Awesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-green: #0d5c3a;
+      --secondary-green: #1b8a5a;
+      --accent-gold: #d4af37;
+      --accent-gold-hover: #b89628;
+      --bg-light: #f4f7f5;
+      --text-dark: #1f2937;
+      --card-bg-light: rgba(255, 255, 255, 0.88);
+      --glass-border-light: rgba(212, 175, 55, 0.3);
+      --shadow-light: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+
+      --bg-dark: #0a110e;
+      --text-light: #e5e7eb;
+      --card-bg-dark: rgba(18, 30, 25, 0.88);
+      --glass-border-dark: rgba(212, 175, 55, 0.2);
+      --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
+    body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
+
+    .app-container { display: flex; min-height: 100vh; }
+
+    .glass-card {
+      background: var(--card-bg-light);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-light);
+    }
+    body.dark-mode .glass-card {
+      background: var(--card-bg-dark);
+      border-color: var(--glass-border-dark);
+      box-shadow: var(--shadow-dark);
+    }
+
+    .sidebar {
+      width: 290px;
+      background: linear-gradient(180deg, #072e1d 0%, #0d5c3a 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; bottom: 0; left: 0;
+      z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .sidebar-logo { font-size: 2.2rem; color: var(--accent-gold); }
+    .sidebar-title h3 { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; }
+    .sidebar-title p { font-size: 0.72rem; color: var(--accent-gold); font-weight: 500; }
+
+    .team-switcher-container {
+      padding: 1rem 1.5rem;
+      background: rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .team-switcher-container label { font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); display: block; margin-bottom: 0.3rem; }
+    .team-select-dropdown { background: rgba(255, 255, 255, 0.1); color: white; border-color: var(--accent-gold); font-weight: 600; }
+
+    .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.8rem 0; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.8rem 1.5rem;
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .nav-item:hover, .nav-item.active {
+      background: rgba(212, 175, 55, 0.18);
+      color: var(--accent-gold);
+      border-left: 4px solid var(--accent-gold);
+    }
+
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+    .main-content {
+      flex: 1;
+      margin-left: 290px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 70px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--glass-border-light);
+      background: var(--card-bg-light);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 90;
+    }
+    body.dark-mode .topbar { background: var(--card-bg-dark); border-bottom-color: var(--glass-border-dark); }
+
+    .view-container { padding: 2rem; flex: 1; }
+    .app-view { display: none; }
+    .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero-banner {
+      background: linear-gradient(135deg, #072e1d 0%, var(--primary-green) 60%, var(--secondary-green) 100%);
+      color: white;
+      padding: 2.2rem;
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--glass-border-light);
+    }
+    .hero-banner h1 { font-size: 1.7rem; color: var(--accent-gold); }
+    .hero-badge { background: var(--accent-gold); color: #072e1d; padding: 0.6rem 1.2rem; border-radius: 30px; font-weight: 700; font-size: 0.85rem; }
+
+    .team-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem; }
+    .highlight-gold { color: var(--accent-gold); font-weight: 700; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; }
+    .stat-card {
+      background: var(--card-bg-light);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex; align-items: center; gap: 1.1rem;
+    }
+    body.dark-mode .stat-card { background: var(--card-bg-dark); border-color: var(--glass-border-dark); }
+
+    .stat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; }
+    .stat-icon.green { background: #10b981; } .stat-icon.blue { background: #3b82f6; } .stat-icon.pink { background: #ec4899; }
+    .stat-icon.gold { background: #f59e0b; } .stat-icon.purple { background: #8b5cf6; } .stat-icon.teal { background: #14b8a6; }
+
+    .progress-bar-container { margin-top: 1rem; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem; }
+    .progress-track { height: 10px; background: rgba(0,0,0,0.08); border-radius: 6px; overflow: hidden; }
+    body.dark-mode .progress-track { background: rgba(255,255,255,0.1); }
+    .progress-fill { height: 100%; transition: width 0.5s ease; }
+
+    .bg-success { background-color: #10b981; } .bg-warning { background-color: #f59e0b; } .bg-danger { background-color: #ef4444; }
+
+    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .activity-list { list-style: none; max-height: 260px; overflow-y: auto; }
+    .activity-list li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.88rem; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.85rem; font-weight: 600; opacity: 0.9; }
+
+    .form-control {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 0.92rem; outline: none;
+    }
+    body.dark-mode .form-control { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.15); color: white; }
+
+    .btn-primary { background: var(--primary-green); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-primary:hover { background: var(--secondary-green); }
+    .btn-secondary { background: var(--accent-gold); color: #072e1d; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
+    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
+
+    .table-responsive { width: 100%; overflow-x: auto; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; }
+    .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+    .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
+
+    .badge { padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+    .badge-visitor { background: #6b7280; color: white; }
+    .badge-admin { background: var(--accent-gold); color: #072e1d; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .programme-card { border-left: 4px solid var(--accent-gold); cursor: pointer; }
+
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .tab-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal.active { display: flex; }
+    .modal-content { width: 100%; max-width: 480px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; }
+    body.dark-mode .modal-content { background: var(--bg-dark); border-color: var(--glass-border-dark); }
+    .modal-content.wide { max-width: 680px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
+
+    .filter-bar { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; }
+    .action-header { display: flex; justify-content: space-between; align-items: center; }
+    .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; }
+
+    .loading-screen { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #072e1d; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+    .spinner { width: 52px; height: 52px; border: 5px solid rgba(255,255,255,0.15); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1.2rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 0.6rem; }
+    .toast { padding: 0.9rem 1.3rem; border-radius: 8px; background: #222; color: #fff; font-size: 0.9rem; font-weight: 500; animation: slideIn 0.3s ease; }
+    .toast.success { background: #10b981; } .toast.error { background: #ef4444; } .toast.warning { background: #f59e0b; color: #000; }
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    .mobile-only { display: none; }
+    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
+
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .mobile-only { display: block; }
+      .dashboard-grid, .filter-bar { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-danger, .icon-btn, .tab-buttons { display: none !important; }
+      .main-content { margin-left: 0 !important; }
+      .view-container { padding: 0 !important; }
+      .app-view { display: none !important; }
+      #view-reports { display: block !important; }
+    }
+  </style>
+</head>
+<body class="light-mode">
+
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="spinner"></div>
+    <h2 style="font-family:'Amiri', serif; font-size: 2rem; color: var(--accent-gold);">Hidayathul Islam Madrasa</h2>
+    <p>Rabi'ul Awwal Programme Management System</p>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <i class="fa-solid fa-mosque sidebar-logo"></i>
+        <div class="sidebar-title">
+          <h3>HIDAYATHUL ISLAM</h3>
+          <p>ACHANGI - RABI'UL AWWAL</p>
+        </div>
+        <button id="close-sidebar" class="mobile-only icon-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Team Selector Switcher -->
+      <div class="team-switcher-container">
+        <label><i class="fa-solid fa-people-roof"></i> Active Team Data</label>
+        <select id="active-team-select" class="form-control team-select-dropdown">
+          <option value="MADEENATHU-SSALAM">MADEENATHU-SSALAM</option>
+          <option value="MADEENATHU-NNOOR">MADEENATHU-NNOOR</option>
+        </select>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+        <a href="#" class="nav-item" data-view="teams"><i class="fa-solid fa-users-gear"></i> <span>Team Management</span></a>
+        <a href="#" class="nav-item" data-view="students"><i class="fa-solid fa-user-graduate"></i> <span>Student Management</span></a>
+        <a href="#" class="nav-item" data-view="mixed-groups"><i class="fa-solid fa-people-group"></i> <span>Mixed Groups (Burda etc.)</span></a>
+        <a href="#" class="nav-item" data-view="boys-section"><i class="fa-solid fa-child"></i> <span>Boys Section</span></a>
+        <a href="#" class="nav-item" data-view="girls-section"><i class="fa-solid fa-child-dress"></i> <span>Girls Section</span></a>
+        <a href="#" class="nav-item" data-view="stage-programmes"><i class="fa-solid fa-microphone"></i> <span>Stage Programmes</span></a>
+        <a href="#" class="nav-item" data-view="non-stage-programmes"><i class="fa-solid fa-pen-ruler"></i> <span>Non Stage Programmes</span></a>
+        <a href="#" class="nav-item" data-view="assignments"><i class="fa-solid fa-clipboard-list"></i> <span>Assignments</span></a>
+        <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
+        <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports & Export</span></a>
+        <a href="#" class="nav-item" data-view="search"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div id="auth-status" class="auth-status mb-2">
+          <span class="badge badge-visitor" id="role-badge">View Only</span>
+        </div>
+        <button id="btn-auth-action" class="btn-primary full-width"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="toggle-sidebar" class="icon-btn mobile-only"><i class="fa-solid fa-bars"></i></button>
+          <h2 id="page-title">Dashboard</h2>
+        </div>
+        <div class="topbar-right">
+          <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+          <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;">
+            <i class="fa-solid fa-circle-user" style="color:var(--accent-gold); font-size:1.4rem;"></i>
+            <span id="user-display-name">Visitor</span>
+          </div>
+        </div>
+      </header>
+
+      <div id="view-container" class="view-container">
+
+        <!-- DASHBOARD VIEW -->
+        <section id="view-dashboard" class="app-view active">
+          <div class="hero-banner">
+            <div>
+              <h1 id="dash-madrasa-name">HIDAYATHUL ISLAM MADRASA – ACHANGI</h1>
+              <p>RABI'UL AWWAL PROGRAMME MANAGEMENT SYSTEM</p>
+            </div>
+            <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Team Isolated Data</div>
+          </div>
+
+          <div class="glass-card mb-2">
+            <div class="team-info-grid">
+              <div><strong>Active Team:</strong> <span id="dash-team-name" class="highlight-gold">Loading...</span></div>
+              <div><strong>Advisors:</strong> <span id="dash-advisors">N/A</span></div>
+              <div><strong>Boys Leaders:</strong> <span id="dash-boys-leaders">N/A</span></div>
+              <div><strong>Girls Leaders:</strong> <span id="dash-girls-leaders">N/A</span></div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
+              <div class="stat-info"><p>Total Students</p><h3 id="stat-total-students">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="fa-solid fa-mars"></i></div>
+              <div class="stat-info"><p>Total Boys</p><h3 id="stat-total-boys">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon pink"><i class="fa-solid fa-venus"></i></div>
+              <div class="stat-info"><p>Total Girls</p><h3 id="stat-total-girls">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon gold"><i class="fa-solid fa-microphone"></i></div>
+              <div class="stat-info"><p>Stage Programmes</p><h3 id="stat-stage-progs">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon purple"><i class="fa-solid fa-people-group"></i></div>
+              <div class="stat-info"><p>Mixed Groups (Burda)</p><h3 id="stat-mixed-groups">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon teal"><i class="fa-solid fa-user-check"></i></div>
+              <div class="stat-info"><p>Assigned Students</p><h3 id="stat-assigned-students">0</h3></div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid mt-2">
+            <div class="glass-card">
+              <h3><i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i> Practice Readiness Analytics</h3>
+              <hr class="divider">
+              <div class="progress-bar-container">
+                <div class="progress-label"><span>Stage Ready</span><span id="label-ready-count">0</span></div>
+                <div class="progress-track"><div id="bar-ready" class="progress-fill bg-success" style="width:0%"></div></div>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-label"><span>Completed Practice</span><span id="label-completed-count">0</span></div>
+                <div class="progress-track"><div id="bar-completed" class="progress-fill bg-warning" style="width:0%"></div></div>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-label"><span>Pending Practice</span><span id="label-pending-count">0</span></div>
+                <div class="progress-track"><div id="bar-pending" class="progress-fill bg-danger" style="width:0%"></div></div>
+              </div>
+            </div>
+
+            <div class="glass-card">
+              <h3><i class="fa-solid fa-bell" style="color:var(--accent-gold);"></i> System Audit Log</h3>
+              <hr class="divider">
+              <ul id="activity-list" class="activity-list">
+                <li class="empty-state">No recent activities for this team.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- TEAM MANAGEMENT VIEW -->
+        <section id="view-teams" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-users-gear" style="color:var(--accent-gold);"></i> Team Leadership Settings</h2>
+            <p style="font-size:0.85rem; opacity:0.8;">Updates apply exclusively to the currently active team.</p>
+            <hr class="divider">
+            <form id="form-team-settings">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Team Name</label>
+                  <input type="text" id="team-name-input" class="form-control" required readonly>
+                </div>
+                <div class="form-group">
+                  <label>Advisors</label>
+                  <input type="text" id="team-advisors-input" class="form-control" placeholder="Advisor names">
+                </div>
+                <div class="form-group">
+                  <label>Boys Team Leaders</label>
+                  <input type="text" id="team-boys-leaders-input" class="form-control" placeholder="Boys team leaders">
+                </div>
+                <div class="form-group">
+                  <label>Girls Team Leaders</label>
+                  <input type="text" id="team-girls-leaders-input" class="form-control" placeholder="Girls team leaders">
+                </div>
+              </div>
+              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-floppy-disk"></i> Save Team Settings</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- STUDENT MANAGEMENT VIEW -->
+        <section id="view-students" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <h2><i class="fa-solid fa-user-graduate" style="color:var(--accent-gold);"></i> Student Directory</h2>
+              <button id="btn-add-student" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Student</button>
+            </div>
+            <hr class="divider">
+            <div class="filter-bar">
+              <input type="text" id="filter-search-student" class="form-control" placeholder="Search student name or ID...">
+              <select id="filter-student-gender" class="form-control">
+                <option value="">All Genders</option>
+                <option value="Male">Boys</option>
+                <option value="Female">Girls</option>
+              </select>
+              <select id="filter-student-category" class="form-control">
+                <option value="">All Categories</option>
+                <option value="Sub Junior">Sub Junior</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Class</th>
+                    <th>Category</th>
+                    <th>Team</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-students"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- MIXED GROUPS VIEW (Burda, Nasheeda, etc.) -->
+        <section id="view-mixed-groups" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <div>
+                <h2><i class="fa-solid fa-people-group" style="color:var(--accent-gold);"></i> Mixed Category Groups</h2>
+                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Combine Sub Junior, Junior, Senior, & General categories for Burda, Nasheeda, Drama, etc.</p>
+              </div>
+              <button id="btn-add-mixed-group" class="btn-primary"><i class="fa-solid fa-plus"></i> Create Mixed Group</button>
+            </div>
+            <hr class="divider">
+          </div>
+          <div id="mixed-groups-list" class="cards-grid"></div>
+        </section>
+
+        <!-- BOYS SECTION VIEW -->
+        <section id="view-boys-section" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-child" style="color:var(--accent-gold);"></i> Boys Section Overview</h2>
+            <hr class="divider">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-sec="boys" data-cat="Sub Junior">Sub Junior</button>
+              <button class="tab-btn" data-sec="boys" data-cat="Junior">Junior</button>
+              <button class="tab-btn" data-sec="boys" data-cat="Senior">Senior</button>
+              <button class="tab-btn" data-sec="boys" data-cat="General">General</button>
+            </div>
+            <div id="boys-section-content" class="table-responsive mt-2"></div>
+          </div>
+        </section>
+
+        <!-- GIRLS SECTION VIEW -->
+        <section id="view-girls-section" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-child-dress" style="color:var(--accent-gold);"></i> Girls Section Overview</h2>
+            <hr class="divider">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-sec="girls" data-cat="Sub Junior">Sub Junior</button>
+              <button class="tab-btn" data-sec="girls" data-cat="Junior">Junior</button>
+              <button class="tab-btn" data-sec="girls" data-cat="Senior">Senior</button>
+              <button class="tab-btn" data-sec="girls" data-cat="General">General</button>
+            </div>
+            <div id="girls-section-content" class="table-responsive mt-2"></div>
+          </div>
+        </section>
+
+        <!-- STAGE PROGRAMMES VIEW -->
+        <section id="view-stage-programmes" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <h2><i class="fa-solid fa-microphone" style="color:var(--accent-gold);"></i> Stage Programmes</h2>
+              <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
+            </div>
+            <hr class="divider">
+          </div>
+          <div id="stage-programmes-list" class="cards-grid"></div>
+        </section>
+
+        <!-- NON-STAGE PROGRAMMES VIEW -->
+        <section id="view-non-stage-programmes" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <h2><i class="fa-solid fa-pen-ruler" style="color:var(--accent-gold);"></i> Non-Stage Programmes</h2>
+              <button id="btn-add-non-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
+            </div>
+            <hr class="divider">
+          </div>
+          <div id="non-stage-programmes-list" class="cards-grid"></div>
+        </section>
+
+        <!-- PROGRAMME ASSIGNMENTS VIEW -->
+        <section id="view-assignments" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Workflow</h2>
+            <hr class="divider">
+            <form id="form-assign-programme">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>1. Gender Section</label>
+                  <select id="assign-gender-select" class="form-control" required>
+                    <option value="">-- Select Gender --</option>
+                    <option value="Male">Boys</option>
+                    <option value="Female">Girls</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>2. Category</label>
+                  <select id="assign-category-select" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="Sub Junior">Sub Junior</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
+                    <option value="General">General</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>3. Student</label>
+                  <select id="assign-student-select" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                  <label>4. Programme</label>
+                  <select id="assign-prog-select" class="form-control" required></select>
+                </div>
+              </div>
+              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-check"></i> Assign Student to Programme</button>
+            </form>
+          </div>
+
+          <div class="glass-card">
+            <h3>Active Assignments for Active Team</h3>
+            <hr class="divider">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Gender</th>
+                    <th>Category</th>
+                    <th>Programme</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-assignments"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRACTICE TRACKER VIEW -->
+        <section id="view-practice-tracker" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
+            <hr class="divider">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Programme</th>
+                    <th>Gender / Category</th>
+                    <th>Current Status</th>
+                    <th>Change Practice Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-practice-tracker"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTS VIEW -->
+        <section id="view-reports" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-file-invoice" style="color:var(--accent-gold);"></i> Reports & Export Manager</h2>
+            <hr class="divider">
+            <div class="form-group">
+              <label>Select Report Type</label>
+              <select id="report-type-select" class="form-control">
+                <option value="students">Student Master List</option>
+                <option value="programme">Programme-wise Participants Report</option>
+                <option value="practice">Practice Status Summary Report</option>
+              </select>
+            </div>
+            <div class="flex-gap mt-2">
+              <button id="btn-export-csv" class="btn-primary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+              <button id="btn-print-report" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Report</button>
+            </div>
+          </div>
+          <div class="glass-card">
+            <div id="report-output-table" class="table-responsive"></div>
+          </div>
+        </section>
+
+        <!-- SEARCH VIEW -->
+        <section id="view-search" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-magnifying-glass" style="color:var(--accent-gold);"></i> Unified Global Search</h2>
+            <hr class="divider">
+            <input type="text" id="global-search-input" class="form-control" placeholder="Search by student name, programme, class, or category...">
+          </div>
+          <div id="global-search-results" class="cards-grid"></div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <!-- Admin Authentication Modal -->
+  <div id="modal-auth" class="modal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-shield-halved"></i> Admin Login</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-login">
+        <div class="form-group">
+          <label>Admin Email</label>
+          <input type="email" id="login-email" class="form-control" required placeholder="admin@madrasa.com">
+        </div>
+        <div class="form-group mt-1">
+          <label>Password</label>
+          <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary full-width mt-2">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Student Add/Edit Modal -->
+  <div id="modal-student" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <h3 id="modal-student-title">Add Student</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-student">
+        <input type="hidden" id="student-doc-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student Name</label>
+            <input type="text" id="student-name-input" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="student-gender-input" class="form-control" required>
+              <option value="Male">Male (Boy)</option>
+              <option value="Female">Female (Girl)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Class</label>
+            <input type="text" id="student-class-input" class="form-control" required placeholder="e.g. Class 5">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="student-category-input" class="form-control" required>
+              <option value="Sub Junior">Sub Junior</option>
+              <option value="Junior">Junior</option>
+              <option value="Senior">Senior</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full-width mt-2">Save Student Record</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Programme Add/Edit Modal -->
+  <div id="modal-programme" class="modal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3 id="modal-prog-title">Add Programme</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-programme">
+        <input type="hidden" id="prog-doc-id">
+        <input type="hidden" id="prog-type-hidden">
+        <div class="form-group">
+          <label>Programme Name</label>
+          <input type="text" id="prog-name-input" class="form-control" required placeholder="e.g. Qaseeda">
+        </div>
+        <div class="form-group mt-1">
+          <label>Gender Section</label>
+          <select id="prog-gender-input" class="form-control" required>
+            <option value="Male">Boys</option>
+            <option value="Female">Girls</option>
+          </select>
+        </div>
+        <div class="form-group mt-1">
+          <label>Category</label>
+          <select id="prog-category-input" class="form-control" required>
+            <option value="Sub Junior">Sub Junior</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+        <div class="form-group mt-1">
+          <label>Max Participants Limit</label>
+          <input type="number" id="prog-max-input" class="form-control" min="1" value="1" required>
+        </div>
+        <button type="submit" class="btn-primary full-width mt-2">Save Programme</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mixed Group Modal -->
+  <div id="modal-mixed-group" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <h3>Create Mixed Category Group</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-mixed-group">
+        <div class="form-group">
+          <label>Group Name</label>
+          <input type="text" id="mixed-group-name" class="form-control" placeholder="e.g. Burda Group A" required>
+        </div>
+        <div class="form-group mt-1">
+          <label>Item Name</label>
+          <input type="text" id="mixed-item-name" class="form-control" placeholder="e.g. Qaseedathul Burda" required>
+        </div>
+        <div class="form-group mt-1">
+          <label>Select Participants (Multiple Categories Allowed)</label>
+          <div id="mixed-students-checklist" style="max-height: 180px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 8px;"></div>
+        </div>
+        <button type="submit" class="btn-primary full-width mt-2">Save Mixed Group</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Programme Details Modal -->
+  <div id="modal-prog-details" class="modal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3 id="details-prog-title">Programme Details</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <div id="details-prog-body"></div>
+    </div>
+  </div>
+
+  <!-- FIREBASE API & ES MODULE SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { 
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { 
+      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, enableIndexedDbPersistence 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCnSz248OfMbDr3V3kD9NAZkVxxON2fIvE",
+      authDomain: "madrasa-4c7e2.firebaseapp.com",
+      projectId: "madrasa-4c7e2",
+      storageBucket: "madrasa-4c7e2.firebasestorage.app",
+      messagingSenderId: "770067409084",
+      appId: "1:770067409084:web:52e38ae80a3601245248b9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Offline Cache Support
+    enableIndexedDbPersistence(db).catch((err) => {
+      if (err.code === 'failed-precondition') console.warn('Persistence enabled in first tab only.');
+    });
+
+    // Application State
+    const state = {
+      currentUser: null,
+      isAdmin: false,
+      activeTeam: 'MADEENATHU-SSALAM',
+      students: [],
+      programmes: [],
+      assignments: [],
+      practice: [],
+      mixedGroups: [],
+      teamSettings: {}
+    };
+
+    let activeSnapshotUnsubscribers = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+
+    function initApp() {
+      setupNavigation();
+      setupEventListeners();
+      setupAuthObserver();
+      
+      const teamSelect = document.getElementById('active-team-select');
+      teamSelect.value = state.activeTeam;
+      teamSelect.addEventListener('change', (e) => {
+        state.activeTeam = e.target.value;
+        showToast(`Switched active team to: ${state.activeTeam}`, 'warning');
+        setupRealtimeListeners();
+      });
+
+      setTimeout(() => {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.style.display = 'none', 500);
+        }
+      }, 800);
+    }
+
+    function setupNavigation() {
+      const navItems = document.querySelectorAll('.nav-item');
+      const views = document.querySelectorAll('.app-view');
+      const pageTitle = document.getElementById('page-title');
+
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetView = item.getAttribute('data-view');
+
+          navItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+
+          views.forEach(v => {
+            if (v.id === `view-${targetView}`) v.classList.add('active');
+            else v.classList.remove('active');
+          });
+
+          pageTitle.textContent = item.querySelector('span').textContent;
+          document.getElementById('sidebar').classList.remove('open');
+        });
+      });
+
+      document.getElementById('toggle-sidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+      });
+
+      document.getElementById('close-sidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+      });
+
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        document.body.classList.toggle('light-mode');
+      });
+    }
+
+    function setupEventListeners() {
+      document.getElementById('btn-auth-action').addEventListener('click', () => {
+        if (state.currentUser) {
+          signOut(auth).then(() => showToast('Signed out successfully', 'success'));
+        } else {
+          openModal('modal-auth');
+        }
+      });
+
+      document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active'));
+      });
+
+      document.getElementById('form-login').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+          await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value);
+          closeModal('modal-auth');
+          showToast('Admin mode granted', 'success');
+        } catch (err) {
+          showToast('Invalid admin credentials', 'error');
+        }
+      });
+
+      document.getElementById('form-team-settings').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        const data = {
+          advisors: document.getElementById('team-advisors-input').value,
+          boysLeaders: document.getElementById('team-boys-leaders-input').value,
+          girlsLeaders: document.getElementById('team-girls-leaders-input').value
+        };
+        try {
+          await setDoc(doc(db, 'teams', state.activeTeam), data, { merge: true });
+          showToast('Team settings saved', 'success');
+        } catch (err) {
+          showToast('Error saving settings', 'error');
+        }
+      });
+
+      document.getElementById('btn-add-student').addEventListener('click', () => {
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        document.getElementById('form-student').reset();
+        document.getElementById('student-doc-id').value = '';
+        document.getElementById('modal-student-title').textContent = 'Add Student';
+        openModal('modal-student');
+      });
+
+      document.getElementById('form-student').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+
+        const docId = document.getElementById('student-doc-id').value;
+        const studentData = {
+          name: document.getElementById('student-name-input').value,
+          gender: document.getElementById('student-gender-input').value,
+          class: document.getElementById('student-class-input').value,
+          category: document.getElementById('student-category-input').value,
+          team: state.activeTeam
+        };
+
+        try {
+          if (docId) {
+            await updateDoc(doc(db, 'students', docId), studentData);
+            showToast('Student record updated', 'success');
+          } else {
+            studentData.studentId = 'STD-' + Math.floor(1000 + Math.random() * 9000);
+            await addDoc(collection(db, 'students'), studentData);
+            showToast('New student added', 'success');
+          }
+          closeModal('modal-student');
+        } catch (err) {
+          showToast('Failed to save student', 'error');
+        }
+      });
+
+      // Mixed Group Handlers
+      document.getElementById('btn-add-mixed-group').addEventListener('click', () => {
+        if(!state.isAdmin) return showToast('Admin required', 'error');
+        renderMixedStudentChecklist();
+        openModal('modal-mixed-group');
+      });
+
+      document.getElementById('form-mixed-group').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if(!state.isAdmin) return showToast('Admin required', 'error');
+        const selected = Array.from(document.querySelectorAll('.mixed-cb:checked')).map(c => c.value);
+        await addDoc(collection(db, 'mixed_groups'), {
+          groupName: document.getElementById('mixed-group-name').value,
+          itemName: document.getElementById('mixed-item-name').value,
+          members: selected,
+          team: state.activeTeam,
+          status: 'Learning'
+        });
+        closeModal('modal-mixed-group');
+        showToast('Mixed Group Created', 'success');
+      });
+
+      document.getElementById('btn-add-stage-prog').addEventListener('click', () => openProgrammeModal('Stage'));
+      document.getElementById('btn-add-non-stage-prog').addEventListener('click', () => openProgrammeModal('Non-Stage'));
+
+      document.getElementById('form-programme').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+
+        const docId = document.getElementById('prog-doc-id').value;
+        const progData = {
+          name: document.getElementById('prog-name-input').value,
+          gender: document.getElementById('prog-gender-input').value,
+          category: document.getElementById('prog-category-input').value,
+          type: document.getElementById('prog-type-hidden').value,
+          maxParticipants: parseInt(document.getElementById('prog-max-input').value, 10),
+          team: state.activeTeam
+        };
+
+        try {
+          if (docId) await updateDoc(doc(db, 'programmes', docId), progData);
+          else await addDoc(collection(db, 'programmes'), progData);
+          closeModal('modal-programme');
+          showToast('Programme saved', 'success');
+        } catch (err) {
+          showToast('Failed to save programme', 'error');
+        }
+      });
+
+      document.getElementById('assign-gender-select').addEventListener('change', populateAssignmentDropdowns);
+      document.getElementById('assign-category-select').addEventListener('change', populateAssignmentDropdowns);
+
+      document.getElementById('form-assign-programme').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+        const studentId = document.getElementById('assign-student-select').value;
+        const programmeId = document.getElementById('assign-prog-select').value;
+
+        const student = state.students.find(s => s.id === studentId);
+        const prog = state.programmes.find(p => p.id === programmeId);
+
+        if (!student || !prog) return showToast('Selection error', 'error');
+
+        if (student.gender !== prog.gender) {
+          return showToast(`Validation Error: ${student.gender} student cannot be assigned to ${prog.gender} programme!`, 'error');
+        }
+
+        if (student.category !== prog.category) {
+          return showToast(`Validation Error: Student category (${student.category}) does not match programme category (${prog.category})!`, 'error');
+        }
+
+        const duplicate = state.assignments.find(a => a.studentDocId === student.id && a.programmeDocId === prog.id);
+        if (duplicate) {
+          return showToast('Warning: Student already assigned to this programme!', 'warning');
+        }
+
+        const activeCount = state.assignments.filter(a => a.programmeDocId === prog.id).length;
+        if (activeCount >= prog.maxParticipants) {
+          return showToast(`Warning: Programme reached limit (${prog.maxParticipants})!`, 'warning');
+        }
+
+        try {
+          const assignDoc = await addDoc(collection(db, 'assignments'), {
+            studentDocId: student.id,
+            studentCustomId: student.studentId,
+            studentName: student.name,
+            studentGender: student.gender,
+            studentCategory: student.category,
+            programmeDocId: prog.id,
+            programmeName: prog.name,
+            programmeType: prog.type,
+            team: state.activeTeam
+          });
+
+          await addDoc(collection(db, 'practice'), {
+            assignmentDocId: assignDoc.id,
+            studentName: student.name,
+            programmeName: prog.name,
+            studentGender: student.gender,
+            studentCategory: student.category,
+            team: state.activeTeam,
+            status: 'Learning'
+          });
+
+          showToast('Student successfully assigned to programme!', 'success');
+        } catch (err) {
+          showToast('Assignment failed', 'error');
+        }
+      });
+
+      setupSectionTabs('boys');
+      setupSectionTabs('girls');
+
+      document.getElementById('filter-search-student').addEventListener('input', renderStudentsTable);
+      document.getElementById('filter-student-gender').addEventListener('change', renderStudentsTable);
+      document.getElementById('filter-student-category').addEventListener('change', renderStudentsTable);
+      document.getElementById('global-search-input').addEventListener('input', renderGlobalSearchResults);
+
+      document.getElementById('report-type-select').addEventListener('change', renderReportOutput);
+      document.getElementById('btn-export-csv').addEventListener('click', exportReportCSV);
+      document.getElementById('btn-print-report').addEventListener('click', () => window.print());
+    }
+
+    function setupAuthObserver() {
+      onAuthStateChanged(auth, (user) => {
+        state.currentUser = user;
+        state.isAdmin = !!user;
+
+        const roleBadge = document.getElementById('role-badge');
+        const btnAuth = document.getElementById('btn-auth-action');
+        const userDisplay = document.getElementById('user-display-name');
+
+        if (user) {
+          roleBadge.textContent = 'Admin Mode';
+          roleBadge.className = 'badge badge-admin';
+          btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
+          userDisplay.textContent = user.email.split('@')[0];
+        } else {
+          roleBadge.textContent = 'View Only';
+          roleBadge.className = 'badge badge-visitor';
+          btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
+          userDisplay.textContent = 'Visitor';
+        }
+
+        setupRealtimeListeners();
+      });
+    }
+
+    function setupRealtimeListeners() {
+      activeSnapshotUnsubscribers.forEach(unsub => unsub());
+      activeSnapshotUnsubscribers = [];
+
+      document.getElementById('team-name-input').value = state.activeTeam;
+
+      const unsubTeam = onSnapshot(doc(db, 'teams', state.activeTeam), (s) => {
+        if (s.exists()) {
+          state.teamSettings = s.data();
+          document.getElementById('dash-team-name').textContent = state.activeTeam;
+          document.getElementById('dash-advisors').textContent = state.teamSettings.advisors || 'N/A';
+          document.getElementById('dash-boys-leaders').textContent = state.teamSettings.boysLeaders || 'N/A';
+          document.getElementById('dash-girls-leaders').textContent = state.teamSettings.girlsLeaders || 'N/A';
+
+          document.getElementById('team-advisors-input').value = state.teamSettings.advisors || '';
+          document.getElementById('team-boys-leaders-input').value = state.teamSettings.boysLeaders || '';
+          document.getElementById('team-girls-leaders-input').value = state.teamSettings.girlsLeaders || '';
+        } else {
+          document.getElementById('dash-team-name').textContent = state.activeTeam;
+          document.getElementById('dash-advisors').textContent = 'N/A';
+          document.getElementById('dash-boys-leaders').textContent = 'N/A';
+          document.getElementById('dash-girls-leaders').textContent = 'N/A';
+        }
+      });
+      activeSnapshotUnsubscribers.push(unsubTeam);
+
+      const qStudents = query(collection(db, 'students'), where('team', '==', state.activeTeam));
+      const unsubStudents = onSnapshot(qStudents, (s) => {
+        state.students = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderStudentsTable();
+        updateDashboardStats();
+        populateAssignmentDropdowns();
+        renderSectionOverview('boys');
+        renderSectionOverview('girls');
+      });
+      activeSnapshotUnsubscribers.push(unsubStudents);
+
+      const qMixed = query(collection(db, 'mixed_groups'), where('team', '==', state.activeTeam));
+      const unsubMixed = onSnapshot(qMixed, (s) => {
+        state.mixedGroups = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderMixedGroups();
+        updateDashboardStats();
+      });
+      activeSnapshotUnsubscribers.push(unsubMixed);
+
+      const qProgrammes = query(collection(db, 'programmes'), where('team', '==', state.activeTeam));
+      const unsubProgrammes = onSnapshot(qProgrammes, (s) => {
+        state.programmes = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderProgrammeCards();
+        updateDashboardStats();
+        populateAssignmentDropdowns();
+      });
+      activeSnapshotUnsubscribers.push(unsubProgrammes);
+
+      const qAssignments = query(collection(db, 'assignments'), where('team', '==', state.activeTeam));
+      const unsubAssignments = onSnapshot(qAssignments, (s) => {
+        state.assignments = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAssignmentsTable();
+        updateDashboardStats();
+      });
+      activeSnapshotUnsubscribers.push(unsubAssignments);
+
+      const qPractice = query(collection(db, 'practice'), where('team', '==', state.activeTeam));
+      const unsubPractice = onSnapshot(qPractice, (s) => {
+        state.practice = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPracticeTable();
+        updateDashboardStats();
+      });
+      activeSnapshotUnsubscribers.push(unsubPractice);
+    }
+
+    function updateDashboardStats() {
+      document.getElementById('stat-total-students').textContent = state.students.length;
+      document.getElementById('stat-total-boys').textContent = state.students.filter(s => s.gender === 'Male').length;
+      document.getElementById('stat-total-girls').textContent = state.students.filter(s => s.gender === 'Female').length;
+      document.getElementById('stat-stage-progs').textContent = state.programmes.filter(p => p.type === 'Stage').length;
+      document.getElementById('stat-mixed-groups').textContent = state.mixedGroups.length;
+      document.getElementById('stat-assigned-students').textContent = new Set(state.assignments.map(a => a.studentDocId)).size;
+
+      const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
+      const completed = state.practice.filter(p => p.status === 'Completed').length;
+      const pending = state.practice.filter(p => p.status === 'Learning' || !p.status).length;
+      const total = state.practice.length || 1;
+
+      document.getElementById('label-ready-count').textContent = ready;
+      document.getElementById('label-completed-count').textContent = completed;
+      document.getElementById('label-pending-count').textContent = pending;
+
+      document.getElementById('bar-ready').style.width = `${(ready / total) * 100}%`;
+      document.getElementById('bar-completed').style.width = `${(completed / total) * 100}%`;
+      document.getElementById('bar-pending').style.width = `${(pending / total) * 100}%`;
+    }
+
+    function renderStudentsTable() {
+      const tbody = document.getElementById('tbody-students');
+      if (!tbody) return;
+
+      const search = document.getElementById('filter-search-student').value.toLowerCase();
+      const gender = document.getElementById('filter-student-gender').value;
+      const category = document.getElementById('filter-student-category').value;
+
+      const filtered = state.students.filter(s => {
+        const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toLowerCase().includes(search));
+        const matchGender = !gender || s.gender === gender;
+        const matchCategory = !category || s.category === category;
+        return matchSearch && matchGender && matchCategory;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No student records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(s => `
+        <tr>
+          <td><strong>${s.studentId || '-'}</strong></td>
+          <td>${s.name}</td>
+          <td>${s.gender}</td>
+          <td>${s.class}</td>
+          <td><span class="badge badge-visitor">${s.category}</span></td>
+          <td>${s.team}</td>
+          <td>
+            ${state.isAdmin ? `
+              <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+            ` : 'Read-Only'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.editStudent = (id) => {
+      const s = state.students.find(x => x.id === id);
+      if (!s) return;
+      document.getElementById('student-doc-id').value = s.id;
+      document.getElementById('student-name-input').value = s.name;
+      document.getElementById('student-gender-input').value = s.gender;
+      document.getElementById('student-class-input').value = s.class;
+      document.getElementById('student-category-input').value = s.category;
+      document.getElementById('modal-student-title').textContent = 'Edit Student Record';
+      openModal('modal-student');
+    };
+
+    window.deleteStudent = async (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      if (confirm('Delete student record?')) {
+        await deleteDoc(doc(db, 'students', id));
+        showToast('Student deleted', 'success');
+      }
+    };
+
+    function renderMixedStudentChecklist() {
+      const container = document.getElementById('mixed-students-checklist');
+      if (!container) return;
+      container.innerHTML = state.students.map(s => `
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
+          <input type="checkbox" value="${s.id}" class="mixed-cb">
+          <span>${s.name} (${s.category} - ${s.gender})</span>
+        </div>
+      `).join('');
+    }
+
+    function renderMixedGroups() {
+      const container = document.getElementById('mixed-groups-list');
+      if (!container) return;
+      container.innerHTML = state.mixedGroups.map(g => `
+        <div class="glass-card">
+          <h3>${g.groupName}</h3>
+          <p><strong>Item:</strong> ${g.itemName}</p>
+          <p><strong>Participants:</strong> ${g.members ? g.members.length : 0}</p>
+          <p class="mt-1"><span class="badge badge-admin">${g.status || 'Learning'}</span></p>
+          ${state.isAdmin ? `<button class="btn-danger mt-1" onclick="window.deleteMixedGroup('${g.id}')">Delete Group</button>` : ''}
+        </div>
+      `).join('');
+    }
+
+    window.deleteMixedGroup = async (id) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      await deleteDoc(doc(db, 'mixed_groups', id));
+      showToast('Mixed group deleted', 'success');
+    };
+
+    function openProgrammeModal(type) {
+      if (!state.isAdmin) return showToast('Admin mode required', 'error');
+      document.getElementById('form-programme').reset();
+      document.getElementById('prog-doc-id').value = '';
+      document.getElementById('prog-type-hidden').value = type;
+      document.getElementById('modal-prog-title').textContent = `Add ${type} Programme`;
+      openModal('modal-programme');
+    }
+
+    function renderProgrammeCards() {
+      const stageContainer = document.getElementById('stage-programmes-list');
+      const nonStageContainer = document.getElementById('non-stage-programmes-list');
+
+      const createCard = (p) => {
+        const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+        const percent = Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100));
+        return `
+          <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')">
+            <h3>${p.name}</h3>
+            <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender}</span> <span class="badge badge-visitor">${p.category}</span></p>
+            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: ${assignedCount} / ${p.maxParticipants}</p>
+            <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
+            ${state.isAdmin ? `
+              <div style="margin-top:0.8rem; text-align:right;">
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')">Delete</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      };
+
+      if (stageContainer) stageContainer.innerHTML = state.programmes.filter(p => p.type === 'Stage').map(createCard).join('');
+      if (nonStageContainer) nonStageContainer.innerHTML = state.programmes.filter(p => p.type === 'Non-Stage').map(createCard).join('');
+    }
+
+    window.viewProgrammeDetails = (id) => {
+      const p = state.programmes.find(x => x.id === id);
+      if (!p) return;
+
+      const assigned = state.assignments.filter(a => a.programmeDocId === p.id);
+      const body = document.getElementById('details-prog-body');
+      
+      body.innerHTML = `
+        <p><strong>Team:</strong> ${p.team}</p>
+        <p><strong>Section:</strong> ${p.gender} | <strong>Category:</strong> ${p.category}</p>
+        <p><strong>Max Participants:</strong> ${p.maxParticipants}</p>
+        <hr class="divider">
+        <h4>Assigned Participants (${assigned.length})</h4>
+        <ul class="activity-list">
+          ${assigned.length ? assigned.map(a => `<li>${a.studentName} (${a.studentCustomId || '-'})</li>`).join('') : '<li>No students assigned yet.</li>'}
+        </ul>
+      `;
+      openModal('modal-prog-details');
+    };
+
+    window.deleteProgramme = async (id) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      if (confirm('Delete programme?')) {
+        await deleteDoc(doc(db, 'programmes', id));
+        showToast('Programme deleted', 'success');
+      }
+    };
+
+    function populateAssignmentDropdowns() {
+      const gender = document.getElementById('assign-gender-select').value;
+      const category = document.getElementById('assign-category-select').value;
+      const sSelect = document.getElementById('assign-student-select');
+      const pSelect = document.getElementById('assign-prog-select');
+
+      if (sSelect) {
+        const filteredStudents = state.students.filter(s => (!gender || s.gender === gender) && (!category || s.category === category));
+        sSelect.innerHTML = '<option value="">-- Select Student --</option>' + filteredStudents.map(s => `<option value="${s.id}">${s.name} (${s.studentId || '-'})</option>`).join('');
+      }
+
+      if (pSelect) {
+        const filteredProgrammes = state.programmes.filter(p => (!gender || p.gender === gender) && (!category || p.category === category));
+        pSelect.innerHTML = '<option value="">-- Select Programme --</option>' + filteredProgrammes.map(p => `<option value="${p.id}">${p.name} [${p.type}]</option>`).join('');
+      }
+    }
+
+    function renderAssignmentsTable() {
+      const tbody = document.getElementById('tbody-assignments');
+      if (!tbody) return;
+      tbody.innerHTML = state.assignments.map(a => `
+        <tr>
+          <td>${a.studentCustomId || '-'}</td>
+          <td><strong>${a.studentName}</strong></td>
+          <td>${a.studentGender}</td>
+          <td>${a.studentCategory}</td>
+          <td>${a.programmeName}</td>
+          <td><span class="badge badge-admin">${a.programmeType}</span></td>
+          <td>${state.isAdmin ? `<button class="btn-danger" onclick="window.deleteAssignment('${a.id}')">Remove</button>` : 'Read-Only'}</td>
+        </tr>
+      `).join('');
+    }
+
+    window.deleteAssignment = async (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      await deleteDoc(doc(db, 'assignments', id));
+      showToast('Assignment removed', 'success');
+    };
+
+    function renderPracticeTable() {
+      const tbody = document.getElementById('tbody-practice-tracker');
+      if (!tbody) return;
+      tbody.innerHTML = state.practice.map(p => `
+        <tr>
+          <td><strong>${p.studentName}</strong></td>
+          <td>${p.programmeName}</td>
+          <td>${p.studentGender} / ${p.studentCategory}</td>
+          <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
+          <td>
+            ${state.isAdmin ? `
+              <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
+                <option value="Not Assigned" ${p.status === 'Not Assigned' ? 'selected' : ''}>Not Assigned</option>
+                <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
+                <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
+                <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
+              </select>
+            ` : 'Read-Only'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.updatePracticeStatus = async (id, status) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      await updateDoc(doc(db, 'practice', id), { status });
+      showToast('Practice status updated', 'success');
+    };
+
+    function setupSectionTabs(sec) {
+      const btns = document.querySelectorAll(`#view-${sec}-section .tab-btn`);
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderSectionOverview(sec);
+        });
+      });
+    }
+
+    function renderSectionOverview(sec) {
+      const activeTab = document.querySelector(`#view-${sec}-section .tab-btn.active`);
+      const container = document.getElementById(`${sec}-section-content`);
+      if (!activeTab || !container) return;
+
+      const category = activeTab.getAttribute('data-cat');
+      const gender = sec === 'boys' ? 'Male' : 'Female';
+
+      const students = state.students.filter(s => s.gender === gender && s.category === category);
+      container.innerHTML = students.length ? `
+        <table class="data-table">
+          <thead><tr><th>Student ID</th><th>Name</th><th>Class</th></tr></thead>
+          <tbody>${students.map(s => `<tr><td>${s.studentId || '-'}</td><td><strong>${s.name}</strong></td><td>${s.class}</td></tr>`).join('')}</tbody>
+        </table>
+      ` : '<p class="mt-2 text-center">No students registered in this category.</p>';
+    }
+
+    function renderGlobalSearchResults() {
+      const queryVal = document.getElementById('global-search-input').value.toLowerCase();
+      const container = document.getElementById('global-search-results');
+      if (!container || !queryVal) return;
+
+      const matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal));
+      container.innerHTML = matched.map(s => `
+        <div class="glass-card">
+          <h3>${s.name} (${s.studentId || '-'})</h3>
+          <p>${s.gender} | ${s.category} | Class: ${s.class}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderReportOutput() {
+      const type = document.getElementById('report-type-select').value;
+      const container = document.getElementById('report-output-table');
+      if (!container) return;
+
+      if (type === 'students') {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${state.students.map(s => `<tr><td>${s.studentId || '-'}</td><td>${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>${s.class}</td></tr>`).join('')}</tbody></table>`;
+      } else if (type === 'programme') {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${state.assignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
+      } else {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${state.practice.map(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
+      }
+    }
+
+    function exportReportCSV() {
+      let csv = "ID,Name,Gender,Category,Class\n" + state.students.map(s => `"${s.studentId || '-'}","${s.name}","${s.gender}","${s.category}","${s.class}"`).join("\n");
+      const link = document.createElement("a");
+      link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+      link.download = `Madrasa_Report_${state.activeTeam}.csv`;
+      link.click();
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+  </script>
+</body>
+</html>
+
+
