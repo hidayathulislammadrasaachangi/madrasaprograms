@@ -199,6 +199,10 @@
     .btn-primary { background: var(--primary-green); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-primary:hover { background: var(--secondary-green); }
     .btn-secondary { background: var(--accent-gold); color: #072e1d; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-action-sm { padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; }
+    .btn-action-sm.btn-manage { background: rgba(212, 175, 55, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+    .btn-action-sm.btn-manage:hover { background: var(--accent-gold); color: #072e1d; }
+
     .btn-whatsapp { background: #25d366; color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
@@ -208,9 +212,12 @@
     .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: nowrap; }
     .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
 
-    .badge { padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+    .badge { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 2px; }
     .badge-visitor { background: #6b7280; color: white; }
     .badge-admin { background: var(--accent-gold); color: #072e1d; }
+    .badge-learning { background: #f59e0b; color: #fff; }
+    .badge-completed { background: #10b981; color: #fff; }
+    .badge-stageready { background: #6366f1; color: #fff; }
 
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
     .programme-card { border-left: 4px solid var(--accent-gold); cursor: pointer; }
@@ -221,13 +228,139 @@
 
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
     .modal.active { display: flex; }
-    .modal-content { width: 100%; max-width: 520px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; }
+    .modal-content { width: 100%; max-width: 520px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; border-radius: 16px; padding: 1.5rem; }
     body.dark-mode .modal-content { background: var(--bg-dark); border-color: var(--glass-border-dark); }
     .modal-content.wide { max-width: 720px; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
     .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
 
-    .filter-bar { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; }
+    /* DIGITAL APP STYLE STUDENT SELECTOR CARDS */
+    .student-app-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.8rem;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 0.3rem;
+    }
+
+    .student-app-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    body.dark-mode .student-app-card { background: rgba(0, 0, 0, 0.25); }
+
+    .student-app-card:hover, .student-app-card.active {
+      border-color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.12);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.18);
+    }
+
+    .student-app-card.active {
+      border-width: 2px;
+      background: rgba(13, 92, 58, 0.15);
+      border-color: var(--primary-green);
+    }
+
+    .student-avatar-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .student-card-info h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* MULTI-SELECT CHECKBOX GRID CARDS */
+    .category-section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin: 1.2rem 0 0.6rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--glass-border-light);
+      padding-bottom: 0.4rem;
+    }
+
+    .checkbox-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-card {
+      background: rgba(0,0,0,0.03);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 10px;
+      padding: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    body.dark-mode .checkbox-card { background: rgba(255,255,255,0.03); }
+
+    .checkbox-card:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    .checkbox-card input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-green);
+      cursor: pointer;
+    }
+
+    .status-manage-card {
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    body.dark-mode .status-manage-card { background: rgba(255, 255, 255, 0.03); }
+
+    .status-pill-group { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+    .status-pill-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+    }
+    .status-pill-btn.active { opacity: 1; transform: scale(1.04); font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .status-pill-btn.pill-learning { background: #fef3c7; color: #d97706; border-color: #f59e0b; }
+    .status-pill-btn.pill-completed { background: #d1fae5; color: #059669; border-color: #10b981; }
+    .status-pill-btn.pill-ready { background: #e0e7ff; color: #4338ca; border-color: #6366f1; }
+
+    .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
     .action-header { display: flex; justify-content: space-between; align-items: center; }
     .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; }
 
@@ -428,13 +561,52 @@
               </ul>
             </div>
           </div>
+
+          <!-- ENHANCED: DIGITAL & PROFESSIONAL STUDENT PRACTICE STATUS DASHBOARD -->
+          <div class="glass-card mt-2">
+            <div class="action-header">
+              <div>
+                <h2><i class="fa-solid fa-graduation-cap" style="color:var(--accent-gold);"></i> Student Practice Status Overview</h2>
+                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Track completed items, pending practice, and manage progress in real time.</p>
+              </div>
+            </div>
+            <hr class="divider">
+            <div class="filter-bar mb-2">
+              <select id="dash-practice-class-filter" class="form-control">
+                <option value="">All Classes</option>
+              </select>
+              <select id="dash-practice-category-filter" class="form-control">
+                <option value="">All Categories</option>
+                <option value="Sub Junior">Sub Junior</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+                <option value="General">General</option>
+              </select>
+              <input type="text" id="dash-practice-search-input" class="form-control" placeholder="Filter student name...">
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Class & Student Info</th>
+                    <th>Completed Programmes</th>
+                    <th>Pending Practice Items</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-dash-student-status">
+                  <tr><td colspan="4" class="text-center">Loading student practice overview...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
 
-        <!-- STUDENT PROGRAMME SLIP VIEW -->
+        <!-- STUDENT PROGRAMME SLIP VIEW WITH DIGITAL APP-STYLE CARDS -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Select Class and Category to easily choose a student from the list.</p>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Select Class and Category to easily choose a student from the digital cards below.</p>
             <hr class="divider">
             
             <div class="form-grid mb-2">
@@ -456,11 +628,11 @@
               </div>
             </div>
 
-            <div class="form-group" style="background: rgba(212,175,55,0.08); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--accent-gold);">
-              <label style="color:var(--primary-green); font-size:0.95rem;"><strong>3. Choose Student Name</strong></label>
-              <select id="slip-student-select" class="form-control" style="font-weight:600; margin-top:0.3rem;">
-                <option value="">-- Choose Student --</option>
-              </select>
+            <!-- REPLACED OLD DROPDOWN WITH APP CARDS -->
+            <div class="form-group mb-2">
+              <label style="color:var(--primary-green); font-size:0.95rem;"><strong>3. Choose Student Name:</strong></label>
+              <input type="hidden" id="slip-selected-student-id">
+              <div id="slip-student-cards-grid" class="student-app-card-grid mt-1"></div>
             </div>
           </div>
 
@@ -545,7 +717,7 @@
             </div>
             <hr class="divider">
             <div class="filter-bar">
-              <input type="text" id="filter-search-student" class="form-control" placeholder="Search student name or Roll No...">
+              <input type="text" id="filter-search-student" class="form-control" placeholder="Filter student name or Roll No...">
               <select id="filter-student-gender" class="form-control">
                 <option value="">All Genders</option>
                 <option value="Male">Boys</option>
@@ -596,7 +768,7 @@
           <div id="mixed-groups-list" class="cards-grid"></div>
         </section>
 
-        <!-- BOYS SECTION VIEW -->
+        <!-- BOYS SECTION VIEW WITHOUT STD- PREFIX -->
         <section id="view-boys-section" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-child" style="color:var(--accent-gold);"></i> Boys Section Overview</h2>
@@ -611,7 +783,7 @@
           </div>
         </section>
 
-        <!-- GIRLS SECTION VIEW -->
+        <!-- GIRLS SECTION VIEW WITHOUT STD- PREFIX -->
         <section id="view-girls-section" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-child-dress" style="color:var(--accent-gold);"></i> Girls Section Overview</h2>
@@ -626,7 +798,7 @@
           </div>
         </section>
 
-        <!-- STAGE PROGRAMMES VIEW -->
+        <!-- STAGE PROGRAMMES VIEW WITH AUTOMATIC CROSS-TEAM SYNC -->
         <section id="view-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
@@ -645,7 +817,7 @@
           <div id="stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- NON-STAGE PROGRAMMES VIEW -->
+        <!-- NON-STAGE PROGRAMMES VIEW WITH AUTOMATIC CROSS-TEAM SYNC -->
         <section id="view-non-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
@@ -664,41 +836,46 @@
           <div id="non-stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- PROGRAMME ASSIGNMENTS VIEW -->
+        <!-- ULTRA MODERN APP-STYLE ASSIGNMENT PORTAL -->
         <section id="view-assignments" class="app-view">
           <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Workflow</h2>
+            <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Portal</h2>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Select Class & Section to pick student, then assign Stage & Non-Stage items in one click.</p>
             <hr class="divider">
             <form id="form-assign-programme">
-              <div class="form-grid">
+              <div class="form-grid mb-2">
                 <div class="form-group">
-                  <label>1. Gender Section</label>
+                  <label>1. Select Class</label>
+                  <select id="assign-class-filter-select" class="form-control" required>
+                    <option value="">-- Choose Class --</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>2. Select Gender Section</label>
                   <select id="assign-gender-select" class="form-control" required>
-                    <option value="">-- Select Gender --</option>
-                    <option value="Male">Boys</option>
-                    <option value="Female">Girls</option>
+                    <option value="">-- Choose Section --</option>
+                    <option value="Male">Boys Section</option>
+                    <option value="Female">Girls Section</option>
                   </select>
-                </div>
-                <div class="form-group">
-                  <label>2. Category</label>
-                  <select id="assign-category-select" class="form-control" required>
-                    <option value="">-- Select Category --</option>
-                    <option value="Sub Junior">Sub Junior</option>
-                    <option value="Junior">Junior</option>
-                    <option value="Senior">Senior</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>3. Student</label>
-                  <select id="assign-student-select" class="form-control" required></select>
-                </div>
-                <div class="form-group">
-                  <label>4. Programme</label>
-                  <select id="assign-prog-select" class="form-control" required></select>
                 </div>
               </div>
-              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-check"></i> Assign Student to Programme</button>
+
+              <!-- APP-STYLE STUDENT SELECTOR CARD GRID -->
+              <div id="assign-student-picker-wrapper" class="form-group mb-2" style="display:none;">
+                <label style="color:var(--primary-green); font-weight:700;">3. Choose Student Name:</label>
+                <input type="hidden" id="assign-selected-student-id">
+                <div id="assign-student-cards-grid" class="student-app-card-grid mt-1"></div>
+              </div>
+
+              <!-- PROGRAMMES MULTI-SELECT CHECKBOX CONTAINER -->
+              <div id="assign-programmes-container" style="display:none; background: rgba(0,0,0,0.02); padding: 1.2rem; border-radius: 12px; border: 1px solid var(--glass-border-light);" class="mt-2">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+                  <strong style="color:var(--primary-green);">4. Select Programmes for Student:</strong>
+                  <span id="assign-student-badge-info" class="badge badge-admin"></span>
+                </div>
+                <div id="assign-checkbox-list"></div>
+                <button type="submit" class="btn-primary mt-2 full-width"><i class="fa-solid fa-circle-check"></i> Confirm Selected Programme Assignments</button>
+              </div>
             </form>
           </div>
 
@@ -774,7 +951,7 @@
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-magnifying-glass" style="color:var(--accent-gold);"></i> Unified Global Search</h2>
             <hr class="divider">
-            <input type="text" id="global-search-input" class="form-control" placeholder="Search by student name, programme, class, or category...">
+            <input type="text" id="global-search-input" class="form-control" placeholder="Search student name, programme, class, or category...">
           </div>
           <div id="global-search-results" class="cards-grid"></div>
         </section>
@@ -843,6 +1020,7 @@
     </div>
   </div>
 
+  <!-- PROGRAMME MODAL: OPTIONAL MAXIMUM PARTICIPANTS LIMIT -->
   <div id="modal-programme" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
@@ -873,8 +1051,8 @@
           </select>
         </div>
         <div class="form-group mt-1">
-          <label>Max Participants Limit</label>
-          <input type="number" id="prog-max-input" class="form-control" min="1" value="1" required>
+          <label>Max Participants Limit <small style="opacity:0.6; font-weight:normal;">(Optional - നിർബന്ധമില്ല)</small></label>
+          <input type="number" id="prog-max-input" class="form-control" min="1" placeholder="Leave empty for unlimited">
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Programme</button>
       </form>
@@ -902,6 +1080,20 @@
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Mixed Group</button>
       </form>
+    </div>
+  </div>
+
+  <!-- MODERN STATUS MANAGEMENT MODAL WITH STAGE/NON-STAGE CATEGORIES -->
+  <div id="modal-manage-student-status" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-status-student-name">Manage Practice Progress</h3>
+          <p id="modal-status-student-sub" style="font-size:0.8rem; color:var(--accent-gold); font-weight:600;"></p>
+        </div>
+        <button class="close-modal">×</button>
+      </div>
+      <div id="modal-status-items-container"></div>
     </div>
   </div>
 
@@ -933,7 +1125,7 @@
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { 
-      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, enableIndexedDbPersistence 
+      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, enableIndexedDbPersistence, getDocs 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1082,6 +1274,7 @@
         openModal('modal-student');
       });
 
+      // AUTOMATIC ROLL NO / STUDENT ID GENERATION (101 FOR SSALAM, 201 FOR NNOOR)
       document.getElementById('form-student').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!state.isAdmin) return showToast('Admin mode required', 'error');
@@ -1100,9 +1293,19 @@
             await updateDoc(doc(db, 'students', docId), studentData);
             showToast('Student record updated', 'success');
           } else {
-            studentData.studentId = 'STD-' + Math.floor(1000 + Math.random() * 9000);
+            const baseStartNum = state.activeTeam === 'MADEENATHU-SSALAM' ? 101 : 201;
+            const currentTeamStudents = state.students.filter(s => s.team === state.activeTeam);
+            
+            let maxNum = baseStartNum - 1;
+            currentTeamStudents.forEach(s => {
+              const cleanId = (s.studentId || '').toString().replace('STD-', '');
+              const numVal = parseInt(cleanId, 10);
+              if (!isNaN(numVal) && numVal > maxNum) maxNum = numVal;
+            });
+
+            studentData.studentId = (maxNum + 1).toString();
             await addDoc(collection(db, 'students'), studentData);
-            showToast('New student added', 'success');
+            showToast(`New student added with ID: ${studentData.studentId}`, 'success');
           }
           closeModal('modal-student');
         } catch (err) {
@@ -1110,10 +1313,9 @@
         }
       });
 
-      document.getElementById('slip-filter-class-select').addEventListener('change', filterAndPopulateParentSlipDropdown);
-      document.getElementById('slip-filter-category-select').addEventListener('change', filterAndPopulateParentSlipDropdown);
+      document.getElementById('slip-filter-class-select').addEventListener('change', filterAndPopulateParentSlipAppCards);
+      document.getElementById('slip-filter-category-select').addEventListener('change', filterAndPopulateParentSlipAppCards);
 
-      document.getElementById('slip-student-select').addEventListener('change', renderParentSlip);
       document.getElementById('btn-print-parent-slip').addEventListener('click', () => window.print());
       document.getElementById('btn-whatsapp-parent-slip').addEventListener('click', shareWhatsAppSlip);
 
@@ -1141,89 +1343,120 @@
       document.getElementById('btn-add-stage-prog').addEventListener('click', () => openProgrammeModal('Stage'));
       document.getElementById('btn-add-non-stage-prog').addEventListener('click', () => openProgrammeModal('Non-Stage'));
 
+      // AUTOMATIC CROSS-TEAM SYNC ON SAVE PROGRAMME
       document.getElementById('form-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!state.isAdmin) return showToast('Admin mode required', 'error');
 
         const docId = document.getElementById('prog-doc-id').value;
+        const maxVal = document.getElementById('prog-max-input').value;
+        
         const progData = {
           name: document.getElementById('prog-name-input').value,
           gender: document.getElementById('prog-gender-input').value,
           category: document.getElementById('prog-category-input').value,
           type: document.getElementById('prog-type-hidden').value,
-          maxParticipants: parseInt(document.getElementById('prog-max-input').value, 10),
+          maxParticipants: maxVal ? parseInt(maxVal, 10) : null,
           team: state.activeTeam
         };
 
+        const targetTeam = state.activeTeam === 'MADEENATHU-SSALAM' ? 'MADEENATHU-NNOOR' : 'MADEENATHU-SSALAM';
+
         try {
-          if (docId) await updateDoc(doc(db, 'programmes', docId), progData);
-          else await addDoc(collection(db, 'programmes'), progData);
+          if (docId) {
+            await updateDoc(doc(db, 'programmes', docId), progData);
+            showToast('Programme updated', 'success');
+          } else {
+            // Save to Active Team
+            await addDoc(collection(db, 'programmes'), progData);
+
+            // Auto-Sync Copy to Other Team
+            const qTarget = query(collection(db, 'programmes'), where('team', '==', targetTeam));
+            const snapTarget = await getDocs(qTarget);
+            const targetProgs = snapTarget.docs.map(d => d.data());
+
+            const existsInTarget = targetProgs.some(tp => tp.name === progData.name && tp.gender === progData.gender && tp.category === progData.category && tp.type === progData.type);
+            
+            if (!existsInTarget) {
+              await addDoc(collection(db, 'programmes'), {
+                ...progData,
+                team: targetTeam
+              });
+            }
+
+            showToast(`Programme saved & synced to both teams!`, 'success');
+          }
           closeModal('modal-programme');
-          showToast('Programme saved', 'success');
         } catch (err) {
           showToast('Failed to save programme', 'error');
         }
       });
 
-      document.getElementById('assign-gender-select').addEventListener('change', populateAssignmentDropdowns);
-      document.getElementById('assign-category-select').addEventListener('change', populateAssignmentDropdowns);
+      // SMART ASSIGNMENT WORKFLOW EVENT LISTENERS
+      document.getElementById('assign-class-filter-select').addEventListener('change', populateAssignmentStudentDropdown);
+      document.getElementById('assign-gender-select').addEventListener('change', populateAssignmentStudentDropdown);
 
+      // MULTI-ASSIGNMENT SUBMISSION HANDLER
       document.getElementById('form-assign-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!state.isAdmin) return showToast('Admin access required', 'error');
 
-        const studentId = document.getElementById('assign-student-select').value;
-        const programmeId = document.getElementById('assign-prog-select').value;
-
+        const studentId = document.getElementById('assign-selected-student-id').value;
         const student = state.students.find(s => s.id === studentId);
-        const prog = state.programmes.find(p => p.id === programmeId);
 
-        if (!student || !prog) return showToast('Selection error', 'error');
+        if (!student) return showToast('Please select a student first', 'error');
 
-        if (student.gender !== prog.gender) {
-          return showToast(`Validation Error: ${student.gender} student cannot be assigned to ${prog.gender} programme!`, 'error');
+        const checkedBoxes = Array.from(document.querySelectorAll('.assign-prog-cb:checked'));
+        if (checkedBoxes.length === 0) {
+          return showToast('Please select at least one programme to assign', 'warning');
         }
 
-        if (student.category !== prog.category) {
-          return showToast(`Validation Error: Student category (${student.category}) does not match programme category (${prog.category})!`, 'error');
+        let assignedCount = 0;
+
+        for (const cb of checkedBoxes) {
+          const progId = cb.value;
+          const prog = state.programmes.find(p => p.id === progId);
+          if (!prog) continue;
+
+          // Duplicate Check
+          const duplicate = state.assignments.find(a => a.studentDocId === student.id && a.programmeDocId === prog.id);
+          if (duplicate) continue;
+
+          try {
+            const cleanRoll = (student.studentId || '').toString().replace('STD-', '');
+            const assignDoc = await addDoc(collection(db, 'assignments'), {
+              studentDocId: student.id,
+              studentCustomId: cleanRoll,
+              studentName: student.name,
+              studentGender: student.gender,
+              studentCategory: student.category,
+              programmeDocId: prog.id,
+              programmeName: prog.name,
+              programmeType: prog.type,
+              team: state.activeTeam
+            });
+
+            await addDoc(collection(db, 'practice'), {
+              assignmentDocId: assignDoc.id,
+              studentName: student.name,
+              programmeName: prog.name,
+              studentGender: student.gender,
+              studentCategory: student.category,
+              team: state.activeTeam,
+              status: 'Learning'
+            });
+
+            assignedCount++;
+          } catch (err) {
+            console.error('Assignment error:', err);
+          }
         }
 
-        const duplicate = state.assignments.find(a => a.studentDocId === student.id && a.programmeDocId === prog.id);
-        if (duplicate) {
-          return showToast('Warning: Student already assigned to this programme!', 'warning');
-        }
-
-        const activeCount = state.assignments.filter(a => a.programmeDocId === prog.id).length;
-        if (activeCount >= prog.maxParticipants) {
-          return showToast(`Warning: Programme reached limit (${prog.maxParticipants})!`, 'warning');
-        }
-
-        try {
-          const assignDoc = await addDoc(collection(db, 'assignments'), {
-            studentDocId: student.id,
-            studentCustomId: student.studentId,
-            studentName: student.name,
-            studentGender: student.gender,
-            studentCategory: student.category,
-            programmeDocId: prog.id,
-            programmeName: prog.name,
-            programmeType: prog.type,
-            team: state.activeTeam
-          });
-
-          await addDoc(collection(db, 'practice'), {
-            assignmentDocId: assignDoc.id,
-            studentName: student.name,
-            programmeName: prog.name,
-            studentGender: student.gender,
-            studentCategory: student.category,
-            team: state.activeTeam,
-            status: 'Learning'
-          });
-
-          showToast('Student successfully assigned to programme!', 'success');
-        } catch (err) {
-          showToast('Assignment failed', 'error');
+        if (assignedCount > 0) {
+          showToast(`Successfully assigned ${assignedCount} programme(s) to ${student.name}!`, 'success');
+          populateAssignmentProgrammesCheckboxes();
+        } else {
+          showToast('Selected programmes are already assigned to this student.', 'warning');
         }
       });
 
@@ -1236,10 +1469,56 @@
       document.getElementById('filter-student-category').addEventListener('change', renderStudentsTable);
       document.getElementById('global-search-input').addEventListener('input', renderGlobalSearchResults);
 
+      // Dashboard Practice Table Filters
+      document.getElementById('dash-practice-class-filter').addEventListener('change', renderDashboardStudentStatusTable);
+      document.getElementById('dash-practice-category-filter').addEventListener('change', renderDashboardStudentStatusTable);
+      document.getElementById('dash-practice-search-input').addEventListener('input', renderDashboardStudentStatusTable);
+
       document.getElementById('report-type-select').addEventListener('change', renderReportOutput);
       document.getElementById('btn-export-csv').addEventListener('click', exportReportCSV);
       document.getElementById('btn-print-report').addEventListener('click', () => window.print());
     }
+
+    // FEATURE: ONE-CLICK COPY ALL PROGRAMMES TO OTHER TEAM
+    window.copyProgrammesToOtherTeam = async (progType) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      const sourceTeam = state.activeTeam;
+      const targetTeam = sourceTeam === 'MADEENATHU-SSALAM' ? 'MADEENATHU-NNOOR' : 'MADEENATHU-SSALAM';
+
+      if (!confirm(`Copy all ${progType} programmes from ${sourceTeam} to ${targetTeam}?`)) return;
+
+      try {
+        const sourceProgs = state.programmes.filter(p => p.type === progType);
+        if (sourceProgs.length === 0) return showToast(`No ${progType} programmes found in ${sourceTeam}!`, 'warning');
+
+        // Fetch target team existing progs to avoid duplicates
+        const qTarget = query(collection(db, 'programmes'), where('team', '==', targetTeam));
+        const snapTarget = await getDocs(qTarget);
+        const targetProgs = snapTarget.docs.map(d => d.data());
+
+        let copiedCount = 0;
+
+        for (const p of sourceProgs) {
+          const exists = targetProgs.some(tp => tp.name === p.name && tp.gender === p.gender && tp.category === p.category && tp.type === p.type);
+          if (!exists) {
+            await addDoc(collection(db, 'programmes'), {
+              name: p.name,
+              gender: p.gender,
+              category: p.category,
+              type: p.type,
+              maxParticipants: p.maxParticipants || null,
+              team: targetTeam
+            });
+            copiedCount++;
+          }
+        }
+
+        showToast(`Successfully copied ${copiedCount} ${progType} programme(s) to ${targetTeam}!`, 'success');
+      } catch (err) {
+        showToast('Failed to copy programmes', 'error');
+      }
+    };
 
     function setupAuthObserver() {
       onAuthStateChanged(auth, (user) => {
@@ -1297,11 +1576,14 @@
         state.students = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderStudentsTable();
         populateParentSlipClassOptions();
-        filterAndPopulateParentSlipDropdown();
+        populateDashboardClassFilter();
+        populateAssignmentClassFilterOptions();
+        filterAndPopulateParentSlipAppCards();
         updateDashboardStats();
-        populateAssignmentDropdowns();
+        populateAssignmentStudentDropdown();
         renderSectionOverview('boys');
         renderSectionOverview('girls');
+        renderDashboardStudentStatusTable();
       });
       activeSnapshotUnsubscribers.push(unsubStudents);
 
@@ -1310,6 +1592,7 @@
         state.mixedGroups = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderMixedGroups();
         updateDashboardStats();
+        renderDashboardStudentStatusTable();
       });
       activeSnapshotUnsubscribers.push(unsubMixed);
 
@@ -1318,7 +1601,7 @@
         state.programmes = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderProgrammeCards();
         updateDashboardStats();
-        populateAssignmentDropdowns();
+        populateAssignmentProgrammesCheckboxes();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1328,6 +1611,8 @@
         renderAssignmentsTable();
         renderPracticeTable();
         updateDashboardStats();
+        renderDashboardStudentStatusTable();
+        populateAssignmentProgrammesCheckboxes();
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -1336,6 +1621,7 @@
         state.practice = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderPracticeTable();
         updateDashboardStats();
+        renderDashboardStudentStatusTable();
       });
       activeSnapshotUnsubscribers.push(unsubPractice);
     }
@@ -1371,11 +1657,13 @@
         const clsA = parseInt(a.class || 0, 10);
         const clsB = parseInt(b.class || 0, 10);
         if (clsA !== clsB) return clsA - clsB;
-        return (a.studentId || a.name).localeCompare(b.studentId || b.name);
+        
+        const cleanIdA = (a.studentId || a.name).toString().replace('STD-', '');
+        const cleanIdB = (b.studentId || b.name).toString().replace('STD-', '');
+        return cleanIdA.localeCompare(cleanIdB, undefined, { numeric: true });
       });
     }
 
-    // Helper function to sort programmes by Sub Junior -> Junior -> Senior -> General
     function sortProgrammesByCategory(progList) {
       const catOrder = { 'Sub Junior': 1, 'Junior': 2, 'Senior': 3, 'General': 4 };
       return [...progList].sort((a, b) => {
@@ -1386,7 +1674,269 @@
       });
     }
 
-    // DASHBOARD DETAILS POPUP WITH SORTING & FILTER OPTION
+    function populateDashboardClassFilter() {
+      const filterSelect = document.getElementById('dash-practice-class-filter');
+      if (!filterSelect) return;
+
+      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      filterSelect.innerHTML = '<option value="">All Classes</option>' + uniqueClasses.map(c => `
+        <option value="${c}">Class ${c}</option>
+      `).join('');
+    }
+
+    function populateAssignmentClassFilterOptions() {
+      const select = document.getElementById('assign-class-filter-select');
+      if (!select) return;
+
+      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      select.innerHTML = '<option value="">-- Choose Class --</option>' + uniqueClasses.map(c => `
+        <option value="${c}">Class ${c}</option>
+      `).join('');
+    }
+
+    // DIGITAL & PROFESSIONAL STUDENT STATUS TABLE RENDER
+    function renderDashboardStudentStatusTable() {
+      const tbody = document.getElementById('tbody-dash-student-status');
+      if (!tbody) return;
+
+      const filterClass = document.getElementById('dash-practice-class-filter')?.value || '';
+      const filterCat = document.getElementById('dash-practice-category-filter')?.value || '';
+      const filterSearch = document.getElementById('dash-practice-search-input')?.value.toLowerCase() || '';
+
+      let studentList = state.students.filter(s => {
+        const matchClass = !filterClass || s.class.toString() === filterClass;
+        const matchCat = !filterCat || s.category === filterCat;
+        const matchSearch = !filterSearch || s.name.toLowerCase().includes(filterSearch);
+        return matchClass && matchCat && matchSearch;
+      });
+
+      studentList = sortByClass(studentList);
+
+      if (studentList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center">No matching student records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = studentList.map(s => {
+        const studentPractice = state.practice.filter(p => p.studentName === s.name);
+        
+        const completedItems = studentPractice.filter(p => p.status === 'Completed' || p.status === 'Stage Ready');
+        const learningItems = studentPractice.filter(p => p.status === 'Learning' || !p.status);
+
+        const completedBadgesHtml = completedItems.length 
+          ? completedItems.map(p => {
+              const icon = p.status === 'Stage Ready' ? '⭐' : '✅';
+              const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : 'badge-completed';
+              return `<span class="badge ${bClass}">${icon} ${p.programmeName}</span>`;
+            }).join(' ')
+          : '<small style="opacity:0.5;">None</small>';
+
+        const learningBadgesHtml = learningItems.length
+          ? learningItems.map(p => `<span class="badge badge-learning">🟡 ${p.programmeName}</span>`).join(' ')
+          : '<small style="opacity:0.5;">None</small>';
+
+        let actionBtnHtml = '';
+        if (state.isAdmin && studentPractice.length > 0) {
+          actionBtnHtml = `<button class="btn-action-sm btn-manage" onclick="window.openStatusManageModal('${s.id}')"><i class="fa-solid fa-sliders"></i> Manage Progress</button>`;
+        } else if (studentPractice.length === 0) {
+          actionBtnHtml = '<small style="opacity:0.5;">No items assigned</small>';
+        } else {
+          actionBtnHtml = '<span class="badge badge-visitor">Read Only</span>';
+        }
+
+        const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+
+        return `
+          <tr>
+            <td>
+              <strong>Class ${s.class} - ${s.name} [ID: ${cleanRoll}]</strong>
+              <br><small style="color:var(--accent-gold); font-weight:600;">${s.category} (${s.gender})</small>
+            </td>
+            <td>${completedBadgesHtml}</td>
+            <td>${learningBadgesHtml}</td>
+            <td>${actionBtnHtml}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // SMART APP-STYLE STUDENT SELECTION FLOW FOR ASSIGNMENTS
+    function populateAssignmentStudentDropdown() {
+      const cls = document.getElementById('assign-class-filter-select').value;
+      const gender = document.getElementById('assign-gender-select').value;
+      const wrapper = document.getElementById('assign-student-picker-wrapper');
+      const grid = document.getElementById('assign-student-cards-grid');
+      const hiddenInput = document.getElementById('assign-selected-student-id');
+      const container = document.getElementById('assign-programmes-container');
+
+      if (!wrapper || !grid) return;
+
+      container.style.display = 'none';
+      hiddenInput.value = '';
+
+      if (!cls || !gender) {
+        wrapper.style.display = 'none';
+        return;
+      }
+
+      let filteredStudents = state.students.filter(s => s.class.toString() === cls && s.gender === gender);
+      filteredStudents = sortByClass(filteredStudents);
+
+      wrapper.style.display = 'block';
+
+      if (filteredStudents.length === 0) {
+        grid.innerHTML = `<p style="grid-column:1/-1; color:#ef4444; font-size:0.85rem;">No students found in Class ${cls} (${gender === 'Male' ? 'Boys' : 'Girls'} Section).</p>`;
+        return;
+      }
+
+      grid.innerHTML = filteredStudents.map(s => {
+        return `
+          <div class="student-app-card" onclick="window.selectStudentForAssignment('${s.id}')" id="std-card-${s.id}">
+            <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
+            <div class="student-card-info">
+              <h4>${s.name}</h4>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.selectStudentForAssignment = (studentDocId) => {
+      document.querySelectorAll('.student-app-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById(`std-card-${studentDocId}`);
+      if (activeCard) activeCard.classList.add('active');
+
+      document.getElementById('assign-selected-student-id').value = studentDocId;
+      populateAssignmentProgrammesCheckboxes();
+    };
+
+    function populateAssignmentProgrammesCheckboxes() {
+      const studentId = document.getElementById('assign-selected-student-id').value;
+      const container = document.getElementById('assign-programmes-container');
+      const checklistEl = document.getElementById('assign-checkbox-list');
+      const badgeInfo = document.getElementById('assign-student-badge-info');
+
+      const student = state.students.find(s => s.id === studentId);
+
+      if (!student) {
+        container.style.display = 'none';
+        return;
+      }
+
+      container.style.display = 'block';
+      badgeInfo.textContent = `Class ${student.class} | ${student.category} (${student.gender})`;
+
+      const matchedProgrammes = state.programmes.filter(p => p.category === student.category && p.gender === student.gender);
+
+      const stageProgs = matchedProgrammes.filter(p => p.type === 'Stage');
+      const nonStageProgs = matchedProgrammes.filter(p => p.type === 'Non-Stage');
+
+      const assignedProgDocIds = state.assignments.filter(a => a.studentDocId === student.id).map(a => a.programmeDocId);
+
+      const createCbCard = (p) => {
+        const isAssigned = assignedProgDocIds.includes(p.id);
+        return `
+          <label class="checkbox-card" style="${isAssigned ? 'opacity:0.6; background:rgba(16, 185, 129, 0.1);' : ''}">
+            <input type="checkbox" value="${p.id}" class="assign-prog-cb" ${isAssigned ? 'checked disabled' : ''}>
+            <div>
+              <strong>${p.name}</strong>
+              <br><small style="font-size:0.75rem; opacity:0.8;">${isAssigned ? '✅ Already Assigned' : 'Click to select'}</small>
+            </div>
+          </label>
+        `;
+      };
+
+      let html = '';
+
+      if (stageProgs.length > 0) {
+        html += `<div class="category-section-title"><i class="fa-solid fa-microphone"></i> 🎤 Stage Programmes (${stageProgs.length})</div>`;
+        html += `<div class="checkbox-card-grid">${stageProgs.map(createCbCard).join('')}</div>`;
+      }
+
+      if (nonStageProgs.length > 0) {
+        html += `<div class="category-section-title"><i class="fa-solid fa-pen-ruler"></i> ✏️ Non-Stage Programmes (${nonStageProgs.length})</div>`;
+        html += `<div class="checkbox-card-grid">${nonStageProgs.map(createCbCard).join('')}</div>`;
+      }
+
+      if (matchedProgrammes.length === 0) {
+        html = `<p class="text-center mt-2" style="color:#ef4444;">No ${student.category} programmes created for ${student.gender} section yet.</p>`;
+      }
+
+      checklistEl.innerHTML = html;
+    }
+
+    // DIGITAL MODAL POPUP FOR MANAGING PROGRESS
+    window.openStatusManageModal = (studentDocId) => {
+      const s = state.students.find(x => x.id === studentDocId);
+      if (!s) return;
+
+      const studentPractice = state.practice.filter(p => p.studentName === s.name);
+      document.getElementById('modal-status-student-name').textContent = `${s.name}`;
+      document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | ${s.category} (${s.gender})`;
+
+      const container = document.getElementById('modal-status-items-container');
+
+      const stageItems = studentPractice.filter(p => {
+        const prog = state.programmes.find(pr => pr.name === p.programmeName);
+        return prog ? prog.type === 'Stage' : true;
+      });
+
+      const nonStageItems = studentPractice.filter(p => {
+        const prog = state.programmes.find(pr => pr.name === p.programmeName);
+        return prog ? prog.type === 'Non-Stage' : false;
+      });
+
+      const createCardHtml = (p) => {
+        const curStatus = p.status || 'Learning';
+        return `
+          <div class="status-manage-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>${p.programmeName}</strong>
+              <span class="badge ${curStatus === 'Completed' ? 'badge-completed' : (curStatus === 'Stage Ready' ? 'badge-stageready' : 'badge-learning')}">${curStatus}</span>
+            </div>
+            <div class="status-pill-group">
+              <button class="status-pill-btn pill-learning ${curStatus === 'Learning' ? 'active' : ''}" onclick="window.updatePracticeStatusDirect('${p.id}', 'Learning', '${s.id}')">🟡 Learning</button>
+              <button class="status-pill-btn pill-completed ${curStatus === 'Completed' ? 'active' : ''}" onclick="window.updatePracticeStatusDirect('${p.id}', 'Completed', '${s.id}')">✅ Completed</button>
+              <button class="status-pill-btn pill-ready ${curStatus === 'Stage Ready' ? 'active' : ''}" onclick="window.updatePracticeStatusDirect('${p.id}', 'Stage Ready', '${s.id}')">⭐ Stage Ready</button>
+            </div>
+          </div>
+        `;
+      };
+
+      let html = '';
+
+      if (stageItems.length > 0) {
+        html += `<div class="category-section-title"><i class="fa-solid fa-microphone"></i> 🎤 Stage Programmes</div>`;
+        html += stageItems.map(createCardHtml).join('');
+      }
+
+      if (nonStageItems.length > 0) {
+        html += `<div class="category-section-title"><i class="fa-solid fa-pen-ruler"></i> ✏️ Non-Stage Programmes</div>`;
+        html += nonStageItems.map(createCardHtml).join('');
+      }
+
+      if (stageItems.length === 0 && nonStageItems.length === 0) {
+        html = `<p class="text-center mt-2">No assigned programmes found for this student.</p>`;
+      }
+
+      container.innerHTML = html;
+      openModal('modal-manage-student-status');
+    };
+
+    window.updatePracticeStatusDirect = async (practiceId, newStatus, studentDocId) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      await updateDoc(doc(db, 'practice', practiceId), { status: newStatus });
+      showToast('Practice status updated', 'success');
+      window.openStatusManageModal(studentDocId);
+    };
+
+    window.updatePracticeStatus = async (id, status) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      await updateDoc(doc(db, 'practice', id), { status });
+      showToast('Practice status updated', 'success');
+    };
+
+    // DASHBOARD DETAILS POPUP
     window.showDashboardDetails = (type) => {
       state.activeDashModalType = type;
       state.dashModalFilterCat = 'All';
@@ -1424,7 +1974,7 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>Roll No</th>
+                <th>Roll No / ID</th>
                 <th>Student Info</th>
                 <th>Gender</th>
                 <th>Class</th>
@@ -1432,15 +1982,18 @@
               </tr>
             </thead>
             <tbody>
-              ${list.length ? list.map(s => `
-                <tr>
-                  <td><strong>${s.studentId || '-'}</strong></td>
-                  <td><strong>Class ${s.class} - ${s.name}</strong></td>
-                  <td>${s.gender}</td>
-                  <td>Class ${s.class}</td>
-                  <td><span class="badge badge-visitor">${s.category}</span></td>
-                </tr>
-              `).join('') : '<tr><td colspan="5" class="text-center">No students found.</td></tr>'}
+              ${list.length ? list.map(s => {
+                const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+                return `
+                  <tr>
+                    <td><strong>${cleanRoll}</strong></td>
+                    <td><strong>Class ${s.class} - ${s.name}</strong></td>
+                    <td>${s.gender}</td>
+                    <td>Class ${s.class}</td>
+                    <td><span class="badge badge-visitor">${s.category}</span></td>
+                  </tr>
+                `;
+              }).join('') : '<tr><td colspan="5" class="text-center">No students found.</td></tr>'}
             </tbody>
           </table>
         `;
@@ -1457,7 +2010,6 @@
           list = list.filter(p => p.category === state.dashModalFilterCat);
         }
 
-        // Sub Junior -> Junior -> Senior -> General Order
         list = sortProgrammesByCategory(list);
 
         html = `
@@ -1481,13 +2033,14 @@
             <tbody>
               ${list.length ? list.map(p => {
                 const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+                const limitText = p.maxParticipants ? p.maxParticipants : 'Unlimited';
                 return `
                   <tr>
                     <td><strong>${p.name}</strong></td>
                     <td><span class="badge badge-visitor">${p.category}</span></td>
                     <td>${p.gender}</td>
-                    <td>${p.maxParticipants}</td>
-                    <td>${assignedCount} / ${p.maxParticipants}</td>
+                    <td>${limitText}</td>
+                    <td>${assignedCount} ${p.maxParticipants ? '/ ' + p.maxParticipants : ''}</td>
                   </tr>
                 `;
               }).join('') : '<tr><td colspan="5" class="text-center">No programmes found.</td></tr>'}
@@ -1521,6 +2074,7 @@
       setupTabs('non-stage-cat-tabs', 'selectedNonStageCat', renderProgrammeCards);
     }
 
+    // STUDENT DIRECTORY TABLE RENDER WITHOUT STD- PREFIX
     function renderStudentsTable() {
       const tbody = document.getElementById('tbody-students');
       if (!tbody) return;
@@ -1530,7 +2084,7 @@
       const category = document.getElementById('filter-student-category').value;
 
       let filtered = state.students.filter(s => {
-        const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toLowerCase().includes(search));
+        const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toString().toLowerCase().includes(search));
         const matchGender = !gender || s.gender === gender;
         const matchCategory = !category || s.category === category;
         return matchSearch && matchGender && matchCategory;
@@ -1543,22 +2097,25 @@
         return;
       }
 
-      tbody.innerHTML = filtered.map(s => `
-        <tr>
-          <td><strong>${s.studentId || '-'}</strong></td>
-          <td><strong>Class ${s.class} - ${s.name}</strong></td>
-          <td>${s.gender}</td>
-          <td>Class ${s.class}</td>
-          <td><span class="badge badge-visitor">${s.category}</span></td>
-          <td>${s.team}</td>
-          <td>
-            ${state.isAdmin ? `
-              <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
-            ` : 'Read-Only'}
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = filtered.map(s => {
+        const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+        return `
+          <tr>
+            <td><strong>${cleanRoll}</strong></td>
+            <td><strong>Class ${s.class} - ${s.name}</strong></td>
+            <td>${s.gender}</td>
+            <td>Class ${s.class}</td>
+            <td><span class="badge badge-visitor">${s.category}</span></td>
+            <td>${s.team}</td>
+            <td>
+              ${state.isAdmin ? `
+                <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+              ` : 'Read-Only'}
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function populateParentSlipClassOptions() {
@@ -1571,36 +2128,53 @@
       `).join('');
     }
 
-    function filterAndPopulateParentSlipDropdown() {
-      const select = document.getElementById('slip-student-select');
-      if (!select) return;
+    // STUDENT PROGRAMME SLIP DIGITAL APP CARDS FLOW
+    function filterAndPopulateParentSlipAppCards() {
+      const grid = document.getElementById('slip-student-cards-grid');
+      const hiddenInput = document.getElementById('slip-selected-student-id');
+      if (!grid) return;
 
       const filterClass = document.getElementById('slip-filter-class-select').value;
       const filterCategory = document.getElementById('slip-filter-category-select').value;
 
       let filteredStudents = state.students.filter(s => {
-        const matchClass = !filterClass || s.class === filterClass;
+        const matchClass = !filterClass || s.class.toString() === filterClass;
         const matchCat = !filterCategory || s.category === filterCategory;
         return matchClass && matchCat;
       });
 
       filteredStudents = sortByClass(filteredStudents);
+      hiddenInput.value = '';
 
       if (filteredStudents.length === 0) {
-        select.innerHTML = '<option value="">-- No matching students found --</option>';
+        grid.innerHTML = '<p style="grid-column:1/-1; color:#ef4444; font-size:0.85rem;">No matching students found.</p>';
         renderParentSlip();
         return;
       }
 
-      select.innerHTML = `<option value="">-- Choose Student (${filteredStudents.length} Found) --</option>` + filteredStudents.map(s => `
-        <option value="${s.id}">${s.studentId ? `[${s.studentId}] ` : ''}Class ${s.class} - ${s.name} (${s.category})</option>
+      grid.innerHTML = filteredStudents.map(s => `
+        <div class="student-app-card" onclick="window.selectStudentForSlip('${s.id}')" id="slip-std-card-${s.id}">
+          <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
+          <div class="student-card-info">
+            <h4>${s.name}</h4>
+          </div>
+        </div>
       `).join('');
 
       renderParentSlip();
     }
 
+    window.selectStudentForSlip = (studentDocId) => {
+      document.querySelectorAll('#slip-student-cards-grid .student-app-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById(`slip-std-card-${studentDocId}`);
+      if (activeCard) activeCard.classList.add('active');
+
+      document.getElementById('slip-selected-student-id').value = studentDocId;
+      renderParentSlip();
+    };
+
     function renderParentSlip() {
-      const studentId = document.getElementById('slip-student-select').value;
+      const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
 
       if (!s) {
@@ -1614,8 +2188,10 @@
         return;
       }
 
+      const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+
       document.getElementById('slip-out-name').textContent = s.name;
-      document.getElementById('slip-out-id').textContent = s.studentId || '-';
+      document.getElementById('slip-out-id').textContent = cleanRoll;
       document.getElementById('slip-out-class').textContent = `Class ${s.class}`;
       document.getElementById('slip-out-category').textContent = s.category;
       document.getElementById('slip-out-team').textContent = s.team;
@@ -1655,7 +2231,7 @@
     }
 
     function shareWhatsAppSlip() {
-      const studentId = document.getElementById('slip-student-select').value;
+      const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
@@ -1674,10 +2250,12 @@
 
       if (!progsText) progsText = "No programmes assigned yet.\n";
 
+      const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+
       const text = `*HIDAYATHUL ISLAM MADRASA - ACHANGI*\n` +
                    `*Rabi'ul Awwal Programme List*\n\n` +
                    `👤 *Student Name:* ${s.name}\n` +
-                   `🆔 *Roll No / ID:* ${s.studentId || '-'}\n` +
+                   `🆔 *Roll No / ID:* ${cleanRoll}\n` +
                    `📚 *Class:* ${s.class}\n` +
                    `🏷️ *Category:* ${s.category}\n` +
                    `🚩 *Team:* ${s.team}\n\n` +
@@ -1715,7 +2293,7 @@
       container.innerHTML = sortedStudents.map(s => `
         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
           <input type="checkbox" value="${s.id}" class="mixed-cb">
-          <span>${s.studentId ? `[${s.studentId}] ` : ''}Class ${s.class} - ${s.name} (${s.category} - ${s.gender})</span>
+          <span>Class ${s.class} - ${s.name} (${s.category} - ${s.gender})</span>
         </div>
       `).join('');
     }
@@ -1749,18 +2327,22 @@
       openModal('modal-programme');
     }
 
+    // PROGRAMME CARD RENDER
     function renderProgrammeCards() {
       const stageContainer = document.getElementById('stage-programmes-list');
       const nonStageContainer = document.getElementById('non-stage-programmes-list');
 
       const createCard = (p) => {
         const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
-        const percent = Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100));
+        const hasLimit = p.maxParticipants && p.maxParticipants > 0;
+        const percent = hasLimit ? Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100)) : 100;
+        const countText = hasLimit ? `${assignedCount} / ${p.maxParticipants}` : `${assignedCount} Participants`;
+
         return `
           <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')">
             <h3>${p.name}</h3>
             <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender}</span> <span class="badge badge-visitor">${p.category}</span></p>
-            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: ${assignedCount} / ${p.maxParticipants}</p>
+            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: <strong>${countText}</strong></p>
             <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
             ${state.isAdmin ? `
               <div style="margin-top:0.8rem; text-align:right;">
@@ -1800,13 +2382,13 @@
       body.innerHTML = `
         <p><strong>Team:</strong> ${p.team}</p>
         <p><strong>Section:</strong> ${p.gender} | <strong>Category:</strong> ${p.category}</p>
-        <p><strong>Max Participants:</strong> ${p.maxParticipants}</p>
+        <p><strong>Max Limit:</strong> ${p.maxParticipants ? p.maxParticipants : 'Unlimited'}</p>
         <hr class="divider">
         <h4>Assigned Participants (${assigned.length})</h4>
         <ul class="activity-list">
           ${assigned.length ? assigned.map(a => {
             const student = state.students.find(s => s.id === a.studentDocId);
-            const roll = a.studentCustomId || student?.studentId || '-';
+            const roll = (a.studentCustomId || student?.studentId || '-').toString().replace('STD-', '');
             const cls = student?.class ? `Class ${student.class}` : '';
             return `<li>[${roll}] ${cls} - ${a.studentName}</li>`;
           }).join('') : '<li>No students assigned yet.</li>'}
@@ -1823,25 +2405,6 @@
       }
     };
 
-    function populateAssignmentDropdowns() {
-      const gender = document.getElementById('assign-gender-select').value;
-      const category = document.getElementById('assign-category-select').value;
-      const sSelect = document.getElementById('assign-student-select');
-      const pSelect = document.getElementById('assign-prog-select');
-
-      if (sSelect) {
-        let filteredStudents = state.students.filter(s => (!gender || s.gender === gender) && (!category || s.category === category));
-        filteredStudents = sortByClass(filteredStudents);
-        sSelect.innerHTML = '<option value="">-- Select Student --</option>' + filteredStudents.map(s => `<option value="${s.id}">${s.studentId ? `[${s.studentId}] ` : ''}Class ${s.class} - ${s.name}</option>`).join('');
-      }
-
-      if (pSelect) {
-        let filteredProgrammes = state.programmes.filter(p => (!gender || p.gender === gender) && (!category || p.category === category));
-        filteredProgrammes = sortProgrammesByCategory(filteredProgrammes);
-        pSelect.innerHTML = '<option value="">-- Select Programme --</option>' + filteredProgrammes.map(p => `<option value="${p.id}">${p.name} [${p.type}]</option>`).join('');
-      }
-    }
-
     function renderAssignmentsTable() {
       const tbody = document.getElementById('tbody-assignments');
       if (!tbody) return;
@@ -1852,12 +2415,12 @@
         const clsA = parseInt(stA?.class || 0, 10);
         const clsB = parseInt(stB?.class || 0, 10);
         if (clsA !== clsB) return clsA - clsB;
-        return (a.studentCustomId || a.studentName).localeCompare(b.studentCustomId || b.studentName);
+        return (a.studentCustomId || a.studentName).toString().replace('STD-', '').localeCompare((b.studentCustomId || b.studentName).toString().replace('STD-', ''), undefined, { numeric: true });
       });
 
       tbody.innerHTML = sortedAssignments.map(a => {
         const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
-        const roll = a.studentCustomId || student?.studentId || '-';
+        const roll = (a.studentCustomId || student?.studentId || '-').toString().replace('STD-', '');
         const cls = student?.class || '-';
 
         return `
@@ -1895,19 +2458,17 @@
 
       tbody.innerHTML = sortedPractice.map(p => {
         const student = state.students.find(s => s.name === p.studentName);
-        const roll = student?.studentId || '-';
         const cls = student?.class || '-';
 
         return `
           <tr>
-            <td><strong>[ Roll: ${roll} ] Class ${cls} - ${p.studentName}</strong></td>
+            <td><strong>Class ${cls} - ${p.studentName}</strong></td>
             <td>${p.programmeName}</td>
             <td>${p.studentGender} / ${p.studentCategory}</td>
             <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
             <td>
               ${state.isAdmin ? `
                 <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
-                  <option value="Not Assigned" ${p.status === 'Not Assigned' ? 'selected' : ''}>Not Assigned</option>
                   <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
                   <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
                   <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
@@ -1918,12 +2479,6 @@
         `;
       }).join('');
     }
-
-    window.updatePracticeStatus = async (id, status) => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      await updateDoc(doc(db, 'practice', id), { status });
-      showToast('Practice status updated', 'success');
-    };
 
     function setupSectionTabs(sec) {
       const btns = document.querySelectorAll(`#view-${sec}-section .tab-btn`);
@@ -1936,6 +2491,7 @@
       });
     }
 
+    // BOYS & GIRLS SECTION RENDER WITHOUT STD- PREFIX
     function renderSectionOverview(sec) {
       const activeTab = document.querySelector(`#view-${sec}-section .tab-btn.active`);
       const container = document.getElementById(`${sec}-section-content`);
@@ -1949,8 +2505,11 @@
 
       container.innerHTML = students.length ? `
         <table class="data-table">
-          <thead><tr><th>Roll No</th><th>Student Info (Class - Name)</th><th>Class</th></tr></thead>
-          <tbody>${students.map(s => `<tr><td>${s.studentId || '-'}</td><td><strong>Class ${s.class} - ${s.name}</strong></td><td>Class ${s.class}</td></tr>`).join('')}</tbody>
+          <thead><tr><th>Roll No / ID</th><th>Student Info (Class - Name)</th><th>Class</th></tr></thead>
+          <tbody>${students.map(s => {
+            const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+            return `<tr><td><strong>${cleanRoll}</strong></td><td><strong>Class ${s.class} - ${s.name}</strong></td><td>Class ${s.class}</td></tr>`;
+          }).join('')}</tbody>
         </table>
       ` : '<p class="mt-2 text-center">No students registered in this category.</p>';
     }
@@ -1960,12 +2519,12 @@
       const container = document.getElementById('global-search-results');
       if (!container || !queryVal) return;
 
-      let matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal));
+      let matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toString().toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal));
       matched = sortByClass(matched);
 
       container.innerHTML = matched.map(s => `
         <div class="glass-card">
-          <h3>[Roll: ${s.studentId || '-'}] Class ${s.class} - ${s.name}</h3>
+          <h3>Class ${s.class} - ${s.name}</h3>
           <p>${s.gender} | ${s.category} | Class: ${s.class}</p>
         </div>
       `).join('');
@@ -1978,7 +2537,10 @@
 
       if (type === 'students') {
         const sorted = sortByClass(state.students);
-        container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No</th><th>Student Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => `<tr><td>${s.studentId || '-'}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`).join('')}</tbody></table>`;
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No / ID</th><th>Student Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => {
+          const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+          return `<tr><td>${cleanRoll}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`;
+        }).join('')}</tbody></table>`;
       } else if (type === 'programme') {
         container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${state.assignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
       } else {
@@ -1988,7 +2550,10 @@
 
     function exportReportCSV() {
       const sorted = sortByClass(state.students);
-      let csv = "Roll_No,Name,Gender,Category,Class\n" + sorted.map(s => `"${s.studentId || '-'}","Class ${s.class} - ${s.name}","${s.gender}","${s.category}","Class ${s.class}"`).join("\n");
+      let csv = "Roll_No,Name,Gender,Category,Class\n" + sorted.map(s => {
+        const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+        return `"${cleanRoll}","Class ${s.class} - ${s.name}","${s.gender}","${s.category}","Class ${s.class}"`;
+      }).join("\n");
       const link = document.createElement("a");
       link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
       link.download = `Madrasa_Report_${state.activeTeam}.csv`;
