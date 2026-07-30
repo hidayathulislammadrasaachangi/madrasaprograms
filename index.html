@@ -1,364 +1,1567 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hidayatul Islam - Live Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --primary: #065f46; --bg: #f8fafc; }
-        body { background: var(--bg); font-family: sans-serif; padding-bottom: 100px; }
-        .card { background: white; border-radius: 20px; padding: 18px; margin-bottom: 12px; border: 1px solid #edf2f7; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .glass-header { background: linear-gradient(135deg, #065f46 0%, #059669 100%); color: white; border-radius: 0 0 35px 35px; padding: 30px 20px; text-align: center; position: relative; }
-        .bottom-nav { background: white; position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 2000; }
-        .nav-item { text-align: center; font-size: 8px; color: #94a3b8; font-weight: 800; cursor: pointer; flex: 1; text-transform: uppercase; }
-        .nav-item.active { color: var(--primary); }
-        .admin-box { background: #f0fdf4; border: 1px dashed #10b981; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: none; }
-        .view-page { display: none; }
-        .view-page.active { display: block; }
-        
-        .att-btn-group { display: flex; gap: 4px; }
-        .att-btn { padding: 8px 4px; border-radius: 10px; font-weight: 900; border: 1px solid #e2e8f0; font-size: 8px; flex: 1; text-transform: uppercase; background: white; color: #94a3b8; }
-        .is-present { background: #10b981 !important; color: white !important; border-color: #10b981 !important; }
-        .is-absent { background: #ef4444 !important; color: white !important; border-color: #ef4444 !important; }
-        .is-holiday { background: #f59e0b !important; color: white !important; border-color: #f59e0b !important; }
-        
-        .date-input, .class-select { background: rgba(255,255,255,0.2); border: none; color: white; font-weight: 900; font-size: 12px; padding: 6px 12px; border-radius: 10px; outline: none; }
-        .class-select option { color: black; }
-        .prayer-btn { padding: 10px 4px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 9px; font-weight: 900; background: #f8fafc; color: #94a3b8; }
-        .p-btn-active { background-color: #10b981 !important; color: white !important; }
-        .star-card { background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%); border: 2px solid #fbbf24; text-align: center; padding: 15px; border-radius: 20px; }
-        .star-img { width: 65px; height: 65px; border-radius: 50%; border: 3px solid white; object-fit: cover; margin: 0 auto 8px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hidayathul Islam Madrasa Achangi - Rabi'ul Awwal Programme Management System">
+  <meta name="theme-color" content="#0d5c3a">
+  <title>Hidayathul Islam Madrasa - Rabi'ul Awwal Management System</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-green: #0d5c3a;
+      --secondary-green: #1b8a5a;
+      --accent-gold: #d4af37;
+      --accent-gold-hover: #b89628;
+      --bg-light: #f4f7f5;
+      --text-dark: #2c3e50;
+      --card-bg-light: rgba(255, 255, 255, 0.85);
+      --glass-border-light: rgba(212, 175, 55, 0.2);
+      --shadow-light: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+
+      --bg-dark: #0f1715;
+      --text-light: #e0e6e4;
+      --card-bg-dark: rgba(20, 32, 28, 0.85);
+      --glass-border-dark: rgba(212, 175, 55, 0.15);
+      --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.light-mode {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .glass-card {
+      background: var(--card-bg-light);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-light);
+    }
+
+    body.dark-mode .glass-card {
+      background: var(--card-bg-dark);
+      border-color: var(--glass-border-dark);
+      box-shadow: var(--shadow-dark);
+    }
+
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, #094229 0%, #0d5c3a 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-logo {
+      font-size: 2rem;
+      color: var(--accent-gold);
+    }
+
+    .sidebar-title h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .sidebar-title p {
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+    }
+
+    .sidebar-menu {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--accent-gold);
+      border-left: 4px solid var(--accent-gold);
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 70px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--glass-border-light);
+      background: var(--card-bg-light);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    body.dark-mode .topbar {
+      background: var(--card-bg-dark);
+      border-bottom-color: var(--glass-border-dark);
+    }
+
+    .topbar-left, .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-profile-summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .view-container {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .app-view {
+      display: none;
+    }
+
+    .app-view.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-banner h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+      color: var(--accent-gold);
+    }
+
+    .hero-badge {
+      background: var(--accent-gold);
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .team-header-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg-light);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    body.dark-mode .stat-card {
+      background: var(--card-bg-dark);
+      border-color: var(--glass-border-dark);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .stat-icon.green { background: #10b981; }
+    .stat-icon.blue { background: #3b82f6; }
+    .stat-icon.pink { background: #ec4899; }
+    .stat-icon.gold { background: #f59e0b; }
+    .stat-icon.purple { background: #8b5cf6; }
+      .stat-icon.teal { background: #14b8a6; }
+
+    .stat-info p { font-size: 0.85rem; opacity: 0.8; }
+    .stat-info h3 { font-size: 1.5rem; font-weight: bold; }
+
+    .progress-bar-container { margin-top: 1rem; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .progress-track { height: 10px; background: rgba(0, 0, 0, 0.1); border-radius: 5px; overflow: hidden; }
+    .progress-fill { height: 100%; transition: width 0.5s ease; }
+
+    .bg-success { background-color: #10b981; }
+    .bg-warning { background-color: #f59e0b; }
+    .bg-danger { background-color: #ef4444; }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .activity-list { list-style: none; max-height: 250px; overflow-y: auto; }
+    .activity-list li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.9rem; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full-width { grid-column: 1 / -1; }
+
+    .form-control {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+    }
+
+    body.dark-mode .form-control {
+      background: rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .form-control:focus { outline: 2px solid var(--accent-gold); }
+
+    .btn-primary {
+      background: var(--primary-green);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover { background: var(--secondary-green); }
+
+    .btn-secondary {
+      background: var(--accent-gold);
+      color: #000;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover { background: var(--accent-gold-hover); }
+
+    .icon-btn { background: none; border: none; font-size: 1.25rem; cursor: pointer; color: inherit; }
+    .full-width { width: 100%; }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .flex-gap { display: flex; gap: 1rem; }
+
+    .table-responsive { width: 100%; overflow-x: auto; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
+    .data-table th, .data-table td { padding: 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+    body.dark-mode .data-table th, body.dark-mode .data-table td { border-bottom-color: rgba(255, 255, 255, 0.05); }
+    .data-table th { font-weight: 700; color: var(--accent-gold); }
+
+    .student-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #ccc; }
+    .badge { padding: 0.25rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+    .badge-visitor { background: #6b7280; color: white; }
+    .badge-admin { background: var(--accent-gold); color: black; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .programme-card { border-left: 4px solid var(--accent-gold); }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal.active { display: flex; }
+    .modal-content { width: 100%; max-width: 450px; background: var(--bg-light); }
+    body.dark-mode .modal-content { background: var(--bg-dark); }
+    .modal-content.wide { max-width: 650px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: inherit; }
+
+    .filter-bar { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; }
+    .action-header { display: flex; justify-content: space-between; align-items: center; }
+    .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1rem 0; }
+    body.dark-mode .divider { background: var(--glass-border-dark); }
+
+    .loading-screen {
+      position: fixed;
+      top:0; left:0; width:100vw; height:100vh;
+      background: var(--primary-green);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .spinner {
+      width: 50px; height: 50px;
+      border: 5px solid rgba(255,255,255,0.2);
+      border-top-color: var(--accent-gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast-container {
+      position: fixed; bottom: 20px; right: 20px;
+      z-index: 2000; display: flex; flex-direction: column; gap: 0.5rem;
+    }
+
+    .toast {
+      padding: 0.85rem 1.25rem; border-radius: 8px;
+      background: #333; color: #fff; font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.success { background: #10b981; }
+    .toast.error { background: #ef4444; }
+
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    .mobile-only { display: none; }
+
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .mobile-only { display: block; }
+      .dashboard-grid, .filter-bar { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .sidebar, .topbar, .btn-primary, .btn-secondary, .admin-only-action { display: none !important; }
+      .main-content { margin-left: 0 !important; }
+      .view-container { padding: 0 !important; }
+      .app-view { display: none !important; }
+      #view-reports { display: block !important; }
+    }
+  </style>
 </head>
-<body>
+<body class="light-mode">
 
-    <div id="login-overlay" class="fixed inset-0 bg-emerald-900 z-[5000] flex items-center justify-center p-6 text-center">
-        <div class="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl">
-            <h2 class="text-2xl font-black text-emerald-900 mb-6 uppercase">Admin Login</h2>
-            <input type="email" id="auth-email" placeholder="Email" class="w-full p-4 border rounded-xl mb-3 font-bold outline-none">
-            <input type="password" id="auth-pass" placeholder="Password" class="w-full p-4 border rounded-xl mb-6 font-bold outline-none">
-            <button id="btn-auth-action" class="w-full bg-emerald-700 text-white py-4 rounded-xl font-black uppercase">Login</button>
-            <p onclick="document.getElementById('login-overlay').classList.add('hidden')" class="text-xs font-bold text-gray-500 cursor-pointer uppercase mt-4">View Only Mode</p>
-        </div>
-    </div>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="spinner"></div>
+    <h2>Hidayathul Islam Madrasa</h2>
+    <p>Loading Rabi'ul Awwal Management System...</p>
+  </div>
 
-    <div class="glass-header shadow-lg">
-        <button id="btn-logout" class="absolute right-6 top-8 text-white opacity-50 hidden"><i class="fa-solid fa-right-from-bracket text-xl"></i></button>
-        <h1 class="text-xl font-black uppercase text-white tracking-tighter">HIDAYATUL ISLAM MADRASA</h1>
-        <div class="mt-3 flex justify-center gap-2">
-            <input type="date" id="global-date" class="date-input">
-            <select id="global-class-select" class="class-select">
-                </select>
-        </div>
-    </div>
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
 
-    <div id="home-page" class="view-page active p-4">
-        <div id="star-display-container" class="grid grid-cols-2 gap-2 mb-4"></div>
-        <div class="card bg-emerald-700 text-white p-6">
-            <p class="text-[10px] font-bold uppercase opacity-80">Notice Board</p>
-            <p id="display-notice" class="text-lg font-black mt-1">Welcome</p>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="card text-center"><p class="text-[8px] font-black text-gray-400 uppercase">Status</p><p id="display-status" class="text-xs font-bold text-emerald-700">Open</p></div>
-            <div class="card text-center"><p class="text-[8px] font-black text-gray-400 uppercase">Topic</p><p id="display-topic" class="text-xs font-bold text-amber-600">...</p></div>
-        </div>
+  <!-- Main Container -->
+  <div class="app-container">
 
-        <div class="admin-box" id="admin-home">
-            <p class="text-[10px] font-black text-emerald-700 mb-2 uppercase text-center underline">Admin Dashboard</p>
-            <button id="btn-manage-students" onclick="addStudentPrompt()" class="w-full bg-blue-500 text-white py-3 rounded-xl text-[10px] font-black uppercase mb-3">Add Student to This Class</button>
-            <select id="star-select" class="w-full p-3 border rounded-xl text-xs font-bold mb-2"></select>
-            <input type="text" id="star-url-input" class="w-full p-3 border rounded-xl text-xs font-bold mb-2 outline-none" placeholder="Paste Photo Link (Postimg/ImgBB)">
-            <div class="flex gap-2 mb-4">
-                <button id="btn-add-star" class="flex-1 bg-amber-500 text-white py-3 rounded-xl text-[9px] font-black uppercase">Add Star</button>
-                <button id="btn-clear-stars" class="bg-rose-500 text-white px-4 rounded-xl text-[9px] font-black uppercase">Clear All</button>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <i class="fa-solid fa-mosque sidebar-logo"></i>
+        <div class="sidebar-title">
+          <h3>Hidayathul Islam</h3>
+          <p>Achangi - Rabi'ul Awwal</p>
+        </div>
+        <button id="close-sidebar" class="mobile-only close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+        <a href="#" class="nav-item" data-view="teams"><i class="fa-solid fa-users-gear"></i> <span>Team Management</span></a>
+        <a href="#" class="nav-item" data-view="students"><i class="fa-solid fa-user-graduate"></i> <span>Student Management</span></a>
+        <a href="#" class="nav-item" data-view="boys"><i class="fa-solid fa-child"></i> <span>Boys Section</span></a>
+        <a href="#" class="nav-item" data-view="girls"><i class="fa-solid fa-child-dress"></i> <span>Girls Section</span></a>
+        <a href="#" class="nav-item" data-view="stage"><i class="fa-solid fa-microphone"></i> <span>Stage Programmes</span></a>
+        <a href="#" class="nav-item" data-view="non-stage"><i class="fa-solid fa-pen-ruler"></i> <span>Non-Stage Programmes</span></a>
+        <a href="#" class="nav-item" data-view="assignments"><i class="fa-solid fa-clipboard-list"></i> <span>Programme Assignment</span></a>
+        <a href="#" class="nav-item" data-view="practice"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
+        <a href="#" class="nav-item" data-view="attendance"><i class="fa-solid fa-calendar-check"></i> <span>Attendance</span></a>
+        <a href="#" class="nav-item" data-view="search"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a>
+        <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports & Export</span></a>
+        <a href="#" class="nav-item" data-view="settings"><i class="fa-solid fa-sliders"></i> <span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div id="auth-status" class="auth-status">
+          <span class="badge badge-visitor" id="role-badge">Visitor Mode</span>
+        </div>
+        <button id="btn-auth-action" class="btn-primary full-width mt-1"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="toggle-sidebar" class="icon-btn"><i class="fa-solid fa-bars"></i></button>
+          <h2 id="page-title">Dashboard</h2>
+        </div>
+        <div class="topbar-right">
+          <button id="theme-toggle" class="icon-btn" title="Toggle Dark/Light Mode"><i class="fa-solid fa-moon"></i></button>
+          <div class="user-profile-summary">
+            <i class="fa-solid fa-circle-user"></i>
+            <span id="user-display-name">Visitor</span>
+          </div>
+        </div>
+      </header>
+
+      <div id="view-container" class="view-container">
+
+        <!-- DASHBOARD -->
+        <section id="view-dashboard" class="app-view active">
+          <div class="hero-banner">
+            <div>
+              <h1 id="madrasa-heading">HIDAYATHUL ISLAM MADRASA - ACHANGI</h1>
+              <p>Rabi'ul Awwal Programme Management System</p>
             </div>
-            <textarea id="notice-input" class="w-full p-3 border rounded-xl text-xs font-bold mb-2 outline-none" placeholder="Update Notice"></textarea>
-            <input type="text" id="status-input" class="w-full p-3 border rounded-xl text-xs font-bold mb-2 outline-none" placeholder="Status">
-            <input type="text" id="topic-input" class="w-full p-3 border rounded-xl text-xs font-bold mb-2 outline-none" placeholder="Topic">
-            <button id="btn-post-notice" class="w-full bg-emerald-700 text-white py-3 rounded-xl text-[10px] font-black uppercase">Update Website</button>
+            <div class="hero-badge"><i class="fa-solid fa-star"></i> Rabi'ul Awwal</div>
+          </div>
+
+          <div class="glass-card mb-2">
+            <div class="team-header-grid">
+              <div><strong>Team Name:</strong> <span id="dash-team-name">Loading...</span></div>
+              <div><strong>Advisors:</strong> <span id="dash-advisors">Loading...</span></div>
+              <div><strong>Boys Leaders:</strong> <span id="dash-boys-leaders">Loading...</span></div>
+              <div><strong>Girls Leaders:</strong> <span id="dash-girls-leaders">Loading...</span></div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
+              <div class="stat-info"><p>Total Students</p><h3 id="stat-total-students">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="fa-solid fa-mars"></i></div>
+              <div class="stat-info"><p>Total Boys</p><h3 id="stat-total-boys">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon pink"><i class="fa-solid fa-venus"></i></div>
+              <div class="stat-info"><p>Total Girls</p><h3 id="stat-total-girls">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon gold"><i class="fa-solid fa-microphone"></i></div>
+              <div class="stat-info"><p>Stage Programmes</p><h3 id="stat-stage-progs">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon purple"><i class="fa-solid fa-pen-nib"></i></div>
+              <div class="stat-info"><p>Non-Stage Programmes</p><h3 id="stat-non-stage-progs">0</h3></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon teal"><i class="fa-solid fa-user-check"></i></div>
+              <div class="stat-info"><p>Assigned Students</p><h3 id="stat-assigned-students">0</h3></div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid mt-2">
+            <div class="glass-card">
+              <h3><i class="fa-solid fa-chart-pie"></i> Practice Readiness</h3>
+              <hr class="divider">
+              <div class="progress-bar-container">
+                <div class="progress-label"><span>Stage Ready</span><span id="label-ready-count">0</span></div>
+                <div class="progress-track"><div id="bar-ready" class="progress-fill bg-success" style="width:0%"></div></div>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-label"><span>Practicing / Learning</span><span id="label-practicing-count">0</span></div>
+                <div class="progress-track"><div id="bar-practicing" class="progress-fill bg-warning" style="width:0%"></div></div>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-label"><span>Not Started</span><span id="label-pending-count">0</span></div>
+                <div class="progress-track"><div id="bar-pending" class="progress-fill bg-danger" style="width:0%"></div></div>
+              </div>
+            </div>
+
+            <div class="glass-card">
+              <h3><i class="fa-solid fa-bell"></i> Notifications Log</h3>
+              <hr class="divider">
+              <ul id="notifications-list" class="activity-list">
+                <li class="empty-state">No recent activities logged.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- TEAM MANAGEMENT -->
+        <section id="view-teams" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-users-gear"></i> Team Settings</h2>
+            <hr class="divider">
+            <form id="form-team-settings">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Team Name</label>
+                  <input type="text" id="team-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>Advisors</label>
+                  <input type="text" id="advisors" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Boys Leaders</label>
+                  <input type="text" id="boys-leaders" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Girls Leaders</label>
+                  <input type="text" id="girls-leaders" class="form-control">
+                </div>
+              </div>
+              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-floppy-disk"></i> Save Info</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- STUDENT MANAGEMENT -->
+        <section id="view-students" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <h2><i class="fa-solid fa-user-graduate"></i> Student Directory</h2>
+              <button id="btn-add-student" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Student</button>
+            </div>
+            <hr class="divider">
+            <div class="filter-bar">
+              <input type="text" id="search-student-input" class="form-control" placeholder="Search students...">
+              <select id="filter-gender" class="form-control">
+                <option value="">All Genders</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              <select id="filter-category" class="form-control">
+                <option value="">All Categories</option>
+                <option value="Sub Junior">Sub Junior</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Photo</th><th>Name</th><th>Gender</th><th>Category</th><th>Class</th><th>Guardian</th><th>Phone</th><th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-students">
+                  <tr><td colspan="8" class="text-center">Loading student records...</td></tr>
+                </tbody>
+                </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOYS SECTION -->
+        <section id="view-boys" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-mars"></i> Boys Section</h2>
+            <hr class="divider">
+            <div class="tab-buttons">
+              <button class="btn-secondary tab-btn active" data-target="boys-subjunior">Sub Junior</button>
+              <button class="btn-secondary tab-btn" data-target="boys-junior">Junior</button>
+              <button class="btn-secondary tab-btn" data-target="boys-senior">Senior</button>
+              <button class="btn-secondary tab-btn" data-target="boys-general">General</button>
+            </div>
+            <div id="boys-category-content" class="table-responsive mt-2"></div>
+          </div>
+        </section>
+
+        <!-- GIRLS SECTION -->
+        <section id="view-girls" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-venus"></i> Girls Section</h2>
+            <hr class="divider">
+            <div class="tab-buttons">
+              <button class="btn-secondary tab-btn active" data-target="girls-subjunior">Sub Junior</button>
+              <button class="btn-secondary tab-btn" data-target="girls-junior">Junior</button>
+              <button class="btn-secondary tab-btn" data-target="girls-senior">Senior</button>
+              <button class="btn-secondary tab-btn" data-target="girls-general">General</button>
+            </div>
+            <div id="girls-category-content" class="table-responsive mt-2"></div>
+          </div>
+        </section>
+
+        <!-- STAGE PROGRAMMES -->
+        <section id="view-stage" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <h2><i class="fa-solid fa-microphone"></i> Stage Programmes</h2>
+              <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
+            </div>
+            <hr class="divider">
+          </div>
+          <div id="stage-programmes-list" class="cards-grid"></div>
+        </section>
+
+        <!-- NON STAGE PROGRAMMES -->
+        <section id="view-non-stage" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <h2><i class="fa-solid fa-pen-ruler"></i> Non-Stage Programmes</h2>
+              <button id="btn-add-nonstage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
+            </div>
+            <hr class="divider">
+          </div>
+          <div id="nonstage-programmes-list" class="cards-grid"></div>
+        </section>
+
+        <!-- ASSIGNMENTS -->
+        <section id="view-assignments" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-clipboard-list"></i> Programme Assignment</h2>
+            <hr class="divider">
+            <form id="form-assign-programme">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Select Student</label>
+                  <select id="assign-student-id" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                  <label>Select Programme</label>
+                  <select id="assign-programme-id" class="form-control" required></select>
+                </div>
+              </div>
+              <button type="submit" class="btn-primary mt-2">Assign Programme</button>
+            </form>
+          </div>
+
+          <div class="glass-card">
+            <h3>Active Assignments</h3>
+            <hr class="divider">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Student</th><th>Category</th><th>Programme</th><th>Type</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="tbody-assignments"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRACTICE TRACKER -->
+        <section id="view-practice" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-spinner"></i> Practice Tracker</h2>
+            <hr class="divider">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Student</th><th>Programme</th><th>Category</th><th>Current Status</th><th>Update Status</th></tr>
+                </thead>
+                <tbody id="tbody-practice"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ATTENDANCE -->
+        <section id="view-attendance" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-calendar-check"></i> Attendance</h2>
+            <hr class="divider">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="attendance-date" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Filter Category</label>
+                <select id="attendance-filter-category" class="form-control">
+                  <option value="">All Categories</option>
+                  <option value="Sub Junior">Sub Junior</option>
+                  <option value="Junior">Junior</option>
+                  <option value="Senior">Senior</option>
+                  <option value="General">General</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Student Name</th><th>Category</th><th>Gender</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="tbody-attendance"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEARCH -->
+        <section id="view-search" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-magnifying-glass"></i> Search</h2>
+            <hr class="divider">
+            <input type="text" id="global-search-input" class="form-control" placeholder="Search student or programme...">
+          </div>
+          <div id="global-search-results" class="cards-grid"></div>
+        </section>
+
+        <!-- REPORTS -->
+        <section id="view-reports" class="app-view">
+          <div class="glass-card mb-2">
+            <h2><i class="fa-solid fa-file-invoice"></i> Reports</h2>
+            <hr class="divider">
+            <div class="form-group">
+              <label>Report Type</label>
+              <select id="report-type" class="form-control">
+                <option value="students">Student Master List</option>
+                <option value="programmes">Programme Assignments</option>
+                <option value="practice">Practice Progress</option>
+              </select>
+            </div>
+            <div class="flex-gap mt-2">
+              <button id="btn-export-csv" class="btn-primary">Export CSV</button>
+              <button id="btn-print-report" class="btn-secondary">Print</button>
+            </div>
+          </div>
+          <div class="glass-card" id="report-preview-card">
+            <div id="report-output-table" class="table-responsive"></div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+          <section id="view-settings" class="app-view">
+          <div class="glass-card">
+            <h2><i class="fa-solid fa-sliders"></i> System Settings</h2>
+            <hr class="divider">
+            <p>Rabi'ul Awwal Programme Management System v1.0</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <div id="modal-auth" class="modal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3>Admin Authentication</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-login">
+        <div class="form-group">
+          <label>Admin Email</label>
+          <input type="email" id="login-email" class="form-control" required>
         </div>
-    </div>
-
-    <div id="hajar-page" class="view-page p-4">
-        <p class="text-[10px] font-black text-center text-gray-400 uppercase mb-3">Live Attendance</p>
-        <div id="attendance-list" class="space-y-3 mb-6"></div>
-        
-        <div class="admin-box" id="bulk-send-section">
-            <button onclick="sendAllWhatsAppMessages()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase shadow-lg flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-xl"></i> Send All Messages
-            </button>
-            <p class="text-[8px] text-center mt-2 text-gray-500 font-bold uppercase">Mark attendance first, then click here to notify parents</p>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" class="form-control" required>
         </div>
+        <button type="submit" class="btn-primary full-width mt-2">Sign In</button>
+      </form>
     </div>
+  </div>
 
-    <div id="routine-page" class="view-page p-4">
-        <p class="text-[10px] font-black text-center text-gray-400 uppercase mb-3">Today's Routine Tracker</p>
-        <div id="routine-list" class="space-y-4"></div>
-    </div>
-
-    <div id="report-page" class="view-page p-4">
-        <div class="card">
-            <p class="text-[10px] font-black text-gray-400 uppercase mb-3 text-center">Student Progress Report</p>
-            <select id="report-student-select" class="w-full p-3 border rounded-xl text-sm font-bold outline-none mb-3"></select>
-            <button id="btn-get-report" class="w-full bg-emerald-700 text-white py-3 rounded-xl text-[10px] font-black uppercase">Search History</button>
+  <div id="modal-student" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <h3 id="modal-student-title">Add Student</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-student">
+        <input type="hidden" id="student-doc-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="student-name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="student-gender" class="form-control" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="student-category" class="form-control" required>
+              <option value="Sub Junior">Sub Junior</option>
+              <option value="Junior">Junior</option>
+              <option value="Senior">Senior</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Class</label>
+            <input type="text" id="student-class" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Guardian Name</label>
+            <input type="text" id="student-guardian" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="student-phone" class="form-control" required>
+          </div>
+          <div class="form-group full-width">
+            <label>Photo</label>
+            <input type="file" id="student-photo" class="form-control" accept="image/*">
+          </div>
         </div>
-        <div id="report-result-container" class="hidden">
-            <div class="card bg-rose-50 border-rose-100"><p class="text-[10px] font-black text-rose-700 uppercase mb-2">Leave History</p><div id="leave-dates-list" class="flex flex-wrap"></div></div>
-            <div class="card bg-emerald-50 text-center"><p id="total-present-count" class="text-xs font-bold">Present: --</p><p id="total-absent-count" class="text-xs font-bold">Absent: --</p></div>
+        <button type="submit" class="btn-primary full-width mt-2">Save Record</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-programme" class="modal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3 id="modal-prog-title">Add Programme</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-programme">
+        <input type="hidden" id="prog-doc-id">
+        <input type="hidden" id="prog-type-field" value="stage">
+        <div class="form-group">
+          <label>Programme Name</label>
+          <input type="text" id="prog-name" class="form-control" required>
         </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="prog-category" class="form-control" required>
+            <option value="Sub Junior">Sub Junior</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Max Participants</label>
+          <input type="number" id="prog-max" class="form-control" min="1" value="1" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="prog-desc" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn-primary full-width mt-2">Save</button>
+      </form>
     </div>
+  </div>
 
-    <div class="bottom-nav">
-        <div onclick="navigate('home')" class="nav-item active" id="nav-home"><i class="fa-solid fa-house-chimney text-lg mb-1"></i><br>Home</div>
-        <div onclick="navigate('hajar')" class="nav-item" id="nav-hajar"><i class="fa-solid fa-clipboard-user text-lg mb-1"></i><br>Hajar</div>
-        <div onclick="navigate('routine')" class="nav-item" id="nav-routine"><i class="fa-solid fa-book-quran text-lg mb-1"></i><br>Diary</div>
-        <div onclick="navigate('report')" class="nav-item" id="nav-report"><i class="fa-solid fa-chart-line text-lg mb-1"></i><br>Report</div>
-    </div>
+  <!-- SINGLE FILE FIREBASE & JAVASCRIPT ES MODULE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { 
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { 
+      getFirestore, collection, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { 
+      getStorage, ref, uploadBytes, getDownloadURL 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, onSnapshot, getDoc, updateDoc, arrayUnion, arrayRemove, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyCnSz248OfMbDr3V3kD9NAZkVxxON2fIvE",
+      authDomain: "madrasa-4c7e2.firebaseapp.com",
+      projectId: "madrasa-4c7e2",
+      storageBucket: "madrasa-4c7e2.firebasestorage.app",
+      messagingSenderId: "770067409084",
+      appId: "1:770067409084:web:52e38ae80a3601245248b9"
+    };
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCnSz248OfMbDr3V3kD9NAZkVxxON2fIvE",
-            authDomain: "madrasa-4c7e2.firebaseapp.com",
-            projectId: "madrasa-4c7e2",
-            storageBucket: "madrasa-4c7e2.firebasestorage.app",
-            messagingSenderId: "770067409084",
-            appId: "1:770067409084:web:52e38ae80a3601245248b9"
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const state = {
+      currentUser: null,
+      isAdmin: false,
+      students: [],
+      programmes: [],
+      assignments: [],
+      practice: [],
+      attendance: [],
+      teamSettings: {}
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+
+    function initApp() {
+      setupNavigation();
+      setupEventListeners();
+      setupAuthObserver();
+      setupRealtimeListeners();
+
+      setTimeout(() => {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.style.display = 'none', 500);
+        }
+      }, 1000);
+    }
+
+    function setupNavigation() {
+      const navItems = document.querySelectorAll('.nav-item');
+      const views = document.querySelectorAll('.app-view');
+      const pageTitle = document.getElementById('page-title');
+
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetView = item.getAttribute('data-view');
+
+          navItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+
+          views.forEach(v => {
+            if (v.id === `view-${targetView}`) v.classList.add('active');
+            else v.classList.remove('active');
+          });
+
+          pageTitle.textContent = item.querySelector('span').textContent;
+          document.getElementById('sidebar').classList.remove('open');
+        });
+      });
+
+      document.getElementById('toggle-sidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+      });
+
+      document.getElementById('close-sidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+      });
+
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        document.body.classList.toggle('light-mode');
+      });
+    }
+
+    function setupEventListeners() {
+      document.getElementById('btn-auth-action').addEventListener('click', () => {
+        if (state.currentUser) {
+          signOut(auth).then(() => showToast('Logged out', 'success'));
+        } else {
+          openModal('modal-auth');
+        }
+      });
+
+      document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active'));
+      });
+
+      document.getElementById('form-login').addEventListener('submit', async (e) => {
+          e.preventDefault();
+        try {
+          await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value);
+          closeModal('modal-auth');
+          showToast('Authenticated as Admin', 'success');
+        } catch (err) {
+          showToast('Authentication failed', 'error');
+        }
+      });
+
+      document.getElementById('form-team-settings').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        const data = {
+          teamName: document.getElementById('team-name').value,
+          advisors: document.getElementById('advisors').value,
+          boysLeaders: document.getElementById('boys-leaders').value,
+          girlsLeaders: document.getElementById('girls-leaders').value
+        };
+        try {
+          await setDoc(doc(db, 'settings', 'team_info'), data);
+          showToast('Settings saved', 'success');
+        } catch (err) {
+          showToast('Error saving settings', 'error');
+        }
+      });
+
+      document.getElementById('btn-add-student').addEventListener('click', () => {
+        if (!state.isAdmin) return showToast('Admin access required', 'error');
+        document.getElementById('form-student').reset();
+        document.getElementById('student-doc-id').value = '';
+        openModal('modal-student');
+      });
+
+      document.getElementById('form-student').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+        const docId = document.getElementById('student-doc-id').value;
+        const photoFile = document.getElementById('student-photo').files[0];
+        let photoURL = '';
+
+        try {
+          if (photoFile) {
+            const storageRef = ref(storage, `students/${Date.now()}_${photoFile.name}`);
+            const snapshot = await uploadBytes(storageRef, photoFile);
+            photoURL = await getDownloadURL(snapshot.ref);
+          }
+
+          const studentData = {
+            name: document.getElementById('student-name').value,
+            gender: document.getElementById('student-gender').value,
+            category: document.getElementById('student-category').value,
+            class: document.getElementById('student-class').value,
+            guardian: document.getElementById('student-guardian').value,
+            phone: document.getElementById('student-phone').value,
+            ...(photoURL && { photoURL })
+          };
+
+          if (docId) {
+            await updateDoc(doc(db, 'students', docId), studentData);
+          } else {
+            await addDoc(collection(db, 'students'), studentData);
+          }
+          closeModal('modal-student');
+          showToast('Student Saved', 'success');
+        } catch (err) {
+          showToast('Failed to save student', 'error');
+        }
+      });
+
+      document.getElementById('btn-add-stage-prog').addEventListener('click', () => openProgrammeModal('stage'));
+      document.getElementById('btn-add-nonstage-prog').addEventListener('click', () => openProgrammeModal('non-stage'));
+
+      document.getElementById('form-programme').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+        const docId = document.getElementById('prog-doc-id').value;
+        const type = document.getElementById('prog-type-field').value;
+        const col = type === 'stage' ? 'stage_programmes' : 'non_stage_programmes';
+
+        const progData = {
+          name: document.getElementById('prog-name').value,
+          category: document.getElementById('prog-category').value,
+          maxParticipants: parseInt(document.getElementById('prog-max').value, 10),
+          description: document.getElementById('prog-desc').value,
+          type
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        // Global State
-        let currentClass = "Class 1";
-        let studentList = []; // Now stores objects: {name, phone}
-
-        const prayers = ["Subhi", "Duhar", "Asr", "Maghrib", "Isha"];
-        let selectedDate = new Date().toLocaleDateString('en-CA');
-        let isUsthad = false;
-        let listeners = [];
-        let currentAttendanceState = {};
-
-        // Populate Class Dropdown
-        const classSelector = document.getElementById('global-class-select');
-        for(let i=1; i<=10; i++) {
-            let opt = document.createElement('option');
-            opt.value = `Class ${i}`;
-            opt.innerText = `Class ${i}`;
-            classSelector.appendChild(opt);
+        try {
+          if (docId) await updateDoc(doc(db, col, docId), progData);
+          else await addDoc(collection(db, col), progData);
+          closeModal('modal-programme');
+          showToast('Programme saved', 'success');
+        } catch (err) {
+          showToast('Error saving programme', 'error');
         }
+      });
 
-        onAuthStateChanged(auth, user => {
-            isUsthad = user && user.email === "kereemk81@gmail.com";
-            document.querySelectorAll('.admin-box').forEach(b => b.style.display = isUsthad ? 'block' : 'none');
-            document.getElementById('btn-logout').classList.toggle('hidden', !user);
-            document.getElementById('login-overlay').classList.toggle('hidden', !!user);
-            startClassSync();
+      document.getElementById('form-assign-programme').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin required', 'error');
+
+        const studentId = document.getElementById('assign-student-id').value;
+        const progId = document.getElementById('assign-programme-id').value;
+        const student = state.students.find(s => s.id === studentId);
+        const prog = state.programmes.find(p => p.id === progId);
+
+        if (!student || !prog) return;
+
+        const assignRef = await addDoc(collection(db, 'assignments'), {
+          studentId, studentName: student.name, programmeId: progId, programmeName: prog.name, category: prog.category, type: prog.type
         });
 
-        function startClassSync() {
-            listeners.forEach(unsub => unsub());
-            listeners = [];
+        await addDoc(collection(db, 'practice'), {
+          assignmentId: assignRef.id, studentId, studentName: student.name, programmeName: prog.name, category: prog.category, status: 'Not Assigned'
+        });
 
-            const classRef = doc(db, "classes", currentClass);
-            const unsubClass = onSnapshot(classRef, (snap) => {
-                if (snap.exists()) {
-                    studentList = snap.data().students || [];
-                } else {
-                    studentList = [];
-                }
-                populateSelects();
-                renderAll();
-            });
-            listeners.push(unsubClass);
+        showToast('Assigned Successfully', 'success');
+      });
+
+      document.getElementById('attendance-date').valueAsDate = new Date();
+      document.getElementById('attendance-date').addEventListener('change', renderAttendanceRegister);
+      document.getElementById('attendance-filter-category').addEventListener('change', renderAttendanceRegister);
+
+      document.getElementById('global-search-input').addEventListener('input', renderGlobalSearchResults);
+      document.getElementById('search-student-input').addEventListener('input', renderStudentsTable);
+      document.getElementById('filter-gender').addEventListener('change', renderStudentsTable);
+      document.getElementById('filter-category').addEventListener('change', renderStudentsTable);
+
+      setupCategoryTabs('boys');
+      setupCategoryTabs('girls');
+
+      document.getElementById('btn-export-csv').addEventListener('click', exportReportCSV);
+      document.getElementById('btn-print-report').addEventListener('click', () => window.print());
+      document.getElementById('report-type').addEventListener('change', renderReportTable);
+    }
+
+    function setupAuthObserver() {
+      onAuthStateChanged(auth, (user) => {
+        state.currentUser = user;
+        state.isAdmin = !!user;
+
+        const roleBadge = document.getElementById('role-badge');
+        const btnAuth = document.getElementById('btn-auth-action');
+        const userDisplay = document.getElementById('user-display-name');
+
+        if (user) {
+          roleBadge.textContent = 'Admin Mode';
+          roleBadge.className = 'badge badge-admin';
+          btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Logout';
+          userDisplay.textContent = user.email.split('@')[0];
+        } else {
+          roleBadge.textContent = 'Visitor Mode';
+          roleBadge.className = 'badge badge-visitor';
+          btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
+          userDisplay.textContent = 'Visitor';
         }
+        renderAllViews();
+      });
+    }
 
-        classSelector.onchange = (e) => {
-            currentClass = e.target.value;
-            startClassSync();
-        };
-
-        document.getElementById('global-date').value = selectedDate;
-        document.getElementById('global-date').onchange = (e) => { selectedDate = e.target.value; renderAll(); };
-
-        function populateSelects() {
-            const html = studentList.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-            document.getElementById('star-select').innerHTML = html;
-            document.getElementById('report-student-select').innerHTML = html;
+    function setupRealtimeListeners() {
+      onSnapshot(doc(db, 'settings', 'team_info'), (s) => {
+        if (s.exists()) {
+          state.teamSettings = s.data();
+          updateTeamDashboard();
         }
+      });
 
-        window.navigate = (p) => {
-            document.querySelectorAll('.view-page').forEach(page => page.classList.remove('active'));
-            document.getElementById(p + '-page').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('nav-' + p).classList.add('active');
-        };
+      onSnapshot(collection(db, 'students'), (s) => {
+        state.students = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderStudentsTable();
+        updateDashboardStats();
+        populateAssignmentDropdowns();
+        renderCategorySection('boys');
+        renderCategorySection('girls');
+      });
 
-        function renderAll() {
-            currentAttendanceState = {};
-            renderAttendance(); 
-            renderRoutine(); 
-            syncDashboard();
-        }
+      onSnapshot(collection(db, 'stage_programmes'), (s) => {
+        const stage = s.docs.map(d => ({ id: d.id, ...d.data(), type: 'stage' }));
+        updateProgrammesList(stage, 'non-stage');
+      });
 
-        function renderAttendance() {
-            const container = document.getElementById('attendance-list');
-            container.innerHTML = studentList.map(student => `
-                <div class="card flex justify-between items-center py-2">
-                    <div class="flex items-center gap-2 flex-1">
-                        ${isUsthad ? `<button onclick="deleteStudent('${student.name}', '${student.phone}')" class="text-rose-500 text-xs">❌</button>` : ''}
-                        <div>
-                           <p class="text-xs font-black uppercase text-emerald-900">${student.name}</p>
-                           <p class="text-[7px] text-gray-400 font-bold">${student.phone}</p>
-                        </div>
-                    </div>
-                    <div class="att-btn-group">
-                        <button onclick="setAttendance('${student.name}','present')" id="btn-${student.name}-present" class="att-btn">Present</button>
-                        <button onclick="setAttendance('${student.name}','absent')" id="btn-${student.name}-absent" class="att-btn">Absent</button>
-                        <button onclick="setAttendance('${student.name}','holiday')" id="btn-${student.name}-holiday" class="att-btn">Holiday</button>
-                    </div>
-                </div>`).join('');
+      onSnapshot(collection(db, 'non_stage_programmes'), (s) => {
+        const nonStage = s.docs.map(d => ({ id: d.id, ...d.data(), type: 'non-stage' }));
+        updateProgrammesList(nonStage, 'stage');
+      });
 
-            studentList.forEach(student => {
-                const unsub = onSnapshot(doc(db, "daily_attendance", `${selectedDate}_${student.name}`), snap => {
-                    const status = snap.exists() ? snap.data().status : null;
-                    currentAttendanceState[student.name] = status;
-                    ['present', 'absent', 'holiday'].forEach(st => {
-                        const btn = document.getElementById(`btn-${student.name}-${st}`);
-                        if(!btn) return;
-                        if(status === st) btn.className = `att-btn is-${st}`;
-                        else btn.className = "att-btn";
-                    });
-                });
-                listeners.push(unsub);
-            });
-        }
+      onSnapshot(collection(db, 'assignments'), (s) => {
+        state.assignments = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAssignmentsTable();
+        updateDashboardStats();
+      });
 
-        window.addStudentPrompt = async () => {
-            const name = prompt("Enter Student Name:");
-            if (!name) return;
-            const phone = prompt("Enter Parent WhatsApp Number (with 91):", "91");
-            if (phone) {
-                const ref = doc(db, "classes", currentClass);
-                const snap = await getDoc(ref);
-                if (!snap.exists()) await setDoc(ref, { students: [] });
-                await updateDoc(ref, { students: arrayUnion({ name, phone }) });
-            }
-        };
+      onSnapshot(collection(db, 'practice'), (s) => {
+        state.practice = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPracticeTable();
+        updateDashboardStats();
+      });
 
-        window.deleteStudent = async (name, phone) => {
-            if(confirm(`Remove ${name} from ${currentClass}?`)) {
-                await updateDoc(doc(db, "classes", currentClass), { students: arrayRemove({ name, phone }) });
-            }
-        };
+      onSnapshot(collection(db, 'attendance'), (s) => {
+        state.attendance = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAttendanceRegister();
+      });
+    }
 
-        window.setAttendance = async (name, status) => {
-            if(!isUsthad) return alert("Only Usthad can update.");
-            await setDoc(doc(db, "daily_attendance", `${selectedDate}_${name}`), { name, status });
-        };
+    function updateProgrammesList(progs, preserveType) {
+      const existing = state.programmes.filter(p => p.type === preserveType);
+      state.programmes = [...existing, ...progs];
+      renderProgrammesCards();
+      populateAssignmentDropdowns();
+      updateDashboardStats();
+    }
 
-        window.sendAllWhatsAppMessages = async () => {
-            if(!isUsthad) return;
-            let count = 0;
-            for (const student of studentList) {
-                const status = currentAttendanceState[student.name];
-                const phone = student.phone;
-                if (phone && (status === 'present' || status === 'absent')) {
-                    const msgStatus = status === 'present' ? "PRESENT ✅" : "ABSENT ❌";
-                    const text = `Dear Parent, your child *${student.name}* is *${msgStatus}* at Hidayatul Islam Madrasa today (${selectedDate}).`;
-                    const wpUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-                    window.open(wpUrl, '_blank');
-                    count++;
-                    await new Promise(r => setTimeout(r, 800));
-                }
-            }
-            if(count === 0) alert("No records marked as Present/Absent in this class!");
-        };
+    function updateDashboardStats() {
+      document.getElementById('stat-total-students').textContent = state.students.length;
+      document.getElementById('stat-total-boys').textContent = state.students.filter(s => s.gender === 'Male').length;
+      document.getElementById('stat-total-girls').textContent = state.students.filter(s => s.gender === 'Female').length;
+      document.getElementById('stat-stage-progs').textContent = state.programmes.filter(p => p.type === 'stage').length;
+      document.getElementById('stat-non-stage-progs').textContent = state.programmes.filter(p => p.type === 'non-stage').length;
+      document.getElementById('stat-assigned-students').textContent = new Set(state.assignments.map(a => a.studentId)).size;
 
-        function renderRoutine() {
-            const container = document.getElementById('routine-list');
-            container.innerHTML = studentList.map(student => `
-                <div class="card">
-                    <p class="text-[11px] font-black uppercase mb-3 text-emerald-900 border-b pb-1">${student.name}</p><div class="grid grid-cols-5 gap-1 mb-2">
-                        ${prayers.map(p => `<button onclick="toggleRoutine('${student.name}','${p}')" id="rot-${student.name}-${p}" class="prayer-btn">${p.substring(0,3).toUpperCase()}</button>`).join('')}
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="toggleRoutine('${student.name}','quran')" id="rot-${student.name}-quran" class="p-2 border rounded-xl text-[9px] font-black uppercase">Quran</button>
-                        <button onclick="toggleRoutine('${student.name}','study')" id="rot-${student.name}-study" class="p-2 border rounded-xl text-[9px] font-black uppercase">Study</button>
-                    </div>
-                </div>`).join('');
-            studentList.forEach(student => {
-                const unsub = onSnapshot(doc(db, "routine", `${selectedDate}_${student.name}`), snap => {
-                    const d = snap.data();
-                    [...prayers, 'quran', 'study'].forEach(t => {
-                        const btn = document.getElementById(`rot-${student.name}-${t}`);
-                        if(btn) { if(d && d[t]) btn.classList.add('p-btn-active'); else btn.classList.remove('p-btn-active'); }
-                    });
-                });
-                listeners.push(unsub);
-            });
-        }
+      const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
+      const practicing = state.practice.filter(p => p.status === 'Practicing' || p.status === 'Learning').length;
+      const pending = state.practice.filter(p => p.status === 'Not Assigned' || !p.status).length;
+      const total = state.practice.length || 1;
 
-        window.toggleRoutine = async (n, t) => {
-            if(!isUsthad) return;
-            const ref = doc(db, "routine", `${selectedDate}_${n}`);
-            const snap = await getDoc(ref);
-            await setDoc(ref, { [t]: !(snap.exists() && snap.data()[t]) }, { merge: true });
-        };
+      document.getElementById('label-ready-count').textContent = ready;
+      document.getElementById('label-practicing-count').textContent = practicing;
+      document.getElementById('label-pending-count').textContent = pending;
 
-        function syncDashboard() {
-            listeners.push(onSnapshot(doc(db, "settings", "dashboard"), snap => {
-                if(snap.exists()){
-                    const d = snap.data();
-                    document.getElementById('display-notice').innerText = d.notice || "Welcome";
-                    document.getElementById('display-status').innerText = d.status || "Open";
-                    document.getElementById('display-topic').innerText = d.topic || "...";
-                }
-            }));
-            listeners.push(onSnapshot(doc(db, "settings", "star_list"), snap => {
-                const container = document.getElementById('star-display-container'); container.innerHTML = "";
-                if(snap.exists() && snap.data().stars.length > 0){
-                    snap.data().stars.forEach(s => container.innerHTML += `<div class="star-card"><img src="${s.url}" class="star-img"><p class="text-[10px] font-black uppercase text-amber-900">${s.name}</p></div>`);
-                }
-            }));
-        }
+      document.getElementById('bar-ready').style.width = `${(ready / total) * 100}%`;
+      document.getElementById('bar-practicing').style.width = `${(practicing / total) * 100}%`;
+      document.getElementById('bar-pending').style.width = `${(pending / total) * 100}%`;
+    }
 
-        document.getElementById('btn-auth-action').onclick = () => {
-            signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value).catch(err => alert("Login Failed"));
-        };
-        document.getElementById('btn-logout').onclick = () => signOut(auth);
-        document.getElementById('btn-add-star').onclick = async () => {
-            const docRef = doc(db, "settings", "star_list");
-            const snap = await getDoc(docRef);
-            if (!snap.exists()) await setDoc(docRef, { stars: [] });
-            await updateDoc(docRef, { stars: arrayUnion({ name: document.getElementById('star-select').value, url: document.getElementById('star-url-input').value }) });
-            alert("Added!");};
-        document.getElementById('btn-clear-stars').onclick = async () => { if(confirm("Clear?")) await setDoc(doc(db, "settings", "star_list"), { stars: [] }); };
-        document.getElementById('btn-post-notice').onclick = async () => {
-            await setDoc(doc(db, "settings", "dashboard"), { notice: document.getElementById('notice-input').value, status: document.getElementById('status-input').value, topic: document.getElementById('topic-input').value });
-            alert("Updated!");
-        };
-        document.getElementById('btn-get-report').onclick = async () => {
-            const student = document.getElementById('report-student-select').value;
-            const q = query(collection(db, "daily_attendance"), where("name", "==", student));
-            const querySnapshot = await getDocs(q);
-            let absentDates = []; let presentCount = 0;
-            querySnapshot.forEach((doc) => {
-                const data = doc.data(); const dPart = doc.id.split('_')[0];
-            if(data.status === 'present') presentCount++;
-                else if(data.status === 'absent') absentDates.push(dPart);
-            });
-            document.getElementById('report-result-container').classList.remove('hidden');
-            document.getElementById('total-present-count').innerText = "Total Present: " + presentCount;
-            document.getElementById('total-absent-count').innerText = "Total Absent: " + absentDates.length;
-            document.getElementById('leave-dates-list').innerHTML = absentDates.map(d => `<span class="bg-rose-100 text-rose-700 px-2 py-1 rounded text-[10px] font-bold m-1">${d}</span>`).join('');
-        };
-    </script>
+    function updateTeamDashboard() {
+      const t = state.teamSettings;
+      document.getElementById('dash-team-name').textContent = t.teamName || 'N/A';
+      document.getElementById('dash-advisors').textContent = t.advisors || 'N/A';
+      document.getElementById('dash-boys-leaders').textContent = t.boysLeaders || 'N/A';
+      document.getElementById('dash-girls-leaders').textContent = t.girlsLeaders || 'N/A';
+    }
+
+    function renderStudentsTable() {
+      const tbody = document.getElementById('tbody-students');
+      if (!tbody) return;
+
+      const search = document.getElementById('search-student-input').value.toLowerCase();
+      const gender =
+          document.getElementById('filter-gender').value;
+      const cat = document.getElementById('filter-category').value;
+
+      const filtered = state.students.filter(s => {
+        const matchS = s.name.toLowerCase().includes(search);
+        const matchG = !gender || s.gender === gender;
+        const matchC = !cat || s.category === cat;
+        return matchS && matchG && matchC;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center">No students found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(s => `
+        <tr>
+          <td><img src="${s.photoURL || 'https://via.placeholder.com/40'}" class="student-avatar"></td>
+          <td><strong>${s.name}</strong></td>
+          <td>${s.gender}</td>
+          <td><span class="badge badge-visitor">${s.category}</span></td>
+          <td>${s.class}</td>
+          <td>${s.guardian || '-'}</td>
+          <td>${s.phone || '-'}</td>
+          <td>
+            ${state.isAdmin ? `
+              <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash"></i></button>
+            ` : 'Read-Only'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.editStudent = (id) => {
+      const s = state.students.find(x => x.id === id);
+      if (!s) return;
+      document.getElementById('student-doc-id').value = s.id;
+      document.getElementById('student-name').value = s.name;
+      document.getElementById('student-gender').value = s.gender;
+      document.getElementById('student-category').value = s.category;
+      document.getElementById('student-class').value = s.class;
+      document.getElementById('student-guardian').value = s.guardian || '';
+      document.getElementById('student-phone').value = s.phone || '';
+      openModal('modal-student');
+    };
+
+    window.deleteStudent = async (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      if (confirm('Delete student?')) {
+        await deleteDoc(doc(db, 'students', id));
+        showToast('Deleted', 'success');
+      }
+    };
+
+    function renderProgrammesCards() {
+      const stageContainer = document.getElementById('stage-programmes-list');
+      const nonStageContainer = document.getElementById('nonstage-programmes-list');
+
+      const createCard = (p) => `
+        <div class="glass-card programme-card">
+          <h3>${p.name}</h3>
+          <p><span class="badge badge-admin">${p.category}</span></p>
+          <p class="mt-1">${p.description || ''}</p>
+          <hr class="divider">
+          ${state.isAdmin ? `
+            <button class="btn-secondary" onclick="window.deleteProgramme('${p.id}', '${p.type}')">Delete</button>
+          ` : ''}
+        </div>
+      `;
+
+      if (stageContainer) stageContainer.innerHTML = state.programmes.filter(p => p.type === 'stage').map(createCard).join('');
+      if (nonStageContainer) nonStageContainer.innerHTML = state.programmes.filter(p => p.type === 'non-stage').map(createCard).join('');
+    }
+
+    function openProgrammeModal(type) {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      document.getElementById('form-programme').reset();
+      document.getElementById('prog-doc-id').value = '';
+      document.getElementById('prog-type-field').value = type;
+      openModal('modal-programme');
+    }
+
+    window.deleteProgramme = async (id, type) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      const col = type === 'stage' ? 'stage_programmes' : 'non_stage_programmes';
+      await deleteDoc(doc(db, col, id));
+      showToast('Deleted', 'success');
+    };
+
+    function populateAssignmentDropdowns() {
+      const sSelect = document.getElementById('assign-student-id');
+      const pSelect = document.getElementById('assign-programme-id');
+
+      if (sSelect) sSelect.innerHTML = '<option value="">-- Student --</option>' + state.students.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+      if (pSelect) pSelect.innerHTML = '<option value="">-- Programme --</option>' + state.programmes.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+    }
+
+    function renderAssignmentsTable() {
+      const tbody = document.getElementById('tbody-assignments');
+      if (!tbody) return;
+      tbody.innerHTML = state.assignments.map(a => `
+        <tr>
+          <td>${a.studentName}</td>
+          <td>${a.category}</td>
+          <td>${a.programmeName}</td>
+          <td>${a.type}</td>
+          <td>${state.isAdmin ? `<button class="icon-btn" onclick="window.deleteAssignment('${a.id}')"><i class="fa-solid fa-trash"></i></button>` : 'Read-Only'}</td>
+        </tr>
+      `).join('');
+    }
+
+    window.deleteAssignment = async (id) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      await deleteDoc(doc(db, 'assignments', id));
+      showToast('Removed assignment', 'success');
+    };
+
+    function renderPracticeTable() {
+      const tbody = document.getElementById('tbody-practice');
+      if (!tbody) return;
+      tbody.innerHTML = state.practice.map(p => `
+        <tr>
+          <td>${p.studentName}</td>
+          <td>${p.programmeName}</td>
+          <td>${p.category}</td>
+          <td><span class="badge badge-admin">${p.status || 'Not Assigned'}</span></td>
+          <td>
+            ${state.isAdmin ? `
+              <select onchange="window.updatePractice('${p.id}', this.value)" class="form-control">
+                <option value="Not Assigned">Not Assigned</option>
+                <option value="Learning">Learning</option>
+                <option value="Practicing">Practicing</option>
+                <option value="Completed">Completed</option>
+                <option value="Stage Ready">Stage Ready</option>
+              </select>
+            ` : 'Read-Only'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.updatePractice = async (id, status) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      await updateDoc(doc(db, 'practice', id), { status });
+      showToast('Status updated', 'success');
+    };
+
+    function renderAttendanceRegister() {
+      const tbody = document.getElementById('tbody-attendance');
+      if (!tbody) return;
+      const date = document.getElementById('attendance-date').value;
+
+      tbody.innerHTML = state.students.map(s => {
+        const record = state.attendance.find(a => a.studentId === s.id && a.date === date);
+        const status = record ? record.status : 'Not Marked';
+        return `
+          <tr>
+            <td>${s.name}</td>
+            <td>${s.category}</td>
+            <td>${s.gender}</td>
+            <td><span class="badge badge-visitor">${status}</span></td>
+            <td>
+              ${state.isAdmin ? `
+                <button class="btn-primary" onclick="window.markAttendance('${s.id}', '${date}', 'Present')">P</button>
+                <button class="btn-secondary" onclick="window.markAttendance('${s.id}', '${date}', 'Absent')">A</button>
+              ` : 'Read-Only'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    window.markAttendance = async (studentId, date, status) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      const existing = state.attendance.find(a => a.studentId === studentId && a.date === date);
+      if (existing) await updateDoc(doc(db, 'attendance', existing.id), { status });
+      else await addDoc(collection(db, 'attendance'), { studentId, date, status });
+      showToast('Attendance recorded', 'success');
+    };
+
+    function setupCategoryTabs(genderPrefix) {
+      const btns = document.querySelectorAll(`#view-${genderPrefix} .tab-btn`);
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderCategorySection(genderPrefix);
+        });
+      });
+    }
+
+    function renderCategorySection(genderPrefix) {
+      const activeTab = document.querySelector(`#view-${genderPrefix} .tab-btn.active`);
+      const container = document.getElementById(`${genderPrefix}-category-content`);
+        if (!activeTab || !container) return;
+
+      const catMap = { 'subjunior': 'Sub Junior', 'junior': 'Junior', 'senior': 'Senior', 'general': 'General' };
+      const key = activeTab.getAttribute('data-target').replace(`${genderPrefix}-`, '');
+      const cat = catMap[key];
+      const gender = genderPrefix === 'boys' ? 'Male' : 'Female';
+
+      const students = state.students.filter(s => s.gender === gender && s.category === cat);
+      container.innerHTML = students.length ? `
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Class</th></tr></thead>
+          <tbody>${students.map(s => `<tr><td>${s.name}</td><td>${s.class}</td></tr>`).join('')}</tbody>
+        </table>
+      ` : '<p class="mt-2 text-center">No students found.</p>';
+    }
+
+    function renderGlobalSearchResults() {
+      const query = document.getElementById('global-search-input').value.toLowerCase();
+      const container = document.getElementById('global-search-results');
+      if (!container || !query) return;
+
+      const matched = state.students.filter(s => s.name.toLowerCase().includes(query));
+      container.innerHTML = matched.map(s => `
+        <div class="glass-card">
+          <h3>${s.name}</h3>
+          <p>${s.category} | ${s.gender} | Class: ${s.class}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderReportTable() {
+      const type = document.getElementById('report-type').value;
+      const container = document.getElementById('report-output-table');
+      if (!container) return;
+
+      if (type === 'students') {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Name</th><th>Category</th></tr></thead><tbody>${state.students.map(s => `<tr><td>${s.name}</td><td>${s.category}</td></tr>`).join('')}</tbody></table>`;
+      }
+    }
+
+    function exportReportCSV() {
+      let csv = "Name,Category\n" + state.students.map(s => `"${s.name}","${s.category}"`).join("\n");
+      const link = document.createElement("a");
+      link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+      link.download = "report.csv";
+      link.click();
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function renderAllViews() {
+      renderStudentsTable();
+      renderProgrammesCards();
+      renderAssignmentsTable();
+      renderPracticeTable();
+      renderAttendanceRegister();
+      renderReportTable();
+    }
+  </script>
 </body>
 </html>
