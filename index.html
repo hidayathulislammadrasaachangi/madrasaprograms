@@ -153,19 +153,23 @@
     .team-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem; }
     .highlight-gold { color: var(--accent-gold); font-weight: 700; }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
     .stat-card {
       background: var(--card-bg-light);
       border: 1px solid var(--glass-border-light);
       border-radius: 12px;
       padding: 1.25rem;
       display: flex; align-items: center; gap: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.12); }
     body.dark-mode .stat-card { background: var(--card-bg-dark); border-color: var(--glass-border-dark); }
 
-    .stat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; }
+    .stat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; flex-shrink: 0; }
     .stat-icon.green { background: #10b981; } .stat-icon.blue { background: #3b82f6; } .stat-icon.pink { background: #ec4899; }
     .stat-icon.gold { background: #f59e0b; } .stat-icon.purple { background: #8b5cf6; } .stat-icon.teal { background: #14b8a6; }
+    .stat-icon.orange { background: #f97316; } .stat-icon.indigo { background: #6366f1; }
 
     .progress-bar-container { margin-top: 1rem; }
     .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem; }
@@ -199,9 +203,9 @@
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
-    .table-responsive { width: 100%; overflow-x: auto; }
-    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; }
-    .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; min-width: 500px; }
+    .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: nowrap; }
     .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
 
     .badge { padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
@@ -217,9 +221,9 @@
 
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
     .modal.active { display: flex; }
-    .modal-content { width: 100%; max-width: 480px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; }
+    .modal-content { width: 100%; max-width: 520px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; }
     body.dark-mode .modal-content { background: var(--bg-dark); border-color: var(--glass-border-dark); }
-    .modal-content.wide { max-width: 680px; }
+    .modal-content.wide { max-width: 720px; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
     .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
 
@@ -236,7 +240,6 @@
     .toast.success { background: #10b981; } .toast.error { background: #ef4444; } .toast.warning { background: #f59e0b; color: #000; }
     @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-    /* Parent Printable Slip Styling */
     .parent-slip-card {
       border: 2px dashed var(--accent-gold);
       padding: 1.5rem;
@@ -275,18 +278,15 @@
 </head>
 <body class="light-mode">
 
-  <!-- Loading Screen -->
   <div id="loading-screen" class="loading-screen">
     <div class="spinner"></div>
     <h2 style="font-family:'Amiri', serif; font-size: 2rem; color: var(--accent-gold);">Hidayathul Islam Madrasa</h2>
     <p>Rabi'ul Awwal Programme Management System</p>
   </div>
 
-  <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
 
   <div class="app-container">
-    <!-- Sidebar Navigation -->
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <i class="fa-solid fa-mosque sidebar-logo"></i>
@@ -297,7 +297,6 @@
         <button id="close-sidebar" class="mobile-only icon-btn"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- Team Selector Switcher -->
       <div class="team-switcher-container">
         <label><i class="fa-solid fa-people-roof"></i> Active Team Data</label>
         <select id="active-team-select" class="form-control team-select-dropdown">
@@ -330,7 +329,6 @@
       </div>
     </aside>
 
-    <!-- Main Content Panel -->
     <main class="main-content">
       <header class="topbar">
         <div class="topbar-left">
@@ -368,26 +366,36 @@
           </div>
 
           <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card" onclick="window.showDashboardDetails('total-students')">
               <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
-              <div class="stat-info"><p>Total Students</p><h3 id="stat-total-students">0</h3></div>
+              <div class="stat-info"><p>Total Students</p><h3 id="stat-total-students">0</h3><small style="color:var(--accent-gold);">Click for details ➔</small></div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" onclick="window.showDashboardDetails('total-boys')">
               <div class="stat-icon blue"><i class="fa-solid fa-mars"></i></div>
-              <div class="stat-info"><p>Total Boys</p><h3 id="stat-total-boys">0</h3></div>
+              <div class="stat-info"><p>Total Boys</p><h3 id="stat-total-boys">0</h3><small style="color:var(--accent-gold);">Click for details ➔</small></div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" onclick="window.showDashboardDetails('total-girls')">
               <div class="stat-icon pink"><i class="fa-solid fa-venus"></i></div>
-              <div class="stat-info"><p>Total Girls</p><h3 id="stat-total-girls">0</h3></div>
+              <div class="stat-info"><p>Total Girls</p><h3 id="stat-total-girls">0</h3><small style="color:var(--accent-gold);">Click for details ➔</small></div>
             </div>
-            <div class="stat-card">
+
+            <div class="stat-card" onclick="window.showDashboardDetails('boys-stage')">
               <div class="stat-icon gold"><i class="fa-solid fa-microphone"></i></div>
-              <div class="stat-info"><p>Stage Programmes</p><h3 id="stat-stage-progs">0</h3></div>
+              <div class="stat-info"><p>Boys Stage Progs</p><h3 id="stat-boys-stage-progs">0</h3><small style="color:var(--accent-gold);">Click for list ➔</small></div>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon purple"><i class="fa-solid fa-people-group"></i></div>
-              <div class="stat-info"><p>Mixed Groups (Burda)</p><h3 id="stat-mixed-groups">0</h3></div>
+            <div class="stat-card" onclick="window.showDashboardDetails('girls-stage')">
+              <div class="stat-icon orange"><i class="fa-solid fa-microphone-lines"></i></div>
+              <div class="stat-info"><p>Girls Stage Progs</p><h3 id="stat-girls-stage-progs">0</h3><small style="color:var(--accent-gold);">Click for list ➔</small></div>
             </div>
+            <div class="stat-card" onclick="window.showDashboardDetails('boys-non-stage')">
+              <div class="stat-icon indigo"><i class="fa-solid fa-pen-ruler"></i></div>
+              <div class="stat-info"><p>Boys Non-Stage Progs</p><h3 id="stat-boys-non-stage-progs">0</h3><small style="color:var(--accent-gold);">Click for list ➔</small></div>
+            </div>
+            <div class="stat-card" onclick="window.showDashboardDetails('girls-non-stage')">
+              <div class="stat-icon purple"><i class="fa-solid fa-palette"></i></div>
+              <div class="stat-info"><p>Girls Non-Stage Progs</p><h3 id="stat-girls-non-stage-progs">0</h3><small style="color:var(--accent-gold);">Click for list ➔</small></div>
+            </div>
+
             <div class="stat-card">
               <div class="stat-icon teal"><i class="fa-solid fa-user-check"></i></div>
               <div class="stat-info"><p>Assigned Students</p><h3 id="stat-assigned-students">0</h3></div>
@@ -422,7 +430,7 @@
           </div>
         </section>
 
-        <!-- STUDENT PROGRAMME SLIP VIEW (EASY CLASS & CATEGORY SELECTOR) -->
+        <!-- STUDENT PROGRAMME SLIP VIEW -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
@@ -465,7 +473,7 @@
               
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; font-size:0.95rem;">
                 <div><strong>Student Name:</strong> <span id="slip-out-name" style="color:#0d5c3a; font-weight:700;">-</span></div>
-                <div><strong>Student ID:</strong> <span id="slip-out-id">-</span></div>
+                <div><strong>Student ID (Roll No):</strong> <span id="slip-out-id">-</span></div>
                 <div><strong>Class:</strong> <span id="slip-out-class">-</span></div>
                 <div><strong>Category:</strong> <span id="slip-out-category">-</span></div>
                 <div><strong>Team:</strong> <span id="slip-out-team" style="color:#d4af37; font-weight:700;">-</span></div>
@@ -537,7 +545,7 @@
             </div>
             <hr class="divider">
             <div class="filter-bar">
-              <input type="text" id="filter-search-student" class="form-control" placeholder="Search student name or ID...">
+              <input type="text" id="filter-search-student" class="form-control" placeholder="Search student name or Roll No...">
               <select id="filter-student-gender" class="form-control">
                 <option value="">All Genders</option>
                 <option value="Male">Boys</option>
@@ -558,8 +566,8 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Student ID</th>
-                    <th>Name</th>
+                    <th>Roll No / ID</th>
+                    <th>Student Info (Class - Name)</th>
                     <th>Gender</th>
                     <th>Class</th>
                     <th>Category</th>
@@ -573,7 +581,7 @@
           </div>
         </section>
 
-        <!-- MIXED GROUPS VIEW (Burda, Nasheeda, etc.) -->
+        <!-- MIXED GROUPS VIEW -->
         <section id="view-mixed-groups" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
@@ -626,6 +634,13 @@
               <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
             </div>
             <hr class="divider">
+            <div class="tab-buttons" id="stage-cat-tabs">
+              <button class="tab-btn active" data-cat="All">All Categories</button>
+              <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
+              <button class="tab-btn" data-cat="Junior">Junior</button>
+              <button class="tab-btn" data-cat="Senior">Senior</button>
+              <button class="tab-btn" data-cat="General">General</button>
+            </div>
           </div>
           <div id="stage-programmes-list" class="cards-grid"></div>
         </section>
@@ -638,6 +653,13 @@
               <button id="btn-add-non-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
             </div>
             <hr class="divider">
+            <div class="tab-buttons" id="non-stage-cat-tabs">
+              <button class="tab-btn active" data-cat="All">All Categories</button>
+              <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
+              <button class="tab-btn" data-cat="Junior">Junior</button>
+              <button class="tab-btn" data-cat="Senior">Senior</button>
+              <button class="tab-btn" data-cat="General">General</button>
+            </div>
           </div>
           <div id="non-stage-programmes-list" class="cards-grid"></div>
         </section>
@@ -687,8 +709,8 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Student ID</th>
-                    <th>Student Name</th>
+                    <th>Roll No / ID</th>
+                    <th>Student Info</th>
                     <th>Gender</th>
                     <th>Category</th>
                     <th>Programme</th>
@@ -711,7 +733,7 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Student Name</th>
+                    <th>Student Info (Roll No - Class - Name)</th>
                     <th>Programme</th>
                     <th>Gender / Category</th>
                     <th>Current Status</th>
@@ -732,7 +754,7 @@
             <div class="form-group">
               <label>Select Report Type</label>
               <select id="report-type-select" class="form-control">
-                <option value="students">Student Master List</option>
+                <option value="students">Student Master List (Sorted by Class)</option>
                 <option value="programme">Programme-wise Participants Report</option>
                 <option value="practice">Practice Status Summary Report</option>
               </select>
@@ -762,7 +784,6 @@
   </div>
 
   <!-- MODALS -->
-  <!-- Admin Authentication Modal -->
   <div id="modal-auth" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
@@ -783,7 +804,6 @@
     </div>
   </div>
 
-  <!-- Student Add/Edit Modal -->
   <div id="modal-student" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
@@ -805,8 +825,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Class</label>
-            <input type="text" id="student-class-input" class="form-control" required placeholder="e.g. Class 5">
+            <label>Class (e.g. 1, 2, 3)</label>
+            <input type="number" id="student-class-input" class="form-control" required placeholder="e.g. 1">
           </div>
           <div class="form-group">
             <label>Category</label>
@@ -823,7 +843,6 @@
     </div>
   </div>
 
-  <!-- Programme Add/Edit Modal -->
   <div id="modal-programme" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
@@ -862,7 +881,6 @@
     </div>
   </div>
 
-  <!-- Mixed Group Modal -->
   <div id="modal-mixed-group" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
@@ -879,7 +897,7 @@
           <input type="text" id="mixed-item-name" class="form-control" placeholder="e.g. Qaseedathul Burda" required>
         </div>
         <div class="form-group mt-1">
-          <label>Select Participants (Multiple Categories Allowed)</label>
+          <label>Select Participants (Sorted by Class)</label>
           <div id="mixed-students-checklist" style="max-height: 180px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 8px;"></div>
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Mixed Group</button>
@@ -887,7 +905,17 @@
     </div>
   </div>
 
-  <!-- Programme Details Modal -->
+  <!-- DASHBOARD POPUP DETAILS MODAL -->
+  <div id="modal-dashboard-details" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <h3 id="dash-details-title">Details View</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <div id="dash-details-content" class="table-responsive"></div>
+    </div>
+  </div>
+
   <div id="modal-prog-details" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
@@ -908,7 +936,6 @@
       getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, enableIndexedDbPersistence 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCnSz248OfMbDr3V3kD9NAZkVxxON2fIvE",
       authDomain: "madrasa-4c7e2.firebaseapp.com",
@@ -922,12 +949,10 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Offline Cache Support
     enableIndexedDbPersistence(db).catch((err) => {
       if (err.code === 'failed-precondition') console.warn('Persistence enabled in first tab only.');
     });
 
-    // Application State
     const state = {
       currentUser: null,
       isAdmin: false,
@@ -937,7 +962,11 @@
       assignments: [],
       practice: [],
       mixedGroups: [],
-      teamSettings: {}
+      teamSettings: {},
+      selectedStageCat: 'All',
+      selectedNonStageCat: 'All',
+      dashModalFilterCat: 'All',
+      activeDashModalType: ''
     };
 
     let activeSnapshotUnsubscribers = [];
@@ -1081,7 +1110,6 @@
         }
       });
 
-      // Parent Slip Class & Category Filters Events
       document.getElementById('slip-filter-class-select').addEventListener('change', filterAndPopulateParentSlipDropdown);
       document.getElementById('slip-filter-category-select').addEventListener('change', filterAndPopulateParentSlipDropdown);
 
@@ -1089,7 +1117,6 @@
       document.getElementById('btn-print-parent-slip').addEventListener('click', () => window.print());
       document.getElementById('btn-whatsapp-parent-slip').addEventListener('click', shareWhatsAppSlip);
 
-      // Mixed Group Handlers
       document.getElementById('btn-add-mixed-group').addEventListener('click', () => {
         if(!state.isAdmin) return showToast('Admin required', 'error');
         renderMixedStudentChecklist();
@@ -1202,6 +1229,7 @@
 
       setupSectionTabs('boys');
       setupSectionTabs('girls');
+      setupProgrammeCategoryTabs();
 
       document.getElementById('filter-search-student').addEventListener('input', renderStudentsTable);
       document.getElementById('filter-student-gender').addEventListener('change', renderStudentsTable);
@@ -1298,6 +1326,7 @@
       const unsubAssignments = onSnapshot(qAssignments, (s) => {
         state.assignments = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderAssignmentsTable();
+        renderPracticeTable();
         updateDashboardStats();
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
@@ -1315,8 +1344,12 @@
       document.getElementById('stat-total-students').textContent = state.students.length;
       document.getElementById('stat-total-boys').textContent = state.students.filter(s => s.gender === 'Male').length;
       document.getElementById('stat-total-girls').textContent = state.students.filter(s => s.gender === 'Female').length;
-      document.getElementById('stat-stage-progs').textContent = state.programmes.filter(p => p.type === 'Stage').length;
-      document.getElementById('stat-mixed-groups').textContent = state.mixedGroups.length;
+      
+      document.getElementById('stat-boys-stage-progs').textContent = state.programmes.filter(p => p.type === 'Stage' && p.gender === 'Male').length;
+      document.getElementById('stat-girls-stage-progs').textContent = state.programmes.filter(p => p.type === 'Stage' && p.gender === 'Female').length;
+      document.getElementById('stat-boys-non-stage-progs').textContent = state.programmes.filter(p => p.type === 'Non-Stage' && p.gender === 'Male').length;
+      document.getElementById('stat-girls-non-stage-progs').textContent = state.programmes.filter(p => p.type === 'Non-Stage' && p.gender === 'Female').length;
+      
       document.getElementById('stat-assigned-students').textContent = new Set(state.assignments.map(a => a.studentDocId)).size;
 
       const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
@@ -1333,6 +1366,161 @@
       document.getElementById('bar-pending').style.width = `${(pending / total) * 100}%`;
     }
 
+    function sortByClass(studentList) {
+      return [...studentList].sort((a, b) => {
+        const clsA = parseInt(a.class || 0, 10);
+        const clsB = parseInt(b.class || 0, 10);
+        if (clsA !== clsB) return clsA - clsB;
+        return (a.studentId || a.name).localeCompare(b.studentId || b.name);
+      });
+    }
+
+    // Helper function to sort programmes by Sub Junior -> Junior -> Senior -> General
+    function sortProgrammesByCategory(progList) {
+      const catOrder = { 'Sub Junior': 1, 'Junior': 2, 'Senior': 3, 'General': 4 };
+      return [...progList].sort((a, b) => {
+        const orderA = catOrder[a.category] || 99;
+        const orderB = catOrder[b.category] || 99;
+        if (orderA !== orderB) return orderA - orderB;
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    // DASHBOARD DETAILS POPUP WITH SORTING & FILTER OPTION
+    window.showDashboardDetails = (type) => {
+      state.activeDashModalType = type;
+      state.dashModalFilterCat = 'All';
+      renderDashboardModalContent();
+      openModal('modal-dashboard-details');
+    };
+
+    function renderDashboardModalContent() {
+      const type = state.activeDashModalType;
+      const titleEl = document.getElementById('dash-details-title');
+      const contentEl = document.getElementById('dash-details-content');
+      let html = '';
+
+      if (type === 'total-students' || type === 'total-boys' || type === 'total-girls') {
+        let list = [...state.students];
+        if (type === 'total-boys') list = list.filter(s => s.gender === 'Male');
+        if (type === 'total-girls') list = list.filter(s => s.gender === 'Female');
+        
+        if (state.dashModalFilterCat !== 'All') {
+          list = list.filter(s => s.category === state.dashModalFilterCat);
+        }
+
+        list = sortByClass(list);
+
+        titleEl.textContent = type === 'total-boys' ? 'Boys Student Directory' : (type === 'total-girls' ? 'Girls Student Directory' : 'All Students Directory');
+
+        html = `
+          <div class="tab-buttons mb-2">
+            <button class="tab-btn ${state.dashModalFilterCat === 'All' ? 'active' : ''}" onclick="window.filterDashModalCat('All')">All</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Sub Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Sub Junior')">Sub Junior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Junior')">Junior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Senior' ? 'active' : ''}" onclick="window.filterDashModalCat('Senior')">Senior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'General' ? 'active' : ''}" onclick="window.filterDashModalCat('General')">General</button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student Info</th>
+                <th>Gender</th>
+                <th>Class</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.length ? list.map(s => `
+                <tr>
+                  <td><strong>${s.studentId || '-'}</strong></td>
+                  <td><strong>Class ${s.class} - ${s.name}</strong></td>
+                  <td>${s.gender}</td>
+                  <td>Class ${s.class}</td>
+                  <td><span class="badge badge-visitor">${s.category}</span></td>
+                </tr>
+              `).join('') : '<tr><td colspan="5" class="text-center">No students found.</td></tr>'}
+            </tbody>
+          </table>
+        `;
+      } else {
+        let gender = type.includes('boys') ? 'Male' : 'Female';
+        let isStage = type.includes('stage') && !type.includes('non-stage');
+        let progType = isStage ? 'Stage' : 'Non-Stage';
+
+        titleEl.textContent = `${gender === 'Male' ? 'Boys' : 'Girls'} ${progType} Programmes List`;
+
+        let list = state.programmes.filter(p => p.gender === gender && p.type === progType);
+
+        if (state.dashModalFilterCat !== 'All') {
+          list = list.filter(p => p.category === state.dashModalFilterCat);
+        }
+
+        // Sub Junior -> Junior -> Senior -> General Order
+        list = sortProgrammesByCategory(list);
+
+        html = `
+          <div class="tab-buttons mb-2">
+            <button class="tab-btn ${state.dashModalFilterCat === 'All' ? 'active' : ''}" onclick="window.filterDashModalCat('All')">All Categories</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Sub Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Sub Junior')">Sub Junior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Junior')">Junior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Senior' ? 'active' : ''}" onclick="window.filterDashModalCat('Senior')">Senior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'General' ? 'active' : ''}" onclick="window.filterDashModalCat('General')">General</button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Programme Item</th>
+                <th>Category</th>
+                <th>Gender</th>
+                <th>Max Limit</th>
+                <th>Assigned Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.length ? list.map(p => {
+                const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+                return `
+                  <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td><span class="badge badge-visitor">${p.category}</span></td>
+                    <td>${p.gender}</td>
+                    <td>${p.maxParticipants}</td>
+                    <td>${assignedCount} / ${p.maxParticipants}</td>
+                  </tr>
+                `;
+              }).join('') : '<tr><td colspan="5" class="text-center">No programmes found.</td></tr>'}
+            </tbody>
+          </table>
+        `;
+      }
+
+      contentEl.innerHTML = html;
+    }
+
+    window.filterDashModalCat = (cat) => {
+      state.dashModalFilterCat = cat;
+      renderDashboardModalContent();
+    };
+
+    function setupProgrammeCategoryTabs() {
+      const setupTabs = (containerId, stateKey, renderFn) => {
+        const btns = document.querySelectorAll(`#${containerId} .tab-btn`);
+        btns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state[stateKey] = btn.getAttribute('data-cat');
+            renderFn();
+          });
+        });
+      };
+
+      setupTabs('stage-cat-tabs', 'selectedStageCat', renderProgrammeCards);
+      setupTabs('non-stage-cat-tabs', 'selectedNonStageCat', renderProgrammeCards);
+    }
+
     function renderStudentsTable() {
       const tbody = document.getElementById('tbody-students');
       if (!tbody) return;
@@ -1341,12 +1529,14 @@
       const gender = document.getElementById('filter-student-gender').value;
       const category = document.getElementById('filter-student-category').value;
 
-      const filtered = state.students.filter(s => {
+      let filtered = state.students.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toLowerCase().includes(search));
         const matchGender = !gender || s.gender === gender;
         const matchCategory = !category || s.category === category;
         return matchSearch && matchGender && matchCategory;
       });
+
+      filtered = sortByClass(filtered);
 
       if (filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="text-center">No student records found.</td></tr>`;
@@ -1356,9 +1546,9 @@
       tbody.innerHTML = filtered.map(s => `
         <tr>
           <td><strong>${s.studentId || '-'}</strong></td>
-          <td>${s.name}</td>
+          <td><strong>Class ${s.class} - ${s.name}</strong></td>
           <td>${s.gender}</td>
-          <td>${s.class}</td>
+          <td>Class ${s.class}</td>
           <td><span class="badge badge-visitor">${s.category}</span></td>
           <td>${s.team}</td>
           <td>
@@ -1371,12 +1561,11 @@
       `).join('');
     }
 
-    /* Easy Filter Logic for Parent Slip Generator */
     function populateParentSlipClassOptions() {
       const classSelect = document.getElementById('slip-filter-class-select');
       if (!classSelect) return;
 
-      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort();
+      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       classSelect.innerHTML = '<option value="">All Classes</option>' + uniqueClasses.map(c => `
         <option value="${c}">Class ${c}</option>
       `).join('');
@@ -1389,11 +1578,13 @@
       const filterClass = document.getElementById('slip-filter-class-select').value;
       const filterCategory = document.getElementById('slip-filter-category-select').value;
 
-      const filteredStudents = state.students.filter(s => {
+      let filteredStudents = state.students.filter(s => {
         const matchClass = !filterClass || s.class === filterClass;
         const matchCat = !filterCategory || s.category === filterCategory;
         return matchClass && matchCat;
       });
+
+      filteredStudents = sortByClass(filteredStudents);
 
       if (filteredStudents.length === 0) {
         select.innerHTML = '<option value="">-- No matching students found --</option>';
@@ -1402,7 +1593,7 @@
       }
 
       select.innerHTML = `<option value="">-- Choose Student (${filteredStudents.length} Found) --</option>` + filteredStudents.map(s => `
-        <option value="${s.id}">${s.name} (Class ${s.class} - ${s.category})</option>
+        <option value="${s.id}">${s.studentId ? `[${s.studentId}] ` : ''}Class ${s.class} - ${s.name} (${s.category})</option>
       `).join('');
 
       renderParentSlip();
@@ -1425,7 +1616,7 @@
 
       document.getElementById('slip-out-name').textContent = s.name;
       document.getElementById('slip-out-id').textContent = s.studentId || '-';
-      document.getElementById('slip-out-class').textContent = s.class;
+      document.getElementById('slip-out-class').textContent = `Class ${s.class}`;
       document.getElementById('slip-out-category').textContent = s.category;
       document.getElementById('slip-out-team').textContent = s.team;
       document.getElementById('slip-out-gender').textContent = s.gender;
@@ -1486,7 +1677,7 @@
       const text = `*HIDAYATHUL ISLAM MADRASA - ACHANGI*\n` +
                    `*Rabi'ul Awwal Programme List*\n\n` +
                    `👤 *Student Name:* ${s.name}\n` +
-                   `🆔 *Student ID:* ${s.studentId || '-'}\n` +
+                   `🆔 *Roll No / ID:* ${s.studentId || '-'}\n` +
                    `📚 *Class:* ${s.class}\n` +
                    `🏷️ *Category:* ${s.category}\n` +
                    `🚩 *Team:* ${s.team}\n\n` +
@@ -1520,10 +1711,11 @@
     function renderMixedStudentChecklist() {
       const container = document.getElementById('mixed-students-checklist');
       if (!container) return;
-      container.innerHTML = state.students.map(s => `
+      const sortedStudents = sortByClass(state.students);
+      container.innerHTML = sortedStudents.map(s => `
         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
           <input type="checkbox" value="${s.id}" class="mixed-cb">
-          <span>${s.name} (${s.category} - ${s.gender})</span>
+          <span>${s.studentId ? `[${s.studentId}] ` : ''}Class ${s.class} - ${s.name} (${s.category} - ${s.gender})</span>
         </div>
       `).join('');
     }
@@ -1579,8 +1771,23 @@
         `;
       };
 
-      if (stageContainer) stageContainer.innerHTML = state.programmes.filter(p => p.type === 'Stage').map(createCard).join('');
-      if (nonStageContainer) nonStageContainer.innerHTML = state.programmes.filter(p => p.type === 'Non-Stage').map(createCard).join('');
+      if (stageContainer) {
+        let stageList = state.programmes.filter(p => p.type === 'Stage');
+        if (state.selectedStageCat !== 'All') {
+          stageList = stageList.filter(p => p.category === state.selectedStageCat);
+        }
+        stageList = sortProgrammesByCategory(stageList);
+        stageContainer.innerHTML = stageList.length ? stageList.map(createCard).join('') : '<p>No stage programmes found for this category.</p>';
+      }
+
+      if (nonStageContainer) {
+        let nonStageList = state.programmes.filter(p => p.type === 'Non-Stage');
+        if (state.selectedNonStageCat !== 'All') {
+          nonStageList = nonStageList.filter(p => p.category === state.selectedNonStageCat);
+        }
+        nonStageList = sortProgrammesByCategory(nonStageList);
+        nonStageContainer.innerHTML = nonStageList.length ? nonStageList.map(createCard).join('') : '<p>No non-stage programmes found for this category.</p>';
+      }
     }
 
     window.viewProgrammeDetails = (id) => {
@@ -1597,7 +1804,12 @@
         <hr class="divider">
         <h4>Assigned Participants (${assigned.length})</h4>
         <ul class="activity-list">
-          ${assigned.length ? assigned.map(a => `<li>${a.studentName} (${a.studentCustomId || '-'})</li>`).join('') : '<li>No students assigned yet.</li>'}
+          ${assigned.length ? assigned.map(a => {
+            const student = state.students.find(s => s.id === a.studentDocId);
+            const roll = a.studentCustomId || student?.studentId || '-';
+            const cls = student?.class ? `Class ${student.class}` : '';
+            return `<li>[${roll}] ${cls} - ${a.studentName}</li>`;
+          }).join('') : '<li>No students assigned yet.</li>'}
         </ul>
       `;
       openModal('modal-prog-details');
@@ -1618,12 +1830,14 @@
       const pSelect = document.getElementById('assign-prog-select');
 
       if (sSelect) {
-        const filteredStudents = state.students.filter(s => (!gender || s.gender === gender) && (!category || s.category === category));
-        sSelect.innerHTML = '<option value="">-- Select Student --</option>' + filteredStudents.map(s => `<option value="${s.id}">${s.name} (${s.studentId || '-'})</option>`).join('');
+        let filteredStudents = state.students.filter(s => (!gender || s.gender === gender) && (!category || s.category === category));
+        filteredStudents = sortByClass(filteredStudents);
+        sSelect.innerHTML = '<option value="">-- Select Student --</option>' + filteredStudents.map(s => `<option value="${s.id}">${s.studentId ? `[${s.studentId}] ` : ''}Class ${s.class} - ${s.name}</option>`).join('');
       }
 
       if (pSelect) {
-        const filteredProgrammes = state.programmes.filter(p => (!gender || p.gender === gender) && (!category || p.category === category));
+        let filteredProgrammes = state.programmes.filter(p => (!gender || p.gender === gender) && (!category || p.category === category));
+        filteredProgrammes = sortProgrammesByCategory(filteredProgrammes);
         pSelect.innerHTML = '<option value="">-- Select Programme --</option>' + filteredProgrammes.map(p => `<option value="${p.id}">${p.name} [${p.type}]</option>`).join('');
       }
     }
@@ -1631,17 +1845,33 @@
     function renderAssignmentsTable() {
       const tbody = document.getElementById('tbody-assignments');
       if (!tbody) return;
-      tbody.innerHTML = state.assignments.map(a => `
-        <tr>
-          <td>${a.studentCustomId || '-'}</td>
-          <td><strong>${a.studentName}</strong></td>
-          <td>${a.studentGender}</td>
-          <td>${a.studentCategory}</td>
-          <td>${a.programmeName}</td>
-          <td><span class="badge badge-admin">${a.programmeType}</span></td>
-          <td>${state.isAdmin ? `<button class="btn-danger" onclick="window.deleteAssignment('${a.id}')">Remove</button>` : 'Read-Only'}</td>
-        </tr>
-      `).join('');
+
+      let sortedAssignments = [...state.assignments].sort((a, b) => {
+        const stA = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+        const stB = state.students.find(s => s.id === b.studentDocId || s.name === b.studentName);
+        const clsA = parseInt(stA?.class || 0, 10);
+        const clsB = parseInt(stB?.class || 0, 10);
+        if (clsA !== clsB) return clsA - clsB;
+        return (a.studentCustomId || a.studentName).localeCompare(b.studentCustomId || b.studentName);
+      });
+
+      tbody.innerHTML = sortedAssignments.map(a => {
+        const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+        const roll = a.studentCustomId || student?.studentId || '-';
+        const cls = student?.class || '-';
+
+        return `
+          <tr>
+            <td><strong>${roll}</strong></td>
+            <td><strong>Class ${cls} - ${a.studentName}</strong></td>
+            <td>${a.studentGender}</td>
+            <td>${a.studentCategory}</td>
+            <td>${a.programmeName}</td>
+            <td><span class="badge badge-admin">${a.programmeType}</span></td>
+            <td>${state.isAdmin ? `<button class="btn-danger" onclick="window.deleteAssignment('${a.id}')">Remove</button>` : 'Read-Only'}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     window.deleteAssignment = async (id) => {
@@ -1653,24 +1883,40 @@
     function renderPracticeTable() {
       const tbody = document.getElementById('tbody-practice-tracker');
       if (!tbody) return;
-      tbody.innerHTML = state.practice.map(p => `
-        <tr>
-          <td><strong>${p.studentName}</strong></td>
-          <td>${p.programmeName}</td>
-          <td>${p.studentGender} / ${p.studentCategory}</td>
-          <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
-          <td>
-            ${state.isAdmin ? `
-              <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
-                <option value="Not Assigned" ${p.status === 'Not Assigned' ? 'selected' : ''}>Not Assigned</option>
-                <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
-                <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
-                <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
-              </select>
-            ` : 'Read-Only'}
-          </td>
-        </tr>
-      `).join('');
+
+      let sortedPractice = [...state.practice].sort((a, b) => {
+        const stA = state.students.find(s => s.name === a.studentName);
+        const stB = state.students.find(s => s.name === b.studentName);
+        const clsA = parseInt(stA?.class || 0, 10);
+        const clsB = parseInt(stB?.class || 0, 10);
+        if (clsA !== clsB) return clsA - clsB;
+        return a.studentName.localeCompare(b.studentName);
+      });
+
+      tbody.innerHTML = sortedPractice.map(p => {
+        const student = state.students.find(s => s.name === p.studentName);
+        const roll = student?.studentId || '-';
+        const cls = student?.class || '-';
+
+        return `
+          <tr>
+            <td><strong>[ Roll: ${roll} ] Class ${cls} - ${p.studentName}</strong></td>
+            <td>${p.programmeName}</td>
+            <td>${p.studentGender} / ${p.studentCategory}</td>
+            <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
+            <td>
+              ${state.isAdmin ? `
+                <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
+                  <option value="Not Assigned" ${p.status === 'Not Assigned' ? 'selected' : ''}>Not Assigned</option>
+                  <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
+                  <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
+                  <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
+                </select>
+              ` : 'Read-Only'}
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     window.updatePracticeStatus = async (id, status) => {
@@ -1698,11 +1944,13 @@
       const category = activeTab.getAttribute('data-cat');
       const gender = sec === 'boys' ? 'Male' : 'Female';
 
-      const students = state.students.filter(s => s.gender === gender && s.category === category);
+      let students = state.students.filter(s => s.gender === gender && s.category === category);
+      students = sortByClass(students);
+
       container.innerHTML = students.length ? `
         <table class="data-table">
-          <thead><tr><th>Student ID</th><th>Name</th><th>Class</th></tr></thead>
-          <tbody>${students.map(s => `<tr><td>${s.studentId || '-'}</td><td><strong>${s.name}</strong></td><td>${s.class}</td></tr>`).join('')}</tbody>
+          <thead><tr><th>Roll No</th><th>Student Info (Class - Name)</th><th>Class</th></tr></thead>
+          <tbody>${students.map(s => `<tr><td>${s.studentId || '-'}</td><td><strong>Class ${s.class} - ${s.name}</strong></td><td>Class ${s.class}</td></tr>`).join('')}</tbody>
         </table>
       ` : '<p class="mt-2 text-center">No students registered in this category.</p>';
     }
@@ -1712,10 +1960,12 @@
       const container = document.getElementById('global-search-results');
       if (!container || !queryVal) return;
 
-      const matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal));
+      let matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal));
+      matched = sortByClass(matched);
+
       container.innerHTML = matched.map(s => `
         <div class="glass-card">
-          <h3>${s.name} (${s.studentId || '-'})</h3>
+          <h3>[Roll: ${s.studentId || '-'}] Class ${s.class} - ${s.name}</h3>
           <p>${s.gender} | ${s.category} | Class: ${s.class}</p>
         </div>
       `).join('');
@@ -1727,7 +1977,8 @@
       if (!container) return;
 
       if (type === 'students') {
-        container.innerHTML = `<table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${state.students.map(s => `<tr><td>${s.studentId || '-'}</td><td>${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>${s.class}</td></tr>`).join('')}</tbody></table>`;
+        const sorted = sortByClass(state.students);
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No</th><th>Student Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => `<tr><td>${s.studentId || '-'}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`).join('')}</tbody></table>`;
       } else if (type === 'programme') {
         container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${state.assignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
       } else {
@@ -1736,7 +1987,8 @@
     }
 
     function exportReportCSV() {
-      let csv = "ID,Name,Gender,Category,Class\n" + state.students.map(s => `"${s.studentId || '-'}","${s.name}","${s.gender}","${s.category}","${s.class}"`).join("\n");
+      const sorted = sortByClass(state.students);
+      let csv = "Roll_No,Name,Gender,Category,Class\n" + sorted.map(s => `"${s.studentId || '-'}","Class ${s.class} - ${s.name}","${s.gender}","${s.category}","Class ${s.class}"`).join("\n");
       const link = document.createElement("a");
       link.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
       link.download = `Madrasa_Report_${state.activeTeam}.csv`;
@@ -1757,4 +2009,3 @@
   </script>
 </body>
 </html>
-fa-user-check">
