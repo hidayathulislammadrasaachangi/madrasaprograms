@@ -222,8 +222,8 @@
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
     .programme-card { border-left: 4px solid var(--accent-gold); cursor: pointer; }
 
-    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem; }
-    .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
     .tab-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
 
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
@@ -768,7 +768,7 @@
           <div id="mixed-groups-list" class="cards-grid"></div>
         </section>
 
-        <!-- BOYS SECTION VIEW -->
+        <!-- BOYS SECTION VIEW WITHOUT STD- PREFIX -->
         <section id="view-boys-section" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-child" style="color:var(--accent-gold);"></i> Boys Section Overview</h2>
@@ -783,7 +783,7 @@
           </div>
         </section>
 
-        <!-- GIRLS SECTION VIEW -->
+        <!-- GIRLS SECTION VIEW WITHOUT STD- PREFIX -->
         <section id="view-girls-section" class="app-view">
           <div class="glass-card">
             <h2><i class="fa-solid fa-child-dress" style="color:var(--accent-gold);"></i> Girls Section Overview</h2>
@@ -798,23 +798,14 @@
           </div>
         </section>
 
-        <!-- STAGE PROGRAMMES VIEW WITH BOYS / GIRLS / ALL SECTION FILTER -->
+        <!-- STAGE PROGRAMMES VIEW WITH AUTOMATIC CROSS-TEAM SYNC -->
         <section id="view-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
-            <div class="action-header mb-2">
+            <div class="action-header">
               <h2><i class="fa-solid fa-microphone" style="color:var(--accent-gold);"></i> Stage Programmes</h2>
               <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
             </div>
             <hr class="divider">
-            
-            <!-- SECTION FILTER (BOYS / GIRLS / ALL) -->
-            <div class="tab-buttons" id="stage-sec-tabs">
-              <button class="tab-btn active" data-sec="All"><i class="fa-solid fa-users"></i> All Sections</button>
-              <button class="tab-btn" data-sec="Male"><i class="fa-solid fa-mars"></i> Boys Section</button>
-              <button class="tab-btn" data-sec="Female"><i class="fa-solid fa-venus"></i> Girls Section</button>
-            </div>
-
-            <!-- CATEGORY FILTER (SUB JUNIOR, JUNIOR, ETC.) -->
             <div class="tab-buttons" id="stage-cat-tabs">
               <button class="tab-btn active" data-cat="All">All Categories</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
@@ -826,23 +817,14 @@
           <div id="stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- NON-STAGE PROGRAMMES VIEW WITH BOYS / GIRLS / ALL SECTION FILTER -->
+        <!-- NON-STAGE PROGRAMMES VIEW WITH AUTOMATIC CROSS-TEAM SYNC -->
         <section id="view-non-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
-            <div class="action-header mb-2">
+            <div class="action-header">
               <h2><i class="fa-solid fa-pen-ruler" style="color:var(--accent-gold);"></i> Non-Stage Programmes</h2>
               <button id="btn-add-non-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
             </div>
             <hr class="divider">
-
-            <!-- SECTION FILTER (BOYS / GIRLS / ALL) -->
-            <div class="tab-buttons" id="non-stage-sec-tabs">
-              <button class="tab-btn active" data-sec="All"><i class="fa-solid fa-users"></i> All Sections</button>
-              <button class="tab-btn" data-sec="Male"><i class="fa-solid fa-mars"></i> Boys Section</button>
-              <button class="tab-btn" data-sec="Female"><i class="fa-solid fa-venus"></i> Girls Section</button>
-            </div>
-
-            <!-- CATEGORY FILTER (SUB JUNIOR, JUNIOR, ETC.) -->
             <div class="tab-buttons" id="non-stage-cat-tabs">
               <button class="tab-btn active" data-cat="All">All Categories</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
@@ -1173,9 +1155,7 @@
       practice: [],
       mixedGroups: [],
       teamSettings: {},
-      selectedStageSec: 'All',
       selectedStageCat: 'All',
-      selectedNonStageSec: 'All',
       selectedNonStageCat: 'All',
       dashModalFilterCat: 'All',
       activeDashModalType: ''
@@ -1498,6 +1478,47 @@
       document.getElementById('btn-export-csv').addEventListener('click', exportReportCSV);
       document.getElementById('btn-print-report').addEventListener('click', () => window.print());
     }
+
+    // FEATURE: ONE-CLICK COPY ALL PROGRAMMES TO OTHER TEAM
+    window.copyProgrammesToOtherTeam = async (progType) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      const sourceTeam = state.activeTeam;
+      const targetTeam = sourceTeam === 'MADEENATHU-SSALAM' ? 'MADEENATHU-NNOOR' : 'MADEENATHU-SSALAM';
+
+      if (!confirm(`Copy all ${progType} programmes from ${sourceTeam} to ${targetTeam}?`)) return;
+
+      try {
+        const sourceProgs = state.programmes.filter(p => p.type === progType);
+        if (sourceProgs.length === 0) return showToast(`No ${progType} programmes found in ${sourceTeam}!`, 'warning');
+
+        // Fetch target team existing progs to avoid duplicates
+        const qTarget = query(collection(db, 'programmes'), where('team', '==', targetTeam));
+        const snapTarget = await getDocs(qTarget);
+        const targetProgs = snapTarget.docs.map(d => d.data());
+
+        let copiedCount = 0;
+
+        for (const p of sourceProgs) {
+          const exists = targetProgs.some(tp => tp.name === p.name && tp.gender === p.gender && tp.category === p.category && tp.type === p.type);
+          if (!exists) {
+            await addDoc(collection(db, 'programmes'), {
+              name: p.name,
+              gender: p.gender,
+              category: p.category,
+              type: p.type,
+              maxParticipants: p.maxParticipants || null,
+              team: targetTeam
+            });
+            copiedCount++;
+          }
+        }
+
+        showToast(`Successfully copied ${copiedCount} ${progType} programme(s) to ${targetTeam}!`, 'success');
+      } catch (err) {
+        showToast('Failed to copy programmes', 'error');
+      }
+    };
 
     function setupAuthObserver() {
       onAuthStateChanged(auth, (user) => {
@@ -1915,80 +1936,6 @@
       showToast('Practice status updated', 'success');
     };
 
-    // PROGRAMME CATEGORY AND SECTION TABS SETUP
-    function setupProgrammeCategoryTabs() {
-      const setupTabs = (containerId, stateKey, renderFn) => {
-        const btns = document.querySelectorAll(`#${containerId} .tab-btn`);
-        btns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            btns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const secVal = btn.getAttribute('data-sec');
-            const catVal = btn.getAttribute('data-cat');
-            if (secVal) state[stateKey] = secVal;
-            if (catVal) state[stateKey] = catVal;
-            renderFn();
-          });
-        });
-      };
-
-      setupTabs('stage-sec-tabs', 'selectedStageSec', renderProgrammeCards);
-      setupTabs('stage-cat-tabs', 'selectedStageCat', renderProgrammeCards);
-      setupTabs('non-stage-sec-tabs', 'selectedNonStageSec', renderProgrammeCards);
-      setupTabs('non-stage-cat-tabs', 'selectedNonStageCat', renderProgrammeCards);
-    }
-
-    // PROGRAMME CARD RENDER (WITH BOYS/GIRLS AND CATEGORY FILTERING)
-    function renderProgrammeCards() {
-      const stageContainer = document.getElementById('stage-programmes-list');
-      const nonStageContainer = document.getElementById('non-stage-programmes-list');
-
-      const createCard = (p) => {
-        const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
-        const hasLimit = p.maxParticipants && p.maxParticipants > 0;
-        const percent = hasLimit ? Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100)) : 100;
-        const countText = hasLimit ? `${assignedCount} / ${p.maxParticipants}` : `${assignedCount} Participants`;
-
-        return `
-          <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')">
-            <h3>${p.name}</h3>
-            <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender === 'Male' ? 'Boys' : 'Girls'}</span> <span class="badge badge-visitor">${p.category}</span></p>
-            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: <strong>${countText}</strong></p>
-            <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
-            ${state.isAdmin ? `
-              <div style="margin-top:0.8rem; text-align:right;">
-                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')">Delete</button>
-              </div>
-            ` : ''}
-          </div>
-        `;
-      };
-
-      if (stageContainer) {
-        let stageList = state.programmes.filter(p => p.type === 'Stage');
-        if (state.selectedStageSec !== 'All') {
-          stageList = stageList.filter(p => p.gender === state.selectedStageSec);
-        }
-        if (state.selectedStageCat !== 'All') {
-          stageList = stageList.filter(p => p.category === state.selectedStageCat);
-        }
-        stageList = sortProgrammesByCategory(stageList);
-        stageContainer.innerHTML = stageList.length ? stageList.map(createCard).join('') : '<p>No stage programmes found for this selection.</p>';
-      }
-
-      if (nonStageContainer) {
-        let nonStageList = state.programmes.filter(p => p.type === 'Non-Stage');
-        if (state.selectedNonStageSec !== 'All') {
-          nonStageList = nonStageList.filter(p => p.gender === state.selectedNonStageSec);
-        }
-        if (state.selectedNonStageCat !== 'All') {
-          nonStageList = nonStageList.filter(p => p.category === state.selectedNonStageCat);
-        }
-        nonStageList = sortProgrammesByCategory(nonStageList);
-        nonStageContainer.innerHTML = nonStageList.length ? nonStageList.map(createCard).join('') : '<p>No non-stage programmes found for this selection.</p>';
-      }
-    }
-
     // DASHBOARD DETAILS POPUP
     window.showDashboardDetails = (type) => {
       state.activeDashModalType = type;
@@ -2091,7 +2038,7 @@
                   <tr>
                     <td><strong>${p.name}</strong></td>
                     <td><span class="badge badge-visitor">${p.category}</span></td>
-                    <td>${p.gender === 'Male' ? 'Boys' : 'Girls'}</td>
+                    <td>${p.gender}</td>
                     <td>${limitText}</td>
                     <td>${assignedCount} ${p.maxParticipants ? '/ ' + p.maxParticipants : ''}</td>
                   </tr>
@@ -2110,38 +2057,22 @@
       renderDashboardModalContent();
     };
 
-    window.viewProgrammeDetails = (id) => {
-      const p = state.programmes.find(x => x.id === id);
-      if (!p) return;
+    function setupProgrammeCategoryTabs() {
+      const setupTabs = (containerId, stateKey, renderFn) => {
+        const btns = document.querySelectorAll(`#${containerId} .tab-btn`);
+        btns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state[stateKey] = btn.getAttribute('data-cat');
+            renderFn();
+          });
+        });
+      };
 
-      const assigned = state.assignments.filter(a => a.programmeDocId === p.id);
-      const body = document.getElementById('details-prog-body');
-      
-      body.innerHTML = `
-        <p><strong>Team:</strong> ${p.team}</p>
-        <p><strong>Section:</strong> ${p.gender === 'Male' ? 'Boys' : 'Girls'} | <strong>Category:</strong> ${p.category}</p>
-        <p><strong>Max Limit:</strong> ${p.maxParticipants ? p.maxParticipants : 'Unlimited'}</p>
-        <hr class="divider">
-        <h4>Assigned Participants (${assigned.length})</h4>
-        <ul class="activity-list">
-          ${assigned.length ? assigned.map(a => {
-            const student = state.students.find(s => s.id === a.studentDocId);
-            const roll = (a.studentCustomId || student?.studentId || '-').toString().replace('STD-', '');
-            const cls = student?.class ? `Class ${student.class}` : '';
-            return `<li>[${roll}] ${cls} - ${a.studentName}</li>`;
-          }).join('') : '<li>No students assigned yet.</li>'}
-        </ul>
-      `;
-      openModal('modal-prog-details');
-    };
-
-    window.deleteProgramme = async (id) => {
-      if (!state.isAdmin) return showToast('Admin required', 'error');
-      if (confirm('Delete programme?')) {
-        await deleteDoc(doc(db, 'programmes', id));
-        showToast('Programme deleted', 'success');
-      }
-    };
+      setupTabs('stage-cat-tabs', 'selectedStageCat', renderProgrammeCards);
+      setupTabs('non-stage-cat-tabs', 'selectedNonStageCat', renderProgrammeCards);
+    }
 
     // STUDENT DIRECTORY TABLE RENDER WITHOUT STD- PREFIX
     function renderStudentsTable() {
@@ -2395,6 +2326,84 @@
       document.getElementById('modal-prog-title').textContent = `Add ${type} Programme`;
       openModal('modal-programme');
     }
+
+    // PROGRAMME CARD RENDER
+    function renderProgrammeCards() {
+      const stageContainer = document.getElementById('stage-programmes-list');
+      const nonStageContainer = document.getElementById('non-stage-programmes-list');
+
+      const createCard = (p) => {
+        const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+        const hasLimit = p.maxParticipants && p.maxParticipants > 0;
+        const percent = hasLimit ? Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100)) : 100;
+        const countText = hasLimit ? `${assignedCount} / ${p.maxParticipants}` : `${assignedCount} Participants`;
+
+        return `
+          <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')">
+            <h3>${p.name}</h3>
+            <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender}</span> <span class="badge badge-visitor">${p.category}</span></p>
+            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: <strong>${countText}</strong></p>
+            <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
+            ${state.isAdmin ? `
+              <div style="margin-top:0.8rem; text-align:right;">
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')">Delete</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      };
+
+      if (stageContainer) {
+        let stageList = state.programmes.filter(p => p.type === 'Stage');
+        if (state.selectedStageCat !== 'All') {
+          stageList = stageList.filter(p => p.category === state.selectedStageCat);
+        }
+        stageList = sortProgrammesByCategory(stageList);
+        stageContainer.innerHTML = stageList.length ? stageList.map(createCard).join('') : '<p>No stage programmes found for this category.</p>';
+      }
+
+      if (nonStageContainer) {
+        let nonStageList = state.programmes.filter(p => p.type === 'Non-Stage');
+        if (state.selectedNonStageCat !== 'All') {
+          nonStageList = nonStageList.filter(p => p.category === state.selectedNonStageCat);
+        }
+        nonStageList = sortProgrammesByCategory(nonStageList);
+        nonStageContainer.innerHTML = nonStageList.length ? nonStageList.map(createCard).join('') : '<p>No non-stage programmes found for this category.</p>';
+      }
+    }
+
+    window.viewProgrammeDetails = (id) => {
+      const p = state.programmes.find(x => x.id === id);
+      if (!p) return;
+
+      const assigned = state.assignments.filter(a => a.programmeDocId === p.id);
+      const body = document.getElementById('details-prog-body');
+      
+      body.innerHTML = `
+        <p><strong>Team:</strong> ${p.team}</p>
+        <p><strong>Section:</strong> ${p.gender} | <strong>Category:</strong> ${p.category}</p>
+        <p><strong>Max Limit:</strong> ${p.maxParticipants ? p.maxParticipants : 'Unlimited'}</p>
+        <hr class="divider">
+        <h4>Assigned Participants (${assigned.length})</h4>
+        <ul class="activity-list">
+          ${assigned.length ? assigned.map(a => {
+            const student = state.students.find(s => s.id === a.studentDocId);
+            const roll = (a.studentCustomId || student?.studentId || '-').toString().replace('STD-', '');
+            const cls = student?.class ? `Class ${student.class}` : '';
+            return `<li>[${roll}] ${cls} - ${a.studentName}</li>`;
+          }).join('') : '<li>No students assigned yet.</li>'}
+        </ul>
+      `;
+      openModal('modal-prog-details');
+    };
+
+    window.deleteProgramme = async (id) => {
+      if (!state.isAdmin) return showToast('Admin required', 'error');
+      if (confirm('Delete programme?')) {
+        await deleteDoc(doc(db, 'programmes', id));
+        showToast('Programme deleted', 'success');
+      }
+    };
 
     function renderAssignmentsTable() {
       const tbody = document.getElementById('tbody-assignments');
