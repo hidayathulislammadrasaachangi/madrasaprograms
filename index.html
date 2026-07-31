@@ -1659,6 +1659,22 @@
       });
     }
 
+    // HELPER FUNCTION TO FILTER DUPLICATE PROGRAMMES FOR CLEAN DISPLAY
+    function getUniqueProgrammes(progList) {
+      const unique = [];
+      const seenKeys = new Set();
+
+      progList.forEach(p => {
+        const key = `${p.name.trim().toLowerCase()}_${p.gender}_${p.category}_${p.type}`;
+        if (!seenKeys.has(key)) {
+          seenKeys.add(key);
+          unique.push(p);
+        }
+      });
+
+      return unique;
+    }
+
     function populateDashboardClassFilter() {
       const filterSelect = document.getElementById('dash-practice-class-filter');
       if (!filterSelect) return;
@@ -1811,7 +1827,9 @@
       container.style.display = 'block';
       badgeInfo.textContent = `Class ${student.class} | ${student.category} (${student.gender})`;
 
-      const matchedProgrammes = state.programmes.filter(p => p.category === student.category && p.gender === student.gender);
+      const matchedProgrammes = getUniqueProgrammes(
+        state.programmes.filter(p => p.category === student.category && p.gender === student.gender)
+      );
 
       const stageProgs = matchedProgrammes.filter(p => p.type === 'Stage');
       const nonStageProgs = matchedProgrammes.filter(p => p.type === 'Non-Stage');
@@ -1944,7 +1962,7 @@
       setupTabs('non-stage-cat-tabs', 'selectedNonStageCat', renderProgrammeCards);
     }
 
-    // PROGRAMME CARD RENDER (WITH BOYS/GIRLS AND CATEGORY FILTERING)
+    // PROGRAMME CARD RENDER (WITH AUTOMATIC DUPLICATE FILTERING)
     function renderProgrammeCards() {
       const stageContainer = document.getElementById('stage-programmes-list');
       const nonStageContainer = document.getElementById('non-stage-programmes-list');
@@ -1978,7 +1996,10 @@
         if (state.selectedStageCat !== 'All') {
           stageList = stageList.filter(p => p.category === state.selectedStageCat);
         }
+        
+        stageList = getUniqueProgrammes(stageList);
         stageList = sortProgrammesByCategory(stageList);
+        
         stageContainer.innerHTML = stageList.length ? stageList.map(createCard).join('') : '<p>No stage programmes found for this selection.</p>';
       }
 
@@ -1990,7 +2011,10 @@
         if (state.selectedNonStageCat !== 'All') {
           nonStageList = nonStageList.filter(p => p.category === state.selectedNonStageCat);
         }
+
+        nonStageList = getUniqueProgrammes(nonStageList);
         nonStageList = sortProgrammesByCategory(nonStageList);
+
         nonStageContainer.innerHTML = nonStageList.length ? nonStageList.map(createCard).join('') : '<p>No non-stage programmes found for this selection.</p>';
       }
     }
@@ -2069,6 +2093,7 @@
           list = list.filter(p => p.category === state.dashModalFilterCat);
         }
 
+        list = getUniqueProgrammes(list);
         list = sortProgrammesByCategory(list);
 
         html = `
