@@ -258,6 +258,9 @@
 
     .btn-whatsapp { background: #25d366; color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
+    .btn-danger-sm { background: #ef4444; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; }
+    .btn-danger-sm:hover { background: #dc2626; }
+    
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -371,11 +374,12 @@
     }
 
     @media print {
-      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent { display: none !important; }
+      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print { display: none !important; }
       .main-content { margin-left: 0 !important; }
       .view-container { padding: 0 !important; }
       .app-view { display: none !important; }
       #view-parent-slip { display: block !important; }
+      #view-prog-participants { display: block !important; }
     }
   </style>
 </head>
@@ -425,7 +429,7 @@
         <!-- ITEM-WISE BULK ASSIGN -->
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
         
-        <!-- NEW MENU: PROGRAMME PARTICIPANTS VIEWER -->
+        <!-- PROGRAMME PARTICIPANTS VIEWER -->
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
@@ -841,7 +845,7 @@
               <button class="tab-btn active" data-cat="All">All Categories</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
               <button class="tab-btn" data-cat="Junior">Junior</button>
-              <button class="tab-btn" data-cat="Senior">Senior</option>
+              <button class="tab-btn" data-cat="Senior">Senior</button>
               <button class="tab-btn" data-cat="General">General</button>
             </div>
           </div>
@@ -968,9 +972,9 @@
           </div>
         </section>
 
-        <!-- NEW VIEW: PROGRAMME PARTICIPANTS VIEWER -->
+        <!-- PROGRAMME PARTICIPANTS VIEWER WITH DIRECT REMOVE BUTTON -->
         <section id="view-prog-participants" class="app-view">
-          <div class="glass-card mb-2">
+          <div class="glass-card mb-2 no-print">
             <h2><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> Programme Participants Viewer</h2>
             <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">ഒരു പ്രോഗ്രാം തിരഞ്ഞെടുത്ത് അതിൽ പങ്കെടുക്കുന്ന മുഴുവൻ കുട്ടികളുടെയും ലിസ്റ്റ് കാണുക.</p>
             <hr class="divider">
@@ -1017,7 +1021,7 @@
                 <h3 id="view-prog-title-out" style="color:#0d5c3a;">Participants List</h3>
                 <p id="view-prog-subtitle-out" style="font-size:0.82rem; color:var(--accent-gold); font-weight:600;"></p>
               </div>
-              <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Participants List</button>
+              <button onclick="window.print()" class="btn-secondary no-print"><i class="fa-solid fa-print"></i> Print Participants List</button>
             </div>
             <hr class="divider">
 
@@ -2224,27 +2228,30 @@
       titleEl.textContent = `Participants List: "${selectedProg.name}"`;
       subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
 
-      // Fetch participants assigned to this programme
+      // Fetch assignments for this specific programme
       const assignedRecords = state.assignments.filter(a => a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat));
 
-      let matchedStudents = [];
+      let matchedItems = [];
       assignedRecords.forEach(a => {
         const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
-        if (student) {
-          matchedStudents.push(student);
-        } else {
-          matchedStudents.push({
-            id: a.studentDocId || 'unknown',
-            name: a.studentName,
-            class: 'N/A',
-            studentId: a.studentCustomId || '-'
-          });
-        }
+        matchedItems.push({
+          assignmentId: a.id,
+          studentDocId: a.studentDocId,
+          name: a.studentName,
+          class: student?.class || 'N/A',
+          studentId: a.studentCustomId || student?.studentId || '-'
+        });
       });
 
-      matchedStudents = sortByClass(matchedStudents);
+      // Sort by class
+      matchedItems.sort((a, b) => {
+        const clsA = parseInt(a.class || 0, 10);
+        const clsB = parseInt(b.class || 0, 10);
+        if (clsA !== clsB) return clsA - clsB;
+        return a.name.localeCompare(b.name);
+      });
 
-      if (matchedStudents.length === 0) {
+      if (matchedItems.length === 0) {
         outputEl.innerHTML = `<p class="text-center" style="color:#ef4444; padding: 1.5rem 0;">No participants assigned to this programme yet.</p>`;
         return;
       }
@@ -2258,10 +2265,11 @@
               <th>Student Name</th>
               <th>Class</th>
               <th>Gender Section</th>
+              <th class="no-print">Action</th>
             </tr>
           </thead>
           <tbody>
-            ${matchedStudents.map((s, idx) => {
+            ${matchedItems.map((s, idx) => {
               const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
               return `
                 <tr>
@@ -2270,6 +2278,13 @@
                   <td><strong style="color:var(--primary-green);">${s.name}</strong></td>
                   <td>Class ${s.class}</td>
                   <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
+                  <td class="no-print">
+                    ${state.isAdmin ? `
+                      <button class="btn-danger-sm" onclick="window.removeParticipantDirect('${s.assignmentId}', '${s.name}', '${selectedProg.name}')">
+                        <i class="fa-solid fa-trash"></i> Remove
+                      </button>
+                    ` : '<span class="badge badge-visitor">Read Only</span>'}
+                  </td>
                 </tr>
               `;
             }).join('')}
@@ -2277,6 +2292,28 @@
         </table>
       `;
     }
+
+    /* DIRECT REMOVE FUNCTION FOR PARTICIPANTS VIEWER */
+    window.removeParticipantDirect = async (assignmentId, studentName, programmeName) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (confirm(`Remove "${studentName}" from "${programmeName}"?`)) {
+        try {
+          await deleteDoc(doc(db, 'assignments', assignmentId));
+
+          // Also remove practice entry associated with this student & programme
+          const practiceMatches = state.practice.filter(p => p.studentName === studentName && p.programmeName === programmeName);
+          for (const pr of practiceMatches) {
+            await deleteDoc(doc(db, 'practice', pr.id));
+          }
+
+          showToast(`Removed ${studentName} successfully!`, 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to remove participant', 'error');
+        }
+      }
+    };
 
     window.openStatusManageModal = (studentDocId) => {
       const s = state.students.find(x => x.id === studentDocId);
