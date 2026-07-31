@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Hidayathul Islam Madrasa Achangi - Rabi'ul Awwal Programme Management System">
   
-  <!-- AUTOMATIC CACHE CONTROL META TAGS -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 
   <title>Hidayathul Islam Madrasa - Achangi | Rabi'ul Awwal Management System</title>
   
-  <!-- Font Awesome Icons & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
@@ -301,7 +299,6 @@
     .checkbox-card { background: rgba(0,0,0,0.03); border: 1px solid var(--glass-border-light); border-radius: 10px; padding: 0.8rem; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; }
     .checkbox-card input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-green); cursor: pointer; }
 
-    /* PROFESSIONAL CARD SELECTOR STYLING FOR ITEM-WISE ASSIGNMENT & PARTICIPANTS */
     .selector-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -360,6 +357,8 @@
     .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: 12px; background: white; color: #111; margin-top: 1rem; }
     .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.8rem; margin-bottom: 1rem; }
 
+    .prog-page-break { page-break-after: always; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
+
     .mobile-only { display: none; }
     .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
 
@@ -380,6 +379,8 @@
       .app-view { display: none !important; }
       #view-parent-slip { display: block !important; }
       #view-prog-participants { display: block !important; }
+      #view-category-pdf { display: block !important; }
+      .prog-page-break { page-break-after: always !important; border-bottom: none !important; }
     }
   </style>
 </head>
@@ -396,6 +397,7 @@
   <div class="app-container">
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
+    <!-- SIDEBAR WITH NEW SEPARATE BOYS & GIRLS PDF EXPORT LINKS -->
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <i class="fa-solid fa-mosque sidebar-logo"></i>
@@ -417,6 +419,11 @@
       <nav class="sidebar-menu">
         <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
         <a href="#" class="nav-item" data-view="parent-slip"><i class="fa-solid fa-receipt"></i> <span style="color:var(--accent-gold); font-weight:bold;">Student Programme Slip</span></a>
+        
+        <!-- NEW SEPARATE PDF EXPORT LINKS FOR BOYS & GIRLS IN SIDEBAR -->
+        <a href="#" class="nav-item" data-view="category-pdf-boys" style="background: rgba(37, 99, 235, 0.2); border-left: 4px solid #2563eb;"><i class="fa-solid fa-file-pdf" style="color:#2563eb;"></i> <span style="color:#60a5fa; font-weight:bold;">👦 Boys Category PDF</span></a>
+        <a href="#" class="nav-item" data-view="category-pdf-girls" style="background: rgba(219, 39, 119, 0.2); border-left: 4px solid #db2777;"><i class="fa-solid fa-file-pdf" style="color:#db2777;"></i> <span style="color:#f472b6; font-weight:bold;">👧 Girls Category PDF</span></a>
+
         <a href="#" class="nav-item" data-view="teams"><i class="fa-solid fa-users-gear"></i> <span>Team Management</span></a>
         <a href="#" class="nav-item" data-view="students"><i class="fa-solid fa-user-graduate"></i> <span>Student Management</span></a>
         <a href="#" class="nav-item" data-view="mixed-groups"><i class="fa-solid fa-people-group"></i> <span>Mixed Groups (Burda etc.)</span></a>
@@ -425,11 +432,7 @@
         <a href="#" class="nav-item" data-view="stage-programmes"><i class="fa-solid fa-microphone"></i> <span>Stage Programmes</span></a>
         <a href="#" class="nav-item" data-view="non-stage-programmes"><i class="fa-solid fa-pen-ruler"></i> <span>Non Stage Programmes</span></a>
         <a href="#" class="nav-item" data-view="assignments"><i class="fa-solid fa-clipboard-list"></i> <span>Assignments</span></a>
-        
-        <!-- ITEM-WISE BULK ASSIGN -->
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
-        
-        <!-- PROGRAMME PARTICIPANTS VIEWER -->
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
@@ -449,7 +452,7 @@
 
         <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem;">
           <span style="opacity: 0.7; color: #fff;">Designed & Developed by</span><br>
-          <strong style="color: var(--accent-gold); font-size: 0.82rem;">ABDUL KAREEM FALILI AL-JALALI</strong>
+          <strong style="color: var(--accent-gold); font-size: 0.82rem;">ABDUL KAREEM FAZILY AL-JALALI</strong>
         </div>
       </div>
     </aside>
@@ -677,6 +680,74 @@
               <button id="btn-print-parent-slip" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Slip / Save PDF</button>
               <button id="btn-whatsapp-parent-slip" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Send to WhatsApp</button>
             </div>
+          </div>
+        </section>
+
+        <!-- BOYS CATEGORY PDF VIEW -->
+        <section id="view-category-pdf-boys" class="app-view">
+          <div class="glass-card mb-2 no-print">
+            <h2><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section - Category PDF Export</h2>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">ആൺകുട്ടികളുടെ ഒരു കാറ്റഗറിയിലെ മുഴുവൻ പരിപാടികളും ആളുകളുടെ പേരുസഹിതം വേറെ വേറെ പേജിൽ ഒറ്റ പിഡിഎഫ് ആയി ഡൗൺലോഡ് ചെയ്യാം.</p>
+            <hr class="divider">
+
+            <div class="form-group mb-2">
+              <label style="font-weight:700; color:#2563eb;">Select Category for Boys Section</label>
+              <select id="cat-pdf-boys-select" class="form-control" style="font-weight:600; border: 1.5px solid #2563eb;">
+                <option value="Sub Junior">Sub Junior</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+
+            <button id="btn-generate-boys-pdf" class="btn-primary full-width" style="background:#2563eb;"><i class="fa-solid fa-layer-group"></i> Generate Boys Category PDF</button>
+          </div>
+
+          <div id="boys-pdf-preview-card" class="glass-card" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;" class="no-print">
+              <div>
+                <h3 id="boys-pdf-title-out" style="color:#2563eb;">Boys Programmes List</h3>
+                <p id="boys-pdf-subtitle-out" style="font-size:0.85rem; opacity:0.8;"></p>
+              </div>
+              <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Download / Print PDF</button>
+            </div>
+            <hr class="divider no-print">
+
+            <div id="boys-pdf-output-area"></div>
+          </div>
+        </section>
+
+        <!-- GIRLS CATEGORY PDF VIEW -->
+        <section id="view-category-pdf-girls" class="app-view">
+          <div class="glass-card mb-2 no-print">
+            <h2><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section - Category PDF Export</h2>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">പെൺകുട്ടികളുടെ ഒരു കാറ്റഗറിയിലെ മുഴുവൻ പരിപാടികളും ആളുകളുടെ പേരുസഹിതം വേറെ വേറെ പേജിൽ ഒറ്റ പിഡിഎഫ് ആയി ഡൗൺലോഡ് ചെയ്യാം.</p>
+            <hr class="divider">
+
+            <div class="form-group mb-2">
+              <label style="font-weight:700; color:#db2777;">Select Category for Girls Section</label>
+              <select id="cat-pdf-girls-select" class="form-control" style="font-weight:600; border: 1.5px solid #db2777;">
+                <option value="Sub Junior">Sub Junior</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+
+            <button id="btn-generate-girls-pdf" class="btn-primary full-width" style="background:#db2777;"><i class="fa-solid fa-layer-group"></i> Generate Girls Category PDF</button>
+          </div>
+
+          <div id="girls-pdf-preview-card" class="glass-card" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;" class="no-print">
+              <div>
+                <h3 id="girls-pdf-title-out" style="color:#db2777;">Girls Programmes List</h3>
+                <p id="girls-pdf-subtitle-out" style="font-size:0.85rem; opacity:0.8;"></p>
+              </div>
+              <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Download / Print PDF</button>
+            </div>
+            <hr class="divider no-print">
+
+            <div id="girls-pdf-output-area"></div>
           </div>
         </section>
 
@@ -972,7 +1043,7 @@
           </div>
         </section>
 
-        <!-- PROGRAMME PARTICIPANTS VIEWER WITH DIRECT REMOVE BUTTON -->
+        <!-- PROGRAMME PARTICIPANTS VIEWER -->
         <section id="view-prog-participants" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> Programme Participants Viewer</h2>
@@ -1018,8 +1089,8 @@
           <div id="view-participants-results-card" class="glass-card" style="display:none;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
               <div>
-                <h3 id="view-prog-title-out" style="color:#0d5c3a;">Participants List</h3>
-                <p id="view-prog-subtitle-out" style="font-size:0.82rem; color:var(--accent-gold); font-weight:600;"></p>
+                <h1 id="view-prog-title-out" style="color:#0d5c3a; font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Participants List</h1>
+                <p id="view-prog-subtitle-out" style="font-size:1.1rem; color:var(--accent-gold); font-weight:700; margin-top:0.2rem;"></p>
               </div>
               <button onclick="window.print()" class="btn-secondary no-print"><i class="fa-solid fa-print"></i> Print Participants List</button>
             </div>
@@ -1286,16 +1357,8 @@
       selectedNonStageCat: 'All',
       dashModalFilterCat: 'All',
       activeDashModalType: '',
-      bulkSelection: {
-        category: '',
-        gender: '',
-        type: ''
-      },
-      viewSelection: {
-        category: '',
-        gender: '',
-        type: ''
-      }
+      bulkSelection: { category: '', gender: '', type: '' },
+      viewSelection: { category: '', gender: '', type: '' }
     };
 
     let activeSnapshotUnsubscribers = [];
@@ -1450,6 +1513,10 @@
       document.getElementById('btn-print-parent-slip').addEventListener('click', () => window.print());
       document.getElementById('btn-whatsapp-parent-slip').addEventListener('click', shareWhatsAppSlip);
 
+      /* BOYS & GIRLS GENERATE BUTTON EVENT LISTENERS */
+      document.getElementById('btn-generate-boys-pdf').addEventListener('click', () => generateGenderWisePDF('Male'));
+      document.getElementById('btn-generate-girls-pdf').addEventListener('click', () => generateGenderWisePDF('Female'));
+
       document.getElementById('btn-add-mixed-group').addEventListener('click', () => {
         if(!state.isAdmin) return showToast('Admin required', 'error');
         renderMixedStudentChecklist();
@@ -1569,7 +1636,6 @@
         }
       });
 
-      /* CARD SELECTORS FOR BULK ASSIGN & PARTICIPANTS VIEWER */
       setupCardSelectors();
       setupViewCardSelectors();
 
@@ -1796,6 +1862,107 @@
       return unique;
     }
 
+    /* GENERATE GENDER-WISE CATEGORY PDF FUNCTION (BOYS / GIRLS) */
+    function generateGenderWisePDF(gender) {
+      const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
+      const category = document.getElementById(selectId).value;
+
+      const cardId = gender === 'Male' ? 'boys-pdf-preview-card' : 'girls-pdf-preview-card';
+      const outputAreaId = gender === 'Male' ? 'boys-pdf-output-area' : 'girls-pdf-output-area';
+      const titleId = gender === 'Male' ? 'boys-pdf-title-out' : 'girls-pdf-title-out';
+      const subtitleId = gender === 'Male' ? 'boys-pdf-subtitle-out' : 'girls-pdf-subtitle-out';
+
+      const card = document.getElementById(cardId);
+      const outputArea = document.getElementById(outputAreaId);
+      const titleEl = document.getElementById(titleId);
+      const subtitleEl = document.getElementById(subtitleId);
+
+      if (!card || !outputArea) return;
+
+      const categoryProgrammes = getUniqueProgrammes(
+        state.programmes.filter(p => p.gender === gender && (p.category === category || p.category === 'General'))
+      );
+
+      if (categoryProgrammes.length === 0) {
+        showToast(`No programmes found for ${category} (${gender === 'Male' ? 'Boys Section' : 'Girls Section'})`, 'warning');
+        card.style.display = 'none';
+        return;
+      }
+
+      card.style.display = 'block';
+      titleEl.textContent = `HIDAYATHUL ISLAM MADRASA - ACHANGI`;
+      subtitleEl.textContent = `All Programmes List | Category: ${category} | Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'}`;
+
+      let fullHtml = '';
+
+      categoryProgrammes.forEach((prog) => {
+        const assignedRecords = state.assignments.filter(a => a.programmeDocId === prog.id || (a.programmeName === prog.name && a.studentGender === gender));
+
+        let matchedItems = [];
+        assignedRecords.forEach(a => {
+          const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+          matchedItems.push({
+            assignmentId: a.id,
+            name: a.studentName,
+            class: student?.class || 'N/A',
+            studentId: a.studentCustomId || student?.studentId || '-'
+          });
+        });
+
+        matchedItems.sort((a, b) => {
+          const clsA = parseInt(a.class || 0, 10);
+          const clsB = parseInt(b.class || 0, 10);
+          if (clsA !== clsB) return clsA - clsB;
+          return a.name.localeCompare(b.name);
+        });
+
+        fullHtml += `
+          <div class="prog-page-break">
+            <div style="text-align:center; margin-bottom: 1.2rem; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.8rem;">
+              <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.6rem;">HIDAYATHUL ISLAM MADRASA - ACHANGI</h2>
+              <p style="font-size:0.85rem; font-weight:600; color:#d4af37;">RABI'UL AWWAL PROGRAMMES PARTICIPANTS LIST</p>
+            </div>
+
+            <div style="margin-bottom: 1.2rem; background: #f8faf9; padding: 1rem; border-radius: 8px; border-left: 5px solid #0d5c3a;">
+              <h1 style="color:#0d5c3a; font-size: 2.2rem; font-weight: 800; text-transform: uppercase; margin:0;">${prog.name}</h1>
+              <p style="font-size: 1rem; color: #d4af37; font-weight: 700; margin-top: 0.3rem;">
+                Category: ${prog.category} &nbsp;|&nbsp; Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} &nbsp;|&nbsp; Type: ${prog.type} Item
+              </p>
+            </div>
+
+            <table class="data-table" style="width:100%;">
+              <thead>
+                <tr style="background:#f4f7f5; color:#0d5c3a;">
+                  <th>#</th>
+                  <th>Roll No / ID</th>
+                  <th>Student Name</th>
+                  <th>Class</th>
+                  <th>Section</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${matchedItems.length > 0 ? matchedItems.map((s, idx) => {
+                  const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+                  return `
+                    <tr>
+                      <td><strong>${idx + 1}</strong></td>
+                      <td><strong>${cleanRoll}</strong></td>
+                      <td><strong style="color:#0d5c3a;">${s.name}</strong></td>
+                      <td>Class ${s.class}</td>
+                      <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
+                    </tr>
+                  `;
+                }).join('') : `<tr><td colspan="5" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme.</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      });
+
+      outputArea.innerHTML = fullHtml;
+      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${category}`, 'success');
+    }
+
     function populateDashboardClassFilter() {
       const filterSelect = document.getElementById('dash-practice-class-filter');
       if (!filterSelect) return;
@@ -1988,7 +2155,6 @@
       checklistEl.innerHTML = html;
     }
 
-    /* CARD SELECTOR LOGIC FOR ITEM-WISE BULK ASSIGN */
     function setupCardSelectors() {
       const bindGroup = (gridId, stateField, nextGroupId) => {
         const chips = document.querySelectorAll(`#${gridId} .selector-chip`);
@@ -2147,7 +2313,6 @@
       renderBulkStudentChecklist();
     }
 
-    /* CARD SELECTOR LOGIC FOR PROGRAMME PARTICIPANTS VIEWER */
     function setupViewCardSelectors() {
       const bindGroup = (gridId, stateField, nextGroupId) => {
         const chips = document.querySelectorAll(`#${gridId} .selector-chip`);
@@ -2225,10 +2390,9 @@
       if (!selectedProg) return;
 
       container.style.display = 'block';
-      titleEl.textContent = `Participants List: "${selectedProg.name}"`;
+      titleEl.textContent = `${selectedProg.name}`;
       subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
 
-      // Fetch assignments for this specific programme
       const assignedRecords = state.assignments.filter(a => a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat));
 
       let matchedItems = [];
@@ -2243,7 +2407,6 @@
         });
       });
 
-      // Sort by class
       matchedItems.sort((a, b) => {
         const clsA = parseInt(a.class || 0, 10);
         const clsB = parseInt(b.class || 0, 10);
@@ -2293,7 +2456,6 @@
       `;
     }
 
-    /* DIRECT REMOVE FUNCTION FOR PARTICIPANTS VIEWER */
     window.removeParticipantDirect = async (assignmentId, studentName, programmeName) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
@@ -2301,7 +2463,6 @@
         try {
           await deleteDoc(doc(db, 'assignments', assignmentId));
 
-          // Also remove practice entry associated with this student & programme
           const practiceMatches = state.practice.filter(p => p.studentName === studentName && p.programmeName === programmeName);
           for (const pr of practiceMatches) {
             await deleteDoc(doc(db, 'practice', pr.id));
