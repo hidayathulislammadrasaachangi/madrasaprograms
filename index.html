@@ -161,6 +161,12 @@
     }
     body.dark-mode .topbar { background: var(--card-bg-dark); border-bottom-color: var(--glass-border-dark); }
 
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .view-container { padding: 1.8rem; flex: 1; }
     .app-view { display: none; }
     .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
@@ -522,7 +528,22 @@
       }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
-      .mobile-only { display: block; }
+      
+      .topbar { 
+        padding: 0 1rem; 
+      }
+      
+      .topbar-left h2 { 
+        font-size: 1.15rem; 
+        line-height: 1.2;
+      }
+      
+      .mobile-only { 
+        display: inline-flex !important; 
+        align-items: center;
+        justify-content: center;
+      }
+      
       .dashboard-grid, .filter-bar { grid-template-columns: 1fr; }
       .hero-banner { flex-direction: column; gap: 1rem; padding: 1.5rem; }
       .hero-banner h1 { font-size: 1.3rem; }
@@ -2416,7 +2437,6 @@
       renderParentSlip();
     };
 
-    /* UPDATED: RENDER STUDENT SLIP CATEGORIZED BY STAGE & NON-STAGE */
     function renderParentSlip() {
       const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
@@ -2450,7 +2470,6 @@
       let rowsHtml = '';
       let index = 1;
 
-      // 1. Stage Programmes Section
       if (stageAssignments.length > 0) {
         rowsHtml += `<tr style="background:#e8f5e9; color:#0d5c3a; font-weight:700;"><td colspan="3">🎤 Stage Programmes</td></tr>`;
         stageAssignments.forEach(a => {
@@ -2464,7 +2483,6 @@
         });
       }
 
-      // 2. Non-Stage Programmes Section
       if (nonStageAssignments.length > 0) {
         rowsHtml += `<tr style="background:#fff8e1; color:#b78103; font-weight:700;"><td colspan="3">✏️ Non-Stage Programmes</td></tr>`;
         nonStageAssignments.forEach(a => {
@@ -2478,7 +2496,6 @@
         });
       }
 
-      // 3. Mixed Group Section
       if (userMixedGroups.length > 0) {
         rowsHtml += `<tr style="background:#e0f2fe; color:#0369a1; font-weight:700;"><td colspan="3">👥 Mixed Category Groups</td></tr>`;
         userMixedGroups.forEach(g => {
