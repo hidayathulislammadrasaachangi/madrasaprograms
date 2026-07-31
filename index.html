@@ -46,7 +46,7 @@
     body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
     body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
-    .app-container { display: flex; min-height: 100vh; }
+    .app-container { display: flex; min-height: 100vh; position: relative; }
 
     .glass-card {
       background: var(--card-bg-light);
@@ -73,45 +73,72 @@
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* MOBILE OVERLAY BACKDROP */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      z-index: 99;
+    }
+    .sidebar-overlay.active {
+      display: block;
+    }
+
     .sidebar-header {
-      padding: 1.5rem;
+      padding: 1.25rem;
       display: flex;
       align-items: center;
       gap: 0.85rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .sidebar-logo { font-size: 2.2rem; color: var(--accent-gold); }
-    .sidebar-title h3 { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; }
-    .sidebar-title p { font-size: 0.72rem; color: var(--accent-gold); font-weight: 500; }
+    .sidebar-logo { font-size: 2rem; color: var(--accent-gold); }
+    .sidebar-title h3 { font-size: 1rem; font-weight: 700; letter-spacing: 0.5px; }
+    .sidebar-title p { font-size: 0.7rem; color: var(--accent-gold); font-weight: 500; }
 
     .team-switcher-container {
-      padding: 1rem 1.5rem;
+      padding: 0.85rem 1.25rem;
       background: rgba(0, 0, 0, 0.2);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .team-switcher-container label { font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); display: block; margin-bottom: 0.3rem; font-weight: 600; letter-spacing: 0.5px; }
+    .team-switcher-container label { font-size: 0.72rem; text-transform: uppercase; color: var(--accent-gold); display: block; margin-bottom: 0.3rem; font-weight: 600; letter-spacing: 0.5px; }
     .team-select-dropdown { background: rgba(255, 255, 255, 0.12); color: white; border-color: rgba(212, 175, 55, 0.4); font-weight: 600; border-radius: 8px; }
 
-    .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.8rem 0; }
+    .sidebar-menu { 
+      flex: 1; 
+      overflow-y: auto; 
+      padding: 0.5rem 0; 
+    }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
-      padding: 0.85rem 1.5rem;
-      color: rgba(255, 255, 255, 0.82);
+      gap: 0.75rem;
+      padding: 0.7rem 1.25rem;
+      color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item i {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.75);
     }
     .nav-item:hover, .nav-item.active {
       background: rgba(212, 175, 55, 0.18);
       color: var(--accent-gold);
       border-left: 4px solid var(--accent-gold);
     }
+    .nav-item:hover i, .nav-item.active i {
+      color: var(--accent-gold);
+    }
 
-    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .sidebar-footer { padding: 1rem 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
     .main-content {
       flex: 1;
@@ -140,7 +167,6 @@
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* MODERN HERO BANNER STYLING */
     .hero-banner {
       background: linear-gradient(135deg, #052214 0%, #0d5c3a 50%, #157a4c 100%);
       color: white;
@@ -331,7 +357,6 @@
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
     .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
 
-    /* DIGITAL APP STYLE STUDENT SELECTOR CARDS */
     .student-app-card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -387,7 +412,6 @@
       line-height: 1.2;
     }
 
-    /* MULTI-SELECT CHECKBOX GRID CARDS */
     .category-section-title {
       font-size: 0.95rem;
       font-weight: 700;
@@ -488,8 +512,14 @@
     .mobile-only { display: none; }
     .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
 
+    /* MOBILE RESPONSIVE UPDATES FOR EASY SIDEBAR ACCESS */
     @media (max-width: 900px) {
-      .sidebar { transform: translateX(-100%); }
+      .sidebar { 
+        width: 82%; 
+        max-width: 300px;
+        transform: translateX(-100%); 
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+      }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
       .mobile-only { display: block; }
@@ -519,6 +549,10 @@
   <div id="toast-container" class="toast-container"></div>
 
   <div class="app-container">
+    
+    <!-- BACKDROP OVERLAY FOR MOBILE SIDEBAR -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <i class="fa-solid fa-mosque sidebar-logo"></i>
@@ -557,7 +591,18 @@
         <div id="auth-status" class="auth-status mb-2">
           <span class="badge badge-visitor" id="role-badge">View Only</span>
         </div>
-        <button id="btn-auth-action" class="btn-primary full-width"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
+        <button id="btn-auth-action" class="btn-primary full-width mb-2"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
+
+        <!-- WHATSAPP HELPLINE BUTTON -->
+        <a href="https://wa.me/919113695271?text=Hello%20Hidayathul%20Islam%20Madrasa%20Support" target="_blank" class="btn-whatsapp full-width" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem;">
+          <i class="fa-brands fa-whatsapp"></i> Helpline Support
+        </a>
+
+        <!-- CREATOR BRANDING -->
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem;">
+          <span style="opacity: 0.7; color: #fff;">Designed & Developed by</span><br>
+          <strong style="color: var(--accent-gold); font-size: 0.82rem;">ABDUL KAREEM FALILI AL-JALALI</strong>
+        </div>
       </div>
     </aside>
 
@@ -580,7 +625,6 @@
 
         <!-- DASHBOARD VIEW -->
         <section id="view-dashboard" class="app-view active">
-          <!-- REFINED PROFESSIONAL HERO BANNER -->
           <div class="hero-banner">
             <div class="hero-text-content">
               <h1 id="dash-madrasa-name">HIDAYATHUL ISLAM MADRASA <span>ACHANGI</span></h1>
@@ -589,7 +633,6 @@
             <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Team Isolated Data</div>
           </div>
 
-          <!-- REFINED TEAM INFO CARD -->
           <div class="glass-card mb-2">
             <div class="team-info-grid">
               <div class="info-item">
@@ -675,7 +718,6 @@
             </div>
           </div>
 
-          <!-- ENHANCED: DIGITAL & PROFESSIONAL STUDENT PRACTICE STATUS DASHBOARD -->
           <div class="glass-card mt-2">
             <div class="action-header">
               <div>
@@ -715,7 +757,7 @@
           </div>
         </section>
 
-        <!-- STUDENT PROGRAMME SLIP VIEW WITH DIGITAL APP-STYLE CARDS -->
+        <!-- STUDENT PROGRAMME SLIP VIEW -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
@@ -741,7 +783,6 @@
               </div>
             </div>
 
-            <!-- REPLACED OLD DROPDOWN WITH APP CARDS -->
             <div class="form-group mb-2">
               <label style="color:var(--primary-green); font-size:0.95rem;"><strong>3. Choose Student Name:</strong></label>
               <input type="hidden" id="slip-selected-student-id">
@@ -771,7 +812,7 @@
                   <tr style="background:#f4f7f5; color:#0d5c3a;">
                     <th>#</th>
                     <th>Programme Item Name</th>
-                    <th>Category / Group</th>
+                    <th>Category / Type</th>
                   </tr>
                 </thead>
                 <tbody id="slip-out-table-body">
@@ -911,7 +952,7 @@
           </div>
         </section>
 
-        <!-- STAGE PROGRAMMES VIEW WITH BOYS / GIRLS / ALL SECTION FILTER -->
+        <!-- STAGE PROGRAMMES VIEW -->
         <section id="view-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header mb-2">
@@ -920,14 +961,12 @@
             </div>
             <hr class="divider">
             
-            <!-- SECTION FILTER (BOYS / GIRLS / ALL) -->
             <div class="tab-buttons" id="stage-sec-tabs">
               <button class="tab-btn active" data-sec="All"><i class="fa-solid fa-users"></i> All Sections</button>
               <button class="tab-btn" data-sec="Male"><i class="fa-solid fa-mars"></i> Boys Section</button>
               <button class="tab-btn" data-sec="Female"><i class="fa-solid fa-venus"></i> Girls Section</button>
             </div>
 
-            <!-- CATEGORY FILTER (SUB JUNIOR, JUNIOR, ETC.) -->
             <div class="tab-buttons" id="stage-cat-tabs">
               <button class="tab-btn active" data-cat="All">All Categories</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
@@ -939,7 +978,7 @@
           <div id="stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- NON-STAGE PROGRAMMES VIEW WITH BOYS / GIRLS / ALL SECTION FILTER -->
+        <!-- NON-STAGE PROGRAMMES VIEW -->
         <section id="view-non-stage-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header mb-2">
@@ -948,14 +987,12 @@
             </div>
             <hr class="divider">
 
-            <!-- SECTION FILTER (BOYS / GIRLS / ALL) -->
             <div class="tab-buttons" id="non-stage-sec-tabs">
               <button class="tab-btn active" data-sec="All"><i class="fa-solid fa-users"></i> All Sections</button>
               <button class="tab-btn" data-sec="Male"><i class="fa-solid fa-mars"></i> Boys Section</button>
               <button class="tab-btn" data-sec="Female"><i class="fa-solid fa-venus"></i> Girls Section</button>
             </div>
 
-            <!-- CATEGORY FILTER (SUB JUNIOR, JUNIOR, ETC.) -->
             <div class="tab-buttons" id="non-stage-cat-tabs">
               <button class="tab-btn active" data-cat="All">All Categories</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
@@ -967,7 +1004,7 @@
           <div id="non-stage-programmes-list" class="cards-grid"></div>
         </section>
 
-        <!-- ULTRA MODERN APP-STYLE ASSIGNMENT PORTAL -->
+        <!-- ASSIGNMENT PORTAL -->
         <section id="view-assignments" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Portal</h2>
@@ -991,14 +1028,12 @@
                 </div>
               </div>
 
-              <!-- APP-STYLE STUDENT SELECTOR CARD GRID -->
               <div id="assign-student-picker-wrapper" class="form-group mb-2" style="display:none;">
                 <label style="color:var(--primary-green); font-weight:700;">3. Choose Student Name:</label>
                 <input type="hidden" id="assign-selected-student-id">
                 <div id="assign-student-cards-grid" class="student-app-card-grid mt-1"></div>
               </div>
 
-              <!-- PROGRAMMES MULTI-SELECT CHECKBOX CONTAINER -->
               <div id="assign-programmes-container" style="display:none; background: rgba(0,0,0,0.02); padding: 1.2rem; border-radius: 12px; border: 1px solid var(--glass-border-light);" class="mt-2">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
                   <strong style="color:var(--primary-green);">4. Select Programmes for Student:</strong>
@@ -1151,7 +1186,6 @@
     </div>
   </div>
 
-  <!-- PROGRAMME MODAL: OPTIONAL MAXIMUM PARTICIPANTS LIMIT -->
   <div id="modal-programme" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
@@ -1214,7 +1248,6 @@
     </div>
   </div>
 
-  <!-- MODERN STATUS MANAGEMENT MODAL WITH STAGE/NON-STAGE CATEGORIES -->
   <div id="modal-manage-student-status" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
@@ -1228,7 +1261,6 @@
     </div>
   </div>
 
-  <!-- DASHBOARD POPUP DETAILS MODAL -->
   <div id="modal-dashboard-details" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
@@ -1326,6 +1358,12 @@
       const navItems = document.querySelectorAll('.nav-item');
       const views = document.querySelectorAll('.app-view');
       const pageTitle = document.getElementById('page-title');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      const closeNav = () => {
+        document.getElementById('sidebar').classList.remove('open');
+        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+      };
 
       navItems.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -1341,17 +1379,17 @@
           });
 
           pageTitle.textContent = item.querySelector('span').textContent;
-          document.getElementById('sidebar').classList.remove('open');
+          closeNav();
         });
       });
 
       document.getElementById('toggle-sidebar').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar').classList.add('open');
+        if (sidebarOverlay) sidebarOverlay.classList.add('active');
       });
 
-      document.getElementById('close-sidebar').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.remove('open');
-      });
+      document.getElementById('close-sidebar').addEventListener('click', closeNav);
+      if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeNav);
 
       document.getElementById('theme-toggle').addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
@@ -1464,7 +1502,6 @@
       document.getElementById('btn-add-stage-prog').addEventListener('click', () => openProgrammeModal('Stage'));
       document.getElementById('btn-add-non-stage-prog').addEventListener('click', () => openProgrammeModal('Non-Stage'));
 
-      // PROGRAMME SAVE (COMMON/GLOBAL PROGRAMME LIST)
       document.getElementById('form-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!state.isAdmin) return showToast('Admin mode required', 'error');
@@ -1495,11 +1532,9 @@
         }
       });
 
-      // SMART ASSIGNMENT WORKFLOW EVENT LISTENERS
       document.getElementById('assign-class-filter-select').addEventListener('change', populateAssignmentStudentDropdown);
       document.getElementById('assign-gender-select').addEventListener('change', populateAssignmentStudentDropdown);
 
-      // MULTI-ASSIGNMENT SUBMISSION HANDLER
       document.getElementById('form-assign-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!state.isAdmin) return showToast('Admin access required', 'error');
@@ -1521,7 +1556,6 @@
           const prog = state.programmes.find(p => p.id === progId);
           if (!prog) continue;
 
-          // Duplicate Check
           const duplicate = state.assignments.find(a => a.studentDocId === student.id && a.programmeDocId === prog.id);
           if (duplicate) continue;
 
@@ -1572,7 +1606,6 @@
       document.getElementById('filter-student-category').addEventListener('change', renderStudentsTable);
       document.getElementById('global-search-input').addEventListener('input', renderGlobalSearchResults);
 
-      // Dashboard Practice Table Filters
       document.getElementById('dash-practice-class-filter').addEventListener('change', renderDashboardStudentStatusTable);
       document.getElementById('dash-practice-category-filter').addEventListener('change', renderDashboardStudentStatusTable);
       document.getElementById('dash-practice-search-input').addEventListener('input', renderDashboardStudentStatusTable);
@@ -1633,7 +1666,6 @@
       });
       activeSnapshotUnsubscribers.push(unsubTeam);
 
-      // REALTIME LISTENER WITH STRICT SEQUENTIAL CHEST NUMBERS
       const qStudents = query(collection(db, 'students'), where('team', '==', state.activeTeam));
       const unsubStudents = onSnapshot(qStudents, async (s) => {
         let fetchedStudents = s.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -2163,9 +2195,12 @@
               ${list.length ? list.map(s => {
                 const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
                 return `
-                  <tr>
+                  <tr style="cursor: pointer;" onclick="window.viewStudentSlipFromModal('${s.id}')" title="ക്ലിക്ക് ചെയ്ത് പ്രോഗ്രാമുകൾ കാണുക">
                     <td><strong>${cleanRoll}</strong></td>
-                    <td><strong>Class ${s.class} - ${s.name}</strong></td>
+                    <td>
+                      <strong style="color: var(--primary-green);">Class ${s.class} - ${s.name}</strong>
+                      <br><small style="color: #6b7280; font-size: 0.75rem;">ക്ലിക്ക് ചെയ്ത് പ്രോഗ്രാം കാണുക ➔</small>
+                    </td>
                     <td>${s.gender}</td>
                     <td>Class ${s.class}</td>
                     <td><span class="badge badge-visitor">${s.category}</span></td>
@@ -2230,6 +2265,22 @@
 
       contentEl.innerHTML = html;
     }
+
+    window.viewStudentSlipFromModal = (studentDocId) => {
+      closeModal('modal-dashboard-details');
+
+      const navItem = document.querySelector('.nav-item[data-view="parent-slip"]');
+      if (navItem) navItem.click();
+
+      setTimeout(() => {
+        window.selectStudentForSlip(studentDocId);
+        
+        const targetCard = document.getElementById(`slip-std-card-${studentDocId}`);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 200);
+    };
 
     window.filterDashModalCat = (cat) => {
       state.dashModalFilterCat = cat;
@@ -2365,6 +2416,7 @@
       renderParentSlip();
     };
 
+    /* UPDATED: RENDER STUDENT SLIP CATEGORIZED BY STAGE & NON-STAGE */
     function renderParentSlip() {
       const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
@@ -2392,28 +2444,53 @@
       const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
+      const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
+      const nonStageAssignments = userAssignments.filter(a => a.programmeType === 'Non-Stage');
+
       let rowsHtml = '';
       let index = 1;
 
-      userAssignments.forEach(a => {
-        rowsHtml += `
-          <tr>
-            <td>${index++}</td>
-            <td><strong>${a.programmeName}</strong></td>
-            <td>${a.programmeType || 'Individual'} (${a.studentCategory})</td>
-          </tr>
-        `;
-      });
+      // 1. Stage Programmes Section
+      if (stageAssignments.length > 0) {
+        rowsHtml += `<tr style="background:#e8f5e9; color:#0d5c3a; font-weight:700;"><td colspan="3">🎤 Stage Programmes</td></tr>`;
+        stageAssignments.forEach(a => {
+          rowsHtml += `
+            <tr>
+              <td>${index++}</td>
+              <td><strong>${a.programmeName}</strong></td>
+              <td>Stage (${a.studentCategory})</td>
+            </tr>
+          `;
+        });
+      }
 
-      userMixedGroups.forEach(g => {
-        rowsHtml += `
-          <tr>
-            <td>${index++}</td>
-            <td><strong>${g.itemName}</strong></td>
-            <td>Mixed Group (${g.groupName})</td>
-          </tr>
-        `;
-      });
+      // 2. Non-Stage Programmes Section
+      if (nonStageAssignments.length > 0) {
+        rowsHtml += `<tr style="background:#fff8e1; color:#b78103; font-weight:700;"><td colspan="3">✏️ Non-Stage Programmes</td></tr>`;
+        nonStageAssignments.forEach(a => {
+          rowsHtml += `
+            <tr>
+              <td>${index++}</td>
+              <td><strong>${a.programmeName}</strong></td>
+              <td>Non-Stage (${a.studentCategory})</td>
+            </tr>
+          `;
+        });
+      }
+
+      // 3. Mixed Group Section
+      if (userMixedGroups.length > 0) {
+        rowsHtml += `<tr style="background:#e0f2fe; color:#0369a1; font-weight:700;"><td colspan="3">👥 Mixed Category Groups</td></tr>`;
+        userMixedGroups.forEach(g => {
+          rowsHtml += `
+            <tr>
+              <td>${index++}</td>
+              <td><strong>${g.itemName}</strong></td>
+              <td>Group Item (${g.groupName})</td>
+            </tr>
+          `;
+        });
+      }
 
       if (userAssignments.length === 0 && userMixedGroups.length === 0) {
         rowsHtml = `<tr><td colspan="3" class="text-center">No programmes assigned for this student yet.</td></tr>`;
@@ -2430,17 +2507,34 @@
       const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
+      const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
+      const nonStageAssignments = userAssignments.filter(a => a.programmeType === 'Non-Stage');
+
       let progsText = '';
       let idx = 1;
 
-      userAssignments.forEach(a => {
-        progsText += `${idx++}. *${a.programmeName}* (${a.programmeType})\n`;
-      });
-      userMixedGroups.forEach(g => {
-        progsText += `${idx++}. *${g.itemName}* (Group: ${g.groupName})\n`;
-      });
+      if (stageAssignments.length > 0) {
+        progsText += `\n*🎤 Stage Programmes:*\n`;
+        stageAssignments.forEach(a => {
+          progsText += `${idx++}. *${a.programmeName}*\n`;
+        });
+      }
 
-      if (!progsText) progsText = "No programmes assigned yet.\n";
+      if (nonStageAssignments.length > 0) {
+        progsText += `\n*✏️ Non-Stage Programmes:*\n`;
+        nonStageAssignments.forEach(a => {
+          progsText += `${idx++}. *${a.programmeName}*\n`;
+        });
+      }
+
+      if (userMixedGroups.length > 0) {
+        progsText += `\n*👥 Mixed Category Groups:*\n`;
+        userMixedGroups.forEach(g => {
+          progsText += `${idx++}. *${g.itemName}* (${g.groupName})\n`;
+        });
+      }
+
+      if (!progsText) progsText = "\nNo programmes assigned yet.\n";
 
       const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
 
@@ -2450,9 +2544,11 @@
                    `🆔 *Roll No / ID:* ${cleanRoll}\n` +
                    `📚 *Class:* ${s.class}\n` +
                    `🏷️ *Category:* ${s.category}\n` +
-                   `🚩 *Team:* ${s.team}\n\n` +
-                   `*Assigned Programmes List:* \n${progsText}\n` +
-                   `_Hidayathul Islam Madrasa - Rabi'ul Awwal Committee_`;
+                   `🚩 *Team:* ${s.team}\n` +
+                   `_______________________________\n` +
+                   `*Assigned Programmes List:* ${progsText}\n` +
+                   `_Hidayathul Islam Madrasa - Rabi'ul Awwal Committee_\n` +
+                   `💬 *Helpline Support:* https://wa.me/919113695271`;
 
       const encodedText = encodeURIComponent(text);
       window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
