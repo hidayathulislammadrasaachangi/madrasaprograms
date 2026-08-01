@@ -1860,7 +1860,7 @@
       return unique;
     }
 
-    /* GENERATE GENDER-WISE CATEGORY PDF WITH DIRECT REAL-TIME STUDENT ROLL NO LINKING */
+    /* STRICT CATEGORY PDF GENERATION (ONLY MATCHED CATEGORY ITEMS) */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const category = document.getElementById(selectId).value;
@@ -1877,8 +1877,9 @@
 
       if (!card || !outputArea) return;
 
+      // Filter EXCLUSIVELY for selected Category (Strict Match)
       const categoryProgrammes = getUniqueProgrammes(
-        state.programmes.filter(p => p.gender === gender && (p.category === category || p.category === 'General'))
+        state.programmes.filter(p => p.gender === gender && p.category === category)
       );
 
       if (categoryProgrammes.length === 0) {
@@ -1898,7 +1899,6 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
-          // Fetch student directly from Master Students Array for accurate Roll No
           const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
           matchedItems.push({
             assignmentId: a.id,
