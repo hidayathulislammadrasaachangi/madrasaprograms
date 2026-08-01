@@ -395,7 +395,7 @@
     .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
     .mobile-only { display: none; }
-    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
+    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; flex-wrap: wrap; }
 
     @media (max-width: 900px) {
       .sidebar { width: 82%; max-width: 300px; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); }
@@ -471,7 +471,6 @@
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
         
-        <!-- TEAM VERSUS COMPARISON MENU ITEM -->
         <a href="#" class="nav-item" data-view="team-versus" style="background: rgba(212, 175, 55, 0.25); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Team Versus Comparison</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
@@ -718,6 +717,9 @@
             <div class="flex-gap mt-2">
               <button id="btn-print-parent-slip" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Slip / Save PDF</button>
               <button id="btn-whatsapp-parent-slip" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Send to WhatsApp</button>
+              <button id="btn-clean-orphan-assignments" onclick="window.cleanOrphanAssignmentsFromSlip()" class="btn-danger" style="background: #dc2626; color: white;">
+                <i class="fa-solid fa-broom"></i> Remove Deleted Programmes from Slip
+              </button>
             </div>
           </div>
         </section>
@@ -1890,6 +1892,7 @@
         updateBulkProgrammeOptions();
         updateViewProgrammeOptions();
         updateVsProgrammeOptions();
+        renderParentSlip();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1903,6 +1906,7 @@
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
+        renderParentSlip();
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -3162,6 +3166,44 @@
       }
     };
 
+    window.cleanOrphanAssignmentsFromSlip = async () => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (!confirm('പ്രോഗ്രാം ലിസ്റ്റിൽ നിന്നും ഡിലീറ്റ് ചെയ്തു പോയ പഴയ പരിപാടികൾ ഈ കുട്ടിയുടെ സ്ലിപ്പിൽ നിന്നും മാറ്റണോ?')) {
+        return;
+      }
+
+      try {
+        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+        let cleanedCount = 0;
+
+        for (const assign of state.assignments) {
+          const assignProgName = (assign.programmeName || '').trim().toLowerCase();
+          if (!activeProgNames.has(assignProgName)) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+            cleanedCount++;
+          }
+        }
+
+        for (const prac of state.practice) {
+          const pracProgName = (prac.programmeName || '').trim().toLowerCase();
+          if (!activeProgNames.has(pracProgName)) {
+            await deleteDoc(doc(db, 'practice', prac.id));
+          }
+        }
+
+        if (cleanedCount > 0) {
+          showToast(`${cleanedCount} പഴയ/ഡിലീറ്റായ പ്രോഗ്രാം അസൈൻമെന്റുകൾ വിജയകരമായി മായ്ച്ചു!`, 'success');
+          renderParentSlip();
+        } else {
+          showToast('ഇല്ലാത്ത പ്രോഗ്രാമുകളുടെ അസൈൻമെന്റുകളൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
+      }
+    };
+
     window.cleanDuplicateAssignments = async () => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
@@ -3335,7 +3377,12 @@
       document.getElementById('slip-out-team').textContent = s.team;
       document.getElementById('slip-out-gender').textContent = s.gender;
 
-      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
+      // Filter active programme names to ensure deleted programmes don't render
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+
+      const userAssignments = state.assignments.filter(a => 
+        a.studentDocId === s.id && activeProgNames.has((a.programmeName || '').trim().toLowerCase())
+      );
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
@@ -3395,7 +3442,11 @@
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
-      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+
+      const userAssignments = state.assignments.filter(a => 
+        a.studentDocId === s.id && activeProgNames.has((a.programmeName || '').trim().toLowerCase())
+      );
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
