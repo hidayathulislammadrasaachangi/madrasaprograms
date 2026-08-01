@@ -263,7 +263,7 @@
 
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; min-width: 500px; }
-    .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: nowrap; }
+    .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: normal; word-break: break-word; }
     .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
 
     .badge { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 2px; }
@@ -392,7 +392,7 @@
     .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: 12px; background: white; color: #111; margin-top: 1rem; }
     .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.8rem; margin-bottom: 1rem; }
 
-    .prog-page-break { page-break-after: always; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
+    .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
     .mobile-only { display: none; }
     .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
@@ -417,7 +417,8 @@
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
 
-      .prog-page-break { page-break-after: always !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
+      .prog-page-break { page-break-after: always !important; break-after: page !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
+      .data-table th, .data-table td { font-size: 0.85rem !important; padding: 0.5rem !important; }
     }
   </style>
 </head>
@@ -688,7 +689,7 @@
               
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; font-size:0.95rem;">
                 <div><strong>Student Name:</strong> <span id="slip-out-name" style="color:#0d5c3a; font-weight:700;">-</span></div>
-                <div><strong>Student ID (Roll No):</strong> <span id="slip-out-id">-</span></div>
+                <div><strong>Student Roll No / ID:</strong> <span id="slip-out-id" style="font-weight:700;">-</span></div>
                 <div><strong>Class:</strong> <span id="slip-out-class">-</span></div>
                 <div><strong>Category:</strong> <span id="slip-out-category">-</span></div>
                 <div><strong>Team:</strong> <span id="slip-out-team" style="color:#d4af37; font-weight:700;">-</span></div>
@@ -1307,6 +1308,10 @@
         <input type="hidden" id="student-doc-id">
         <div class="form-grid">
           <div class="form-group">
+            <label>Roll No / ID (ഉദാഹരണത്തിന്: 101, 102...)</label>
+            <input type="text" id="student-roll-input" class="form-control" required placeholder="e.g. 101">
+          </div>
+          <div class="form-group">
             <label>Student Name</label>
             <input type="text" id="student-name-input" class="form-control" required>
           </div>
@@ -1481,6 +1486,15 @@
 
     let activeSnapshotUnsubscribers = [];
 
+    // Helper to extract proper Roll Number
+    function getStudentRollNo(student, assignment) {
+      if (student && student.rollNo) return student.rollNo;
+      if (student && student.studentId) return student.studentId.toString().replace('STD-', '');
+      if (assignment && assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
+      if (assignment && assignment.studentRollNo) return assignment.studentRollNo;
+      return '-';
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
     });
@@ -1604,6 +1618,7 @@
 
         const docId = document.getElementById('student-doc-id').value;
         const studentData = {
+          rollNo: document.getElementById('student-roll-input').value,
           name: document.getElementById('student-name-input').value,
           gender: document.getElementById('student-gender-input').value,
           class: document.getElementById('student-class-input').value,
@@ -1719,10 +1734,11 @@
           if (duplicate) continue;
 
           try {
-            const cleanRoll = (student.studentId || '').toString().replace('STD-', '');
+            const cleanRoll = getStudentRollNo(student, null);
             const assignDoc = await addDoc(collection(db, 'assignments'), {
               studentDocId: student.id,
               studentCustomId: cleanRoll,
+              studentRollNo: cleanRoll,
               studentName: student.name,
               studentGender: student.gender,
               studentCategory: student.category,
@@ -1940,6 +1956,10 @@
         const clsB = parseInt(b.class || 0, 10);
         if (clsA !== clsB) return clsA - clsB;
 
+        const rollA = parseInt(a.rollNo || a.studentId || 0, 10);
+        const rollB = parseInt(b.rollNo || b.studentId || 0, 10);
+        if (rollA && rollB && rollA !== rollB) return rollA - rollB;
+
         return (a.name || '').localeCompare(b.name || '');
       });
     }
@@ -1969,7 +1989,7 @@
       return unique;
     }
 
-    /* STRICT & ACCURATE GENDER + CATEGORY PDF GENERATION WITH ACCURATE ROLL NO */
+    /* STRICT & ACCURATE GENDER + CATEGORY PDF GENERATION WITH FIXED ROLL NUMBERS */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
@@ -2017,23 +2037,20 @@
         let matchedItems = [];
         assignedRecords.forEach(a => {
           const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
-          
-          let displayRollNo = '-';
-          if (student && student.studentId) {
-            displayRollNo = student.studentId;
-          } else if (a.studentCustomId) {
-            displayRollNo = a.studentCustomId;
-          }
-
+          const cleanRoll = getStudentRollNo(student, a);
           matchedItems.push({
             assignmentId: a.id,
             name: a.studentName,
             class: student?.class || 'N/A',
-            studentId: displayRollNo
+            rollNo: cleanRoll
           });
         });
 
         matchedItems.sort((a, b) => {
+          const rA = parseInt(a.rollNo, 10);
+          const rB = parseInt(b.rollNo, 10);
+          if (!isNaN(rA) && !isNaN(rB)) return rA - rB;
+
           const clsA = parseInt(a.class || 0, 10);
           const clsB = parseInt(b.class || 0, 10);
           if (clsA !== clsB) return clsA - clsB;
@@ -2057,26 +2074,23 @@
             <table class="data-table" style="width:100%;">
               <thead>
                 <tr style="background:#f4f7f5; color:#0d5c3a;">
-                  <th>#</th>
-                  <th>Roll No / ID</th>
-                  <th>Student Name</th>
-                  <th>Class</th>
-                  <th>Section</th>
+                  <th style="width:10%;">#</th>
+                  <th style="width:25%;">Roll No / ID</th>
+                  <th style="width:40%;">Student Name</th>
+                  <th style="width:25%;">Section</th>
                 </tr>
               </thead>
               <tbody>
                 ${matchedItems.length > 0 ? matchedItems.map((s, idx) => {
-                  const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
                   return `
                     <tr>
                       <td><strong>${idx + 1}</strong></td>
-                      <td><strong>${cleanRoll}</strong></td>
+                      <td><strong style="font-size:1.05rem; color:#0d5c3a;">${s.rollNo}</strong></td>
                       <td><strong style="color:#0d5c3a;">${s.name}</strong></td>
-                      <td>Class ${s.class}</td>
                       <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
                     </tr>
                   `;
-                }).join('') : `<tr><td colspan="5" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme in ${selectedCategory} category.</td></tr>`}
+                }).join('') : `<tr><td colspan="4" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme in ${selectedCategory} category.</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -2160,12 +2174,12 @@
           actionBtnHtml = '<span class="badge badge-visitor">Read Only</span>';
         }
 
-        const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+        const cleanRoll = getStudentRollNo(s, null);
 
         return `
           <tr>
             <td>
-              <strong>Class ${s.class} - ${s.name} [ID: ${cleanRoll}]</strong>
+              <strong>Class ${s.class} - ${s.name} [Roll No: ${cleanRoll}]</strong>
               <br><small style="color:var(--accent-gold); font-weight:600;">${s.category} (${s.gender})</small>
             </td>
             <td>${completedBadgesHtml}</td>
@@ -2206,11 +2220,13 @@
       }
 
       grid.innerHTML = filteredStudents.map(s => {
+        const roll = getStudentRollNo(s, null);
         return `
           <div class="student-app-card" onclick="window.selectStudentForAssignment('${s.id}')" id="std-card-${s.id}">
             <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
             <div class="student-card-info">
               <h4>${s.name}</h4>
+              <small style="color:var(--accent-gold); font-weight:bold;">Roll No: ${roll}</small>
             </div>
           </div>
         `;
@@ -2240,7 +2256,7 @@
       }
 
       container.style.display = 'block';
-      badgeInfo.textContent = `Class ${student.class} | ${student.category} (${student.gender})`;
+      badgeInfo.textContent = `Class ${student.class} | Roll: ${getStudentRollNo(student, null)} | ${student.category} (${student.gender})`;
 
       const matchedProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => (p.category === student.category || p.category === 'General') && p.gender === student.gender)
@@ -2382,11 +2398,12 @@
 
       checklistEl.innerHTML = targetStudents.map(s => {
         const isAssigned = alreadyAssignedDocIds.includes(s.id);
+        const roll = getStudentRollNo(s, null);
         return `
           <div style="display:flex; align-items:center; gap:0.8rem; padding: 0.6rem; border-bottom: 1px solid rgba(0,0,0,0.05); ${isAssigned ? 'opacity:0.6; background:rgba(16, 185, 129, 0.08);' : ''}">
             <input type="checkbox" value="${s.id}" class="bulk-std-cb" id="bulk-std-${s.id}" ${isAssigned ? 'checked disabled' : ''} style="width:18px; height:18px; cursor:pointer;">
             <label for="bulk-std-${s.id}" style="cursor:pointer; font-size:0.92rem; flex:1;">
-              <strong>Class ${s.class}</strong> - ${s.name} 
+              <strong>[Roll: ${roll}]</strong> Class ${s.class} - ${s.name} 
               ${isAssigned ? '<span class="badge badge-completed" style="margin-left:0.5rem;">Already Assigned</span>' : ''}
             </label>
           </div>
@@ -2413,10 +2430,11 @@
         if (!student) continue;
 
         try {
-          const cleanRoll = (student.studentId || '').toString().replace('STD-', '');
+          const cleanRoll = getStudentRollNo(student, null);
           const assignDoc = await addDoc(collection(db, 'assignments'), {
             studentDocId: student.id,
             studentCustomId: cleanRoll,
+            studentRollNo: cleanRoll,
             studentName: student.name,
             studentGender: student.gender,
             studentCategory: student.category,
@@ -2532,16 +2550,21 @@
       let matchedItems = [];
       assignedRecords.forEach(a => {
         const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+        const cleanRoll = getStudentRollNo(student, a);
         matchedItems.push({
           assignmentId: a.id,
           studentDocId: a.studentDocId,
           name: a.studentName,
           class: student?.class || 'N/A',
-          studentId: student?.studentId || a.studentCustomId || '-'
+          rollNo: cleanRoll
         });
       });
 
       matchedItems.sort((a, b) => {
+        const rA = parseInt(a.rollNo, 10);
+        const rB = parseInt(b.rollNo, 10);
+        if (!isNaN(rA) && !isNaN(rB)) return rA - rB;
+
         const clsA = parseInt(a.class || 0, 10);
         const clsB = parseInt(b.class || 0, 10);
         if (clsA !== clsB) return clsA - clsB;
@@ -2560,20 +2583,17 @@
               <th>#</th>
               <th>Roll No / ID</th>
               <th>Student Name</th>
-              <th>Class</th>
               <th>Gender Section</th>
               <th class="no-print">Action</th>
             </tr>
           </thead>
           <tbody>
             ${matchedItems.map((s, idx) => {
-              const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
               return `
                 <tr>
                   <td><strong>${idx + 1}</strong></td>
-                  <td><strong>${cleanRoll}</strong></td>
+                  <td><strong style="font-size:1rem; color:#0d5c3a;">${s.rollNo}</strong></td>
                   <td><strong style="color:var(--primary-green);">${s.name}</strong></td>
-                  <td>Class ${s.class}</td>
                   <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
                   <td class="no-print">
                     ${state.isAdmin ? `
@@ -2677,14 +2697,20 @@
 
         let items = assigned.map(a => {
           const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+          const cleanRoll = getStudentRollNo(student, a);
           return {
             name: a.studentName,
             class: student?.class || 'N/A',
-            studentId: student?.studentId || a.studentCustomId || '-'
+            rollNo: cleanRoll
           };
         });
 
-        items.sort((a, b) => parseInt(a.class, 10) - parseInt(b.class, 10));
+        items.sort((a, b) => {
+          const rA = parseInt(a.rollNo, 10);
+          const rB = parseInt(b.rollNo, 10);
+          if (!isNaN(rA) && !isNaN(rB)) return rA - rB;
+          return parseInt(a.class, 10) - parseInt(b.class, 10);
+        });
         return items;
       };
 
@@ -2698,16 +2724,16 @@
             <thead>
               <tr>
                 <th>#</th>
+                <th>Roll No</th>
                 <th>Name</th>
-                <th>Class</th>
               </tr>
             </thead>
             <tbody>
               ${dataList.map((item, idx) => `
                 <tr>
                   <td><strong>${idx + 1}</strong></td>
+                  <td><strong style="color:var(--primary-green);">${item.rollNo}</strong></td>
                   <td><strong>${item.name}</strong></td>
-                  <td>Class ${item.class}</td>
                 </tr>
               `).join('')}
             </tbody>
@@ -2745,7 +2771,7 @@
 
       const studentPractice = state.practice.filter(p => p.studentName === s.name);
       document.getElementById('modal-status-student-name').textContent = `${s.name}`;
-      document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | ${s.category} (${s.gender})`;
+      document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)} | ${s.category} (${s.gender})`;
 
       const container = document.getElementById('modal-status-items-container');
 
@@ -2949,7 +2975,7 @@
             </thead>
             <tbody>
               ${list.length ? list.map(s => {
-                const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+                const cleanRoll = getStudentRollNo(s, null);
                 return `
                   <tr style="cursor: pointer;" onclick="window.viewStudentSlipFromModal('${s.id}')">
                     <td><strong>${cleanRoll}</strong></td>
@@ -3061,9 +3087,9 @@
         <ul class="activity-list">
           ${assigned.length ? assigned.map(a => {
             const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
-            const roll = (student?.studentId || a.studentCustomId || '-').toString().replace('STD-', '');
+            const roll = getStudentRollNo(student, a);
             const cls = student?.class ? `Class ${student.class}` : '';
-            return `<li>[${roll}] ${cls} - ${a.studentName}</li>`;
+            return `<li>[Roll No: ${roll}] ${cls} - ${a.studentName}</li>`;
           }).join('') : '<li>No students assigned yet.</li>'}
         </ul>
       `;
@@ -3189,7 +3215,8 @@
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
 
       let filtered = activeStudents.filter(s => {
-        const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toString().toLowerCase().includes(search));
+        const rollStr = getStudentRollNo(s, null);
+        const matchSearch = s.name.toLowerCase().includes(search) || rollStr.toLowerCase().includes(search);
         const matchGender = !gender || s.gender === gender;
         const matchCategory = !category || s.category === category;
         return matchSearch && matchGender && matchCategory;
@@ -3203,10 +3230,10 @@
       }
 
       tbody.innerHTML = filtered.map(s => {
-        const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+        const cleanRoll = getStudentRollNo(s, null);
         return `
           <tr>
-            <td><strong>${cleanRoll}</strong></td>
+            <td><strong style="color:var(--primary-green); font-size:1rem;">${cleanRoll}</strong></td>
             <td><strong>Class ${s.class} - ${s.name}</strong></td>
             <td>${s.gender}</td>
             <td>Class ${s.class}</td>
@@ -3259,14 +3286,18 @@
         return;
       }
 
-      grid.innerHTML = filteredStudents.map(s => `
-        <div class="student-app-card" onclick="window.selectStudentForSlip('${s.id}')" id="slip-std-card-${s.id}">
-          <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
-          <div class="student-card-info">
-            <h4>${s.name}</h4>
+      grid.innerHTML = filteredStudents.map(s => {
+        const roll = getStudentRollNo(s, null);
+        return `
+          <div class="student-app-card" onclick="window.selectStudentForSlip('${s.id}')" id="slip-std-card-${s.id}">
+            <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
+            <div class="student-card-info">
+              <h4>${s.name}</h4>
+              <small style="color:var(--accent-gold); font-weight:bold;">Roll No: ${roll}</small>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       renderParentSlip();
     }
@@ -3295,7 +3326,7 @@
         return;
       }
 
-      const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+      const cleanRoll = getStudentRollNo(s, null);
 
       document.getElementById('slip-out-name').textContent = s.name;
       document.getElementById('slip-out-id').textContent = cleanRoll;
@@ -3396,7 +3427,7 @@
 
       if (!progsText) progsText = "\nNo programmes assigned yet.\n";
 
-      const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+      const cleanRoll = getStudentRollNo(s, null);
 
       const text = `*HIDAYATHUL ISLAM MADRASA - ACHANGI*\n` +
                    `*Rabi'ul Awwal Programme List*\n\n` +
@@ -3418,6 +3449,7 @@
       const s = state.students.find(x => x.id === id);
       if (!s) return;
       document.getElementById('student-doc-id').value = s.id;
+      document.getElementById('student-roll-input').value = getStudentRollNo(s, null);
       document.getElementById('student-name-input').value = s.name;
       document.getElementById('student-gender-input').value = s.gender;
       document.getElementById('student-class-input').value = s.class;
@@ -3439,12 +3471,15 @@
       if (!container) return;
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
       const sortedStudents = sortByClass(activeStudents);
-      container.innerHTML = sortedStudents.map(s => `
-        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
-          <input type="checkbox" value="${s.id}" class="mixed-cb">
-          <span>Class ${s.class} - ${s.name} (${s.category} - ${s.gender})</span>
-        </div>
-      `).join('');
+      container.innerHTML = sortedStudents.map(s => {
+        const roll = getStudentRollNo(s, null);
+        return `
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
+            <input type="checkbox" value="${s.id}" class="mixed-cb">
+            <span>[Roll: ${roll}] Class ${s.class} - ${s.name} (${s.category} - ${s.gender})</span>
+          </div>
+        `;
+      }).join('');
     }
 
     function renderMixedGroups() {
@@ -3485,20 +3520,26 @@
       let sortedAssignments = [...activeAssignments].sort((a, b) => {
         const stA = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
         const stB = state.students.find(s => s.id === b.studentDocId || s.name === b.studentName);
+        
+        const rollA = parseInt(getStudentRollNo(stA, a), 10);
+        const rollB = parseInt(getStudentRollNo(stB, b), 10);
+        if (!isNaN(rollA) && !isNaN(rollB)) return rollA - rollB;
+
         const clsA = parseInt(stA?.class || 0, 10);
         const clsB = parseInt(stB?.class || 0, 10);
         if (clsA !== clsB) return clsA - clsB;
-        return (stA?.studentId || a.studentCustomId || a.studentName).toString().replace('STD-', '').localeCompare((stB?.studentId || b.studentCustomId || b.studentName).toString().replace('STD-', ''), undefined, { numeric: true });
+
+        return a.studentName.localeCompare(b.studentName);
       });
 
       tbody.innerHTML = sortedAssignments.map(a => {
         const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
-        const roll = (student?.studentId || a.studentCustomId || '-').toString().replace('STD-', '');
+        const roll = getStudentRollNo(student, a);
         const cls = student?.class || '-';
 
         return `
           <tr>
-            <td><strong>${roll}</strong></td>
+            <td><strong style="color:var(--primary-green); font-size:1rem;">${roll}</strong></td>
             <td><strong>Class ${cls} - ${a.studentName}</strong></td>
             <td>${a.studentGender}</td>
             <td>${a.studentCategory}</td>
@@ -3533,19 +3574,26 @@
       let sortedPractice = [...state.practice].sort((a, b) => {
         const stA = state.students.find(s => s.name === a.studentName);
         const stB = state.students.find(s => s.name === b.studentName);
+        
+        const rollA = parseInt(getStudentRollNo(stA, null), 10);
+        const rollB = parseInt(getStudentRollNo(stB, null), 10);
+        if (!isNaN(rollA) && !isNaN(rollB)) return rollA - rollB;
+
         const clsA = parseInt(stA?.class || 0, 10);
         const clsB = parseInt(stB?.class || 0, 10);
         if (clsA !== clsB) return clsA - clsB;
+
         return a.studentName.localeCompare(b.studentName);
       });
 
       tbody.innerHTML = sortedPractice.map(p => {
         const student = state.students.find(s => s.name === p.studentName);
         const cls = student?.class || '-';
+        const roll = getStudentRollNo(student, null);
 
         return `
           <tr>
-            <td><strong>Class ${cls} - ${p.studentName}</strong></td>
+            <td><strong>[Roll: ${roll}] Class ${cls} - ${p.studentName}</strong></td>
             <td>${p.programmeName}</td>
             <td>${p.studentGender} / ${p.studentCategory}</td>
             <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
@@ -3590,8 +3638,8 @@
         <table class="data-table">
           <thead><tr><th>Roll No / ID</th><th>Student Info (Class - Name)</th><th>Class</th></tr></thead>
           <tbody>${students.map(s => {
-            const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
-            return `<tr><td><strong>${cleanRoll}</strong></td><td><strong>Class ${s.class} - ${s.name}</strong></td><td>Class ${s.class}</td></tr>`;
+            const cleanRoll = getStudentRollNo(s, null);
+            return `<tr><td><strong style="color:var(--primary-green); font-size:1rem;">${cleanRoll}</strong></td><td><strong>Class ${s.class} - ${s.name}</strong></td><td>Class ${s.class}</td></tr>`;
           }).join('')}</tbody>
         </table>
       ` : '<p class="mt-2 text-center">No students registered in this category.</p>';
@@ -3603,15 +3651,21 @@
       if (!container || !queryVal) return;
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      let matched = activeStudents.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toString().toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal));
+      let matched = activeStudents.filter(s => {
+        const rollStr = getStudentRollNo(s, null);
+        return s.name.toLowerCase().includes(queryVal) || rollStr.toLowerCase().includes(queryVal) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal);
+      });
       matched = sortByClass(matched);
 
-      container.innerHTML = matched.map(s => `
-        <div class="glass-card">
-          <h3>Class ${s.class} - ${s.name}</h3>
-          <p>${s.gender} | ${s.category} | Class: ${s.class}</p>
-        </div>
-      `).join('');
+      container.innerHTML = matched.map(s => {
+        const roll = getStudentRollNo(s, null);
+        return `
+          <div class="glass-card">
+            <h3>[Roll No: ${roll}] Class ${s.class} - ${s.name}</h3>
+            <p>${s.gender} | ${s.category} | Class: ${s.class}</p>
+          </div>
+        `;
+      }).join('');
     }
 
     function renderReportOutput() {
@@ -3625,7 +3679,7 @@
       if (type === 'students') {
         const sorted = sortByClass(activeStudents);
         container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No / ID</th><th>Student Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => {
-          const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+          const cleanRoll = getStudentRollNo(s, null);
           return `<tr><td>${cleanRoll}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`;
         }).join('')}</tbody></table>`;
       } else if (type === 'programme') {
@@ -3639,7 +3693,7 @@
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
       const sorted = sortByClass(activeStudents);
       let csv = "Roll_No,Name,Gender,Category,Class\n" + sorted.map(s => {
-        const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
+        const cleanRoll = getStudentRollNo(s, null);
         return `"${cleanRoll}","Class ${s.class} - ${s.name}","${s.gender}","${s.category}","Class ${s.class}"`;
       }).join("\n");
       const link = document.createElement("a");
