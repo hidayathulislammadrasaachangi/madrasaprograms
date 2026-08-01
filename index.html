@@ -372,15 +372,20 @@
       .hero-banner { flex-direction: column; gap: 1rem; padding: 1.5rem; }
     }
 
+    /* STRICT PRINT CSS FIX TO SHOW ONLY THE ACTIVE PDF PAGE */
     @media print {
-      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print { display: none !important; }
+      body, html { background: #fff !important; color: #000 !important; }
+      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print, .loading-screen { display: none !important; }
       .main-content { margin-left: 0 !important; }
       .view-container { padding: 0 !important; }
+      
+      /* HIDE ALL VIEWS BY DEFAULT IN PRINT */
       .app-view { display: none !important; }
-      #view-parent-slip { display: block !important; }
-      #view-prog-participants { display: block !important; }
-      #view-category-pdf { display: block !important; }
-      .prog-page-break { page-break-after: always !important; border-bottom: none !important; }
+      
+      /* ONLY DISPLAY THE ACTIVE PDF SECTION IN PRINT */
+      .app-view.active { display: block !important; }
+
+      .prog-page-break { page-break-after: always !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
     }
   </style>
 </head>
@@ -397,7 +402,6 @@
   <div class="app-container">
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
-    <!-- SIDEBAR WITH NEW SEPARATE BOYS & GIRLS PDF EXPORT LINKS -->
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <i class="fa-solid fa-mosque sidebar-logo"></i>
@@ -420,7 +424,6 @@
         <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
         <a href="#" class="nav-item" data-view="parent-slip"><i class="fa-solid fa-receipt"></i> <span style="color:var(--accent-gold); font-weight:bold;">Student Programme Slip</span></a>
         
-        <!-- NEW SEPARATE PDF EXPORT LINKS FOR BOYS & GIRLS IN SIDEBAR -->
         <a href="#" class="nav-item" data-view="category-pdf-boys" style="background: rgba(37, 99, 235, 0.2); border-left: 4px solid #2563eb;"><i class="fa-solid fa-file-pdf" style="color:#2563eb;"></i> <span style="color:#60a5fa; font-weight:bold;">👦 Boys Category PDF</span></a>
         <a href="#" class="nav-item" data-view="category-pdf-girls" style="background: rgba(219, 39, 119, 0.2); border-left: 4px solid #db2777;"><i class="fa-solid fa-file-pdf" style="color:#db2777;"></i> <span style="color:#f472b6; font-weight:bold;">👧 Girls Category PDF</span></a>
 
@@ -1513,7 +1516,6 @@
       document.getElementById('btn-print-parent-slip').addEventListener('click', () => window.print());
       document.getElementById('btn-whatsapp-parent-slip').addEventListener('click', shareWhatsAppSlip);
 
-      /* BOYS & GIRLS GENERATE BUTTON EVENT LISTENERS */
       document.getElementById('btn-generate-boys-pdf').addEventListener('click', () => generateGenderWisePDF('Male'));
       document.getElementById('btn-generate-girls-pdf').addEventListener('click', () => generateGenderWisePDF('Female'));
 
@@ -1862,7 +1864,7 @@
       return unique;
     }
 
-    /* GENERATE GENDER-WISE CATEGORY PDF FUNCTION (BOYS / GIRLS) */
+    /* GENERATE GENDER-WISE CATEGORY PDF FUNCTION */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const category = document.getElementById(selectId).value;
@@ -2831,7 +2833,8 @@
             <td>
               ${state.isAdmin ? `
                 <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i
+></button>
               ` : 'Read-Only'}
             </td>
           </tr>
