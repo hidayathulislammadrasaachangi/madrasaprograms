@@ -470,7 +470,7 @@
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
         
-        <!-- NEW VERSUS COMPARISON MENU ITEM -->
+        <!-- TEAM VERSUS COMPARISON MENU ITEM -->
         <a href="#" class="nav-item" data-view="team-versus" style="background: rgba(212, 175, 55, 0.25); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Team Versus Comparison</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
@@ -1835,14 +1835,10 @@
       });
       activeSnapshotUnsubscribers.push(unsubTeam);
 
-      // Fetch all students for global versus and cross-team references
       const unsubStudents = onSnapshot(collection(db, 'students'), async (s) => {
         let fetchedStudents = s.docs.map(d => ({ id: d.id, ...d.data() }));
 
         state.students = sortByClass(fetchedStudents);
-        
-        // Filter active team students for scoped views
-        const activeTeamStudents = state.students.filter(st => st.team === state.activeTeam);
 
         renderStudentsTable();
         populateParentSlipClassOptions();
@@ -1881,7 +1877,6 @@
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
-      // Fetch all assignments across teams for Versus Comparison
       const unsubAssignments = onSnapshot(collection(db, 'assignments'), (s) => {
         state.assignments = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderAssignmentsTable();
@@ -1974,9 +1969,10 @@
       return unique;
     }
 
+    /* STRICT & ACCURATE GENDER + CATEGORY PDF GENERATION */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
-      const category = document.getElementById(selectId).value;
+      const selectedCategory = document.getElementById(selectId).value;
 
       const cardId = gender === 'Male' ? 'boys-pdf-preview-card' : 'girls-pdf-preview-card';
       const outputAreaId = gender === 'Male' ? 'boys-pdf-output-area' : 'girls-pdf-output-area';
@@ -1991,24 +1987,32 @@
       if (!card || !outputArea) return;
 
       const categoryProgrammes = getUniqueProgrammes(
-        state.programmes.filter(p => p.gender === gender && p.category === category)
+        state.programmes.filter(p => p.gender === gender && p.category === selectedCategory)
       );
 
       if (categoryProgrammes.length === 0) {
-        showToast(`No programmes found for ${category} (${gender === 'Male' ? 'Boys Section' : 'Girls Section'})`, 'warning');
+        showToast(`No programmes found for ${selectedCategory} (${gender === 'Male' ? 'Boys Section' : 'Girls Section'})`, 'warning');
         card.style.display = 'none';
         return;
       }
 
       card.style.display = 'block';
       titleEl.textContent = `HIDAYATHUL ISLAM MADRASA - ACHANGI`;
-      subtitleEl.textContent = `All Programmes List | Category: ${category} | Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'}`;
+      subtitleEl.textContent = `All Programmes List | Category: ${selectedCategory} | Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'}`;
 
       let fullHtml = '';
       const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       categoryProgrammes.forEach((prog) => {
-        const assignedRecords = activeAssignments.filter(a => a.programmeDocId === prog.id || (a.programmeName === prog.name && a.studentGender === gender));
+        const assignedRecords = activeAssignments.filter(a => {
+          const matchProg = (a.programmeDocId === prog.id) || (a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase());
+          
+          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+          const studentGender = studentObj ? studentObj.gender : a.studentGender;
+          const studentCat = studentObj ? studentObj.category : a.studentCategory;
+
+          return matchProg && (studentGender === gender) && (studentCat === selectedCategory || a.studentCategory === selectedCategory);
+        });
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
@@ -2038,7 +2042,7 @@
             <div style="margin-bottom: 1.2rem; background: #f8faf9; padding: 1rem; border-radius: 8px; border-left: 5px solid #0d5c3a;">
               <h1 style="color:#0d5c3a; font-size: 2.2rem; font-weight: 800; text-transform: uppercase; margin:0;">${prog.name}</h1>
               <p style="font-size: 1rem; color: #d4af37; font-weight: 700; margin-top: 0.3rem;">
-                Category: ${prog.category} &nbsp;|&nbsp; Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} &nbsp;|&nbsp; Type: ${prog.type} Item
+                Category: ${selectedCategory} &nbsp;|&nbsp; Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} &nbsp;|&nbsp; Type: ${prog.type} Item
               </p>
             </div>
 
@@ -2064,7 +2068,7 @@
                       <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
                     </tr>
                   `;
-                }).join('') : `<tr><td colspan="5" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme.</td></tr>`}
+                }).join('') : `<tr><td colspan="5" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme in ${selectedCategory} category.</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -2072,7 +2076,7 @@
       });
 
       outputArea.innerHTML = fullHtml;
-      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${category}`, 'success');
+      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${selectedCategory}`, 'success');
     }
 
     function populateDashboardClassFilter() {
