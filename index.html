@@ -288,6 +288,43 @@
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
     .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
 
+    /* Clean App-Friendly Card Styles for Status Management */
+    .status-manage-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    body.dark-mode .status-manage-card { background: rgba(18, 30, 25, 0.85); border-color: var(--glass-border-dark); }
+    
+    .status-manage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-manage-header strong {
+      font-size: 0.95rem;
+      color: var(--primary-green);
+    }
+    body.dark-mode .status-manage-header strong { color: var(--accent-gold); }
+
+    .status-select-dropdown {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1.5px solid var(--primary-green);
+      outline: none;
+      background: #fff;
+    }
+    body.dark-mode .status-select-dropdown { background: rgba(0,0,0,0.4); color: white; border-color: var(--accent-gold); }
+
     .student-app-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; max-height: 280px; overflow-y: auto; padding: 0.3rem; }
     .student-app-card { background: rgba(255, 255, 255, 0.9); border: 1.5px solid var(--glass-border-light); border-radius: 12px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
     body.dark-mode .student-app-card { background: rgba(0, 0, 0, 0.25); }
@@ -339,7 +376,6 @@
     body.dark-mode .selector-chip.selected {
       background: rgba(212, 175, 55, 0.18);
       border-color: var(--accent-gold);
-      color: var(--accent-gold);
     }
 
     .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
@@ -925,7 +961,10 @@
         <!-- ASSIGNMENT PORTAL -->
         <section id="view-assignments" class="app-view">
           <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Portal</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+              <h2><i class="fa-solid fa-clipboard-list" style="color:var(--accent-gold);"></i> Programme Assignment Portal</h2>
+              <button id="btn-clean-duplicate-assignments" onclick="window.cleanDuplicateAssignments()" class="btn-danger-sm" style="font-size:0.85rem; padding:0.5rem 1rem;"><i class="fa-solid fa-copy"></i> Remove Duplicate Assignments</button>
+            </div>
             <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Select Class & Section to pick student, then assign Stage & Non-Stage items in one click.</p>
             <hr class="divider">
             <form id="form-assign-programme">
@@ -1596,7 +1635,11 @@
           const prog = state.programmes.find(p => p.id === progId);
           if (!prog) continue;
 
-          const duplicate = state.assignments.find(a => a.studentDocId === student.id && a.programmeDocId === prog.id);
+          // Strict duplicate check before adding
+          const duplicate = state.assignments.find(a => 
+            (a.studentDocId === student.id || a.studentName.trim().toLowerCase() === student.name.trim().toLowerCase()) && 
+            (a.programmeDocId === prog.id || a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase())
+          );
           if (duplicate) continue;
 
           try {
@@ -1880,7 +1923,6 @@
 
       if (!card || !outputArea) return;
 
-      // Filter EXCLUSIVELY for selected Category (Strict Match)
       const categoryProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => p.gender === gender && p.category === category)
       );
@@ -2123,9 +2165,10 @@
       const nonStageProgs = matchedProgrammes.filter(p => p.type === 'Non-Stage');
 
       const assignedProgDocIds = state.assignments.filter(a => a.studentDocId === student.id).map(a => a.programmeDocId);
+      const assignedProgNames = state.assignments.filter(a => a.studentName === student.name).map(a => a.programmeName.trim().toLowerCase());
 
       const createCbCard = (p) => {
-        const isAssigned = assignedProgDocIds.includes(p.id);
+        const isAssigned = assignedProgDocIds.includes(p.id) || assignedProgNames.includes(p.name.trim().toLowerCase());
         const isGeneral = p.category === 'General';
         return `
           <label class="checkbox-card" style="${isAssigned ? 'opacity:0.6; background:rgba(16, 185, 129, 0.1);' : ''}">
@@ -2246,7 +2289,7 @@
       }
 
       const alreadyAssignedDocIds = state.assignments
-        .filter(a => a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender))
+        .filter(a => a.programmeDocId === progId || (a.programmeName.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender))
         .map(a => a.studentDocId);
 
       checklistEl.innerHTML = targetStudents.map(s => {
@@ -2478,6 +2521,7 @@
       }
     };
 
+    /* APP-FRIENDLY & DUP-FREE PRACTICE STATUS MANAGEMENT */
     window.openStatusManageModal = (studentDocId) => {
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
@@ -2488,13 +2532,25 @@
 
       const container = document.getElementById('modal-status-items-container');
 
-      const stageItems = studentPractice.filter(p => {
-        const prog = state.programmes.find(pr => pr.name === p.programmeName);
+      // Deduplicate items by unique Programme Name
+      const uniquePracticeItems = [];
+      const seenNames = new Set();
+
+      studentPractice.forEach(p => {
+        const cleanName = p.programmeName.trim().toLowerCase();
+        if (!seenNames.has(cleanName)) {
+          seenNames.add(cleanName);
+          uniquePracticeItems.push(p);
+        }
+      });
+
+      const stageItems = uniquePracticeItems.filter(p => {
+        const prog = state.programmes.find(pr => pr.name.trim().toLowerCase() === p.programmeName.trim().toLowerCase());
         return prog ? prog.type === 'Stage' : true;
       });
 
-      const nonStageItems = studentPractice.filter(p => {
-        const prog = state.programmes.find(pr => pr.name === p.programmeName);
+      const nonStageItems = uniquePracticeItems.filter(p => {
+        const prog = state.programmes.find(pr => pr.name.trim().toLowerCase() === p.programmeName.trim().toLowerCase());
         return prog ? prog.type === 'Non-Stage' : false;
       });
 
@@ -2502,14 +2558,16 @@
         const curStatus = p.status || 'Learning';
         return `
           <div class="status-manage-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="status-manage-header">
               <strong>${p.programmeName}</strong>
               <span class="badge ${curStatus === 'Completed' ? 'badge-completed' : (curStatus === 'Stage Ready' ? 'badge-stageready' : 'badge-learning')}">${curStatus}</span>
             </div>
-            <div class="status-pill-group">
-              <button class="status-pill-btn pill-learning ${curStatus === 'Learning' ? 'active' : ''}" onclick="window.updatePracticeStatusDirect('${p.id}', 'Learning', '${s.id}')">🟡 Learning</button>
-              <button class="status-pill-btn pill-completed ${curStatus === 'Completed' ? 'active' : ''}" onclick="window.updatePracticeStatusDirect('${p.id}', 'Completed', '${s.id}')">✅ Completed</button>
-              <button class="status-pill-btn pill-ready ${curStatus === 'Stage Ready' ? 'active' : ''}" onclick="window.updatePracticeStatusDirect('${p.id}', 'Stage Ready', '${s.id}')">⭐ Stage Ready</button>
+            <div>
+              <select class="status-select-dropdown" onchange="window.updatePracticeStatusDirect('${p.id}', this.value, '${s.id}')">
+                <option value="Learning" ${curStatus === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
+                <option value="Completed" ${curStatus === 'Completed' ? 'selected' : ''}>✅ Completed</option>
+                <option value="Stage Ready" ${curStatus === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
+              </select>
             </div>
           </div>
         `;
@@ -2518,12 +2576,12 @@
       let html = '';
 
       if (stageItems.length > 0) {
-        html += `<div class="category-section-title"><i class="fa-solid fa-microphone"></i> 🎤 Stage Programmes</div>`;
+        html += `<div class="category-section-title"><i class="fa-solid fa-microphone"></i> 🎤 Stage Programmes (${stageItems.length})</div>`;
         html += stageItems.map(createCardHtml).join('');
       }
 
       if (nonStageItems.length > 0) {
-        html += `<div class="category-section-title"><i class="fa-solid fa-pen-ruler"></i> ✏️ Non-Stage Programmes</div>`;
+        html += `<div class="category-section-title"><i class="fa-solid fa-pen-ruler"></i> ✏️ Non-Stage Programmes (${nonStageItems.length})</div>`;
         html += nonStageItems.map(createCardHtml).join('');
       }
 
@@ -2831,7 +2889,6 @@
         const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
         let cleanedCount = 0;
 
-        // 1. Clean orphan assignments
         for (const assign of state.assignments) {
           const assignProgName = (assign.programmeName || '').trim().toLowerCase();
           if (!activeProgNames.has(assignProgName)) {
@@ -2840,7 +2897,6 @@
           }
         }
 
-        // 2. Clean orphan practice records
         for (const prac of state.practice) {
           const pracProgName = (prac.programmeName || '').trim().toLowerCase();
           if (!activeProgNames.has(pracProgName)) {
@@ -2857,6 +2913,51 @@
       } catch (err) {
         console.error(err);
         showToast('ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
+      }
+    };
+
+    /* AUTOMATIC DUPLICATE ASSIGNMENTS CLEANUP FUNCTION */
+    window.cleanDuplicateAssignments = async () => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (!confirm('ഒരേ കുട്ടിക്ക് ഒന്നിൽ കൂടുതൽ തവണ ആവർത്തിച്ചു വന്ന ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ മായ്ച്ചു് ഒന്നാക്കി മാറ്റണോ?')) {
+        return;
+      }
+
+      try {
+        const seenKeys = new Set();
+        let removedCount = 0;
+
+        // Clean duplicates from Assignments
+        for (const assign of state.assignments) {
+          const key = `${assign.studentName.trim().toLowerCase()}_${assign.programmeName.trim().toLowerCase()}`;
+          if (seenKeys.has(key)) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+            removedCount++;
+          } else {
+            seenKeys.add(key);
+          }
+        }
+
+        // Clean duplicates from Practice Tracker
+        const seenPracticeKeys = new Set();
+        for (const prac of state.practice) {
+          const pKey = `${prac.studentName.trim().toLowerCase()}_${prac.programmeName.trim().toLowerCase()}`;
+          if (seenPracticeKeys.has(pKey)) {
+            await deleteDoc(doc(db, 'practice', prac.id));
+          } else {
+            seenPracticeKeys.add(pKey);
+          }
+        }
+
+        if (removedCount > 0) {
+          showToast(`${removedCount} ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ ഡാറ്റാബേസിൽ നിന്ന് നീക്കം ചെയ്തു!`, 'success');
+        } else {
+          showToast('ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകളൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('ഡ്യൂപ്ലിക്കേറ്റ് ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
       }
     };
 
