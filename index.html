@@ -1969,7 +1969,7 @@
       return unique;
     }
 
-    /* STRICT & ACCURATE GENDER + CATEGORY PDF GENERATION */
+    /* STRICT & ACCURATE GENDER + CATEGORY PDF GENERATION WITH ACCURATE ROLL NO */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
@@ -2016,12 +2016,20 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
-          const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+          
+          let displayRollNo = '-';
+          if (student && student.studentId) {
+            displayRollNo = student.studentId;
+          } else if (a.studentCustomId) {
+            displayRollNo = a.studentCustomId;
+          }
+
           matchedItems.push({
             assignmentId: a.id,
             name: a.studentName,
             class: student?.class || 'N/A',
-            studentId: student?.studentId || a.studentCustomId || '-'
+            studentId: displayRollNo
           });
         });
 
