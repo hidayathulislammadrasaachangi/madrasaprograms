@@ -215,10 +215,10 @@
     .stat-icon.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); } 
     .stat-icon.pink { background: linear-gradient(135deg, #ec4899, #db2777); }
     .stat-icon.gold { background: linear-gradient(135deg, #f59e0b, #d97706); } 
-    .stat-icon.purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); } 
-    .stat-icon.teal { background: linear-gradient(135deg, #14b8a6, #0d9488); }
     .stat-icon.orange { background: linear-gradient(135deg, #f97316, #ea580c); } 
     .stat-icon.indigo { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+    .stat-icon.purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); } 
+    .stat-icon.teal { background: linear-gradient(135deg, #14b8a6, #0d9488); }
 
     .stat-info p { font-size: 0.82rem; font-weight: 500; opacity: 0.8; }
     .stat-info h3 { font-size: 1.4rem; font-weight: 700; margin: 0.1rem 0; }
@@ -288,7 +288,6 @@
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
     .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
 
-    /* Clean App-Friendly Card Styles for Status Management */
     .status-manage-card {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--glass-border-light);
@@ -406,6 +405,7 @@
       .mobile-only { display: inline-flex !important; align-items: center; justify-content: center; }
       .dashboard-grid, .filter-bar, .form-grid { grid-template-columns: 1fr; }
       .hero-banner { flex-direction: column; gap: 1rem; padding: 1.5rem; }
+      #vs-tables-grid { grid-template-columns: 1fr !important; }
     }
 
     @media print {
@@ -469,6 +469,9 @@
         <a href="#" class="nav-item" data-view="assignments"><i class="fa-solid fa-clipboard-list"></i> <span>Assignments</span></a>
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
+        
+        <!-- NEW VERSUS COMPARISON MENU ITEM -->
+        <a href="#" class="nav-item" data-view="team-versus" style="background: rgba(212, 175, 55, 0.25); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Team Versus Comparison</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports & Export</span></a>
@@ -1138,6 +1141,79 @@
           </div>
         </section>
 
+        <!-- TEAM VERSUS COMPARISON VIEW -->
+        <section id="view-team-versus" class="app-view">
+          <div class="glass-card mb-2 no-print">
+            <h2><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> Team vs Team Head-to-Head</h2>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">
+              മത്സരങ്ങൾ തിരഞ്ഞെടുത്ത് രണ്ട് ടീമുകളിലെയും (MADEENATHU-SSALAM vs MADEENATHU-NNOOR) മത്സരാർത്ഥികളെ ഒരേ പേജിൽ നേർക്കുനേർ കാണാം.
+            </p>
+            <hr class="divider">
+
+            <div style="display:flex; flex-direction:column; gap:1.2rem;">
+              <div class="form-group">
+                <label style="font-weight:700; color:var(--primary-green);">1. Select Category</label>
+                <div class="selector-grid" id="grid-vs-cat">
+                  <div class="selector-chip" data-val="Sub Junior"><i class="fa-solid fa-child"></i> Sub Junior</div>
+                  <div class="selector-chip" data-val="Junior"><i class="fa-solid fa-user-graduate"></i> Junior</div>
+                  <div class="selector-chip" data-val="Senior"><i class="fa-solid fa-user-large"></i> Senior</div>
+                  <div class="selector-chip" data-val="General"><i class="fa-solid fa-users"></i> General</div>
+                </div>
+              </div>
+
+              <div class="form-group" id="group-vs-gender" style="display:none;">
+                <label style="font-weight:700; color:var(--primary-green);">2. Select Section</label>
+                <div class="selector-grid" id="grid-vs-gender">
+                  <div class="selector-chip" data-val="Male"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section</div>
+                  <div class="selector-chip" data-val="Female"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section</div>
+                </div>
+              </div>
+
+              <div class="form-group" id="group-vs-type" style="display:none;">
+                <label style="font-weight:700; color:var(--primary-green);">3. Select Programme Type</label>
+                <div class="selector-grid" id="grid-vs-type">
+                  <div class="selector-chip" data-val="Stage"><i class="fa-solid fa-microphone" style="color:#d97706;"></i> Stage Item</div>
+                  <div class="selector-chip" data-val="Non-Stage"><i class="fa-solid fa-pen-ruler" style="color:#4f46e5;"></i> Non-Stage Item</div>
+                </div>
+              </div>
+
+              <div class="form-group" id="group-vs-prog" style="display:none;">
+                <label style="font-weight:700; color:var(--primary-green);">4. Select Programme Name</label>
+                <select id="vs-item-name-select" class="form-control" style="border: 1.5px solid var(--primary-green); font-weight:600;">
+                  <option value="">-- Choose Programme --</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="vs-results-card" class="glass-card" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+              <div>
+                <h1 id="vs-prog-title-out" style="color:#0d5c3a; font-size: 2rem; font-weight: 800; text-transform: uppercase;">Story Telling</h1>
+                <p id="vs-prog-subtitle-out" style="font-size:1rem; color:var(--accent-gold); font-weight:700; margin-top:0.2rem;"></p>
+              </div>
+              <button onclick="window.print()" class="btn-secondary no-print"><i class="fa-solid fa-print"></i> Print Comparison</button>
+            </div>
+            <hr class="divider">
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" id="vs-tables-grid">
+              <div style="background: rgba(13, 92, 58, 0.05); padding: 1rem; border-radius: 12px; border: 1.5px solid var(--primary-green);">
+                <h3 style="color: var(--primary-green); text-align: center; margin-bottom: 0.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 0.4rem;">
+                  MADEENATHU-SSALAM
+                </h3>
+                <div id="team1-participants-list"></div>
+              </div>
+
+              <div style="background: rgba(212, 175, 55, 0.08); padding: 1rem; border-radius: 12px; border: 1.5px solid var(--accent-gold);">
+                <h3 style="color: #b89628; text-align: center; margin-bottom: 0.8rem; border-bottom: 2px solid var(--accent-gold); padding-bottom: 0.4rem;">
+                  MADEENATHU-NNOOR
+                </h3>
+                <div id="team2-participants-list"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- PRACTICE TRACKER VIEW -->
         <section id="view-practice-tracker" class="app-view">
           <div class="glass-card">
@@ -1399,7 +1475,8 @@
       dashModalFilterCat: 'All',
       activeDashModalType: '',
       bulkSelection: { category: '', gender: '', type: '' },
-      viewSelection: { category: '', gender: '', type: '' }
+      viewSelection: { category: '', gender: '', type: '' },
+      vsSelection: { category: '', gender: '', type: '' }
     };
 
     let activeSnapshotUnsubscribers = [];
@@ -1635,7 +1712,6 @@
           const prog = state.programmes.find(p => p.id === progId);
           if (!prog) continue;
 
-          // Strict duplicate check before adding
           const duplicate = state.assignments.find(a => 
             (a.studentDocId === student.id || a.studentName.trim().toLowerCase() === student.name.trim().toLowerCase()) && 
             (a.programmeDocId === prog.id || a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase())
@@ -1682,11 +1758,13 @@
 
       setupCardSelectors();
       setupViewCardSelectors();
+      setupVsCardSelectors();
 
       document.getElementById('bulk-item-name-select').addEventListener('change', renderBulkStudentChecklist);
       document.getElementById('btn-save-item-bulk').addEventListener('click', saveItemBulkAssignment);
 
       document.getElementById('view-item-name-select').addEventListener('change', renderProgrammeParticipantsOutput);
+      document.getElementById('vs-item-name-select').addEventListener('change', renderVersusComparisonOutput);
 
       setupSectionTabs('boys');
       setupSectionTabs('girls');
@@ -1757,31 +1835,15 @@
       });
       activeSnapshotUnsubscribers.push(unsubTeam);
 
-      const qStudents = query(collection(db, 'students'), where('team', '==', state.activeTeam));
-      const unsubStudents = onSnapshot(qStudents, async (s) => {
+      // Fetch all students for global versus and cross-team references
+      const unsubStudents = onSnapshot(collection(db, 'students'), async (s) => {
         let fetchedStudents = s.docs.map(d => ({ id: d.id, ...d.data() }));
 
-        fetchedStudents = sortByClass(fetchedStudents);
+        state.students = sortByClass(fetchedStudents);
+        
+        // Filter active team students for scoped views
+        const activeTeamStudents = state.students.filter(st => st.team === state.activeTeam);
 
-        const startBase = state.activeTeam === 'MADEENATHU-SSALAM' ? 101 : 201;
-        let counter = startBase;
-
-        for (let i = 0; i < fetchedStudents.length; i++) {
-          const student = fetchedStudents[i];
-          const expectedId = counter.toString();
-
-          if (student.studentId !== expectedId) {
-            student.studentId = expectedId;
-            try {
-              await updateDoc(doc(db, 'students', student.id), { studentId: expectedId });
-            } catch (err) {
-              console.error("Auto ID assignment failed for " + student.name, err);
-            }
-          }
-          counter++;
-        }
-
-        state.students = fetchedStudents;
         renderStudentsTable();
         populateParentSlipClassOptions();
         populateDashboardClassFilter();
@@ -1795,6 +1857,7 @@
         if (state.isAdmin) renderMixedStudentChecklist();
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
+        renderVersusComparisonOutput();
       });
       activeSnapshotUnsubscribers.push(unsubStudents);
 
@@ -1814,11 +1877,12 @@
         populateAssignmentProgrammesCheckboxes();
         updateBulkProgrammeOptions();
         updateViewProgrammeOptions();
+        updateVsProgrammeOptions();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
-      const qAssignments = query(collection(db, 'assignments'), where('team', '==', state.activeTeam));
-      const unsubAssignments = onSnapshot(qAssignments, (s) => {
+      // Fetch all assignments across teams for Versus Comparison
+      const unsubAssignments = onSnapshot(collection(db, 'assignments'), (s) => {
         state.assignments = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderAssignmentsTable();
         renderPracticeTable();
@@ -1827,6 +1891,7 @@
         populateAssignmentProgrammesCheckboxes();
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
+        renderVersusComparisonOutput();
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -1841,9 +1906,12 @@
     }
 
     function updateDashboardStats() {
-      document.getElementById('stat-total-students').textContent = state.students.length;
-      document.getElementById('stat-total-boys').textContent = state.students.filter(s => s.gender === 'Male').length;
-      document.getElementById('stat-total-girls').textContent = state.students.filter(s => s.gender === 'Female').length;
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+
+      document.getElementById('stat-total-students').textContent = activeStudents.length;
+      document.getElementById('stat-total-boys').textContent = activeStudents.filter(s => s.gender === 'Male').length;
+      document.getElementById('stat-total-girls').textContent = activeStudents.filter(s => s.gender === 'Female').length;
       
       const uniqueProgs = getUniqueProgrammes(state.programmes);
       document.getElementById('stat-boys-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Stage' && p.gender === 'Male').length;
@@ -1851,7 +1919,7 @@
       document.getElementById('stat-boys-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage' && p.gender === 'Male').length;
       document.getElementById('stat-girls-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage' && p.gender === 'Female').length;
       
-      document.getElementById('stat-assigned-students').textContent = new Set(state.assignments.map(a => a.studentDocId)).size;
+      document.getElementById('stat-assigned-students').textContent = new Set(activeAssignments.map(a => a.studentDocId)).size;
 
       const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
       const completed = state.practice.filter(p => p.status === 'Completed').length;
@@ -1906,7 +1974,6 @@
       return unique;
     }
 
-    /* STRICT CATEGORY PDF GENERATION (ONLY MATCHED CATEGORY ITEMS) */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const category = document.getElementById(selectId).value;
@@ -1938,9 +2005,10 @@
       subtitleEl.textContent = `All Programmes List | Category: ${category} | Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'}`;
 
       let fullHtml = '';
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       categoryProgrammes.forEach((prog) => {
-        const assignedRecords = state.assignments.filter(a => a.programmeDocId === prog.id || (a.programmeName === prog.name && a.studentGender === gender));
+        const assignedRecords = activeAssignments.filter(a => a.programmeDocId === prog.id || (a.programmeName === prog.name && a.studentGender === gender));
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
@@ -2011,7 +2079,8 @@
       const filterSelect = document.getElementById('dash-practice-class-filter');
       if (!filterSelect) return;
 
-      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const uniqueClasses = [...new Set(activeStudents.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       filterSelect.innerHTML = '<option value="">All Classes</option>' + uniqueClasses.map(c => `
         <option value="${c}">Class ${c}</option>
       `).join('');
@@ -2021,7 +2090,8 @@
       const select = document.getElementById('assign-class-filter-select');
       if (!select) return;
 
-      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const uniqueClasses = [...new Set(activeStudents.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       select.innerHTML = '<option value="">-- Choose Class --</option>' + uniqueClasses.map(c => `
         <option value="${c}">Class ${c}</option>
       `).join('');
@@ -2035,7 +2105,9 @@
       const filterCat = document.getElementById('dash-practice-category-filter')?.value || '';
       const filterSearch = document.getElementById('dash-practice-search-input')?.value.toLowerCase() || '';
 
-      let studentList = state.students.filter(s => {
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+
+      let studentList = activeStudents.filter(s => {
         const matchClass = !filterClass || s.class.toString() === filterClass;
         const matchCat = !filterCat || s.category === filterCat;
         const matchSearch = !filterSearch || s.name.toLowerCase().includes(filterSearch);
@@ -2110,7 +2182,8 @@
         return;
       }
 
-      let filteredStudents = state.students.filter(s => s.class.toString() === cls && s.gender === gender);
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      let filteredStudents = activeStudents.filter(s => s.class.toString() === cls && s.gender === gender);
       filteredStudents = sortByClass(filteredStudents);
 
       wrapper.style.display = 'block';
@@ -2164,8 +2237,9 @@
       const stageProgs = matchedProgrammes.filter(p => p.type === 'Stage');
       const nonStageProgs = matchedProgrammes.filter(p => p.type === 'Non-Stage');
 
-      const assignedProgDocIds = state.assignments.filter(a => a.studentDocId === student.id).map(a => a.programmeDocId);
-      const assignedProgNames = state.assignments.filter(a => a.studentName === student.name).map(a => a.programmeName.trim().toLowerCase());
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+      const assignedProgDocIds = activeAssignments.filter(a => a.studentDocId === student.id).map(a => a.programmeDocId);
+      const assignedProgNames = activeAssignments.filter(a => a.studentName === student.name).map(a => a.programmeName.trim().toLowerCase());
 
       const createCbCard = (p) => {
         const isAssigned = assignedProgDocIds.includes(p.id) || assignedProgNames.includes(p.name.trim().toLowerCase());
@@ -2280,7 +2354,8 @@
       titleEl.textContent = `Assign Item: "${selectedProg.name}"`;
       subtitleEl.textContent = `${cat} | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
 
-      let targetStudents = state.students.filter(s => s.category === cat && s.gender === gender);
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      let targetStudents = activeStudents.filter(s => s.category === cat && s.gender === gender);
       targetStudents = sortByClass(targetStudents);
 
       if (targetStudents.length === 0) {
@@ -2288,7 +2363,8 @@
         return;
       }
 
-      const alreadyAssignedDocIds = state.assignments
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+      const alreadyAssignedDocIds = activeAssignments
         .filter(a => a.programmeDocId === progId || (a.programmeName.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender))
         .map(a => a.studentDocId);
 
@@ -2438,7 +2514,8 @@
       titleEl.textContent = `${selectedProg.name}`;
       subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
 
-      const assignedRecords = state.assignments.filter(a => a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat));
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+      const assignedRecords = activeAssignments.filter(a => a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat));
 
       let matchedItems = [];
       assignedRecords.forEach(a => {
@@ -2501,6 +2578,135 @@
       `;
     }
 
+    /* TEAM VERSUS COMPARISON FUNCTIONS */
+    function setupVsCardSelectors() {
+      const bindGroup = (gridId, stateField, nextGroupId) => {
+        const chips = document.querySelectorAll(`#${gridId} .selector-chip`);
+        chips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+            state.vsSelection[stateField] = chip.getAttribute('data-val');
+
+            if (nextGroupId) {
+              const nextEl = document.getElementById(nextGroupId);
+              if (nextEl) nextEl.style.display = 'block';
+            }
+
+            updateVsProgrammeOptions();
+          });
+        });
+      };
+
+      bindGroup('grid-vs-cat', 'category', 'group-vs-gender');
+      bindGroup('grid-vs-gender', 'gender', 'group-vs-type');
+      bindGroup('grid-vs-type', 'type', 'group-vs-prog');
+    }
+
+    function updateVsProgrammeOptions() {
+      const cat = state.vsSelection.category;
+      const gender = state.vsSelection.gender;
+      const type = state.vsSelection.type;
+      const nameSelect = document.getElementById('vs-item-name-select');
+      const container = document.getElementById('vs-results-card');
+
+      if (!nameSelect) return;
+      nameSelect.value = "";
+      if (container) container.style.display = 'none';
+
+      if (!cat || !gender || !type) {
+        nameSelect.innerHTML = '<option value="">-- Choose Programme --</option>';
+        return;
+      }
+
+      const filteredProgs = getUniqueProgrammes(
+        state.programmes.filter(p => p.category === cat && p.gender === gender && p.type === type)
+      );
+
+      if (filteredProgs.length === 0) {
+        nameSelect.innerHTML = `<option value="">No ${cat} (${gender === 'Male' ? 'Boys' : 'Girls'}) ${type} items found</option>`;
+        return;
+      }
+
+      nameSelect.innerHTML = '<option value="">-- Choose Programme --</option>' + filteredProgs.map(p => `
+        <option value="${p.id}">${p.name}</option>
+      `).join('');
+    }
+
+    function renderVersusComparisonOutput() {
+      const cat = state.vsSelection.category;
+      const gender = state.vsSelection.gender;
+      const type = state.vsSelection.type;
+      const progId = document.getElementById('vs-item-name-select')?.value;
+
+      const container = document.getElementById('vs-results-card');
+      const titleEl = document.getElementById('vs-prog-title-out');
+      const subtitleEl = document.getElementById('vs-prog-subtitle-out');
+      const t1List = document.getElementById('team1-participants-list');
+      const t2List = document.getElementById('team2-participants-list');
+
+      if (!container || !progId) {
+        if (container) container.style.display = 'none';
+        return;
+      }
+
+      const selectedProg = state.programmes.find(p => p.id === progId);
+      if (!selectedProg) return;
+
+      container.style.display = 'block';
+      titleEl.textContent = selectedProg.name;
+      subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
+
+      const getTeamList = (teamName) => {
+        const assigned = state.assignments.filter(a => 
+          a.team === teamName && 
+          (a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat))
+        );
+
+        let items = assigned.map(a => {
+          const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+          return {
+            name: a.studentName,
+            class: student?.class || 'N/A',
+            studentId: student?.studentId || a.studentCustomId || '-'
+          };
+        });
+
+        items.sort((a, b) => parseInt(a.class, 10) - parseInt(b.class, 10));
+        return items;
+      };
+
+      const t1Data = getTeamList('MADEENATHU-SSALAM');
+      const t2Data = getTeamList('MADEENATHU-NNOOR');
+
+      const createTableHtml = (dataList) => {
+        if (dataList.length === 0) return `<p style="text-align:center; color:#ef4444; padding:0.8rem;">No participants assigned.</p>`;
+        return `
+          <table class="data-table" style="width:100%;">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Class</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${dataList.map((item, idx) => `
+                <tr>
+                  <td><strong>${idx + 1}</strong></td>
+                  <td><strong>${item.name}</strong></td>
+                  <td>Class ${item.class}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      };
+
+      t1List.innerHTML = createTableHtml(t1Data);
+      t2List.innerHTML = createTableHtml(t2Data);
+    }
+
     window.removeParticipantDirect = async (assignmentId, studentName, programmeName) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
@@ -2521,7 +2727,6 @@
       }
     };
 
-    /* APP-FRIENDLY & DUP-FREE PRACTICE STATUS MANAGEMENT */
     window.openStatusManageModal = (studentDocId) => {
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
@@ -2532,7 +2737,6 @@
 
       const container = document.getElementById('modal-status-items-container');
 
-      // Deduplicate items by unique Programme Name
       const uniquePracticeItems = [];
       const seenNames = new Set();
 
@@ -2633,7 +2837,8 @@
       const nonStageContainer = document.getElementById('non-stage-programmes-list');
 
       const createCard = (p) => {
-        const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+        const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+        const assignedCount = activeAssignments.filter(a => a.programmeDocId === p.id).length;
         const hasLimit = p.maxParticipants && p.maxParticipants > 0;
         const percent = hasLimit ? Math.min(100, Math.round((assignedCount / p.maxParticipants) * 100)) : 100;
         const countText = hasLimit ? `${assignedCount} / ${p.maxParticipants}` : `${assignedCount} Participants`;
@@ -2697,8 +2902,10 @@
       const contentEl = document.getElementById('dash-details-content');
       let html = '';
 
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+
       if (type === 'total-students' || type === 'total-boys' || type === 'total-girls') {
-        let list = [...state.students];
+        let list = [...activeStudents];
         if (type === 'total-boys') list = list.filter(s => s.gender === 'Male');
         if (type === 'total-girls') list = list.filter(s => s.gender === 'Female');
         
@@ -2732,7 +2939,7 @@
               ${list.length ? list.map(s => {
                 const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
                 return `
-                  <tr style="cursor: pointer;" onclick="window.viewStudentSlipFromModal('${s.id}')" title="ക്ലിക്ക് ചെയ്ത് പ്രോഗ്രാമുകൾ കാണുക">
+                  <tr style="cursor: pointer;" onclick="window.viewStudentSlipFromModal('${s.id}')">
                     <td><strong>${cleanRoll}</strong></td>
                     <td>
                       <strong style="color: var(--primary-green);">Class ${s.class} - ${s.name}</strong>
@@ -2763,6 +2970,8 @@
         list = getUniqueProgrammes(list);
         list = sortProgrammesByCategory(list);
 
+        const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+
         html = `
           <div class="tab-buttons mb-2">
             <button class="tab-btn ${state.dashModalFilterCat === 'All' ? 'active' : ''}" onclick="window.filterDashModalCat('All')">All Categories</button>
@@ -2783,7 +2992,7 @@
             </thead>
             <tbody>
               ${list.length ? list.map(p => {
-                const assignedCount = state.assignments.filter(a => a.programmeDocId === p.id).length;
+                const assignedCount = activeAssignments.filter(a => a.programmeDocId === p.id).length;
                 const limitText = p.maxParticipants ? p.maxParticipants : 'Unlimited';
                 return `
                   <tr>
@@ -2828,7 +3037,8 @@
       const p = state.programmes.find(x => x.id === id);
       if (!p) return;
 
-      const assigned = state.assignments.filter(a => a.programmeDocId === p.id);
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+      const assigned = activeAssignments.filter(a => a.programmeDocId === p.id);
       const body = document.getElementById('details-prog-body');
       
       body.innerHTML = `
@@ -2848,7 +3058,6 @@
       openModal('modal-prog-details');
     };
 
-    /* AUTOMATIC CASCADE DELETE FUNCTION */
     window.deleteProgramme = async (id) => {
       if (!state.isAdmin) return showToast('Admin required', 'error');
       
@@ -2877,7 +3086,6 @@
       }
     };
 
-    /* ONE-CLICK DATABASE CLEANUP FOR PREVIOUSLY DELETED PROGRAMMES */
     window.cleanDeletedProgrammesData = async () => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
@@ -2916,7 +3124,6 @@
       }
     };
 
-    /* AUTOMATIC DUPLICATE ASSIGNMENTS CLEANUP FUNCTION */
     window.cleanDuplicateAssignments = async () => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
@@ -2928,7 +3135,6 @@
         const seenKeys = new Set();
         let removedCount = 0;
 
-        // Clean duplicates from Assignments
         for (const assign of state.assignments) {
           const key = `${assign.studentName.trim().toLowerCase()}_${assign.programmeName.trim().toLowerCase()}`;
           if (seenKeys.has(key)) {
@@ -2939,7 +3145,6 @@
           }
         }
 
-        // Clean duplicates from Practice Tracker
         const seenPracticeKeys = new Set();
         for (const prac of state.practice) {
           const pKey = `${prac.studentName.trim().toLowerCase()}_${prac.programmeName.trim().toLowerCase()}`;
@@ -2969,7 +3174,9 @@
       const gender = document.getElementById('filter-student-gender').value;
       const category = document.getElementById('filter-student-category').value;
 
-      let filtered = state.students.filter(s => {
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+
+      let filtered = activeStudents.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(search) || (s.studentId && s.studentId.toString().toLowerCase().includes(search));
         const matchGender = !gender || s.gender === gender;
         const matchCategory = !category || s.category === category;
@@ -3008,7 +3215,8 @@
       const classSelect = document.getElementById('slip-filter-class-select');
       if (!classSelect) return;
 
-      const uniqueClasses = [...new Set(state.students.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const uniqueClasses = [...new Set(activeStudents.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       classSelect.innerHTML = '<option value="">All Classes</option>' + uniqueClasses.map(c => `
         <option value="${c}">Class ${c}</option>
       `).join('');
@@ -3022,7 +3230,9 @@
       const filterClass = document.getElementById('slip-filter-class-select').value;
       const filterCategory = document.getElementById('slip-filter-category-select').value;
 
-      let filteredStudents = state.students.filter(s => {
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+
+      let filteredStudents = activeStudents.filter(s => {
         const matchClass = !filterClass || s.class.toString() === filterClass;
         const matchCat = !filterCategory || s.category === filterCategory;
         return matchClass && matchCat;
@@ -3215,7 +3425,8 @@
     function renderMixedStudentChecklist() {
       const container = document.getElementById('mixed-students-checklist');
       if (!container) return;
-      const sortedStudents = sortByClass(state.students);
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const sortedStudents = sortByClass(activeStudents);
       container.innerHTML = sortedStudents.map(s => `
         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
           <input type="checkbox" value="${s.id}" class="mixed-cb">
@@ -3257,7 +3468,9 @@
       const tbody = document.getElementById('tbody-assignments');
       if (!tbody) return;
 
-      let sortedAssignments = [...state.assignments].sort((a, b) => {
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+
+      let sortedAssignments = [...activeAssignments].sort((a, b) => {
         const stA = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
         const stB = state.students.find(s => s.id === b.studentDocId || s.name === b.studentName);
         const clsA = parseInt(stA?.class || 0, 10);
@@ -3357,7 +3570,8 @@
       const category = activeTab.getAttribute('data-cat');
       const gender = sec === 'boys' ? 'Male' : 'Female';
 
-      let students = state.students.filter(s => s.gender === gender && s.category === category);
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      let students = activeStudents.filter(s => s.gender === gender && s.category === category);
       students = sortByClass(students);
 
       container.innerHTML = students.length ? `
@@ -3376,7 +3590,8 @@
       const container = document.getElementById('global-search-results');
       if (!container || !queryVal) return;
 
-      let matched = state.students.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toString().toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal));
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      let matched = activeStudents.filter(s => s.name.toLowerCase().includes(queryVal) || (s.studentId && s.studentId.toString().toLowerCase().includes(queryVal)) || s.category.toLowerCase().includes(queryVal) || s.class.toString().includes(queryVal));
       matched = sortByClass(matched);
 
       container.innerHTML = matched.map(s => `
@@ -3392,21 +3607,25 @@
       const container = document.getElementById('report-output-table');
       if (!container) return;
 
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+
       if (type === 'students') {
-        const sorted = sortByClass(state.students);
+        const sorted = sortByClass(activeStudents);
         container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No / ID</th><th>Student Name</th><th>Gender</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => {
           const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
           return `<tr><td>${cleanRoll}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`;
         }).join('')}</tbody></table>`;
       } else if (type === 'programme') {
-        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${state.assignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${activeAssignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
       } else {
         container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${state.practice.map(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
       }
     }
 
     function exportReportCSV() {
-      const sorted = sortByClass(state.students);
+      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const sorted = sortByClass(activeStudents);
       let csv = "Roll_No,Name,Gender,Category,Class\n" + sorted.map(s => {
         const cleanRoll = (s.studentId || '-').toString().replace('STD-', '');
         return `"${cleanRoll}","Class ${s.class} - ${s.name}","${s.gender}","${s.category}","Class ${s.class}"`;
