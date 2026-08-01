@@ -1102,7 +1102,10 @@
         <!-- PRACTICE TRACKER VIEW -->
         <section id="view-practice-tracker" class="app-view">
           <div class="glass-card">
-            <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+              <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
+              <button id="btn-clean-deleted-progs" onclick="window.cleanDeletedProgrammesData()" class="btn-danger-sm" style="font-size:0.85rem; padding:0.5rem 1rem;"><i class="fa-solid fa-broom"></i> Clean Deleted Programmes Data</button>
+            </div>
             <hr class="divider">
             <div class="table-responsive">
               <table class="data-table">
@@ -2787,11 +2790,73 @@
       openModal('modal-prog-details');
     };
 
+    /* AUTOMATIC CASCADE DELETE FUNCTION */
     window.deleteProgramme = async (id) => {
       if (!state.isAdmin) return showToast('Admin required', 'error');
-      if (confirm('Delete programme?')) {
-        await deleteDoc(doc(db, 'programmes', id));
-        showToast('Programme deleted', 'success');
+      
+      const prog = state.programmes.find(p => p.id === id);
+      if (!prog) return;
+
+      if (confirm(`"${prog.name}" എന്ന പ്രോഗ്രാമും അതിലെ എല്ലാ അസൈൻമെന്റുകളും ഡിലീറ്റ് ചെയ്യണോ?`)) {
+        try {
+          await deleteDoc(doc(db, 'programmes', id));
+
+          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName === prog.name);
+          for (const assign of relatedAssignments) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+          }
+
+          const relatedPractice = state.practice.filter(p => p.programmeName === prog.name);
+          for (const prac of relatedPractice) {
+            await deleteDoc(doc(db, 'practice', prac.id));
+          }
+
+          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും ഡിലീറ്റ് ചെയ്തു', 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to delete programme', 'error');
+        }
+      }
+    };
+
+    /* ONE-CLICK DATABASE CLEANUP FOR PREVIOUSLY DELETED PROGRAMMES */
+    window.cleanDeletedProgrammesData = async () => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (!confirm('ഇപ്പോൾ പ്രോഗ്രാം ലിസ്റ്റിൽ ഇല്ലാത്ത പഴയ പ്രോഗ്രാമുകളുടെ എല്ലാ ഡാറ്റയും ട്രാക്കറിൽ നിന്നും ഡാറ്റാബേസിൽ നിന്നും പൂർണ്ണമായി മാറ്റണോ?')) {
+        return;
+      }
+
+      try {
+        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+        let cleanedCount = 0;
+
+        // 1. Clean orphan assignments
+        for (const assign of state.assignments) {
+          const assignProgName = (assign.programmeName || '').trim().toLowerCase();
+          if (!activeProgNames.has(assignProgName)) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+            cleanedCount++;
+          }
+        }
+
+        // 2. Clean orphan practice records
+        for (const prac of state.practice) {
+          const pracProgName = (prac.programmeName || '').trim().toLowerCase();
+          if (!activeProgNames.has(pracProgName)) {
+            await deleteDoc(doc(db, 'practice', prac.id));
+            cleanedCount++;
+          }
+        }
+
+        if (cleanedCount > 0) {
+          showToast(`${cleanedCount} പഴയ ഡാറ്റ വിജയകരമായി മായ്ച്ചു!`, 'success');
+        } else {
+          showToast('ഇല്ലാത്ത പ്രോഗ്രാമുകളുടെ ഡാറ്റയൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
       }
     };
 
@@ -2830,8 +2895,7 @@
             <td>
               ${state.isAdmin ? `
                 <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i
-></button>
+                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
               ` : 'Read-Only'}
             </td>
           </tr>
@@ -3122,8 +3186,18 @@
 
     window.deleteAssignment = async (id) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
+      
+      const assign = state.assignments.find(a => a.id === id);
       await deleteDoc(doc(db, 'assignments', id));
-      showToast('Assignment removed', 'success');
+
+      if (assign) {
+        const practiceMatches = state.practice.filter(p => p.studentName === assign.studentName && p.programmeName === assign.programmeName);
+        for (const pr of practiceMatches) {
+          await deleteDoc(doc(db, 'practice', pr.id));
+        }
+      }
+
+      showToast('Assignment and practice record removed', 'success');
     };
 
     function renderPracticeTable() {
