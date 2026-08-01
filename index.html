@@ -1494,9 +1494,34 @@
       return '-';
     }
 
-    // Helper to check valid/active programmes
     function getActiveProgrammeNamesSet() {
       return new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+    }
+
+    // Automatic Realtime Database Cleaner
+    async function autoCleanDatabaseOrphans() {
+      if (state.programmes.length === 0) return;
+      const activeProgNames = getActiveProgrammeNamesSet();
+
+      // Clean invalid assignments automatically from Firestore
+      for (const assign of state.assignments) {
+        const pName = (assign.programmeName || '').trim().toLowerCase();
+        if (pName && !activeProgNames.has(pName)) {
+          try {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+          } catch(e) { console.error(e); }
+        }
+      }
+
+      // Clean invalid practice entries automatically
+      for (const prac of state.practice) {
+        const pName = (prac.programmeName || '').trim().toLowerCase();
+        if (pName && !activeProgNames.has(pName)) {
+          try {
+            await deleteDoc(doc(db, 'practice', prac.id));
+          } catch(e) { console.error(e); }
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1898,6 +1923,9 @@
         renderPracticeTable();
         renderDashboardStudentStatusTable();
         renderParentSlip();
+
+        // Run automatic Database deep clean
+        autoCleanDatabaseOrphans();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1912,6 +1940,8 @@
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
         renderParentSlip();
+
+        autoCleanDatabaseOrphans();
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -2162,7 +2192,6 @@
       const activeProgNames = getActiveProgrammeNamesSet();
 
       tbody.innerHTML = studentList.map(s => {
-        // Filter out practice items that belong to deleted programmes
         const studentPractice = state.practice.filter(p => p.studentName === s.name && activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
         
         const completedItems = studentPractice.filter(p => p.status === 'Completed' || p.status === 'Stage Ready');
@@ -2273,6 +2302,8 @@
       container.style.display = 'block';
       badgeInfo.textContent = `Class ${student.class} | Roll: ${getStudentRollNo(student, null)} | ${student.category} (${student.gender})`;
 
+      // Strictly fetch existing programmes only
+      const activeProgNames = getActiveProgrammeNamesSet();
       const matchedProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => (p.category === student.category || p.category === 'General') && p.gender === student.gender)
       );
@@ -2280,7 +2311,7 @@
       const stageProgs = matchedProgrammes.filter(p => p.type === 'Stage');
       const nonStageProgs = matchedProgrammes.filter(p => p.type === 'Non-Stage');
 
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam && activeProgNames.has((a.programmeName || '').trim().toLowerCase()));
       const assignedProgDocIds = activeAssignments.filter(a => a.studentDocId === student.id).map(a => a.programmeDocId);
       const assignedProgNames = activeAssignments.filter(a => a.studentName === student.name).map(a => a.programmeName.trim().toLowerCase());
 
@@ -3123,18 +3154,22 @@
         try {
           await deleteDoc(doc(db, 'programmes', id));
 
-          // Auto cleanup assignments and practice when a programme is deleted
-          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase());
+          const relatedAssignments = state.assignments.filter(a => 
+            a.programmeDocId === id || 
+            a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase()
+          );
           for (const assign of relatedAssignments) {
             await deleteDoc(doc(db, 'assignments', assign.id));
           }
 
-          const relatedPractice = state.practice.filter(p => p.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase());
+          const relatedPractice = state.practice.filter(p => 
+            p.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase()
+          );
           for (const prac of relatedPractice) {
             await deleteDoc(doc(db, 'practice', prac.id));
           }
 
-          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും ഡിലീറ്റ് ചെയ്തു', 'success');
+          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും പൂർണ്ണമായി നീക്കം ചെയ്തു', 'success');
         } catch (err) {
           console.error(err);
           showToast('Failed to delete programme', 'error');
@@ -3353,12 +3388,16 @@
       document.getElementById('slip-out-team').textContent = s.team;
       document.getElementById('slip-out-gender').textContent = s.gender;
 
-      // Filter active programme names strictly to hide deleted programmes automatically
+      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
       const activeProgNames = getActiveProgrammeNamesSet();
 
-      const userAssignments = state.assignments.filter(a => 
-        a.studentDocId === s.id && activeProgNames.has((a.programmeName || '').trim().toLowerCase())
-      );
+      const userAssignments = state.assignments.filter(a => {
+        if (a.studentDocId !== s.id) return false;
+        const matchesId = a.programmeDocId && activeProgDocIds.has(a.programmeDocId);
+        const matchesName = a.programmeName && activeProgNames.has(a.programmeName.trim().toLowerCase());
+        return matchesId || matchesName;
+      });
+
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
@@ -3418,11 +3457,16 @@
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
+      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
       const activeProgNames = getActiveProgrammeNamesSet();
 
-      const userAssignments = state.assignments.filter(a => 
-        a.studentDocId === s.id && activeProgNames.has((a.programmeName || '').trim().toLowerCase())
-      );
+      const userAssignments = state.assignments.filter(a => {
+        if (a.studentDocId !== s.id) return false;
+        const matchesId = a.programmeDocId && activeProgDocIds.has(a.programmeDocId);
+        const matchesName = a.programmeName && activeProgNames.has(a.programmeName.trim().toLowerCase());
+        return matchesId || matchesName;
+      });
+
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
