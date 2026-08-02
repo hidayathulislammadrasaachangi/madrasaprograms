@@ -261,9 +261,75 @@
     
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
+    /* MOBILE-FRIENDLY PRACTICE CARD DESIGN */
+    .student-practice-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .student-practice-card {
+      background: var(--card-bg-light);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 12px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    body.dark-mode .student-practice-card {
+      background: rgba(18, 30, 25, 0.6);
+      border-color: var(--glass-border-dark);
+    }
+
+    .student-practice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-bottom: 0.6rem;
+    }
+    body.dark-mode .student-practice-header { border-bottom-color: rgba(255,255,255,0.08); }
+
+    .student-name-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+    body.dark-mode .student-name-title { color: var(--accent-gold); }
+
+    .student-meta-info {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6b7280;
+      margin-top: 0.2rem;
+    }
+    body.dark-mode .student-meta-info { color: #9ca3af; }
+
+    .programmes-badges-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .badge-section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 0.2rem;
+    }
+
+    .badges-flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; min-width: 500px; }
-    .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: normal; word-break: break-word; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; min-width: 650px; }
+    .data-table th, .data-table td { padding: 0.75rem 0.85rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: nowrap; }
     .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
 
     .badge { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 2px; }
@@ -377,7 +443,7 @@
       border-color: var(--accent-gold);
     }
 
-    .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; }
     .action-header { display: flex; justify-content: space-between; align-items: center; }
     .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; }
 
@@ -395,7 +461,7 @@
     .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
     .mobile-only { display: none; }
-    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
 
     @media (max-width: 900px) {
       .sidebar { width: 82%; max-width: 300px; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); }
@@ -471,6 +537,7 @@
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
         
+        <!-- TEAM VERSUS COMPARISON MENU ITEM -->
         <a href="#" class="nav-item" data-view="team-versus" style="background: rgba(212, 175, 55, 0.25); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Team Versus Comparison</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
@@ -602,7 +669,7 @@
               <h3><i class="fa-solid fa-bell" style="color:var(--accent-gold);"></i> System Audit Log</h3>
               <hr class="divider">
               <ul id="activity-list" class="activity-list">
-                <li class="empty-state">No recent activities for this team.</li>
+                <li class="empty-state">No recent activities recorded.</li>
               </ul>
             </div>
           </div>
@@ -626,22 +693,18 @@
                 <option value="Senior">Senior</option>
                 <option value="General">General</option>
               </select>
+              <!-- BOYS / GIRLS GENDER FILTER -->
+              <select id="dash-practice-gender-filter" class="form-control">
+                <option value="">All Sections (Boys & Girls)</option>
+                <option value="Male">Boys Section</option>
+                <option value="Female">Girls Section</option>
+              </select>
               <input type="text" id="dash-practice-search-input" class="form-control" placeholder="Filter student name...">
             </div>
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Class & Student Info</th>
-                    <th>Completed Programmes</th>
-                    <th>Pending Practice Items</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="tbody-dash-student-status">
-                  <tr><td colspan="4" class="text-center">Loading student practice overview...</td></tr>
-                </tbody>
-              </table>
+            
+            <!-- MOBILE-FRIENDLY CARD-BASED PRACTICE OVERVIEW -->
+            <div id="tbody-dash-student-status" class="student-practice-cards-list">
+              <p class="text-center">Loading student practice overview...</p>
             </div>
           </div>
         </section>
@@ -1027,7 +1090,7 @@
           </div>
         </section>
 
-        <!-- ITEM-WISE BULK ASSIGN VIEW -->
+        <!-- ITEM-WISE BULK ASSIGN VIEW WITH UNASSIGN / REMOVE OPTION -->
         <section id="view-item-bulk-assign" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Item-wise Bulk Programme Assignment</h2>
@@ -1442,7 +1505,7 @@
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { 
-      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, enableIndexedDbPersistence 
+      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, limit, enableIndexedDbPersistence 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1471,6 +1534,7 @@
       assignments: [],
       practice: [],
       mixedGroups: [],
+      auditLogs: [],
       teamSettings: {},
       selectedStageSec: 'All',
       selectedStageCat: 'All',
@@ -1485,6 +1549,19 @@
 
     let activeSnapshotUnsubscribers = [];
 
+    // System Audit Log Helper Function
+    async function logActivity(actionMessage) {
+      try {
+        await addDoc(collection(db, 'audit_logs'), {
+          team: state.activeTeam,
+          message: actionMessage,
+          timestamp: new Date().toISOString()
+        });
+      } catch (e) {
+        console.error("Error writing audit log:", e);
+      }
+    }
+
     // Helper to extract proper Roll Number
     function getStudentRollNo(student, assignment) {
       if (student && student.rollNo) return student.rollNo;
@@ -1492,36 +1569,6 @@
       if (assignment && assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
       if (assignment && assignment.studentRollNo) return assignment.studentRollNo;
       return '-';
-    }
-
-    function getActiveProgrammeNamesSet() {
-      return new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-    }
-
-    // Automatic Realtime Database Cleaner
-    async function autoCleanDatabaseOrphans() {
-      if (state.programmes.length === 0) return;
-      const activeProgNames = getActiveProgrammeNamesSet();
-
-      // Clean invalid assignments automatically from Firestore
-      for (const assign of state.assignments) {
-        const pName = (assign.programmeName || '').trim().toLowerCase();
-        if (pName && !activeProgNames.has(pName)) {
-          try {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-          } catch(e) { console.error(e); }
-        }
-      }
-
-      // Clean invalid practice entries automatically
-      for (const prac of state.practice) {
-        const pName = (prac.programmeName || '').trim().toLowerCase();
-        if (pName && !activeProgNames.has(pName)) {
-          try {
-            await deleteDoc(doc(db, 'practice', prac.id));
-          } catch(e) { console.error(e); }
-        }
-      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1596,7 +1643,10 @@
     function setupEventListeners() {
       document.getElementById('btn-auth-action').addEventListener('click', () => {
         if (state.currentUser) {
-          signOut(auth).then(() => showToast('Signed out successfully', 'success'));
+          signOut(auth).then(() => {
+            showToast('Signed out successfully', 'success');
+            logActivity("Admin signed out");
+          });
         } else {
           openModal('modal-auth');
         }
@@ -1612,6 +1662,7 @@
           await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value);
           closeModal('modal-auth');
           showToast('Admin mode granted', 'success');
+          logActivity("Admin logged in successfully");
         } catch (err) {
           showToast('Invalid admin credentials', 'error');
         }
@@ -1628,6 +1679,7 @@
         try {
           await setDoc(doc(db, 'teams', state.activeTeam), data, { merge: true });
           showToast('Team settings saved', 'success');
+          logActivity(`Updated team leadership settings for ${state.activeTeam}`);
         } catch (err) {
           showToast('Error saving settings', 'error');
         }
@@ -1659,9 +1711,11 @@
           if (docId) {
             await updateDoc(doc(db, 'students', docId), studentData);
             showToast('Student record updated', 'success');
+            logActivity(`Updated student: ${studentData.name} (Roll: ${studentData.rollNo})`);
           } else {
             await addDoc(collection(db, 'students'), studentData);
             showToast(`New student added successfully!`, 'success');
+            logActivity(`Added new student: ${studentData.name} (Roll: ${studentData.rollNo})`);
           }
           closeModal('modal-student');
         } catch (err) {
@@ -1688,8 +1742,9 @@
         e.preventDefault();
         if(!state.isAdmin) return showToast('Admin required', 'error');
         const selected = Array.from(document.querySelectorAll('.mixed-cb:checked')).map(c => c.value);
+        const groupName = document.getElementById('mixed-group-name').value;
         await addDoc(collection(db, 'mixed_groups'), {
-          groupName: document.getElementById('mixed-group-name').value,
+          groupName: groupName,
           itemName: document.getElementById('mixed-item-name').value,
           members: selected,
           team: state.activeTeam,
@@ -1697,6 +1752,7 @@
         });
         closeModal('modal-mixed-group');
         showToast('Mixed Group Created', 'success');
+        logActivity(`Created mixed group: ${groupName}`);
       });
 
       document.getElementById('btn-add-stage-prog').addEventListener('click', () => openProgrammeModal('Stage'));
@@ -1722,9 +1778,11 @@
           if (docId) {
             await updateDoc(doc(db, 'programmes', docId), progData);
             showToast('Programme updated', 'success');
+            logActivity(`Updated programme: ${progData.name}`);
           } else {
             await addDoc(collection(db, 'programmes'), progData);
             showToast('Programme saved successfully!', 'success');
+            logActivity(`Added programme: ${progData.name} (${progData.category})`);
           }
           closeModal('modal-programme');
         } catch (err) {
@@ -1795,6 +1853,7 @@
 
         if (assignedCount > 0) {
           showToast(`Successfully assigned ${assignedCount} programme(s) to ${student.name}!`, 'success');
+          logActivity(`Assigned ${assignedCount} item(s) to ${student.name} (Roll: ${getStudentRollNo(student, null)})`);
           populateAssignmentProgrammesCheckboxes();
         } else {
           showToast('Selected programmes are already assigned to this student.', 'warning');
@@ -1822,6 +1881,7 @@
 
       document.getElementById('dash-practice-class-filter').addEventListener('change', renderDashboardStudentStatusTable);
       document.getElementById('dash-practice-category-filter').addEventListener('change', renderDashboardStudentStatusTable);
+      document.getElementById('dash-practice-gender-filter').addEventListener('change', renderDashboardStudentStatusTable);
       document.getElementById('dash-practice-search-input').addEventListener('input', renderDashboardStudentStatusTable);
 
       document.getElementById('report-type-select').addEventListener('change', renderReportOutput);
@@ -1919,13 +1979,6 @@
         updateBulkProgrammeOptions();
         updateViewProgrammeOptions();
         updateVsProgrammeOptions();
-        renderAssignmentsTable();
-        renderPracticeTable();
-        renderDashboardStudentStatusTable();
-        renderParentSlip();
-
-        // Run automatic Database deep clean
-        autoCleanDatabaseOrphans();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1939,9 +1992,6 @@
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
-        renderParentSlip();
-
-        autoCleanDatabaseOrphans();
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -1953,12 +2003,41 @@
         renderDashboardStudentStatusTable();
       });
       activeSnapshotUnsubscribers.push(unsubPractice);
+
+      // Realtime Audit Log Listener
+      const qLogs = query(collection(db, 'audit_logs'), where('team', '==', state.activeTeam), limit(15));
+      const unsubLogs = onSnapshot(qLogs, (s) => {
+        state.auditLogs = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        state.auditLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        renderAuditLogs();
+      });
+      activeSnapshotUnsubscribers.push(unsubLogs);
+    }
+
+    function renderAuditLogs() {
+      const listEl = document.getElementById('activity-list');
+      if (!listEl) return;
+
+      if (state.auditLogs.length === 0) {
+        listEl.innerHTML = `<li class="empty-state">No recent activities for this team.</li>`;
+        return;
+      }
+
+      listEl.innerHTML = state.auditLogs.map(log => {
+        const timeStr = log.timestamp ? new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+        return `
+          <li>
+            <i class="fa-solid fa-angle-right" style="color:var(--accent-gold); margin-right: 0.4rem;"></i>
+            <span>${log.message}</span>
+            <small style="float: right; opacity: 0.6; font-size: 0.75rem;">${timeStr}</small>
+          </li>
+        `;
+      }).join('');
     }
 
     function updateDashboardStats() {
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      const activeProgNames = getActiveProgrammeNamesSet();
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam && activeProgNames.has((a.programmeName || '').trim().toLowerCase()));
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       document.getElementById('stat-total-students').textContent = activeStudents.length;
       document.getElementById('stat-total-boys').textContent = activeStudents.filter(s => s.gender === 'Male').length;
@@ -1972,12 +2051,10 @@
       
       document.getElementById('stat-assigned-students').textContent = new Set(activeAssignments.map(a => a.studentDocId)).size;
 
-      const activePractice = state.practice.filter(p => activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
-
-      const ready = activePractice.filter(p => p.status === 'Stage Ready').length;
-      const completed = activePractice.filter(p => p.status === 'Completed').length;
-      const pending = activePractice.filter(p => p.status === 'Learning' || !p.status).length;
-      const total = activePractice.length || 1;
+      const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
+      const completed = state.practice.filter(p => p.status === 'Completed').length;
+      const pending = state.practice.filter(p => p.status === 'Learning' || !p.status).length;
+      const total = state.practice.length || 1;
 
       document.getElementById('label-ready-count').textContent = ready;
       document.getElementById('label-completed-count').textContent = completed;
@@ -2031,7 +2108,7 @@
       return unique;
     }
 
-    /* STRICT & ACCURATE GENDER + CATEGORY PDF GENERATION WITH FIXED ROLL NUMBERS */
+    /* GENDER + CATEGORY PDF GENERATION */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
@@ -2165,12 +2242,14 @@
       `).join('');
     }
 
+    /* PRACTICE OVERVIEW WITH BOYS / GIRLS GENDER FILTER SUPPORT */
     function renderDashboardStudentStatusTable() {
-      const tbody = document.getElementById('tbody-dash-student-status');
-      if (!tbody) return;
+      const container = document.getElementById('tbody-dash-student-status');
+      if (!container) return;
 
       const filterClass = document.getElementById('dash-practice-class-filter')?.value || '';
       const filterCat = document.getElementById('dash-practice-category-filter')?.value || '';
+      const filterGender = document.getElementById('dash-practice-gender-filter')?.value || '';
       const filterSearch = document.getElementById('dash-practice-search-input')?.value.toLowerCase() || '';
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
@@ -2178,21 +2257,20 @@
       let studentList = activeStudents.filter(s => {
         const matchClass = !filterClass || s.class.toString() === filterClass;
         const matchCat = !filterCat || s.category === filterCat;
+        const matchGender = !filterGender || s.gender === filterGender;
         const matchSearch = !filterSearch || s.name.toLowerCase().includes(filterSearch);
-        return matchClass && matchCat && matchSearch;
+        return matchClass && matchCat && matchGender && matchSearch;
       });
 
       studentList = sortByClass(studentList);
 
       if (studentList.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center">No matching student records found.</td></tr>`;
+        container.innerHTML = `<p class="text-center" style="padding: 1.5rem 0;">No matching student records found.</p>`;
         return;
       }
 
-      const activeProgNames = getActiveProgrammeNamesSet();
-
-      tbody.innerHTML = studentList.map(s => {
-        const studentPractice = state.practice.filter(p => p.studentName === s.name && activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
+      container.innerHTML = studentList.map(s => {
+        const studentPractice = state.practice.filter(p => p.studentName === s.name);
         
         const completedItems = studentPractice.filter(p => p.status === 'Completed' || p.status === 'Stage Ready');
         const learningItems = studentPractice.filter(p => p.status === 'Learning' || !p.status);
@@ -2221,15 +2299,35 @@
         const cleanRoll = getStudentRollNo(s, null);
 
         return `
-          <tr>
-            <td>
-              <strong>Class ${s.class} - ${s.name} [Roll No: ${cleanRoll}]</strong>
-              <br><small style="color:var(--accent-gold); font-weight:600;">${s.category} (${s.gender})</small>
-            </td>
-            <td>${completedBadgesHtml}</td>
-            <td>${learningBadgesHtml}</td>
-            <td>${actionBtnHtml}</td>
-          </tr>
+          <div class="student-practice-card">
+            <div class="student-practice-header">
+              <div>
+                <div class="student-name-title">Class ${s.class} - ${s.name}</div>
+                <div class="student-meta-info">Roll No: <strong>${cleanRoll}</strong> &nbsp;|&nbsp; Category: ${s.category} (${s.gender === 'Male' ? 'Boy' : 'Girl'})</div>
+              </div>
+              <div>${actionBtnHtml}</div>
+            </div>
+
+            <div class="programmes-badges-group">
+              ${completedItems.length > 0 ? `
+                <div>
+                  <div class="badge-section-label" style="color: #10b981;">Completed Practice Items:</div>
+                  <div class="badges-flex-container">${completedBadgesHtml}</div>
+                </div>
+              ` : ''}
+
+              ${learningItems.length > 0 ? `
+                <div>
+                  <div class="badge-section-label" style="color: #f59e0b;">Pending Practice Items:</div>
+                  <div class="badges-flex-container">${learningBadgesHtml}</div>
+                </div>
+              ` : ''}
+
+              ${studentPractice.length === 0 ? `
+                <div style="font-size: 0.82rem; opacity:0.65; font-style: italic;">No programmes assigned to this student yet.</div>
+              ` : ''}
+            </div>
+          </div>
         `;
       }).join('');
     }
@@ -2302,8 +2400,6 @@
       container.style.display = 'block';
       badgeInfo.textContent = `Class ${student.class} | Roll: ${getStudentRollNo(student, null)} | ${student.category} (${student.gender})`;
 
-      // Strictly fetch existing programmes only
-      const activeProgNames = getActiveProgrammeNamesSet();
       const matchedProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => (p.category === student.category || p.category === 'General') && p.gender === student.gender)
       );
@@ -2311,7 +2407,7 @@
       const stageProgs = matchedProgrammes.filter(p => p.type === 'Stage');
       const nonStageProgs = matchedProgrammes.filter(p => p.type === 'Non-Stage');
 
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam && activeProgNames.has((a.programmeName || '').trim().toLowerCase()));
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
       const assignedProgDocIds = activeAssignments.filter(a => a.studentDocId === student.id).map(a => a.programmeDocId);
       const assignedProgNames = activeAssignments.filter(a => a.studentName === student.name).map(a => a.programmeName.trim().toLowerCase());
 
@@ -2403,6 +2499,7 @@
       `).join('');
     }
 
+    /* ITEM-WISE BULK CHECKLIST WITH DIRECT UNASSIGN/REMOVE BUTTON */
     function renderBulkStudentChecklist() {
       const cat = state.bulkSelection.category;
       const gender = state.bulkSelection.gender;
@@ -2438,24 +2535,63 @@
       }
 
       const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
-      const alreadyAssignedDocIds = activeAssignments
-        .filter(a => a.programmeDocId === progId || (a.programmeName.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender))
-        .map(a => a.studentDocId);
 
       checklistEl.innerHTML = targetStudents.map(s => {
-        const isAssigned = alreadyAssignedDocIds.includes(s.id);
+        const existingAssign = activeAssignments.find(a => 
+          (a.programmeDocId === progId || (a.programmeName.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender)) &&
+          (a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase())
+        );
+
+        const isAssigned = !!existingAssign;
         const roll = getStudentRollNo(s, null);
+
         return `
-          <div style="display:flex; align-items:center; gap:0.8rem; padding: 0.6rem; border-bottom: 1px solid rgba(0,0,0,0.05); ${isAssigned ? 'opacity:0.6; background:rgba(16, 185, 129, 0.08);' : ''}">
-            <input type="checkbox" value="${s.id}" class="bulk-std-cb" id="bulk-std-${s.id}" ${isAssigned ? 'checked disabled' : ''} style="width:18px; height:18px; cursor:pointer;">
-            <label for="bulk-std-${s.id}" style="cursor:pointer; font-size:0.92rem; flex:1;">
-              <strong>[Roll: ${roll}]</strong> Class ${s.class} - ${s.name} 
-              ${isAssigned ? '<span class="badge badge-completed" style="margin-left:0.5rem;">Already Assigned</span>' : ''}
-            </label>
+          <div style="display:flex; align-items:center; justify-content:space-between; padding: 0.6rem; border-bottom: 1px solid rgba(0,0,0,0.05); ${isAssigned ? 'background:rgba(16, 185, 129, 0.08);' : ''}">
+            <div style="display:flex; align-items:center; gap:0.8rem; flex:1;">
+              <input type="checkbox" value="${s.id}" class="bulk-std-cb" id="bulk-std-${s.id}" ${isAssigned ? 'checked disabled' : ''} style="width:18px; height:18px; cursor:pointer;">
+              <label for="bulk-std-${s.id}" style="cursor:pointer; font-size:0.92rem;">
+                <strong>[Roll: ${roll}]</strong> Class ${s.class} - ${s.name} 
+              </label>
+            </div>
+            <div>
+              ${isAssigned ? `
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  <span class="badge badge-completed">Already Assigned</span>
+                  ${state.isAdmin ? `
+                    <button class="btn-danger-sm" onclick="window.unassignBulkParticipant('${existingAssign.id}', '${s.name}', '${selectedProg.name}')" title="Remove this programme for student">
+                      <i class="fa-solid fa-user-minus"></i> Remove
+                    </button>
+                  ` : ''}
+                </div>
+              ` : ''}
+            </div>
           </div>
         `;
       }).join('');
     }
+
+    /* DIRECT UNASSIGN FUNCTION FROM BULK PAGE */
+    window.unassignBulkParticipant = async (assignmentId, studentName, progName) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (confirm(`Remove "${progName}" for ${studentName}?`)) {
+        try {
+          await deleteDoc(doc(db, 'assignments', assignmentId));
+
+          const practiceMatches = state.practice.filter(p => p.studentName === studentName && p.programmeName === progName);
+          for (const pr of practiceMatches) {
+            await deleteDoc(doc(db, 'practice', pr.id));
+          }
+
+          showToast(`Removed ${progName} for ${studentName}`, 'success');
+          logActivity(`Unassigned "${progName}" from ${studentName} via Bulk Panel`);
+          renderBulkStudentChecklist();
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to remove assignment', 'error');
+        }
+      }
+    };
 
     async function saveItemBulkAssignment() {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
@@ -2507,6 +2643,7 @@
       }
 
       showToast(`Assigned ${prog.name} to ${count} student(s) successfully!`, 'success');
+      logActivity(`Bulk assigned "${prog.name}" to ${count} student(s)`);
       renderBulkStudentChecklist();
     }
 
@@ -2804,6 +2941,7 @@
           }
 
           showToast(`Removed ${studentName} successfully!`, 'success');
+          logActivity(`Removed participant: ${studentName} from "${programmeName}"`);
         } catch (err) {
           console.error(err);
           showToast('Failed to remove participant', 'error');
@@ -2815,9 +2953,7 @@
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
 
-      const activeProgNames = getActiveProgrammeNamesSet();
-      const studentPractice = state.practice.filter(p => p.studentName === s.name && activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
-      
+      const studentPractice = state.practice.filter(p => p.studentName === s.name);
       document.getElementById('modal-status-student-name').textContent = `${s.name}`;
       document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)} | ${s.category} (${s.gender})`;
 
@@ -2853,7 +2989,7 @@
               <span class="badge ${curStatus === 'Completed' ? 'badge-completed' : (curStatus === 'Stage Ready' ? 'badge-stageready' : 'badge-learning')}">${curStatus}</span>
             </div>
             <div>
-              <select class="status-select-dropdown" onchange="window.updatePracticeStatusDirect('${p.id}', this.value, '${s.id}')">
+              <select class="status-select-dropdown" onchange="window.updatePracticeStatusDirect('${p.id}', this.value, '${s.id}', '${s.name}', '${p.programmeName}')">
                 <option value="Learning" ${curStatus === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
                 <option value="Completed" ${curStatus === 'Completed' ? 'selected' : ''}>✅ Completed</option>
                 <option value="Stage Ready" ${curStatus === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
@@ -2883,17 +3019,22 @@
       openModal('modal-manage-student-status');
     };
 
-    window.updatePracticeStatusDirect = async (practiceId, newStatus, studentDocId) => {
+    window.updatePracticeStatusDirect = async (practiceId, newStatus, studentDocId, studentName, progName) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
       await updateDoc(doc(db, 'practice', practiceId), { status: newStatus });
       showToast('Practice status updated', 'success');
+      logActivity(`Updated status to "${newStatus}" for ${studentName} - ${progName}`);
       window.openStatusManageModal(studentDocId);
     };
 
     window.updatePracticeStatus = async (id, status) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
+      const item = state.practice.find(p => p.id === id);
       await updateDoc(doc(db, 'practice', id), { status });
       showToast('Practice status updated', 'success');
+      if (item) {
+        logActivity(`Updated status to "${status}" for ${item.studentName} - ${item.programmeName}`);
+      }
     };
 
     function setupProgrammeCategoryTabs() {
@@ -3154,22 +3295,18 @@
         try {
           await deleteDoc(doc(db, 'programmes', id));
 
-          const relatedAssignments = state.assignments.filter(a => 
-            a.programmeDocId === id || 
-            a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase()
-          );
+          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName === prog.name);
           for (const assign of relatedAssignments) {
             await deleteDoc(doc(db, 'assignments', assign.id));
           }
 
-          const relatedPractice = state.practice.filter(p => 
-            p.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase()
-          );
+          const relatedPractice = state.practice.filter(p => p.programmeName === prog.name);
           for (const prac of relatedPractice) {
             await deleteDoc(doc(db, 'practice', prac.id));
           }
 
-          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും പൂർണ്ണമായി നീക്കം ചെയ്തു', 'success');
+          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും ഡിലീറ്റ് ചെയ്തു', 'success');
+          logActivity(`Deleted programme: ${prog.name}`);
         } catch (err) {
           console.error(err);
           showToast('Failed to delete programme', 'error');
@@ -3185,7 +3322,7 @@
       }
 
       try {
-        const activeProgNames = getActiveProgrammeNamesSet();
+        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
         let cleanedCount = 0;
 
         for (const assign of state.assignments) {
@@ -3206,6 +3343,7 @@
 
         if (cleanedCount > 0) {
           showToast(`${cleanedCount} പഴയ ഡാറ്റ വിജയകരമായി മായ്ച്ചു!`, 'success');
+          logActivity(`Cleaned ${cleanedCount} old programme records`);
         } else {
           showToast('ഇല്ലാത്ത പ്രോഗ്രാമുകളുടെ ഡാറ്റയൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
         }
@@ -3248,6 +3386,7 @@
 
         if (removedCount > 0) {
           showToast(`${removedCount} ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ ഡാറ്റാബേസിൽ നിന്ന് നീക്കം ചെയ്തു!`, 'success');
+          logActivity(`Cleaned ${removedCount} duplicate assignment(s)`);
         } else {
           showToast('ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകളൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
         }
@@ -3388,16 +3527,7 @@
       document.getElementById('slip-out-team').textContent = s.team;
       document.getElementById('slip-out-gender').textContent = s.gender;
 
-      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
-      const activeProgNames = getActiveProgrammeNamesSet();
-
-      const userAssignments = state.assignments.filter(a => {
-        if (a.studentDocId !== s.id) return false;
-        const matchesId = a.programmeDocId && activeProgDocIds.has(a.programmeDocId);
-        const matchesName = a.programmeName && activeProgNames.has(a.programmeName.trim().toLowerCase());
-        return matchesId || matchesName;
-      });
-
+      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
@@ -3457,16 +3587,7 @@
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
-      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
-      const activeProgNames = getActiveProgrammeNamesSet();
-
-      const userAssignments = state.assignments.filter(a => {
-        if (a.studentDocId !== s.id) return false;
-        const matchesId = a.programmeDocId && activeProgDocIds.has(a.programmeDocId);
-        const matchesName = a.programmeName && activeProgNames.has(a.programmeName.trim().toLowerCase());
-        return matchesId || matchesName;
-      });
-
+      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
@@ -3531,9 +3652,13 @@
 
     window.deleteStudent = async (id) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
+      const s = state.students.find(x => x.id === id);
       if (confirm('Delete student record?')) {
         await deleteDoc(doc(db, 'students', id));
         showToast('Student deleted', 'success');
+        if (s) {
+          logActivity(`Deleted student: ${s.name}`);
+        }
       }
     };
 
@@ -3569,8 +3694,12 @@
 
     window.deleteMixedGroup = async (id) => {
       if (!state.isAdmin) return showToast('Admin required', 'error');
+      const g = state.mixedGroups.find(x => x.id === id);
       await deleteDoc(doc(db, 'mixed_groups', id));
       showToast('Mixed group deleted', 'success');
+      if (g) {
+        logActivity(`Deleted mixed group: ${g.groupName}`);
+      }
     };
 
     function openProgrammeModal(type) {
@@ -3586,8 +3715,7 @@
       const tbody = document.getElementById('tbody-assignments');
       if (!tbody) return;
 
-      const activeProgNames = getActiveProgrammeNamesSet();
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam && activeProgNames.has((a.programmeName || '').trim().toLowerCase()));
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       let sortedAssignments = [...activeAssignments].sort((a, b) => {
         const stA = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
@@ -3634,6 +3762,7 @@
         for (const pr of practiceMatches) {
           await deleteDoc(doc(db, 'practice', pr.id));
         }
+        logActivity(`Removed assignment: ${assign.studentName} - ${assign.programmeName}`);
       }
 
       showToast('Assignment and practice record removed', 'success');
@@ -3643,10 +3772,7 @@
       const tbody = document.getElementById('tbody-practice-tracker');
       if (!tbody) return;
 
-      const activeProgNames = getActiveProgrammeNamesSet();
-      const validPractice = state.practice.filter(p => activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
-
-      let sortedPractice = [...validPractice].sort((a, b) => {
+      let sortedPractice = [...state.practice].sort((a, b) => {
         const stA = state.students.find(s => s.name === a.studentName);
         const stB = state.students.find(s => s.name === b.studentName);
         
@@ -3749,8 +3875,7 @@
       if (!container) return;
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      const activeProgNames = getActiveProgrammeNamesSet();
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam && activeProgNames.has((a.programmeName || '').trim().toLowerCase()));
+      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       if (type === 'students') {
         const sorted = sortByClass(activeStudents);
@@ -3761,8 +3886,7 @@
       } else if (type === 'programme') {
         container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${activeAssignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
       } else {
-        const validPractice = state.practice.filter(p => activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
-        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${validPractice.map(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${state.practice.map(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
       }
     }
 
