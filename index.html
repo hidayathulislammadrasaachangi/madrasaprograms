@@ -440,7 +440,6 @@
     }
     body.dark-mode .selector-chip.selected {
       background: rgba(212, 175, 55, 0.18);
-      border-color: var(--accent-gold);
     }
 
     .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; }
@@ -709,7 +708,7 @@
           </div>
         </section>
 
-        <!-- STUDENT PROGRAMME SLIP VIEW -->
+        <!-- STUDENT PROGRAMME SLIP VIEW WITH STRICT AUTO-FILTER -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
@@ -1562,12 +1561,19 @@
       }
     }
 
-    // Helper to extract proper Roll Number
+    // STRICT HELPER: ALWAYS FETCH ROLL NO DIRECTLY FROM THE LIVE STUDENT PROFILE IN STATE FIRST
     function getStudentRollNo(student, assignment) {
       if (student && student.rollNo) return student.rollNo;
       if (student && student.studentId) return student.studentId.toString().replace('STD-', '');
-      if (assignment && assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
-      if (assignment && assignment.studentRollNo) return assignment.studentRollNo;
+      
+      // Fallback: If student object wasn't passed directly, search state.students by Doc ID or Name
+      if (assignment) {
+        const liveStudent = state.students.find(s => s.id === assignment.studentDocId || s.name.trim().toLowerCase() === assignment.studentName.trim().toLowerCase());
+        if (liveStudent && liveStudent.rollNo) return liveStudent.rollNo;
+        if (liveStudent && liveStudent.studentId) return liveStudent.studentId.toString().replace('STD-', '');
+        if (assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
+        if (assignment.studentRollNo) return assignment.studentRollNo;
+      }
       return '-';
     }
 
@@ -1959,6 +1965,8 @@
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
+        generateGenderWisePDF('Male');
+        generateGenderWisePDF('Female');
       });
       activeSnapshotUnsubscribers.push(unsubStudents);
 
@@ -1979,6 +1987,10 @@
         updateBulkProgrammeOptions();
         updateViewProgrammeOptions();
         updateVsProgrammeOptions();
+        renderParentSlip();
+        renderProgrammeParticipantsOutput();
+        generateGenderWisePDF('Male');
+        generateGenderWisePDF('Female');
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1992,6 +2004,9 @@
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
+        renderParentSlip();
+        generateGenderWisePDF('Male');
+        generateGenderWisePDF('Female');
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -2108,7 +2123,7 @@
       return unique;
     }
 
-    /* GENDER + CATEGORY PDF GENERATION */
+    /* GENDER + CATEGORY PDF GENERATION WITH LIVE STUDENT PROFILE ROLL NO FETCH */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
@@ -2155,11 +2170,12 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
+          // ALWAYS GET LIVE STUDENT OBJECT FIRST TO ENSURE UPDATED ROLL NO (e.g. 121) IS DISPLAYED
           const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
           matchedItems.push({
             assignmentId: a.id,
-            name: a.studentName,
+            name: student ? student.name : a.studentName,
             class: student?.class || 'N/A',
             rollNo: cleanRoll
           });
@@ -2217,7 +2233,6 @@
       });
 
       outputArea.innerHTML = fullHtml;
-      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${selectedCategory}`, 'success');
     }
 
     function populateDashboardClassFilter() {
@@ -2499,7 +2514,7 @@
       `).join('');
     }
 
-    /* ITEM-WISE BULK CHECKLIST WITH DIRECT UNASSIGN/REMOVE BUTTON */
+    /* ITEM-WISE BULK CHECKLIST WITH DIRECT UNASSIGN/REMOVE BUTTON (ACTIVE IN ADMIN MODE) */
     function renderBulkStudentChecklist() {
       const cat = state.bulkSelection.category;
       const gender = state.bulkSelection.gender;
@@ -2737,7 +2752,7 @@
         matchedItems.push({
           assignmentId: a.id,
           studentDocId: a.studentDocId,
-          name: a.studentName,
+          name: student ? student.name : a.studentName,
           class: student?.class || 'N/A',
           rollNo: cleanRoll
         });
@@ -2882,7 +2897,7 @@
           const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
           const cleanRoll = getStudentRollNo(student, a);
           return {
-            name: a.studentName,
+            name: student ? student.name : a.studentName,
             class: student?.class || 'N/A',
             rollNo: cleanRoll
           };
@@ -3503,6 +3518,7 @@
       renderParentSlip();
     };
 
+    /* STRICT AUTO-FILTERING IN PARENT PROGRAMME SLIP */
     function renderParentSlip() {
       const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
@@ -3527,7 +3543,16 @@
       document.getElementById('slip-out-team').textContent = s.team;
       document.getElementById('slip-out-gender').textContent = s.gender;
 
-      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
+      // STRICT AUTO-FILTER: Only match assignments for active programmes
+      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+
+      const userAssignments = state.assignments.filter(a => {
+        const isStudent = a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase();
+        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(a.programmeName.trim().toLowerCase());
+        return isStudent && isProgActive;
+      });
+
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
@@ -3576,7 +3601,7 @@
       }
 
       if (userAssignments.length === 0 && userMixedGroups.length === 0) {
-        rowsHtml = `<tr><td colspan="3" class="text-center">No programmes assigned for this student yet.</td></tr>`;
+        rowsHtml = `<tr><td colspan="3" class="text-center">No active programmes assigned for this student yet.</td></tr>`;
       }
 
       document.getElementById('slip-out-table-body').innerHTML = rowsHtml;
@@ -3587,7 +3612,15 @@
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
-      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id);
+      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+
+      const userAssignments = state.assignments.filter(a => {
+        const isStudent = a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase();
+        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(a.programmeName.trim().toLowerCase());
+        return isStudent && isProgActive;
+      });
+
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
 
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
@@ -3617,7 +3650,7 @@
         });
       }
 
-      if (!progsText) progsText = "\nNo programmes assigned yet.\n";
+      if (!progsText) progsText = "\nNo active programmes assigned yet.\n";
 
       const cleanRoll = getStudentRollNo(s, null);
 
