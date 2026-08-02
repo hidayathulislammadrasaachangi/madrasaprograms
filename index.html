@@ -261,12 +261,7 @@
     
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
-    /* MOBILE-FRIENDLY PRACTICE CARD DESIGN */
-    .student-practice-cards-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .student-practice-cards-list { display: flex; flex-direction: column; gap: 1rem; }
 
     .student-practice-card {
       background: var(--card-bg-light);
@@ -292,40 +287,15 @@
     }
     body.dark-mode .student-practice-header { border-bottom-color: rgba(255,255,255,0.08); }
 
-    .student-name-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--primary-green);
-    }
+    .student-name-title { font-size: 1.05rem; font-weight: 700; color: var(--primary-green); }
     body.dark-mode .student-name-title { color: var(--accent-gold); }
 
-    .student-meta-info {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #6b7280;
-      margin-top: 0.2rem;
-    }
+    .student-meta-info { font-size: 0.8rem; font-weight: 600; color: #6b7280; margin-top: 0.2rem; }
     body.dark-mode .student-meta-info { color: #9ca3af; }
 
-    .programmes-badges-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .badge-section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 0.2rem;
-    }
-
-    .badges-flex-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
+    .programmes-badges-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .badge-section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.2rem; }
+    .badges-flex-container { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; min-width: 650px; }
@@ -367,15 +337,8 @@
     }
     body.dark-mode .status-manage-card { background: rgba(18, 30, 25, 0.85); border-color: var(--glass-border-dark); }
     
-    .status-manage-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .status-manage-header strong {
-      font-size: 0.95rem;
-      color: var(--primary-green);
-    }
+    .status-manage-header { display: flex; justify-content: space-between; align-items: center; }
+    .status-manage-header strong { font-size: 0.95rem; color: var(--primary-green); }
     body.dark-mode .status-manage-header strong { color: var(--accent-gold); }
 
     .status-select-dropdown {
@@ -401,12 +364,7 @@
     .checkbox-card { background: rgba(0,0,0,0.03); border: 1px solid var(--glass-border-light); border-radius: 10px; padding: 0.8rem; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; }
     .checkbox-card input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-green); cursor: pointer; }
 
-    .selector-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 0.65rem;
-      margin-top: 0.4rem;
-    }
+    .selector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.65rem; margin-top: 0.4rem; }
 
     .selector-chip {
       background: rgba(0, 0, 0, 0.03);
@@ -425,12 +383,7 @@
       user-select: none;
     }
     body.dark-mode .selector-chip { background: rgba(255, 255, 255, 0.03); }
-
-    .selector-chip:hover {
-      border-color: var(--accent-gold);
-      transform: translateY(-2px);
-    }
-
+    .selector-chip:hover { border-color: var(--accent-gold); transform: translateY(-2px); }
     .selector-chip.selected {
       background: rgba(13, 92, 58, 0.12);
       border-color: var(--primary-green);
@@ -438,10 +391,7 @@
       font-weight: 700;
       box-shadow: 0 4px 12px rgba(13, 92, 58, 0.15);
     }
-    body.dark-mode .selector-chip.selected {
-      background: rgba(212, 175, 55, 0.18);
-      border-color: var(--accent-gold);
-    }
+    body.dark-mode .selector-chip.selected { background: rgba(212, 175, 55, 0.18); border-color: var(--accent-gold); }
 
     .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; }
     .action-header { display: flex; justify-content: space-between; align-items: center; }
@@ -479,10 +429,8 @@
       .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print, .loading-screen { display: none !important; }
       .main-content { margin-left: 0 !important; }
       .view-container { padding: 0 !important; }
-      
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
-
       .prog-page-break { page-break-after: always !important; break-after: page !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
       .data-table th, .data-table td { font-size: 0.85rem !important; padding: 0.5rem !important; }
     }
@@ -537,7 +485,6 @@
         <a href="#" class="nav-item" data-view="item-bulk-assign" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Item-wise Bulk Assign</span></a>
         <a href="#" class="nav-item" data-view="prog-participants" style="background: rgba(16, 185, 129, 0.18); border-left: 4px solid #10b981;"><i class="fa-solid fa-users-viewfinder" style="color:#10b981;"></i> <span style="color:#10b981; font-weight:bold;">Programme Participants</span></a>
         
-        <!-- TEAM VERSUS COMPARISON MENU ITEM -->
         <a href="#" class="nav-item" data-view="team-versus" style="background: rgba(212, 175, 55, 0.25); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Team Versus Comparison</span></a>
 
         <a href="#" class="nav-item" data-view="practice-tracker"><i class="fa-solid fa-spinner"></i> <span>Practice Tracker</span></a>
@@ -693,7 +640,6 @@
                 <option value="Senior">Senior</option>
                 <option value="General">General</option>
               </select>
-              <!-- BOYS / GIRLS GENDER FILTER -->
               <select id="dash-practice-gender-filter" class="form-control">
                 <option value="">All Sections (Boys & Girls)</option>
                 <option value="Male">Boys Section</option>
@@ -702,14 +648,13 @@
               <input type="text" id="dash-practice-search-input" class="form-control" placeholder="Filter student name...">
             </div>
             
-            <!-- MOBILE-FRIENDLY CARD-BASED PRACTICE OVERVIEW -->
             <div id="tbody-dash-student-status" class="student-practice-cards-list">
               <p class="text-center">Loading student practice overview...</p>
             </div>
           </div>
         </section>
 
-        <!-- STUDENT PROGRAMME SLIP VIEW WITH STRICT AUTO-FILTER -->
+        <!-- STUDENT PROGRAMME SLIP VIEW -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
@@ -813,7 +758,6 @@
               <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Download / Print PDF</button>
             </div>
             <hr class="divider no-print">
-
             <div id="boys-pdf-output-area"></div>
           </div>
         </section>
@@ -847,7 +791,6 @@
               <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Download / Print PDF</button>
             </div>
             <hr class="divider no-print">
-
             <div id="girls-pdf-output-area"></div>
           </div>
         </section>
@@ -1090,7 +1033,7 @@
           </div>
         </section>
 
-        <!-- ITEM-WISE BULK ASSIGN VIEW WITH UNASSIGN / REMOVE OPTION -->
+        <!-- ITEM-WISE BULK ASSIGN VIEW -->
         <section id="view-item-bulk-assign" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Item-wise Bulk Programme Assignment</h2>
@@ -1142,7 +1085,6 @@
               <button id="btn-save-item-bulk" class="btn-primary"><i class="fa-solid fa-circle-check"></i> Save Assignments for Selected Students</button>
             </div>
             <hr class="divider">
-
             <div id="bulk-students-checklist" style="max-height: 420px; overflow-y: auto; border:1px solid var(--glass-border-light); padding:1rem; border-radius:12px; background:rgba(0,0,0,0.02);"></div>
           </div>
         </section>
@@ -1199,7 +1141,6 @@
               <button onclick="window.print()" class="btn-secondary no-print"><i class="fa-solid fa-print"></i> Print Participants List</button>
             </div>
             <hr class="divider">
-
             <div id="view-participants-list-output" class="table-responsive"></div>
           </div>
         </section>
@@ -1498,7 +1439,7 @@
     </div>
   </div>
 
-  <!-- FIREBASE API & ES MODULE SCRIPT -->
+  <!-- FIREBASE API & CENTRALIZED REFACTORED MODULE SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
@@ -1549,7 +1490,10 @@
 
     let activeSnapshotUnsubscribers = [];
 
-    // System Audit Log Helper Function
+    // ==========================================
+    // CENTRAL REUSABLE FUNCTIONS & INTEGRITY
+    // ==========================================
+
     async function logActivity(actionMessage) {
       try {
         await addDoc(collection(db, 'audit_logs'), {
@@ -1562,13 +1506,56 @@
       }
     }
 
-    // Helper to extract proper Roll Number
+    // CENTRALIZED ROLL NUMBER RESOLVER (Eliminates cached/hardcoded SHAZ bug)
     function getStudentRollNo(student, assignment) {
       if (student && student.rollNo) return student.rollNo;
       if (student && student.studentId) return student.studentId.toString().replace('STD-', '');
+      if (assignment && assignment.studentDocId) {
+        const found = state.students.find(s => s.id === assignment.studentDocId);
+        if (found && found.rollNo) return found.rollNo;
+      }
       if (assignment && assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
       if (assignment && assignment.studentRollNo) return assignment.studentRollNo;
       return '-';
+    }
+
+    // DATABASE INTEGRITY & CLEANUP VALIDATOR
+    async function validateDatabaseAndCleanup() {
+      if (!state.isAdmin) return;
+      try {
+        const activeStudentIds = new Set(state.students.map(s => s.id));
+        const activeProgIds = new Set(state.programmes.map(p => p.id));
+        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+
+        let repairedCount = 0;
+
+        // Clean broken assignments referencing deleted students or programmes
+        for (const assign of state.assignments) {
+          const hasStudent = activeStudentIds.has(assign.studentDocId) || state.students.some(s => s.name.trim().toLowerCase() === assign.studentName?.trim().toLowerCase());
+          const hasProg = activeProgIds.has(assign.programmeDocId) || activeProgNames.has(assign.programmeName?.trim().toLowerCase());
+
+          if (!hasStudent || !hasProg) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+            repairedCount++;
+          }
+        }
+
+        // Clean broken practice records
+        for (const prac of state.practice) {
+          const hasProg = activeProgNames.has(prac.programmeName?.trim().toLowerCase());
+          const hasStudent = state.students.some(s => s.name.trim().toLowerCase() === prac.studentName?.trim().toLowerCase());
+          if (!hasProg || !hasStudent) {
+            await deleteDoc(doc(db, 'practice', prac.id));
+            repairedCount++;
+          }
+        }
+
+        if (repairedCount > 0) {
+          console.log(`Database Integrity: Automatically repaired and removed ${repairedCount} broken references.`);
+        }
+      } catch (err) {
+        console.error("Integrity validation error:", err);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1663,6 +1650,7 @@
           closeModal('modal-auth');
           showToast('Admin mode granted', 'success');
           logActivity("Admin logged in successfully");
+          validateDatabaseAndCleanup();
         } catch (err) {
           showToast('Invalid admin credentials', 'error');
         }
@@ -1903,6 +1891,7 @@
           roleBadge.className = 'badge badge-admin';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
           userDisplay.textContent = user.email.split('@')[0];
+          validateDatabaseAndCleanup();
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
@@ -1942,7 +1931,6 @@
 
       const unsubStudents = onSnapshot(collection(db, 'students'), async (s) => {
         let fetchedStudents = s.docs.map(d => ({ id: d.id, ...d.data() }));
-
         state.students = sortByClass(fetchedStudents);
 
         renderStudentsTable();
@@ -2006,7 +1994,6 @@
       });
       activeSnapshotUnsubscribers.push(unsubPractice);
 
-      // Realtime Audit Log Listener
       const qLogs = query(collection(db, 'audit_logs'), where('team', '==', state.activeTeam), limit(15));
       const unsubLogs = onSnapshot(qLogs, (s) => {
         state.auditLogs = s.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -2098,7 +2085,6 @@
     function getUniqueProgrammes(progList) {
       const unique = [];
       const seenKeys = new Set();
-
       progList.forEach(p => {
         const key = `${p.name.trim().toLowerCase()}_${p.gender}_${p.category}_${p.type}`;
         if (!seenKeys.has(key)) {
@@ -2106,11 +2092,9 @@
           unique.push(p);
         }
       });
-
       return unique;
     }
 
-    /* GENDER + CATEGORY PDF GENERATION */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
@@ -2147,7 +2131,6 @@
       categoryProgrammes.forEach((prog) => {
         const assignedRecords = activeAssignments.filter(a => {
           const matchProg = (a.programmeDocId === prog.id) || (a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase());
-          
           const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
           const studentGender = studentObj ? studentObj.gender : a.studentGender;
           const studentCat = studentObj ? studentObj.category : a.studentCategory;
@@ -2244,7 +2227,6 @@
       `).join('');
     }
 
-    /* PRACTICE OVERVIEW WITH BOYS / GIRLS GENDER FILTER SUPPORT */
     function renderDashboardStudentStatusTable() {
       const container = document.getElementById('tbody-dash-student-status');
       if (!container) return;
@@ -2428,7 +2410,6 @@
       };
 
       let html = '';
-
       if (stageProgs.length > 0) {
         html += `<div class="category-section-title"><i class="fa-solid fa-microphone"></i> 🎤 Stage Programmes (${stageProgs.length})</div>`;
         html += `<div class="checkbox-card-grid">${stageProgs.map(createCbCard).join('')}</div>`;
@@ -2437,10 +2418,6 @@
       if (nonStageProgs.length > 0) {
         html += `<div class="category-section-title"><i class="fa-solid fa-pen-ruler"></i> ✏️ Non-Stage Programmes (${nonStageProgs.length})</div>`;
         html += `<div class="checkbox-card-grid">${nonStageProgs.map(createCbCard).join('')}</div>`;
-      }
-
-      if (matchedProgrammes.length === 0) {
-        html = `<p class="text-center mt-2" style="color:#ef4444;">No ${student.category} or General programmes created for ${student.gender} section yet.</p>`;
       }
 
       checklistEl.innerHTML = html;
@@ -2459,7 +2436,6 @@
               const nextEl = document.getElementById(nextGroupId);
               if (nextEl) nextEl.style.display = 'block';
             }
-
             updateBulkProgrammeOptions();
           });
         });
@@ -2478,7 +2454,6 @@
       const container = document.getElementById('bulk-students-container');
 
       if (!nameSelect) return;
-
       nameSelect.value = "";
       container.style.display = 'none';
 
@@ -2491,17 +2466,11 @@
         state.programmes.filter(p => p.category === cat && p.gender === gender && p.type === type)
       );
 
-      if (filteredProgs.length === 0) {
-        nameSelect.innerHTML = `<option value="">No ${cat} (${gender === 'Male' ? 'Boys' : 'Girls'}) ${type} items found</option>`;
-        return;
-      }
-
       nameSelect.innerHTML = '<option value="">-- Choose Programme --</option>' + filteredProgs.map(p => `
         <option value="${p.id}">${p.name}</option>
       `).join('');
     }
 
-    /* ITEM-WISE BULK CHECKLIST WITH DIRECT UNASSIGN/REMOVE BUTTON (ACTIVE IN ADMIN MODE) */
     function renderBulkStudentChecklist() {
       const cat = state.bulkSelection.category;
       const gender = state.bulkSelection.gender;
@@ -2531,11 +2500,6 @@
       let targetStudents = activeStudents.filter(s => s.category === cat && s.gender === gender);
       targetStudents = sortByClass(targetStudents);
 
-      if (targetStudents.length === 0) {
-        checklistEl.innerHTML = `<p style="color:#ef4444; text-align:center;">No students found in ${cat} (${gender === 'Male' ? 'Boys' : 'Girls'}).</p>`;
-        return;
-      }
-
       const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       checklistEl.innerHTML = targetStudents.map(s => {
@@ -2560,7 +2524,7 @@
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                   <span class="badge badge-completed">Already Assigned</span>
                   ${state.isAdmin ? `
-                    <button class="btn-danger-sm" onclick="window.unassignBulkParticipant('${existingAssign.id}', '${s.name}', '${selectedProg.name}')" title="Remove this programme for student">
+                    <button class="btn-danger-sm" onclick="window.unassignBulkParticipant('${existingAssign.id}', '${s.name}', '${selectedProg.name}')">
                       <i class="fa-solid fa-user-minus"></i> Remove
                     </button>
                   ` : ''}
@@ -2572,7 +2536,6 @@
       }).join('');
     }
 
-    /* DIRECT UNASSIGN FUNCTION FROM BULK PAGE */
     window.unassignBulkParticipant = async (assignmentId, studentName, progName) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
@@ -2610,7 +2573,6 @@
       for (const cb of checkedBoxes) {
         const studentId = cb.value;
         const student = state.students.find(s => s.id === studentId);
-
         if (!student) continue;
 
         try {
@@ -2662,7 +2624,6 @@
               const nextEl = document.getElementById(nextGroupId);
               if (nextEl) nextEl.style.display = 'block';
             }
-
             updateViewProgrammeOptions();
           });
         });
@@ -2681,7 +2642,6 @@
       const container = document.getElementById('view-participants-results-card');
 
       if (!nameSelect) return;
-
       nameSelect.value = "";
       container.style.display = 'none';
 
@@ -2693,11 +2653,6 @@
       const filteredProgs = getUniqueProgrammes(
         state.programmes.filter(p => p.category === cat && p.gender === gender && p.type === type)
       );
-
-      if (filteredProgs.length === 0) {
-        nameSelect.innerHTML = `<option value="">No ${cat} (${gender === 'Male' ? 'Boys' : 'Girls'}) ${type} items found</option>`;
-        return;
-      }
 
       nameSelect.innerHTML = '<option value="">-- Choose Programme --</option>' + filteredProgs.map(p => `
         <option value="${p.id}">${p.name}</option>
@@ -2716,7 +2671,6 @@
       const subtitleEl = document.getElementById('view-prog-subtitle-out');
 
       if (!container || !outputEl) return;
-
       if (!progId) {
         container.style.display = 'none';
         return;
@@ -2738,7 +2692,6 @@
         const cleanRoll = getStudentRollNo(student, a);
         matchedItems.push({
           assignmentId: a.id,
-          studentDocId: a.studentDocId,
           name: a.studentName,
           class: student?.class || 'N/A',
           rollNo: cleanRoll
@@ -2756,11 +2709,6 @@
         return a.name.localeCompare(b.name);
       });
 
-      if (matchedItems.length === 0) {
-        outputEl.innerHTML = `<p class="text-center" style="color:#ef4444; padding: 1.5rem 0;">No participants assigned to this programme yet.</p>`;
-        return;
-      }
-
       outputEl.innerHTML = `
         <table class="data-table">
           <thead>
@@ -2773,29 +2721,26 @@
             </tr>
           </thead>
           <tbody>
-            ${matchedItems.map((s, idx) => {
-              return `
-                <tr>
-                  <td><strong>${idx + 1}</strong></td>
-                  <td><strong style="font-size:1rem; color:#0d5c3a;">${s.rollNo}</strong></td>
-                  <td><strong style="color:var(--primary-green);">${s.name}</strong></td>
-                  <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
-                  <td class="no-print">
-                    ${state.isAdmin ? `
-                      <button class="btn-danger-sm" onclick="window.removeParticipantDirect('${s.assignmentId}', '${s.name}', '${selectedProg.name}')">
-                        <i class="fa-solid fa-trash"></i> Remove
-                      </button>
-                    ` : '<span class="badge badge-visitor">Read Only</span>'}
-                  </td>
-                </tr>
-              `;
-            }).join('')}
+            ${matchedItems.map((s, idx) => `
+              <tr>
+                <td><strong>${idx + 1}</strong></td>
+                <td><strong style="font-size:1rem; color:#0d5c3a;">${s.rollNo}</strong></td>
+                <td><strong style="color:var(--primary-green);">${s.name}</strong></td>
+                <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
+                <td class="no-print">
+                  ${state.isAdmin ? `
+                    <button class="btn-danger-sm" onclick="window.removeParticipantDirect('${s.assignmentId}', '${s.name}', '${selectedProg.name}')">
+                      <i class="fa-solid fa-trash"></i> Remove
+                    </button>
+                  ` : '<span class="badge badge-visitor">Read Only</span>'}
+                </td>
+              </tr>
+            `).join('')}
           </tbody>
         </table>
       `;
     }
 
-    /* TEAM VERSUS COMPARISON FUNCTIONS */
     function setupVsCardSelectors() {
       const bindGroup = (gridId, stateField, nextGroupId) => {
         const chips = document.querySelectorAll(`#${gridId} .selector-chip`);
@@ -2809,7 +2754,6 @@
               const nextEl = document.getElementById(nextGroupId);
               if (nextEl) nextEl.style.display = 'block';
             }
-
             updateVsProgrammeOptions();
           });
         });
@@ -2839,11 +2783,6 @@
       const filteredProgs = getUniqueProgrammes(
         state.programmes.filter(p => p.category === cat && p.gender === gender && p.type === type)
       );
-
-      if (filteredProgs.length === 0) {
-        nameSelect.innerHTML = `<option value="">No ${cat} (${gender === 'Male' ? 'Boys' : 'Girls'}) ${type} items found</option>`;
-        return;
-      }
 
       nameSelect.innerHTML = '<option value="">-- Choose Programme --</option>' + filteredProgs.map(p => `
         <option value="${p.id}">${p.name}</option>
@@ -2960,7 +2899,6 @@
       document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)} | ${s.category} (${s.gender})`;
 
       const container = document.getElementById('modal-status-items-container');
-
       const uniquePracticeItems = [];
       const seenNames = new Set();
 
@@ -3002,7 +2940,6 @@
       };
 
       let html = '';
-
       if (stageItems.length > 0) {
         html += `<div class="category-section-title"><i class="fa-solid fa-microphone"></i> 🎤 Stage Programmes (${stageItems.length})</div>`;
         html += stageItems.map(createCardHtml).join('');
@@ -3011,10 +2948,6 @@
       if (nonStageItems.length > 0) {
         html += `<div class="category-section-title"><i class="fa-solid fa-pen-ruler"></i> ✏️ Non-Stage Programmes (${nonStageItems.length})</div>`;
         html += nonStageItems.map(createCardHtml).join('');
-      }
-
-      if (stageItems.length === 0 && nonStageItems.length === 0) {
-        html = `<p class="text-center mt-2">No assigned programmes found for this student.</p>`;
       }
 
       container.innerHTML = html;
@@ -3089,31 +3022,21 @@
 
       if (stageContainer) {
         let stageList = state.programmes.filter(p => p.type === 'Stage');
-        if (state.selectedStageSec !== 'All') {
-          stageList = stageList.filter(p => p.gender === state.selectedStageSec);
-        }
-        if (state.selectedStageCat !== 'All') {
-          stageList = stageList.filter(p => p.category === state.selectedStageCat);
-        }
+        if (state.selectedStageSec !== 'All') stageList = stageList.filter(p => p.gender === state.selectedStageSec);
+        if (state.selectedStageCat !== 'All') stageList = stageList.filter(p => p.category === state.selectedStageCat);
         
         stageList = getUniqueProgrammes(stageList);
         stageList = sortProgrammesByCategory(stageList);
-        
         stageContainer.innerHTML = stageList.length ? stageList.map(createCard).join('') : '<p>No stage programmes found for this selection.</p>';
       }
 
       if (nonStageContainer) {
         let nonStageList = state.programmes.filter(p => p.type === 'Non-Stage');
-        if (state.selectedNonStageSec !== 'All') {
-          nonStageList = nonStageList.filter(p => p.gender === state.selectedNonStageSec);
-        }
-        if (state.selectedNonStageCat !== 'All') {
-          nonStageList = nonStageList.filter(p => p.category === state.selectedNonStageCat);
-        }
+        if (state.selectedNonStageSec !== 'All') nonStageList = nonStageList.filter(p => p.gender === state.selectedNonStageSec);
+        if (state.selectedNonStageCat !== 'All') nonStageList = nonStageList.filter(p => p.category === state.selectedNonStageCat);
 
         nonStageList = getUniqueProgrammes(nonStageList);
         nonStageList = sortProgrammesByCategory(nonStageList);
-
         nonStageContainer.innerHTML = nonStageList.length ? nonStageList.map(createCard).join('') : '<p>No non-stage programmes found for this selection.</p>';
       }
     }
@@ -3137,13 +3060,9 @@
         let list = [...activeStudents];
         if (type === 'total-boys') list = list.filter(s => s.gender === 'Male');
         if (type === 'total-girls') list = list.filter(s => s.gender === 'Female');
-        
-        if (state.dashModalFilterCat !== 'All') {
-          list = list.filter(s => s.category === state.dashModalFilterCat);
-        }
+        if (state.dashModalFilterCat !== 'All') list = list.filter(s => s.category === state.dashModalFilterCat);
 
         list = sortByClass(list);
-
         titleEl.textContent = type === 'total-boys' ? 'Boys Student Directory' : (type === 'total-girls' ? 'Girls Student Directory' : 'All Students Directory');
 
         html = `
@@ -3191,10 +3110,7 @@
         titleEl.textContent = `${gender === 'Male' ? 'Boys' : 'Girls'} ${progType} Programmes List`;
 
         let list = state.programmes.filter(p => p.gender === gender && p.type === progType);
-
-        if (state.dashModalFilterCat !== 'All') {
-          list = list.filter(p => p.category === state.dashModalFilterCat);
-        }
+        if (state.dashModalFilterCat !== 'All') list = list.filter(p => p.category === state.dashModalFilterCat);
 
         list = getUniqueProgrammes(list);
         list = sortProgrammesByCategory(list);
@@ -3243,17 +3159,13 @@
 
     window.viewStudentSlipFromModal = (studentDocId) => {
       closeModal('modal-dashboard-details');
-
       const navItem = document.querySelector('.nav-item[data-view="parent-slip"]');
       if (navItem) navItem.click();
 
       setTimeout(() => {
         window.selectStudentForSlip(studentDocId);
-        
         const targetCard = document.getElementById(`slip-std-card-${studentDocId}`);
-        if (targetCard) {
-          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        if (targetCard) targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 200);
     };
 
@@ -3289,7 +3201,6 @@
 
     window.deleteProgramme = async (id) => {
       if (!state.isAdmin) return showToast('Admin required', 'error');
-      
       const prog = state.programmes.find(p => p.id === id);
       if (!prog) return;
 
@@ -3318,10 +3229,7 @@
 
     window.cleanDeletedProgrammesData = async () => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
-
-      if (!confirm('ഇപ്പോൾ പ്രോഗ്രാം ലിസ്റ്റിൽ ഇല്ലാത്ത പഴയ പ്രോഗ്രാമുകളുടെ എല്ലാ ഡാറ്റയും ട്രാക്കറിൽ നിന്നും ഡാറ്റാബേസിൽ നിന്നും പൂർണ്ണമായി മാറ്റണോ?')) {
-        return;
-      }
+      if (!confirm('ഇപ്പോൾ പ്രോഗ്രാം ലിസ്റ്റിൽ ഇല്ലാത്ത പഴയ പ്രോഗ്രാമുകളുടെ എല്ലാ ഡാറ്റയും ട്രാക്കറിൽ നിന്നും ഡാറ്റാബേസിൽ നിന്നും പൂർണ്ണമായി മാറ്റണോ?')) return;
 
       try {
         const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
@@ -3357,10 +3265,7 @@
 
     window.cleanDuplicateAssignments = async () => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
-
-      if (!confirm('ഒരേ കുട്ടിക്ക് ഒന്നിൽ കൂടുതൽ തവണ ആവർത്തിച്ചു വന്ന ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ മായ്ച്ചു് ഒന്നാക്കി മാറ്റണോ?')) {
-        return;
-      }
+      if (!confirm('ഒരേ കുട്ടിക്ക് ഒന്നിൽ കൂടുതൽ തവണ ആവർത്തിച്ചു വന്ന ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ മായ്ച്ചു് ഒന്നാക്കി മാറ്റണോ?')) return;
 
       try {
         const seenKeys = new Set();
@@ -3505,7 +3410,6 @@
       renderParentSlip();
     };
 
-    /* STRICT AUTO-FILTERING IN PARENT PROGRAMME SLIP */
     function renderParentSlip() {
       const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
@@ -3530,7 +3434,6 @@
       document.getElementById('slip-out-team').textContent = s.team;
       document.getElementById('slip-out-gender').textContent = s.gender;
 
-      // STRICT AUTO-FILTER: Only match assignments for active programmes
       const activeProgDocIds = new Set(state.programmes.map(p => p.id));
       const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
 
@@ -3541,7 +3444,6 @@
       });
 
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
-
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
       const nonStageAssignments = userAssignments.filter(a => a.programmeType === 'Non-Stage');
 
@@ -3551,39 +3453,21 @@
       if (stageAssignments.length > 0) {
         rowsHtml += `<tr style="background:#e8f5e9; color:#0d5c3a; font-weight:700;"><td colspan="3">🎤 Stage Programmes</td></tr>`;
         stageAssignments.forEach(a => {
-          rowsHtml += `
-            <tr>
-              <td>${index++}</td>
-              <td><strong>${a.programmeName}</strong></td>
-              <td>Stage (${a.studentCategory})</td>
-            </tr>
-          `;
+          rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>Stage (${a.studentCategory})</td></tr>`;
         });
       }
 
       if (nonStageAssignments.length > 0) {
         rowsHtml += `<tr style="background:#fff8e1; color:#b78103; font-weight:700;"><td colspan="3">✏️ Non-Stage Programmes</td></tr>`;
         nonStageAssignments.forEach(a => {
-          rowsHtml += `
-            <tr>
-              <td>${index++}</td>
-              <td><strong>${a.programmeName}</strong></td>
-              <td>Non-Stage (${a.studentCategory})</td>
-            </tr>
-          `;
+          rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>Non-Stage (${a.studentCategory})</td></tr>`;
         });
       }
 
       if (userMixedGroups.length > 0) {
         rowsHtml += `<tr style="background:#e0f2fe; color:#0369a1; font-weight:700;"><td colspan="3">👥 Mixed Category Groups</td></tr>`;
         userMixedGroups.forEach(g => {
-          rowsHtml += `
-            <tr>
-              <td>${index++}</td>
-              <td><strong>${g.itemName}</strong></td>
-              <td>Group Item (${g.groupName})</td>
-            </tr>
-          `;
+          rowsHtml += `<tr><td>${index++}</td><td><strong>${g.itemName}</strong></td><td>Group Item (${g.groupName})</td></tr>`;
         });
       }
 
@@ -3609,7 +3493,6 @@
       });
 
       const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
-
       const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
       const nonStageAssignments = userAssignments.filter(a => a.programmeType === 'Non-Stage');
 
@@ -3618,23 +3501,17 @@
 
       if (stageAssignments.length > 0) {
         progsText += `\n*🎤 Stage Programmes:*\n`;
-        stageAssignments.forEach(a => {
-          progsText += `${idx++}. *${a.programmeName}*\n`;
-        });
+        stageAssignments.forEach(a => { progsText += `${idx++}. *${a.programmeName}*\n`; });
       }
 
       if (nonStageAssignments.length > 0) {
         progsText += `\n*✏️ Non-Stage Programmes:*\n`;
-        nonStageAssignments.forEach(a => {
-          progsText += `${idx++}. *${a.programmeName}*\n`;
-        });
+        nonStageAssignments.forEach(a => { progsText += `${idx++}. *${a.programmeName}*\n`; });
       }
 
       if (userMixedGroups.length > 0) {
         progsText += `\n*👥 Mixed Category Groups:*\n`;
-        userMixedGroups.forEach(g => {
-          progsText += `${idx++}. *${g.itemName}* (${g.groupName})\n`;
-        });
+        userMixedGroups.forEach(g => { progsText += `${idx++}. *${g.itemName}* (${g.groupName})\n`; });
       }
 
       if (!progsText) progsText = "\nNo active programmes assigned yet.\n";
@@ -3653,8 +3530,7 @@
                    `_Hidayathul Islam Madrasa - Rabi'ul Awwal Committee_\n` +
                    `💬 *Helpline Support:* https://wa.me/919113695271`;
 
-      const encodedText = encodeURIComponent(text);
-      window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
     }
 
     window.editStudent = (id) => {
@@ -3676,9 +3552,7 @@
       if (confirm('Delete student record?')) {
         await deleteDoc(doc(db, 'students', id));
         showToast('Student deleted', 'success');
-        if (s) {
-          logActivity(`Deleted student: ${s.name}`);
-        }
+        if (s) logActivity(`Deleted student: ${s.name}`);
       }
     };
 
@@ -3717,9 +3591,7 @@
       const g = state.mixedGroups.find(x => x.id === id);
       await deleteDoc(doc(db, 'mixed_groups', id));
       showToast('Mixed group deleted', 'success');
-      if (g) {
-        logActivity(`Deleted mixed group: ${g.groupName}`);
-      }
+      if (g) logActivity(`Deleted mixed group: ${g.groupName}`);
     };
 
     function openProgrammeModal(type) {
@@ -3773,7 +3645,6 @@
 
     window.deleteAssignment = async (id) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
-      
       const assign = state.assignments.find(a => a.id === id);
       await deleteDoc(doc(db, 'assignments', id));
 
@@ -3784,7 +3655,6 @@
         }
         logActivity(`Removed assignment: ${assign.studentName} - ${assign.programmeName}`);
       }
-
       showToast('Assignment and practice record removed', 'success');
     };
 
