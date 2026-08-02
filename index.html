@@ -440,6 +440,7 @@
     }
     body.dark-mode .selector-chip.selected {
       background: rgba(212, 175, 55, 0.18);
+      border-color: var(--accent-gold);
     }
 
     .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; }
@@ -1561,19 +1562,12 @@
       }
     }
 
-    // STRICT HELPER: ALWAYS FETCH ROLL NO DIRECTLY FROM THE LIVE STUDENT PROFILE IN STATE FIRST
+    // Helper to extract proper Roll Number
     function getStudentRollNo(student, assignment) {
       if (student && student.rollNo) return student.rollNo;
       if (student && student.studentId) return student.studentId.toString().replace('STD-', '');
-      
-      // Fallback: If student object wasn't passed directly, search state.students by Doc ID or Name
-      if (assignment) {
-        const liveStudent = state.students.find(s => s.id === assignment.studentDocId || s.name.trim().toLowerCase() === assignment.studentName.trim().toLowerCase());
-        if (liveStudent && liveStudent.rollNo) return liveStudent.rollNo;
-        if (liveStudent && liveStudent.studentId) return liveStudent.studentId.toString().replace('STD-', '');
-        if (assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
-        if (assignment.studentRollNo) return assignment.studentRollNo;
-      }
+      if (assignment && assignment.studentCustomId) return assignment.studentCustomId.toString().replace('STD-', '');
+      if (assignment && assignment.studentRollNo) return assignment.studentRollNo;
       return '-';
     }
 
@@ -1965,8 +1959,6 @@
         renderBulkStudentChecklist();
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
-        generateGenderWisePDF('Male');
-        generateGenderWisePDF('Female');
       });
       activeSnapshotUnsubscribers.push(unsubStudents);
 
@@ -1988,9 +1980,6 @@
         updateViewProgrammeOptions();
         updateVsProgrammeOptions();
         renderParentSlip();
-        renderProgrammeParticipantsOutput();
-        generateGenderWisePDF('Male');
-        generateGenderWisePDF('Female');
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -2005,8 +1994,6 @@
         renderProgrammeParticipantsOutput();
         renderVersusComparisonOutput();
         renderParentSlip();
-        generateGenderWisePDF('Male');
-        generateGenderWisePDF('Female');
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
@@ -2123,7 +2110,7 @@
       return unique;
     }
 
-    /* GENDER + CATEGORY PDF GENERATION WITH LIVE STUDENT PROFILE ROLL NO FETCH */
+    /* GENDER + CATEGORY PDF GENERATION */
     function generateGenderWisePDF(gender) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
@@ -2170,12 +2157,11 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
-          // ALWAYS GET LIVE STUDENT OBJECT FIRST TO ENSURE UPDATED ROLL NO (e.g. 121) IS DISPLAYED
           const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
           matchedItems.push({
             assignmentId: a.id,
-            name: student ? student.name : a.studentName,
+            name: a.studentName,
             class: student?.class || 'N/A',
             rollNo: cleanRoll
           });
@@ -2233,6 +2219,7 @@
       });
 
       outputArea.innerHTML = fullHtml;
+      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${selectedCategory}`, 'success');
     }
 
     function populateDashboardClassFilter() {
@@ -2752,7 +2739,7 @@
         matchedItems.push({
           assignmentId: a.id,
           studentDocId: a.studentDocId,
-          name: student ? student.name : a.studentName,
+          name: a.studentName,
           class: student?.class || 'N/A',
           rollNo: cleanRoll
         });
@@ -2897,7 +2884,7 @@
           const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
           const cleanRoll = getStudentRollNo(student, a);
           return {
-            name: student ? student.name : a.studentName,
+            name: a.studentName,
             class: student?.class || 'N/A',
             rollNo: cleanRoll
           };
