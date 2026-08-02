@@ -470,6 +470,7 @@
       <nav class="sidebar-menu">
         <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
         <a href="#" class="nav-item" data-view="parent-portal" style="background: rgba(37, 211, 102, 0.18); border-left: 4px solid #25d366;"><i class="fa-solid fa-house-user" style="color:#25d366;"></i> <span style="color:#25d366; font-weight:bold;">📱 Parent Portal</span></a>
+        <a href="#" class="nav-item" data-view="parent-management" style="background: rgba(212, 175, 55, 0.18); border-left: 4px solid var(--accent-gold);"><i class="fa-solid fa-users-rectangle" style="color:var(--accent-gold);"></i> <span style="color:var(--accent-gold); font-weight:bold;">Parent Management</span></a>
         <a href="#" class="nav-item" data-view="parent-slip"><i class="fa-solid fa-receipt"></i> <span style="color:var(--accent-gold); font-weight:bold;">Student Programme Slip</span></a>
         
         <a href="#" class="nav-item" data-view="category-pdf-boys" style="background: rgba(37, 99, 235, 0.2); border-left: 4px solid #2563eb;"><i class="fa-solid fa-file-pdf" style="color:#2563eb;"></i> <span style="color:#60a5fa; font-weight:bold;">👦 Boys Category PDF</span></a>
@@ -655,48 +656,52 @@
           </div>
         </section>
 
-        <!-- PARENT PORTAL VIEW (FULLY AUDITED & CORRECTED PHONE AUTH) -->
+        <!-- PARENT PORTAL VIEW (WHATSAPP + PIN LOGIN) -->
         <section id="view-parent-portal" class="app-view">
           <div class="hero-banner" style="background: linear-gradient(135deg, #072e1d 0%, #1b8a5a 100%);">
             <div class="hero-text-content">
-              <h1>PARENT PORTAL <span>WHATSAPP LOGIN & TRACKING</span></h1>
+              <h1>PARENT PORTAL <span>WHATSAPP & PIN LOGIN</span></h1>
               <div class="hero-subtitle">Hidayathul Islam Madrasa - Achangi</div>
             </div>
-            <div class="hero-badge"><i class="fa-brands fa-whatsapp"></i> Secure Portal</div>
+            <div class="hero-badge"><i class="fa-solid fa-lock"></i> Secure Access</div>
           </div>
 
           <!-- Parent Login Card -->
           <div id="parent-auth-container" class="glass-card" style="max-width: 480px; margin: 0 auto;">
             <div class="slip-header" style="border-bottom: 2px solid var(--accent-gold); margin-bottom: 1.2rem; padding-bottom: 0.6rem;">
-              <h3 style="color: var(--primary-green); font-family:'Amiri', serif; font-size:1.6rem;">Parent WhatsApp Login</h3>
-              <p style="font-size: 0.85rem; font-weight: 600; opacity: 0.8;">Enter your registered WhatsApp number to view your children's programmes.</p>
+              <h3 style="color: var(--primary-green); font-family:'Amiri', serif; font-size:1.6rem;">Parent Login</h3>
+              <p style="font-size: 0.85rem; font-weight: 600; opacity: 0.8;">Enter your WhatsApp Number and 6-digit PIN.</p>
             </div>
-            <form id="form-parent-phone-auth">
+            <form id="form-parent-pin-login">
               <div class="form-group mb-2">
-                <label>WhatsApp Phone Number (E.164 Format e.g. +919876543210)</label>
-                <input type="text" id="parent-whatsapp-input" class="form-control" placeholder="+91xxxxxxxxxx" required>
+                <label>WhatsApp Phone Number</label>
+                <input type="text" id="parent-login-whatsapp" class="form-control" placeholder="+919876543210" required>
               </div>
-              <div id="recaptcha-container" class="mb-2"></div>
-              <button type="submit" class="btn-whatsapp full-width" id="btn-send-otp"><i class="fa-solid fa-paper-plane"></i> Send OTP Verification</button>
-            </form>
-
-            <form id="form-parent-otp-verify" style="display:none;" class="mt-2">
               <div class="form-group mb-2">
-                <label>Enter 6-digit OTP Code</label>
-                <input type="text" id="parent-otp-input" class="form-control" placeholder="123456" required>
+                <label>6-Digit PIN</label>
+                <input type="password" id="parent-login-pin" class="form-control" maxlength="6" placeholder="••••••" required>
               </div>
-              <button type="submit" class="btn-primary full-width"><i class="fa-solid fa-shield-check"></i> Verify & Open Dashboard</button>
+              <button type="submit" class="btn-whatsapp full-width"><i class="fa-solid fa-right-to-bracket"></i> Login to Parent Portal</button>
             </form>
           </div>
 
-          <!-- Parent Dashboard Screen (Initially hidden) -->
+          <!-- Parent Dashboard Screen -->
           <div id="parent-dashboard-screen" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.2rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.2rem; flex-wrap:wrap; gap:0.5rem;">
               <div>
                 <h2 id="parent-welcome-title" style="color:var(--primary-green);">Welcome Parent</h2>
                 <p style="font-size:0.85rem; opacity:0.8;">Your linked children and their practice progress are displayed below.</p>
               </div>
-              <button class="btn-danger-sm" onclick="logoutParentPortal()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+              <div style="display:flex; gap:0.5rem;">
+                <button class="btn-secondary" onclick="openParentSettingsModal()"><i class="fa-solid fa-gear"></i> Settings</button>
+                <button class="btn-danger-sm" onclick="logoutParentPortal()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+              </div>
+            </div>
+
+            <!-- Admin Notices Section -->
+            <div class="glass-card mb-2" id="parent-notices-box" style="border-left: 4px solid var(--accent-gold); background: rgba(212,175,55,0.05);">
+              <h4 style="color:var(--accent-gold); margin-bottom:0.3rem;"><i class="fa-solid fa-bullhorn"></i> Admin Notices & Announcements</h4>
+              <div id="parent-notices-content" style="font-size:0.9rem;">No active announcements from Madrasa Administration.</div>
             </div>
 
             <div id="parent-children-grid" class="cards-grid"></div>
@@ -711,6 +716,40 @@
               </div>
               <hr class="divider">
               <div id="portal-child-programmes-list" class="student-practice-cards-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PARENT MANAGEMENT VIEW (ADMIN ONLY) -->
+        <section id="view-parent-management" class="app-view">
+          <div class="glass-card mb-2">
+            <div class="action-header">
+              <div>
+                <h2><i class="fa-solid fa-users-rectangle" style="color:var(--accent-gold);"></i> Parent Management & Linking</h2>
+                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Create parent accounts, manage WhatsApp numbers, assign default PINs, and link multiple children.</p>
+              </div>
+              <button id="btn-add-parent" class="btn-primary" onclick="openParentModal()"><i class="fa-solid fa-user-plus"></i> Create Parent Account</button>
+            </div>
+            <hr class="divider">
+            <div class="filter-bar">
+              <input type="text" id="filter-search-parent" class="form-control" placeholder="Search parent name or WhatsApp...">
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Parent Name</th>
+                    <th>WhatsApp Number</th>
+                    <th>Linked Children Count</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-parents"></tbody>
+              </table>
             </div>
           </div>
         </section>
@@ -1373,7 +1412,7 @@
         <input type="hidden" id="student-doc-id">
         <div class="form-grid">
           <div class="form-group">
-            <label>Roll No / ID (ഉദാഹരണത്തിന്: 101, 102...)</label>
+            <label>Roll No / ID</label>
             <input type="text" id="student-roll-input" class="form-control" required placeholder="e.g. 101">
           </div>
           <div class="form-group">
@@ -1388,7 +1427,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Class (e.g. 1, 2, 3)</label>
+            <label>Class</label>
             <input type="number" id="student-class-input" class="form-control" required placeholder="e.g. 1">
           </div>
           <div class="form-group">
@@ -1402,14 +1441,74 @@
           </div>
           <div class="form-group">
             <label>Parent Name</label>
-            <input type="text" id="student-parent-name-input" class="form-control" placeholder="Parent/Guardian Name">
+            <input type="text" id="student-parent-name-input" class="form-control" placeholder="Parent Name">
           </div>
           <div class="form-group">
-            <label>Parent WhatsApp Number (E.164 Format e.g. +919876543210)</label>
+            <label>Parent WhatsApp Number</label>
             <input type="text" id="student-parent-whatsapp-input" class="form-control" placeholder="+91xxxxxxxxxx">
           </div>
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Student Record</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PARENT MANAGEMENT MODAL (ADMIN) -->
+  <div id="modal-parent" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <h3 id="modal-parent-title">Create / Edit Parent Account</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-parent-admin">
+        <input type="hidden" id="parent-doc-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Parent Name</label>
+            <input type="text" id="admin-parent-name" class="form-control" required placeholder="Fathima">
+          </div>
+          <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input type="text" id="admin-parent-whatsapp" class="form-control" required placeholder="+919876543210">
+          </div>
+          <div class="form-group">
+            <label>6-Digit PIN</label>
+            <input type="text" id="admin-parent-pin" class="form-control" maxlength="6" placeholder="123456" required>
+          </div>
+          <div class="form-group">
+            <label>Account Status</label>
+            <select id="admin-parent-active" class="form-control">
+              <option value="true">Active</option>
+              <option value="false">Deactivated</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group mt-2">
+          <label>Link Students:</label>
+          <div id="admin-parent-students-checklist" style="max-height: 200px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 8px;"></div>
+        </div>
+        <button type="submit" class="btn-primary full-width mt-2">Save Parent Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PARENT SETTINGS MODAL -->
+  <div id="modal-parent-settings" class="modal">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3>Parent Account Settings</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <form id="form-parent-settings">
+        <div class="form-group mb-2">
+          <label>Parent Name</label>
+          <input type="text" id="settings-parent-name" class="form-control" required>
+        </div>
+        <div class="form-group mb-2">
+          <label>New 6-Digit PIN (Leave blank to keep current PIN)</label>
+          <input type="password" id="settings-parent-newpin" class="form-control" maxlength="6" placeholder="••••••">
+        </div>
+        <button type="submit" class="btn-primary full-width">Update Settings</button>
       </form>
     </div>
   </div>
@@ -1444,7 +1543,7 @@
           </select>
         </div>
         <div class="form-group mt-1">
-          <label>Max Participants Limit <small style="opacity:0.6; font-weight:normal;">(Optional - നിർബന്ധമില്ല)</small></label>
+          <label>Max Participants Limit <small style="opacity:0.6; font-weight:normal;">(Optional)</small></label>
           <input type="number" id="prog-max-input" class="form-control" min="1" placeholder="Leave empty for unlimited">
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Programme</button>
@@ -1509,11 +1608,11 @@
     </div>
   </div>
 
-  <!-- FIREBASE API & CENTRALIZED REFACTORED MODULE SCRIPT -->
+  <!-- FIREBASE API & APPLICATION SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
-      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, RecaptchaVerifier, signInWithPhoneNumber 
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { 
       getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, limit, getDocs, getDoc, enableIndexedDbPersistence 
@@ -1547,7 +1646,9 @@
       mixedGroups: [],
       auditLogs: [],
       parents: [],
+      notices: [],
       teamSettings: {},
+      currentParentSession: null,
       selectedStageSec: 'All',
       selectedStageCat: 'All',
       selectedNonStageSec: 'All',
@@ -1561,9 +1662,13 @@
 
     let activeSnapshotUnsubscribers = [];
 
-    // ==========================================
-    // CENTRAL REUSABLE FUNCTIONS & INTEGRITY
-    // ==========================================
+    // Simple robust secure hash function for PIN (SHA-256 via Web Crypto API)
+    async function hashPIN(pin) {
+      const msgBuffer = new TextEncoder().encode(pin);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
     async function logActivity(actionMessage) {
       try {
@@ -1591,7 +1696,6 @@
       }
     }
 
-    // CENTRALIZED ROLL NUMBER RESOLVER
     function getStudentRollNo(student, assignment) {
       if (student && student.rollNo) return student.rollNo;
       if (student && student.studentId) return student.studentId.toString().replace('STD-', '');
@@ -1604,43 +1708,6 @@
       return '-';
     }
 
-    // DATABASE INTEGRITY & CLEANUP VALIDATOR
-    async function validateDatabaseAndCleanup() {
-      if (!state.isAdmin) return;
-      try {
-        const activeStudentIds = new Set(state.students.map(s => s.id));
-        const activeProgIds = new Set(state.programmes.map(p => p.id));
-        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-
-        let repairedCount = 0;
-
-        for (const assign of state.assignments) {
-          const hasStudent = activeStudentIds.has(assign.studentDocId) || state.students.some(s => s.name.trim().toLowerCase() === assign.studentName?.trim().toLowerCase());
-          const hasProg = activeProgIds.has(assign.programmeDocId) || activeProgNames.has(assign.programmeName?.trim().toLowerCase());
-
-          if (!hasStudent || !hasProg) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            repairedCount++;
-          }
-        }
-
-        for (const prac of state.practice) {
-          const hasProg = activeProgNames.has(prac.programmeName?.trim().toLowerCase());
-          const hasStudent = state.students.some(s => s.name.trim().toLowerCase() === prac.studentName?.trim().toLowerCase());
-          if (!hasProg || !hasStudent) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-            repairedCount++;
-          }
-        }
-
-        if (repairedCount > 0) {
-          console.log(`Database Integrity: Automatically repaired and removed ${repairedCount} broken references.`);
-        }
-      } catch (err) {
-        console.error("Integrity validation error:", err);
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
     });
@@ -1649,7 +1716,7 @@
       setupNavigation();
       setupEventListeners();
       setupAuthObserver();
-      setupParentPortalAuth();
+      setupParentPinLogin();
       
       const teamSelect = document.getElementById('active-team-select');
       teamSelect.value = state.activeTeam;
@@ -1734,7 +1801,6 @@
           closeModal('modal-auth');
           showToast('Admin mode granted', 'success');
           logActivity("Admin logged in successfully");
-          validateDatabaseAndCleanup();
         } catch (err) {
           showToast('Invalid admin credentials', 'error');
         }
@@ -1803,13 +1869,85 @@
           }
 
           if (parentWhatsapp) {
-            await linkParentAccount(targetStudentId, parentName, parentWhatsapp);
+            await syncStudentParentLink(targetStudentId, parentName, parentWhatsapp);
           }
 
           closeModal('modal-student');
         } catch (err) {
           console.error(err);
           showToast('Failed to save student', 'error');
+        }
+      });
+
+      document.getElementById('form-parent-admin').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+        const docId = document.getElementById('parent-doc-id').value;
+        const parentName = document.getElementById('admin-parent-name').value.trim();
+        let whatsappNumber = document.getElementById('admin-parent-whatsapp').value.trim();
+        const pin = document.getElementById('admin-parent-pin').value.trim();
+        const active = document.getElementById('admin-parent-active').value === 'true';
+
+        if (!whatsappNumber.startsWith('+')) whatsappNumber = '+' + whatsappNumber.replace(/^0+/, '');
+
+        const selectedStudents = Array.from(document.querySelectorAll('.parent-link-cb:checked')).map(c => c.value);
+
+        try {
+          const hashedPin = await hashPIN(pin);
+          const parentData = {
+            parentName,
+            whatsappNumber,
+            loginPIN: hashedPin,
+            linkedStudents: selectedStudents,
+            active,
+            updatedAt: new Date().toISOString()
+          };
+
+          if (docId) {
+            await updateDoc(doc(db, 'parents', docId), parentData);
+            showToast('Parent account updated successfully!', 'success');
+            logActivity(`Updated parent account: ${parentName}`);
+          } else {
+            parentData.createdAt = new Date().toISOString();
+            parentData.failedAttempts = 0;
+            parentData.lockUntil = null;
+            await addDoc(collection(db, 'parents'), parentData);
+            showToast('Parent account created successfully!', 'success');
+            logActivity(`Created parent account: ${parentName}`);
+          }
+
+          closeModal('modal-parent');
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to save parent record', 'error');
+        }
+      });
+
+      document.getElementById('form-parent-settings').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.currentParentSession) return;
+
+        const pName = document.getElementById('settings-parent-name').value.trim();
+        const newPin = document.getElementById('settings-parent-newpin').value.trim();
+
+        try {
+          const updateData = { parentName: pName, updatedAt: new Date().toISOString() };
+          if (newPin) {
+            if (newPin.length !== 6 || isNaN(newPin)) {
+              return showToast('PIN must be exactly 6 digits', 'warning');
+            }
+            updateData.loginPIN = await hashPIN(newPin);
+          }
+
+          await updateDoc(doc(db, 'parents', state.currentParentSession.id), updateData);
+          state.currentParentSession.parentName = pName;
+          document.getElementById('parent-welcome-title').textContent = `Welcome, ${pName}`;
+          closeModal('modal-parent-settings');
+          showToast('Settings updated successfully!', 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to update settings', 'error');
         }
       });
 
@@ -1971,6 +2109,7 @@
       document.getElementById('filter-search-student').addEventListener('input', renderStudentsTable);
       document.getElementById('filter-student-gender').addEventListener('change', renderStudentsTable);
       document.getElementById('filter-student-category').addEventListener('change', renderStudentsTable);
+      document.getElementById('filter-search-parent')?.addEventListener('input', renderParentsTable);
       document.getElementById('global-search-input').addEventListener('input', renderGlobalSearchResults);
 
       document.getElementById('dash-practice-class-filter').addEventListener('change', renderDashboardStudentStatusTable);
@@ -1983,139 +2122,117 @@
       document.getElementById('btn-print-report').addEventListener('click', () => window.print());
     }
 
-    async function linkParentAccount(studentId, parentName, whatsappNumber) {
+    async function syncStudentParentLink(studentId, parentName, whatsappNumber) {
       try {
         const parentsRef = collection(db, 'parents');
         const q = query(parentsRef, where("whatsappNumber", "==", whatsappNumber));
         const qSnap = await getDocs(q);
 
-        let parentDocId;
         if (!qSnap.empty) {
           const pDoc = qSnap.docs[0];
-          parentDocId = pDoc.id;
           let linked = pDoc.data().linkedStudents || [];
           if (!linked.includes(studentId)) {
             linked.push(studentId);
-            await updateDoc(doc(db, 'parents', parentDocId), {
-              linkedStudents: linked,
-              updatedAt: new Date().toISOString()
-            });
+            await updateDoc(doc(db, 'parents', pDoc.id), { linkedStudents: linked, updatedAt: new Date().toISOString() });
           }
         } else {
-          const newRef = await addDoc(parentsRef, {
-            parentName: parentName,
-            whatsappNumber: whatsappNumber,
-            verified: true,
+          const defaultPinHash = await hashPIN("123456");
+          await addDoc(parentsRef, {
+            parentName,
+            whatsappNumber,
+            loginPIN: defaultPinHash,
             linkedStudents: [studentId],
+            active: true,
+            failedAttempts: 0,
+            lockUntil: null,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
           });
-          parentDocId = newRef.id;
         }
-
-        await updateDoc(doc(db, 'students', studentId), {
-          parentId: parentDocId,
-          parentName: parentName,
-          parentWhatsapp: whatsappNumber
-        });
       } catch (err) {
-        console.error("Error linking parent:", err);
+        console.error("Error syncing parent link:", err);
       }
     }
 
-    // AUDITED & CORRECTED PHONE AUTHENTICATION ENGINE
-    function setupParentPortalAuth() {
-      const phoneForm = document.getElementById('form-parent-phone-auth');
-      const otpForm = document.getElementById('form-parent-otp-verify');
+    // PARENT WHATSAPP + HASHED PIN LOGIN & LOCKOUT
+    function setupParentPinLogin() {
+      const loginForm = document.getElementById('form-parent-pin-login');
+      if (!loginForm) return;
 
-      if (!phoneForm) return;
-
-      // Properly scope and render reCAPTCHA verifier with explicit container ID
-      try {
-        if (!window.recaptchaVerifier) {
-          window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-            'size': 'invisible',
-            'callback': (response) => {
-              // reCAPTCHA solved automatically
-            },
-            'expired-callback': () => {
-              showToast("reCAPTCHA expired. Please try again.", "warning");
-            }
-          });
-          window.recaptchaVerifier.render().catch((err) => {
-            console.error("reCAPTCHA render error:", err);
-          });
-        }
-      } catch (err) {
-        console.error("Error initializing RecaptchaVerifier:", err);
-      }
-
-      phoneForm.addEventListener('submit', async (e) => {
+      loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        let phoneNumber = document.getElementById('parent-whatsapp-input').value.trim();
+        let whatsapp = document.getElementById('parent-login-whatsapp').value.trim();
+        const pin = document.getElementById('parent-login-pin').value.trim();
 
-        // Strict E.164 normalization check (+CountryCode[Number])
-        if (!phoneNumber.startsWith('+')) {
-          phoneNumber = '+' + phoneNumber.replace(/^0+/, '');
-        }
-
-        const phoneRegex = /^\+[1-9]\d{1,14}$/;
-        if (!phoneRegex.test(phoneNumber)) {
-          showToast("Invalid phone format. Use E.164 format (e.g. +919876543210)", "error");
-          return;
-        }
+        if (!whatsapp.startsWith('+')) whatsapp = '+' + whatsapp.replace(/^0+/, '');
 
         try {
-          showToast("Sending verification OTP...", "success");
-          const appVerifier = window.recaptchaVerifier;
-          const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-          window.confirmationResult = confirmationResult;
-          phoneForm.style.display = 'none';
-          otpForm.style.display = 'block';
-          showToast("OTP sent successfully!", "success");
-        } catch (err) {
-          console.error("OTP send failed:", err);
-          showToast(`OTP Error: ${err.message || "Failed to send OTP."}`, "error");
-          // Reset reCAPTCHA widget safely on error
-          if (window.recaptchaVerifier) {
-            window.recaptchaVerifier.render().then((widgetId) => {
-              grecaptcha.reset(widgetId);
-            }).catch(() => {});
+          const parentsRef = collection(db, 'parents');
+          const q = query(parentsRef, where("whatsappNumber", "==", whatsapp));
+          const snap = await getDocs(q);
+
+          if (snap.empty) {
+            return showToast('Parent account not found with this WhatsApp number.', 'error');
           }
-        }
-      });
 
-      otpForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const code = document.getElementById('parent-otp-input').value.trim();
-        try {
-          const result = await window.confirmationResult.confirm(code);
-          showToast("Parent Authentication Successful!", "success");
-          loadParentDashboardPortal(result.user.phoneNumber);
+          const parentDocSnap = snap.docs[0];
+          const pData = parentDocSnap.data();
+          const parentId = parentDocSnap.id;
+
+          if (pData.active === false) {
+            return showToast('This parent account has been deactivated by admin.', 'error');
+          }
+
+          // Check lockout time (30 minutes after 5 failed attempts)
+          if (pData.lockUntil && new Date() < new Date(pData.lockUntil)) {
+            const remainingMins = Math.ceil((new Date(pData.lockUntil) - new Date()) / 60000);
+            return showToast(`Account locked due to multiple failed login attempts. Try again in ${remainingMins} minutes.`, 'error');
+          }
+
+          const hashedInput = await hashPIN(pin);
+          if (hashedInput === pData.loginPIN) {
+            // Reset failed attempts on successful login
+            await updateDoc(doc(db, 'parents', parentId), { failedAttempts: 0, lockUntil: null });
+            
+            state.currentParentSession = { id: parentId, ...pData };
+            showToast('Parent Login Successful!', 'success');
+            loadParentDashboardPortal(state.currentParentSession);
+          } else {
+            const currentFailed = (pData.failedAttempts || 0) + 1;
+            let updatePayload = { failedAttempts: currentFailed };
+
+            if (currentFailed >= 5) {
+              const lockTime = new Date(Date.now() + 30 * 60000).toISOString();
+              updatePayload.lockUntil = lockTime;
+              await updateDoc(doc(db, 'parents', parentId), updatePayload);
+              return showToast('Incorrect PIN. Account locked for 30 minutes after 5 failed attempts.', 'error');
+            } else {
+              await updateDoc(doc(db, 'parents', parentId), updatePayload);
+              showToast(`Incorrect PIN. Attempt ${currentFailed} of 5.`, 'warning');
+            }
+          }
         } catch (err) {
-          console.error("OTP verify failed:", err);
-          showToast("Invalid OTP code entered. Please retry.", "error");
+          console.error("Login error:", err);
+          showToast('Login error occurred.', 'error');
         }
       });
     }
 
-    async function loadParentDashboardPortal(whatsappNum) {
+    async function loadParentDashboardPortal(session) {
       document.getElementById('parent-auth-container').style.display = 'none';
       document.getElementById('parent-dashboard-screen').style.display = 'block';
 
-      const parentsRef = collection(db, 'parents');
-      const q = query(parentsRef, where("whatsappNumber", "==", whatsappNum));
-      const snap = await getDocs(q);
+      document.getElementById('parent-welcome-title').textContent = `Welcome, ${session.parentName || 'Parent'}`;
 
-      if (snap.empty) {
-        document.getElementById('parent-children-grid').innerHTML = `<p style="color:#ef4444;">No children linked to this WhatsApp number.</p>`;
-        return;
+      // Render Admin Notices
+      const noticesBox = document.getElementById('parent-notices-content');
+      if (state.notices && state.notices.length > 0) {
+        noticesBox.innerHTML = state.notices.map(n => `<div>• ${n.message} <small style="opacity:0.6;">(${new Date(n.timestamp).toLocaleDateString()})</small></div>`).join('');
+      } else {
+        noticesBox.innerHTML = 'No active announcements from Madrasa Administration.';
       }
 
-      const pData = snap.docs[0].data();
-      document.getElementById('parent-welcome-title').textContent = `Welcome, ${pData.parentName || 'Parent'}`;
-
-      const linkedIds = pData.linkedStudents || [];
+      const linkedIds = session.linkedStudents || [];
       const grid = document.getElementById('parent-children-grid');
       let cardsHtml = '';
 
@@ -2127,7 +2244,7 @@
             <div class="glass-card" style="cursor:pointer; border-left:4px solid #25d366;" onclick="window.openParentChildPortalView('${sDoc.id}', '${s.name}', '${s.class}')">
               <h3><i class="fa-solid fa-child" style="color:#25d366;"></i> ${s.name}</h3>
               <p class="mt-1"><strong>Class:</strong> ${s.class} &nbsp;|&nbsp; <strong>Roll:</strong> ${getStudentRollNo(s, null)}</p>
-              <p style="font-size:0.85rem; opacity:0.8;">Category: ${s.category} (${s.gender === 'Male' ? 'Boy' : 'Girl'})</p>
+              <p style="font-size:0.85rem; opacity:0.8;">Team: ${s.team} | Category: ${s.category} (${s.gender === 'Male' ? 'Boy' : 'Girl'})</p>
               <button class="btn-primary mt-2 full-width" style="background:#25d366;"><i class="fa-solid fa-eye"></i> View Assigned Programmes</button>
             </div>
           `;
@@ -2139,6 +2256,7 @@
 
     window.openParentChildPortalView = async (studentId, studentName, studentClass) => {
       document.getElementById('parent-children-grid').style.display = 'none';
+      document.getElementById('parent-notices-box').style.display = 'none';
       const detailCard = document.getElementById('parent-child-detail-card');
       detailCard.style.display = 'block';
 
@@ -2179,23 +2297,105 @@
     window.updateParentPortalPractice = async (practiceId, newStatus, studentName, progName) => {
       await updateDoc(doc(db, 'practice', practiceId), { status: newStatus });
       showToast("Practice status updated successfully!", "success");
-      generateParentNotification(null, null, `Parent updated ${studentName}'s status for ${progName} to ${newStatus}`);
+      generateParentNotification(null, state.currentParentSession.whatsappNumber, `Parent updated ${studentName}'s status for ${progName} to ${newStatus}`);
     };
 
     window.hideParentChildDetail = () => {
       document.getElementById('parent-child-detail-card').style.display = 'none';
+      document.getElementById('parent-notices-box').style.display = 'block';
       document.getElementById('parent-children-grid').style.display = 'grid';
     };
 
     window.logoutParentPortal = () => {
-      signOut(auth).then(() => {
-        document.getElementById('parent-dashboard-screen').style.display = 'none';
-        document.getElementById('parent-auth-container').style.display = 'block';
-        document.getElementById('form-parent-phone-auth').style.display = 'block';
-        document.getElementById('form-parent-otp-verify').style.display = 'none';
-        showToast("Logged out of Parent Portal", "success");
-      });
+      state.currentParentSession = null;
+      document.getElementById('parent-dashboard-screen').style.display = 'none';
+      document.getElementById('parent-auth-container').style.display = 'block';
+      document.getElementById('form-parent-pin-login').reset();
+      showToast("Logged out of Parent Portal", "success");
     };
+
+    window.openParentSettingsModal = () => {
+      if (!state.currentParentSession) return;
+      document.getElementById('settings-parent-name').value = state.currentParentSession.parentName || '';
+      document.getElementById('settings-parent-newpin').value = '';
+      openModal('modal-parent-settings');
+    };
+
+    // PARENT MANAGEMENT FUNCTIONS (ADMIN ONLY)
+    function renderParentsTable() {
+      const tbody = document.getElementById('tbody-parents');
+      if (!tbody) return;
+
+      const search = document.getElementById('filter-search-parent')?.value.toLowerCase() || '';
+      const filtered = state.parents.filter(p => p.parentName.toLowerCase().includes(search) || p.whatsappNumber.toLowerCase().includes(search));
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center">No parent records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr>
+          <td><strong>${p.parentName}</strong></td>
+          <td>${p.whatsappNumber}</td>
+          <td>${p.linkedStudents ? p.linkedStudents.length : 0} Children</td>
+          <td><span class="badge ${p.active !== false ? 'badge-completed' : 'badge-danger'}">${p.active !== false ? 'Active' : 'Deactivated'}</span></td>
+          <td>
+            <button class="icon-btn" onclick="window.editParent('${p.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="icon-btn" onclick="window.deleteParent('${p.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.openParentModal = () => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      document.getElementById('form-parent-admin').reset();
+      document.getElementById('parent-doc-id').value = '';
+      document.getElementById('modal-parent-title').textContent = 'Create Parent Account';
+      renderParentStudentChecklist([]);
+      openModal('modal-parent');
+    };
+
+    window.editParent = (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      const p = state.parents.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById('parent-doc-id').value = p.id;
+      document.getElementById('admin-parent-name').value = p.parentName;
+      document.getElementById('admin-parent-whatsapp').value = p.whatsappNumber;
+      document.getElementById('admin-parent-pin').value = ''; // leave blank or dummy
+      document.getElementById('admin-parent-active').value = p.active !== false ? 'true' : 'false';
+      document.getElementById('modal-parent-title').textContent = 'Edit Parent Account';
+      renderParentStudentChecklist(p.linkedStudents || []);
+      openModal('modal-parent');
+    };
+
+    window.deleteParent = async (id) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+      if (confirm('Delete parent account?')) {
+        await deleteDoc(doc(db, 'parents', id));
+        showToast('Parent account deleted', 'success');
+      }
+    };
+
+    function renderParentStudentChecklist(linkedIds) {
+      const container = document.getElementById('admin-parent-students-checklist');
+      if (!container) return;
+
+      const sortedStudents = sortByClass(state.students);
+      container.innerHTML = sortedStudents.map(s => {
+        const isChecked = linkedIds.includes(s.id) ? 'checked' : '';
+        const roll = getStudentRollNo(s, null);
+        return `
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
+            <input type="checkbox" value="${s.id}" class="parent-link-cb" ${isChecked}>
+            <span>[Roll: ${roll}] Class ${s.class} - ${s.name} (${s.category} - ${s.gender})</span>
+          </div>
+        `;
+      }).join('');
+    }
 
     function setupAuthObserver() {
       onAuthStateChanged(auth, (user) => {
@@ -2211,7 +2411,6 @@
           roleBadge.className = 'badge badge-admin';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
           userDisplay.textContent = user.email.split('@')[0];
-          validateDatabaseAndCleanup();
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
@@ -2269,6 +2468,18 @@
         renderVersusComparisonOutput();
       });
       activeSnapshotUnsubscribers.push(unsubStudents);
+
+      const unsubParents = onSnapshot(collection(db, 'parents'), (s) => {
+        state.parents = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderParentsTable();
+      });
+      activeSnapshotUnsubscribers.push(unsubParents);
+
+      const unsubNotices = onSnapshot(collection(db, 'notifications'), (s) => {
+        state.notices = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        state.notices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      });
+      activeSnapshotUnsubscribers.push(unsubNotices);
 
       const qMixed = query(collection(db, 'mixed_groups'), where('team', '==', state.activeTeam));
       const unsubMixed = onSnapshot(qMixed, (s) => {
@@ -3522,341 +3733,6 @@
       `;
       openModal('modal-prog-details');
     };
-
-    window.deleteProgramme = async (id) => {
-      if (!state.isAdmin) return showToast('Admin required', 'error');
-      const prog = state.programmes.find(p => p.id === id);
-      if (!prog) return;
-
-      if (confirm(`"${prog.name}" എന്ന പ്രോഗ്രാമും അതിലെ എല്ലാ അസൈൻമെന്റുകളും ഡിലീറ്റ് ചെയ്യണോ?`)) {
-        try {
-          await deleteDoc(doc(db, 'programmes', id));
-
-          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName === prog.name);
-          for (const assign of relatedAssignments) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-          }
-
-          const relatedPractice = state.practice.filter(p => p.programmeName === prog.name);
-          for (const prac of relatedPractice) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-          }
-
-          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും ഡിലീറ്റ് ചെയ്തു', 'success');
-          logActivity(`Deleted programme: ${prog.name}`);
-        } catch (err) {
-          console.error(err);
-          showToast('Failed to delete programme', 'error');
-        }
-      }
-    };
-
-    window.cleanDeletedProgrammesData = async () => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      if (!confirm('ഇപ്പോൾ പ്രോഗ്രാം ലിസ്റ്റിൽ ഇല്ലാത്ത പഴയ പ്രോഗ്രാമുകളുടെ എല്ലാ ഡാറ്റയും ട്രാക്കറിൽ നിന്നും ഡാറ്റാബേസിൽ നിന്നും പൂർണ്ണമായി മാറ്റണോ?')) return;
-
-      try {
-        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-        let cleanedCount = 0;
-
-        for (const assign of state.assignments) {
-          const assignProgName = (assign.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(assignProgName)) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            cleanedCount++;
-          }
-        }
-
-        for (const prac of state.practice) {
-          const pracProgName = (prac.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(pracProgName)) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-            cleanedCount++;
-          }
-        }
-
-        if (cleanedCount > 0) {
-          showToast(`${cleanedCount} പഴയ ഡാറ്റ വിജയകരമായി മായ്ച്ചു!`, 'success');
-          logActivity(`Cleaned ${cleanedCount} old programme records`);
-        } else {
-          showToast('ഇല്ലാത്ത പ്രോഗ്രാമുകളുടെ ഡാറ്റയൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
-        }
-      } catch (err) {
-        console.error(err);
-        showToast('ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
-      }
-    };
-
-    window.cleanDuplicateAssignments = async () => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      if (!confirm('ഒരേ കുട്ടിക്ക് ഒന്നിൽ കൂടുതൽ തവണ ആവർത്തിച്ചു വന്ന ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ മായ്ച്ചു് ഒന്നാക്കി മാറ്റണോ?')) return;
-
-      try {
-        const seenKeys = new Set();
-        let removedCount = 0;
-
-        for (const assign of state.assignments) {
-          const key = `${assign.studentName.trim().toLowerCase()}_${assign.programmeName.trim().toLowerCase()}`;
-          if (seenKeys.has(key)) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            removedCount++;
-          } else {
-            seenKeys.add(key);
-          }
-        }
-
-        const seenPracticeKeys = new Set();
-        for (const prac of state.practice) {
-          const pKey = `${prac.studentName.trim().toLowerCase()}_${prac.programmeName.trim().toLowerCase()}`;
-          if (seenPracticeKeys.has(pKey)) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-          } else {
-            seenPracticeKeys.add(pKey);
-          }
-        }
-
-        if (removedCount > 0) {
-          showToast(`${removedCount} ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ ഡാറ്റാബേസിൽ നിന്ന് നീക്കം ചെയ്തു!`, 'success');
-          logActivity(`Cleaned ${removedCount} duplicate assignment(s)`);
-        } else {
-          showToast('ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകളൊന്നും കണ്ടെത്തിയില്ല.', 'warning');
-        }
-      } catch (err) {
-        console.error(err);
-        showToast('ഡ്യൂപ്ലിക്കേറ്റ് ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
-      }
-    };
-
-    function renderStudentsTable() {
-      const tbody = document.getElementById('tbody-students');
-      if (!tbody) return;
-
-      const search = document.getElementById('filter-search-student').value.toLowerCase();
-      const gender = document.getElementById('filter-student-gender').value;
-      const category = document.getElementById('filter-student-category').value;
-
-      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-
-      let filtered = activeStudents.filter(s => {
-        const rollStr = getStudentRollNo(s, null);
-        const matchSearch = s.name.toLowerCase().includes(search) || rollStr.toLowerCase().includes(search);
-        const matchGender = !gender || s.gender === gender;
-        const matchCategory = !category || s.category === category;
-        return matchSearch && matchGender && matchCategory;
-      });
-
-      filtered = sortByClass(filtered);
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center">No student records found.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(s => {
-        const cleanRoll = getStudentRollNo(s, null);
-        return `
-          <tr>
-            <td><strong style="color:var(--primary-green); font-size:1rem;">${cleanRoll}</strong></td>
-            <td><strong>Class ${s.class} - ${s.name}</strong></td>
-            <td>${s.gender}</td>
-            <td>Class ${s.class}</td>
-            <td><span class="badge badge-visitor">${s.category}</span></td>
-            <td><small>${s.parentWhatsapp || 'Not Linked'}</small></td>
-            <td>${s.team}</td>
-            <td>
-              ${state.isAdmin ? `
-                <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
-              ` : 'Read-Only'}
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function populateParentSlipClassOptions() {
-      const classSelect = document.getElementById('slip-filter-class-select');
-      if (!classSelect) return;
-
-      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      const uniqueClasses = [...new Set(activeStudents.map(s => s.class))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-      classSelect.innerHTML = '<option value="">All Classes</option>' + uniqueClasses.map(c => `
-        <option value="${c}">Class ${c}</option>
-      `).join('');
-    }
-
-    function filterAndPopulateParentSlipAppCards() {
-      const grid = document.getElementById('slip-student-cards-grid');
-      const hiddenInput = document.getElementById('slip-selected-student-id');
-      if (!grid) return;
-
-      const filterClass = document.getElementById('slip-filter-class-select').value;
-      const filterCategory = document.getElementById('slip-filter-category-select').value;
-
-      const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-
-      let filteredStudents = activeStudents.filter(s => {
-        const matchClass = !filterClass || s.class.toString() === filterClass;
-        const matchCat = !filterCategory || s.category === filterCategory;
-        return matchClass && matchCat;
-      });
-
-      filteredStudents = sortByClass(filteredStudents);
-      hiddenInput.value = '';
-
-      if (filteredStudents.length === 0) {
-        grid.innerHTML = '<p style="grid-column:1/-1; color:#ef4444; font-size:0.85rem;">No matching students found.</p>';
-        renderParentSlip();
-        return;
-      }
-
-      grid.innerHTML = filteredStudents.map(s => {
-        const roll = getStudentRollNo(s, null);
-        return `
-          <div class="student-app-card" onclick="window.selectStudentForSlip('${s.id}')" id="slip-std-card-${s.id}">
-            <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
-            <div class="student-card-info">
-              <h4>${s.name}</h4>
-              <small style="color:var(--accent-gold); font-weight:bold;">Roll No: ${roll}</small>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      renderParentSlip();
-    }
-
-    window.selectStudentForSlip = (studentDocId) => {
-      document.querySelectorAll('#slip-student-cards-grid .student-app-card').forEach(c => c.classList.remove('active'));
-      const activeCard = document.getElementById(`slip-std-card-${studentDocId}`);
-      if (activeCard) activeCard.classList.add('active');
-
-      document.getElementById('slip-selected-student-id').value = studentDocId;
-      renderParentSlip();
-    };
-
-    function renderParentSlip() {
-      const studentId = document.getElementById('slip-selected-student-id').value;
-      const s = state.students.find(x => x.id === studentId);
-
-      if (!s) {
-        document.getElementById('slip-out-name').textContent = '-';
-        document.getElementById('slip-out-id').textContent = '-';
-        document.getElementById('slip-out-class').textContent = '-';
-        document.getElementById('slip-out-category').textContent = '-';
-        document.getElementById('slip-out-team').textContent = '-';
-        document.getElementById('slip-out-gender').textContent = '-';
-        document.getElementById('slip-out-table-body').innerHTML = `<tr><td colspan="3" class="text-center">Select a student above to view assigned programmes.</td></tr>`;
-        return;
-      }
-
-      const cleanRoll = getStudentRollNo(s, null);
-
-      document.getElementById('slip-out-name').textContent = s.name;
-      document.getElementById('slip-out-id').textContent = cleanRoll;
-      document.getElementById('slip-out-class').textContent = `Class ${s.class}`;
-      document.getElementById('slip-out-category').textContent = s.category;
-      document.getElementById('slip-out-team').textContent = s.team;
-      document.getElementById('slip-out-gender').textContent = s.gender;
-
-      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
-      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-
-      const userAssignments = state.assignments.filter(a => {
-        const isStudent = a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase();
-        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(a.programmeName.trim().toLowerCase());
-        return isStudent && isProgActive;
-      });
-
-      const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
-      const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
-      const nonStageAssignments = userAssignments.filter(a => a.programmeType === 'Non-Stage');
-
-      let rowsHtml = '';
-      let index = 1;
-
-      if (stageAssignments.length > 0) {
-        rowsHtml += `<tr style="background:#e8f5e9; color:#0d5c3a; font-weight:700;"><td colspan="3">🎤 Stage Programmes</td></tr>`;
-        stageAssignments.forEach(a => {
-          rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>Stage (${a.studentCategory})</td></tr>`;
-        });
-      }
-
-      if (nonStageAssignments.length > 0) {
-        rowsHtml += `<tr style="background:#fff8e1; color:#b78103; font-weight:700;"><td colspan="3">✏️ Non-Stage Programmes</td></tr>`;
-        nonStageAssignments.forEach(a => {
-          rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>Non-Stage (${a.studentCategory})</td></tr>`;
-        });
-      }
-
-      if (userMixedGroups.length > 0) {
-        rowsHtml += `<tr style="background:#e0f2fe; color:#0369a1; font-weight:700;"><td colspan="3">👥 Mixed Category Groups</td></tr>`;
-        userMixedGroups.forEach(g => {
-          rowsHtml += `<tr><td>${index++}</td><td><strong>${g.itemName}</strong></td><td>Group Item (${g.groupName})</td></tr>`;
-        });
-      }
-
-      if (userAssignments.length === 0 && userMixedGroups.length === 0) {
-        rowsHtml = `<tr><td colspan="3" class="text-center">No active programmes assigned for this student yet.</td></tr>`;
-      }
-
-      document.getElementById('slip-out-table-body').innerHTML = rowsHtml;
-    }
-
-    function shareWhatsAppSlip() {
-      const studentId = document.getElementById('slip-selected-student-id').value;
-      const s = state.students.find(x => x.id === studentId);
-      if (!s) return showToast('Please select a student first', 'warning');
-
-      const activeProgDocIds = new Set(state.programmes.map(p => p.id));
-      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-
-      const userAssignments = state.assignments.filter(a => {
-        const isStudent = a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase();
-        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(a.programmeName.trim().toLowerCase());
-        return isStudent && isProgActive;
-      });
-
-      const userMixedGroups = state.mixedGroups.filter(g => g.members && g.members.includes(s.id));
-      const stageAssignments = userAssignments.filter(a => a.programmeType === 'Stage');
-      const nonStageAssignments = userAssignments.filter(a => a.programmeType === 'Non-Stage');
-
-      let progsText = '';
-      let idx = 1;
-
-      if (stageAssignments.length > 0) {
-        progsText += `\n*🎤 Stage Programmes:*\n`;
-        stageAssignments.forEach(a => { progsText += `${idx++}. *${a.programmeName}*\n`; });
-      }
-
-      if (nonStageAssignments.length > 0) {
-        progsText += `\n*✏️ Non-Stage Programmes:*\n`;
-        nonStageAssignments.forEach(a => { progsText += `${idx++}. *${a.programmeName}*\n`; });
-      }
-
-      if (userMixedGroups.length > 0) {
-        progsText += `\n*👥 Mixed Category Groups:*\n`;
-        userMixedGroups.forEach(g => { progsText += `${idx++}. *${g.itemName}* (${g.groupName})\n`; });
-      }
-
-      if (!progsText) progsText = "\nNo active programmes assigned yet.\n";
-
-      const cleanRoll = getStudentRollNo(s, null);
-
-      const text = `*HIDAYATHUL ISLAM MADRASA - ACHANGI*\n` +
-                   `*Rabi'ul Awwal Programme List*\n\n` +
-                   `👤 *Student Name:* ${s.name}\n` +
-                   `🆔 *Roll No / ID:* ${cleanRoll}\n` +
-                   `📚 *Class:* ${s.class}\n` +
-                   `🏷️ *Category:* ${s.category}\n` +
-                   `🚩 *Team:* ${s.team}\n` +
-                   `_______________________________\n` +
-                   `*Assigned Programmes List:* ${progsText}\n` +
-                   `_Hidayathul Islam Madrasa - Rabi'ul Awwal Committee_\n` +
-                   `💬 *Helpline Support:* https://wa.me/919113695271`;
-
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-    }
 
     window.editStudent = (id) => {
       const s = state.students.find(x => x.id === id);
