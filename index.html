@@ -583,6 +583,7 @@
           <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
           <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;" class="mobile-only-hide">
             <i class="fa-solid fa-circle-user" style="color:var(--accent-gold); font-size:1.4rem;"></i>
+            <span id="user-display-name">Visitor</span>
           </div>
         </div>
       </header>
@@ -1593,15 +1594,18 @@
 
         const roleBadge = document.getElementById('role-badge');
         const btnAuth = document.getElementById('btn-auth-action');
+        const userDisplay = document.getElementById('user-display-name');
 
         if (user) {
           roleBadge.textContent = 'Admin Mode';
           roleBadge.className = 'badge badge-admin';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
+          userDisplay.textContent = user.email.split('@')[0];
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
+          userDisplay.textContent = 'Visitor';
         }
       });
     }
@@ -1953,7 +1957,7 @@
           
           let deleteBtnHtml = '';
           if (state.isAdmin) {
-            deleteBtnHtml = ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Delete Programme"><i class="fa-solid fa-trash"></i></button>`;
+            deleteBtnHtml = ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Remove Programme"><i class="fa-solid fa-xmark"></i></button>`;
           }
 
           return `<span class="badge ${bClass}">${icon} ${p.programmeName}${deleteBtnHtml}</span>`;
@@ -2004,13 +2008,16 @@
       }).join('');
     }
 
+    // Direct removal function from Dashboard Student Card delete icon
     window.removeStudentPracticeItem = async (practiceId, studentName, progName) => {
       if (!state.isAdmin) return showToast('Admin access required', 'error');
 
       if (confirm(`Remove "${progName}" for ${studentName}?`)) {
         try {
+          // Delete from practice collection
           await deleteDoc(doc(db, 'practice', practiceId));
 
+          // Find and delete matching assignment
           const matchedAssigns = state.assignments.filter(a => a.studentName === studentName && a.programmeName?.trim().toLowerCase() === progName.trim().toLowerCase());
           for (const assign of matchedAssigns) {
             await deleteDoc(doc(db, 'assignments', assign.id));
@@ -2961,7 +2968,7 @@
         container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No / ID</th><th>Student Name</th><th>Gender Section</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => {
           const cleanRoll = getStudentRollNo(s, null);
           return `<tr><td>${cleanRoll}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender === 'Male' ? 'Boys' : 'Girls'}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`;
-        }).join('')}</tbody></table>`;
+        })}</tbody></table>`;
       } else if (type === 'programme') {
         container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${activeAssignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
       } else {
