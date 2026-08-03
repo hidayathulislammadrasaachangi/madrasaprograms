@@ -46,7 +46,6 @@
 
     .app-container { display: flex; min-height: 100vh; position: relative; }
 
-    /* TEAM SELECTION GATEWAY */
     #team-selection-gateway {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -547,7 +546,6 @@
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports</span></a>
         <a href="#" class="nav-item" data-view="settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
 
-        <!-- Additional Preserved Views Accessible via Internal Actions/Modals -->
         <a href="#" class="nav-item" data-view="parent-slip" style="display:none;"></a>
         <a href="#" class="nav-item" data-view="teams" style="display:none;"></a>
         <a href="#" class="nav-item" data-view="mixed-groups" style="display:none;"></a>
@@ -585,7 +583,6 @@
           <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
           <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;" class="mobile-only-hide">
             <i class="fa-solid fa-circle-user" style="color:var(--accent-gold); font-size:1.4rem;"></i>
-            <span id="user-display-name">Visitor</span>
           </div>
         </div>
       </header>
@@ -634,7 +631,6 @@
             </div>
           </div>
 
-          <!-- REDESIGNED DASHBOARD CARDS (Separated Boys/Girls Stage & Non-Stage Programmes) -->
           <div class="stats-grid">
             <div class="stat-card" onclick="window.showDashboardDetails('total-students')">
               <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
@@ -649,13 +645,13 @@
               <div class="stat-info"><p>Girls Section</p><h3 id="stat-total-girls">0</h3><small style="color:#db2777; font-weight:600;">Click for details ➔</small></div>
             </div>
 
-            <!-- Boys Stage Programmes Card (Blue theme, total count, click for details) -->
+            <!-- Boys Stage Programmes Card -->
             <div class="stat-card" onclick="window.showDashboardDetails('boys-stage')">
               <div class="stat-icon blue"><i class="fa-solid fa-microphone"></i></div>
               <div class="stat-info"><p>👦 Boys Stage Programmes</p><h3 id="stat-boys-stage-progs">0</h3><small style="color:#2563eb; font-weight:600;">Click for details ➔</small></div>
             </div>
 
-            <!-- Girls Stage Programmes Card (Pink theme, total count, click for details) -->
+            <!-- Girls Stage Programmes Card -->
             <div class="stat-card" onclick="window.showDashboardDetails('girls-stage')">
               <div class="stat-icon pink"><i class="fa-solid fa-microphone-lines"></i></div>
               <div class="stat-info"><p>👧 Girls Stage Programmes</p><h3 id="stat-girls-stage-progs">0</h3><small style="color:#db2777; font-weight:600;">Click for details ➔</small></div>
@@ -980,12 +976,10 @@
           </div>
 
           <div class="glass-card">
-            <h3><i class="fa-solid fa-database" style="color:var(--accent-gold);"></i> Database Maintenance & Cleanup</h3>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Remove deleted programme references or duplicate assignments instantly.</p>
+            <h3><i class="fa-solid fa-database" style="color:var(--accent-gold);"></i> System Settings & Navigation</h3>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Switch between teams seamlessly.</p>
             <hr class="divider">
             <div class="flex-gap" style="flex-wrap:wrap;">
-              <button onclick="window.cleanDeletedProgrammesData()" class="btn-danger-sm" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-broom"></i> Clean Deleted Programmes Data</button>
-              <button onclick="window.cleanDuplicateAssignments()" class="btn-danger-sm" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-copy"></i> Remove Duplicate Assignments</button>
               <button onclick="window.openTeamSwitchGateway()" class="btn-secondary" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-people-roof"></i> Switch Team Gateway</button>
             </div>
           </div>
@@ -1124,7 +1118,6 @@
           <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
               <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
-              <button onclick="window.cleanDeletedProgrammesData()" class="btn-danger-sm" style="font-size:0.85rem; padding:0.5rem 1rem;"><i class="fa-solid fa-broom"></i> Clean Deleted Programmes Data</button>
             </div>
             <hr class="divider">
             <div class="table-responsive">
@@ -1357,37 +1350,6 @@
       return '-';
     }
 
-    async function validateDatabaseAndCleanup() {
-      if (!state.isAdmin) return;
-      try {
-        const activeStudentIds = new Set(state.students.map(s => s.id));
-        const activeProgIds = new Set(state.programmes.map(p => p.id));
-        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-
-        let repairedCount = 0;
-        for (const assign of state.assignments) {
-          const hasStudent = activeStudentIds.has(assign.studentDocId) || state.students.some(s => s.name.trim().toLowerCase() === assign.studentName?.trim().toLowerCase());
-          const hasProg = activeProgIds.has(assign.programmeDocId) || activeProgNames.has(assign.programmeName?.trim().toLowerCase());
-
-          if (!hasStudent || !hasProg) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            repairedCount++;
-          }
-        }
-
-        for (const prac of state.practice) {
-          const hasProg = activeProgNames.has(prac.programmeName?.trim().toLowerCase());
-          const hasStudent = state.students.some(s => s.name.trim().toLowerCase() === prac.studentName?.trim().toLowerCase());
-          if (!hasProg || !hasStudent) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-            repairedCount++;
-          }
-        }
-      } catch (err) {
-        console.error("Integrity validation error:", err);
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
     });
@@ -1498,7 +1460,6 @@
           closeModal('modal-auth');
           showToast('Admin mode granted', 'success');
           logActivity("Admin logged in successfully");
-          validateDatabaseAndCleanup();
         } catch (err) {
           showToast('Invalid admin credentials', 'error');
         }
@@ -1632,19 +1593,15 @@
 
         const roleBadge = document.getElementById('role-badge');
         const btnAuth = document.getElementById('btn-auth-action');
-        const userDisplay = document.getElementById('user-display-name');
 
         if (user) {
           roleBadge.textContent = 'Admin Mode';
           roleBadge.className = 'badge badge-admin';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
-          userDisplay.textContent = user.email.split('@')[0];
-          validateDatabaseAndCleanup();
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
-          userDisplay.textContent = 'Visitor';
         }
       });
     }
@@ -1705,6 +1662,7 @@
         updateBulkProgrammeOptions();
         updateVsProgrammeOptions();
         renderParentSlip();
+        renderDashboardStudentStatusTable();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1759,8 +1717,6 @@
 
     function updateDashboardStats() {
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
-
       document.getElementById('stat-total-students').textContent = activeStudents.length;
       document.getElementById('stat-total-boys').textContent = activeStudents.filter(s => s.gender === 'Male').length;
       document.getElementById('stat-total-girls').textContent = activeStudents.filter(s => s.gender === 'Female').length;
@@ -1771,10 +1727,13 @@
       document.getElementById('stat-boys-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage' && p.gender === 'Male').length;
       document.getElementById('stat-girls-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage' && p.gender === 'Female').length;
 
-      const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
-      const completed = state.practice.filter(p => p.status === 'Completed').length;
-      const pending = state.practice.filter(p => p.status === 'Learning' || !p.status).length;
-      const total = state.practice.length || 1;
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const validPractice = state.practice.filter(p => activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
+
+      const ready = validPractice.filter(p => p.status === 'Stage Ready').length;
+      const completed = validPractice.filter(p => p.status === 'Completed').length;
+      const pending = validPractice.filter(p => p.status === 'Learning' || !p.status).length;
+      const total = validPractice.length || 1;
 
       document.getElementById('label-ready-count').textContent = ready;
       document.getElementById('label-completed-count').textContent = completed;
@@ -1836,12 +1795,13 @@
 
       if (!card || !outputArea) return;
 
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
       const categoryProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => p.gender === gender && p.category === selectedCategory)
       );
 
       if (categoryProgrammes.length === 0) {
-        showToast(`No programmes found for ${selectedCategory} (${gender === 'Male' ? 'Boys Section' : 'Girls Section'})`, 'warning');
+        showToast(`No programmes found for ${selectedCategory}`, 'warning');
         card.style.display = 'none';
         return;
       }
@@ -1855,8 +1815,11 @@
 
       categoryProgrammes.forEach((prog) => {
         const assignedRecords = activeAssignments.filter(a => {
-          const matchProg = (a.programmeDocId === prog.id) || (a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase());
-          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+          const assignProgName = (a.programmeName || '').trim().toLowerCase();
+          if (!activeProgNames.has(assignProgName)) return false;
+
+          const matchProg = (a.programmeDocId === prog.id) || (assignProgName === prog.name.trim().toLowerCase());
+          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const studentGender = studentObj ? studentObj.gender : a.studentGender;
           const studentCat = studentObj ? studentObj.category : a.studentCategory;
 
@@ -1865,7 +1828,7 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
-          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
           matchedItems.push({
             assignmentId: a.id,
@@ -1915,7 +1878,7 @@
                     <td><strong style="color:#0d5c3a;">${s.name}</strong></td>
                     <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
                   </tr>
-                `).join('') : `<tr><td colspan="4" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme in ${selectedCategory} category.</td></tr>`}
+                `).join('') : `<tr><td colspan="4" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme.</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -1923,7 +1886,7 @@
       });
 
       outputArea.innerHTML = fullHtml;
-      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${selectedCategory}`, 'success');
+      showToast(`Generated PDF successfully`, 'success');
     }
 
     function populateStudentClassFilterOptions() {
@@ -1958,6 +1921,7 @@
       const filterSearch = document.getElementById('dash-practice-search-input')?.value.toLowerCase() || '';
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
 
       let studentList = activeStudents.filter(s => {
         const matchClass = !filterClass || s.class.toString() === filterClass;
@@ -1975,21 +1939,28 @@
       }
 
       container.innerHTML = studentList.map(s => {
-        const studentPractice = state.practice.filter(p => p.studentName === s.name);
+        const studentPractice = state.practice.filter(p => {
+          const progName = (p.programmeName || '').trim().toLowerCase();
+          return p.studentName === s.name && activeProgNames.has(progName);
+        });
+
         const completedItems = studentPractice.filter(p => p.status === 'Completed' || p.status === 'Stage Ready');
         const learningItems = studentPractice.filter(p => p.status === 'Learning' || !p.status);
 
-        const completedBadgesHtml = completedItems.length 
-          ? completedItems.map(p => {
-              const icon = p.status === 'Stage Ready' ? '⭐' : '✅';
-              const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : 'badge-completed';
-              return `<span class="badge ${bClass}">${icon} ${p.programmeName}</span>`;
-            }).join(' ')
-          : '<small style="opacity:0.5;">None</small>';
+        const createBadgeHtml = (p) => {
+          const icon = p.status === 'Stage Ready' ? '⭐' : (p.status === 'Completed' ? '✅' : '🟡');
+          const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : (p.status === 'Completed' ? 'badge-completed' : 'badge-learning');
+          
+          let deleteBtnHtml = '';
+          if (state.isAdmin) {
+            deleteBtnHtml = ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Delete Programme"><i class="fa-solid fa-trash"></i></button>`;
+          }
 
-        const learningBadgesHtml = learningItems.length
-          ? learningItems.map(p => `<span class="badge badge-learning">🟡 ${p.programmeName}</span>`).join(' ')
-          : '<small style="opacity:0.5;">None</small>';
+          return `<span class="badge ${bClass}">${icon} ${p.programmeName}${deleteBtnHtml}</span>`;
+        };
+
+        const completedBadgesHtml = completedItems.length ? completedItems.map(createBadgeHtml).join(' ') : '<small style="opacity:0.5;">None</small>';
+        const learningBadgesHtml = learningItems.length ? learningItems.map(createBadgeHtml).join(' ') : '<small style="opacity:0.5;">None</small>';
 
         let actionBtnHtml = '';
         if (state.isAdmin && studentPractice.length > 0) {
@@ -2032,6 +2003,27 @@
         `;
       }).join('');
     }
+
+    window.removeStudentPracticeItem = async (practiceId, studentName, progName) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (confirm(`Remove "${progName}" for ${studentName}?`)) {
+        try {
+          await deleteDoc(doc(db, 'practice', practiceId));
+
+          const matchedAssigns = state.assignments.filter(a => a.studentName === studentName && a.programmeName?.trim().toLowerCase() === progName.trim().toLowerCase());
+          for (const assign of matchedAssigns) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+          }
+
+          showToast(`Removed ${progName} for ${studentName}`, 'success');
+          logActivity(`Removed "${progName}" from ${studentName} via Dashboard Card`);
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to remove item', 'error');
+        }
+      }
+    };
 
     function setupCardSelectors() {
       const bindGroup = (gridId, stateField, nextGroupId) => {
@@ -2113,8 +2105,8 @@
 
       checklistEl.innerHTML = targetStudents.map(s => {
         const existingAssign = activeAssignments.find(a => 
-          (a.programmeDocId === progId || (a.programmeName.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender)) &&
-          (a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase())
+          (a.programmeDocId === progId || (a.programmeName?.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender)) &&
+          (a.studentDocId === s.id || a.studentName?.trim().toLowerCase() === s.name.trim().toLowerCase())
         );
 
         const isAssigned = !!existingAssign;
@@ -2290,13 +2282,15 @@
       subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
 
       const getTeamList = (teamName) => {
-        const assigned = state.assignments.filter(a => 
-          a.team === teamName && 
-          (a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat))
-        );
+        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+        const assigned = state.assignments.filter(a => {
+          const assignProgName = (a.programmeName || '').trim().toLowerCase();
+          return a.team === teamName && activeProgNames.has(assignProgName) &&
+            (a.programmeDocId === progId || (assignProgName === selectedProg.name.trim().toLowerCase() && a.studentGender === gender && a.studentCategory === cat));
+        });
 
         let items = assigned.map(a => {
-          const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
           return {
             name: a.studentName,
@@ -2349,7 +2343,12 @@
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
 
-      const studentPractice = state.practice.filter(p => p.studentName === s.name);
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const studentPractice = state.practice.filter(p => {
+        const progName = (p.programmeName || '').trim().toLowerCase();
+        return p.studentName === s.name && activeProgNames.has(progName);
+      });
+
       document.getElementById('modal-status-student-name').textContent = `${s.name}`;
       document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)} | ${s.category} (${s.gender})`;
 
@@ -2476,7 +2475,7 @@
             <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
             ${state.isAdmin ? `
               <div style="margin-top:0.8rem; text-align:right;">
-                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')">Delete</button>
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete Programme</button>
               </div>
             ` : ''}
           </div>
@@ -2546,7 +2545,6 @@
           </table>
         `;
       } else {
-        // Specific handling for Boys/Girls Stage and Non-Stage Programme cards
         let gender = 'Male';
         let progType = 'Stage';
         
@@ -2581,6 +2579,7 @@
                 <th>Gender Section</th>
                 <th>Max Limit</th>
                 <th>Assigned Count</th>
+                <th class="no-print">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -2594,9 +2593,14 @@
                     <td>${p.gender === 'Male' ? 'Boys' : 'Girls'}</td>
                     <td>${limitText}</td>
                     <td>${assignedCount} ${p.maxParticipants ? '/ ' + p.maxParticipants : ''}</td>
+                    <td>
+                      ${state.isAdmin ? `
+                        <button class="btn-danger-sm" onclick="window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                      ` : '-'}
+                    </td>
                   </tr>
                 `;
-              }).join('') : '<tr><td colspan="5" class="text-center">No programmes found.</td></tr>'}
+              }).join('') : '<tr><td colspan="6" class="text-center">No programmes found.</td></tr>'}
             </tbody>
           </table>
         `;
@@ -2635,7 +2639,7 @@
         <p><strong>Max Limit:</strong> ${p.maxParticipants ? p.maxParticipants : 'Unlimited'}</p>
         <hr class="divider">
         <h4>Assigned Participants (${assigned.length})</h4>
-        <ul class="activity-list">
+        <ul class="activity-list mb-2">
           ${assigned.length ? assigned.map(a => {
             const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
             const roll = getStudentRollNo(student, a);
@@ -2643,6 +2647,9 @@
             return `<li>[Roll No: ${roll}] ${cls} - ${a.studentName}</li>`;
           }).join('') : '<li>No students assigned yet.</li>'}
         </ul>
+        ${state.isAdmin ? `
+          <button class="btn-danger full-width" onclick="window.deleteProgramme('${p.id}'); closeModal('modal-prog-details');"><i class="fa-solid fa-trash"></i> Delete This Programme Entirely</button>
+        ` : ''}
       `;
       openModal('modal-prog-details');
     };
@@ -2652,78 +2659,26 @@
       const prog = state.programmes.find(p => p.id === id);
       if (!prog) return;
 
-      if (confirm(`"${prog.name}" എന്ന പ്രോഗ്രാമും അതിലെ എല്ലാ അസൈൻമെന്റുകളും ഡിലീറ്റ് ചെയ്യണോ?`)) {
+      if (confirm(`"${prog.name}" പൂർണ്ണമായി ഡിലീറ്റ് ചെയ്യണോ? ഇത് എല്ലാ സ്ഥലത്തുനിന്നും (അസൈൻമെന്റ്, ട്രാക്കർ, ലിസ്റ്റ്) ഒഴിവാക്കപ്പെടും.`)) {
         try {
           await deleteDoc(doc(db, 'programmes', id));
-          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName === prog.name);
+          
+          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase());
           for (const assign of relatedAssignments) {
             await deleteDoc(doc(db, 'assignments', assign.id));
           }
-          const relatedPractice = state.practice.filter(p => p.programmeName === prog.name);
+
+          const relatedPractice = state.practice.filter(p => p.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase());
           for (const prac of relatedPractice) {
             await deleteDoc(doc(db, 'practice', prac.id));
           }
-          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും ഡിലീറ്റ് ചെയ്തു', 'success');
-          logActivity(`Deleted programme: ${prog.name}`);
+
+          showToast('പ്രോഗ്രാമും അതിലെ ഡാറ്റയും പൂർണ്ണമായി ഡിലീറ്റ് ചെയ്തു', 'success');
+          logActivity(`Deleted programme completely: ${prog.name}`);
         } catch (err) {
           console.error(err);
           showToast('Failed to delete programme', 'error');
         }
-      }
-    };
-
-    window.cleanDeletedProgrammesData = async () => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      if (!confirm('ഇപ്പോൾ പ്രോഗ്രാം ലിസ്റ്റിൽ ഇല്ലാത്ത പഴയ പ്രോഗ്രാമുകളുടെ എല്ലാ ഡാറ്റയും ട്രാക്കറിൽ നിന്നും ഡാറ്റാബേസിൽ നിന്നും പൂർണ്ണമായി മാറ്റണോ?')) return;
-
-      try {
-        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-        let cleanedCount = 0;
-
-        for (const assign of state.assignments) {
-          const assignProgName = (assign.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(assignProgName)) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            cleanedCount++;
-          }
-        }
-        for (const prac of state.practice) {
-          const pracProgName = (prac.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(pracProgName)) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-            cleanedCount++;
-          }
-        }
-        showToast(`${cleanedCount} പഴയ ഡാറ്റ വിജയകരമായി മായ്ച്ചു!`, 'success');
-        logActivity(`Cleaned ${cleanedCount} old programme records`);
-      } catch (err) {
-        console.error(err);
-        showToast('ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
-      }
-    };
-
-    window.cleanDuplicateAssignments = async () => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      if (!confirm('ഒരേ കുട്ടിക്ക് ഒന്നിൽ കൂടുതൽ തവണ ആവർത്തിച്ചു വന്ന ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ മായ്ച്ചു് ഒന്നാക്കി മാറ്റണോ?')) return;
-
-      try {
-        const seenKeys = new Set();
-        let removedCount = 0;
-
-        for (const assign of state.assignments) {
-          const key = `${assign.studentName.trim().toLowerCase()}_${assign.programmeName.trim().toLowerCase()}`;
-          if (seenKeys.has(key)) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            removedCount++;
-          } else {
-            seenKeys.add(key);
-          }
-        }
-        showToast(`${removedCount} ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ ഡാറ്റാബേസിൽ നിന്ന് നീക്കം ചെയ്തു!`, 'success');
-        logActivity(`Cleaned ${removedCount} duplicate assignment(s)`);
-      } catch (err) {
-        console.error(err);
-        showToast('ഡ്യൂപ്ലിക്കേറ്റ് ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
       }
     };
 
@@ -2865,8 +2820,9 @@
       const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
 
       const userAssignments = state.assignments.filter(a => {
-        const isStudent = a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase();
-        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(a.programmeName.trim().toLowerCase());
+        const isStudent = a.studentDocId === s.id || a.studentName?.trim().toLowerCase() === s.name.trim().toLowerCase();
+        const assignProgName = (a.programmeName || '').trim().toLowerCase();
+        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(assignProgName);
         return isStudent && isProgActive;
       });
 
@@ -2888,7 +2844,12 @@
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
-      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase());
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const userAssignments = state.assignments.filter(a => {
+        const isStudent = a.studentDocId === s.id || a.studentName?.trim().toLowerCase() === s.name.trim().toLowerCase();
+        const assignProgName = (a.programmeName || '').trim().toLowerCase();
+        return isStudent && activeProgNames.has(assignProgName);
+      });
 
       let progsText = '';
       let idx = 1;
@@ -2947,7 +2908,13 @@
       const tbody = document.getElementById('tbody-practice-tracker');
       if (!tbody) return;
 
-      let sortedPractice = [...state.practice].sort((a, b) => {
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const validPractice = state.practice.filter(p => {
+        const progName = (p.programmeName || '').trim().toLowerCase();
+        return activeProgNames.has(progName);
+      });
+
+      let sortedPractice = [...validPractice].sort((a, b) => {
         const stA = state.students.find(s => s.name === a.studentName);
         const stB = state.students.find(s => s.name === b.studentName);
         const rollA = parseInt(getStudentRollNo(stA, null), 10);
@@ -3022,7 +2989,7 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.textContent = msg;
+      toast.textContent = `✅ ${msg}`;
       container.appendChild(toast);
       setTimeout(() => toast.remove(), 3200);
     }
