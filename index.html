@@ -44,9 +44,208 @@
     body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
     body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
+    /* RABI'UL AWWAL WELCOME SPLASH SCREEN STYLES (ARABIC ONLY) */
+    #rabi-welcome-splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999999;
+      background: linear-gradient(135deg, #051a10 0%, #0d5c3a 40%, #1b3d2b 80%, #08110b 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: #ffffff;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      overflow: hidden;
+    }
+
+    #rabi-welcome-splash.splash-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #rabi-welcome-splash::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200vw;
+      height: 200vh;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(13, 92, 58, 0.1) 40%, transparent 70%);
+      animation: splashZoom 12s infinite alternate ease-in-out;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes splashZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.12); }
+    }
+
+    .splash-content-wrapper {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 750px;
+      margin: auto;
+      gap: 1.5rem;
+    }
+
+    .splash-arabic-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeInDown 1s ease-out 0.2s both;
+      width: 100%;
+    }
+
+    .splash-arabic-text-primary {
+      font-family: 'Amiri', serif;
+      font-size: 1.8rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+    }
+
+    .splash-arabic-text-secondary {
+      font-family: 'Amiri', serif;
+      font-size: 1.5rem;
+      color: #ffffff;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+    }
+
+    .splash-madrasa-sub {
+      font-size: 1.05rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      animation: fadeIn 1s ease-out 0.8s both;
+    }
+
+    .splash-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      animation: fadeInUp 1s ease-out 1s both;
+      z-index: 2;
+    }
+
+    .splash-btn-enter {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.85rem 2.2rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.3s ease;
+    }
+
+    .splash-btn-enter:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(16, 185, 129, 0.6);
+      background: linear-gradient(135deg, #059669, #047857);
+    }
+
+    .splash-btn-skip {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-gold);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
+      padding: 0.85rem 1.8rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .splash-btn-skip:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--accent-gold);
+      transform: translateY(-3px);
+    }
+
+    .splash-footer-credit {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      z-index: 2;
+      letter-spacing: 0.5px;
+      animation: fadeIn 1s ease-out 1.2s both;
+    }
+    .splash-footer-credit strong {
+      color: var(--accent-gold);
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .splash-arabic-text-primary { font-size: 1.4rem; }
+      .splash-arabic-text-secondary { font-size: 1.2rem; }
+      .splash-actions { flex-direction: column; width: 100%; padding: 0 1rem; }
+      .splash-btn-enter, .splash-btn-skip { width: 100%; justify-content: center; }
+    }
+
+    /* SINGLE JUDGE SLIP STYLES */
+    .single-judge-slip-card {
+      border: 2px dashed var(--accent-gold);
+      padding: 2rem;
+      border-radius: 14px;
+      background: white;
+      color: #111;
+      max-width: 650px;
+      margin: 1.5rem auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .judge-slip-top-header {
+      text-align: center;
+      border-bottom: 2px solid #0d5c3a;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .judge-slip-top-header h2 { font-family: 'Amiri', serif; font-size: 1.6rem; color: #0d5c3a; }
+    .judge-slip-top-header p { font-weight: 700; font-size: 0.85rem; color: #d4af37; text-transform: uppercase; }
+
     .app-container { display: flex; min-height: 100vh; position: relative; }
 
-    /* TEAM SELECTION GATEWAY (MAIN CHANGE 1) */
     #team-selection-gateway {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -96,6 +295,24 @@
     .team-gateway-btn { margin-top: 0.5rem; padding: 0.75rem 1.8rem; border-radius: 30px; font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
     .green-team .team-gateway-btn { background: #10b981; color: #ffffff; }
     .blue-team .team-gateway-btn { background: #3b82f6; color: #ffffff; }
+
+    .announcement-ticker {
+      background: linear-gradient(90deg, #d4af37, #f59e0b, #d4af37);
+      color: #072e1d;
+      padding: 0.6rem 1rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      position: sticky; top: 70px; z-index: 85;
+      overflow: hidden;
+    }
+    .announcement-ticker.active { display: flex; }
+    .ticker-badge { background: #072e1d; color: var(--accent-gold); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
+    .ticker-content { white-space: nowrap; animation: marquee 25s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
     .glass-card {
       background: var(--card-bg-light);
@@ -207,8 +424,6 @@
     .app-view { display: none; }
     .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
     .hero-banner {
       background: linear-gradient(135deg, #052214 0%, #0d5c3a 50%, #157a4c 100%);
       color: white;
@@ -313,7 +528,6 @@
     .btn-whatsapp { background: #25d366; color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
     .btn-danger-sm { background: #ef4444; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; }
-    .btn-danger-sm:hover { background: #dc2626; }
     
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
@@ -415,11 +629,6 @@
     .student-app-card.active { border-width: 2px; background: rgba(13, 92, 58, 0.15); border-color: var(--primary-green); }
     .student-avatar-icon { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
 
-    .category-section-title { font-size: 0.95rem; font-weight: 700; color: var(--accent-gold); margin: 1.2rem 0 0.6rem 0; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--glass-border-light); padding-bottom: 0.4rem; }
-    .checkbox-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; margin-bottom: 1rem; }
-    .checkbox-card { background: rgba(0,0,0,0.03); border: 1px solid var(--glass-border-light); border-radius: 10px; padding: 0.8rem; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; }
-    .checkbox-card input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-green); cursor: pointer; }
-
     .selector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.65rem; margin-top: 0.4rem; }
 
     .selector-chip {
@@ -467,7 +676,6 @@
     .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
     .mobile-only { display: none; }
-    .full-width { width: 100%; } .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mb-2 { margin-bottom: 1rem; } .flex-gap { display: flex; gap: 1rem; }
 
     @media (max-width: 900px) {
       .sidebar { width: 82%; max-width: 300px; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); }
@@ -488,13 +696,40 @@
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
       .prog-page-break { page-break-after: always !important; break-after: page !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
-      .data-table th, .data-table td { font-size: 0.85rem !important; padding: 0.5rem !important; }
+      .single-judge-slip-card { border: 2px dashed #000 !important; box-shadow: none !important; margin: 0 auto; width: 100%; }
     }
   </style>
 </head>
 <body class="light-mode">
 
-  <!-- MAIN CHANGE 1: Full-Screen Team Selection Gateway -->
+  <!-- RABI'UL AWWAL WELCOME SPLASH SCREEN (ARABIC ONLY) -->
+  <div id="rabi-welcome-splash">
+    <div></div>
+    
+    <div class="splash-content-wrapper">
+      <div class="splash-arabic-box">
+        <div class="splash-arabic-text-primary">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</div>
+        <div class="splash-arabic-text-secondary">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ</div>
+      </div>
+
+      <div class="splash-madrasa-sub">Hidayathul Islam Madrasa • Achangi</div>
+
+      <div class="splash-actions">
+        <button class="splash-btn-enter" onclick="window.dismissRabiSplash()">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Enter Portal
+        </button>
+        <button class="splash-btn-skip" onclick="window.dismissRabiSplash()">
+          Skip
+        </button>
+      </div>
+    </div>
+
+    <div class="splash-footer-credit">
+      Rabi'ul Awwal Welcome Gateway &bull; Designed for <strong>Hidayathul Islam Madrasa</strong>
+    </div>
+  </div>
+
+  <!-- TEAM SELECTION GATEWAY -->
   <div id="team-selection-gateway">
     <div class="gateway-header">
       <h1>HIDAYATHUL ISLAM MADRASA</h1>
@@ -528,7 +763,6 @@
   <div class="app-container">
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
-    <!-- MAIN CHANGE 2 & 3 & 4 & 5 & 6 & 7: Redesigned Streamlined Sidebar -->
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <i class="fa-solid fa-mosque sidebar-logo"></i>
@@ -546,9 +780,12 @@
         <a href="#" class="nav-item" data-view="item-bulk-assign"><i class="fa-solid fa-list-check"></i> <span>Bulk Assignment</span></a>
         <a href="#" class="nav-item" data-view="category-pdf"><i class="fa-solid fa-file-pdf"></i> <span>PDF Export</span></a>
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports</span></a>
+        
+        <!-- Judges Slip (Admin Only) -->
+        <a href="#" class="nav-item" data-view="judges-slip" id="menu-judges-slip" style="display:none;"><i class="fa-solid fa-award"></i> <span>Judges Slip (Single)</span></a>
+        
         <a href="#" class="nav-item" data-view="settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
 
-        <!-- Additional Preserved Views Accessible via Internal Actions/Modals -->
         <a href="#" class="nav-item" data-view="parent-slip" style="display:none;"></a>
         <a href="#" class="nav-item" data-view="teams" style="display:none;"></a>
         <a href="#" class="nav-item" data-view="mixed-groups" style="display:none;"></a>
@@ -586,14 +823,18 @@
           <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
           <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;" class="mobile-only-hide">
             <i class="fa-solid fa-circle-user" style="color:var(--accent-gold); font-size:1.4rem;"></i>
-            <span id="user-display-name">Visitor</span>
           </div>
         </div>
       </header>
 
+      <div id="announcement-banner" class="announcement-ticker">
+        <div class="ticker-badge"><i class="fa-solid fa-bullhorn"></i> Announcement</div>
+        <div class="ticker-content" id="ticker-text"></div>
+      </div>
+
       <div id="view-container" class="view-container">
 
-        <!-- DASHBOARD VIEW (MAIN CHANGE 8) -->
+        <!-- DASHBOARD VIEW -->
         <section id="view-dashboard" class="app-view active">
           <div class="hero-banner">
             <div class="hero-text-content">
@@ -624,7 +865,6 @@
             </div>
           </div>
 
-          <!-- MAIN CHANGE 7: Team Comparison Card Inside Dashboard -->
           <div class="glass-card mb-2" style="background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(13,92,58,0.1)); border: 1.5px solid var(--accent-gold);">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
               <div>
@@ -650,12 +890,23 @@
             </div>
 
             <div class="stat-card" onclick="window.showDashboardDetails('boys-stage')">
-              <div class="stat-icon gold"><i class="fa-solid fa-microphone"></i></div>
-              <div class="stat-info"><p>Stage Programmes</p><h3 id="stat-boys-stage-progs">0</h3><small style="color:#d97706; font-weight:600;">Click for list ➔</small></div>
+              <div class="stat-icon blue"><i class="fa-solid fa-microphone"></i></div>
+              <div class="stat-info"><p>👦 Boys Stage Programmes</p><h3 id="stat-boys-stage-progs">0</h3><small style="color:#2563eb; font-weight:600;">Click for details ➔</small></div>
             </div>
+
+            <div class="stat-card" onclick="window.showDashboardDetails('girls-stage')">
+              <div class="stat-icon pink"><i class="fa-solid fa-microphone-lines"></i></div>
+              <div class="stat-info"><p>👧 Girls Stage Programmes</p><h3 id="stat-girls-stage-progs">0</h3><small style="color:#db2777; font-weight:600;">Click for details ➔</small></div>
+            </div>
+
             <div class="stat-card" onclick="window.showDashboardDetails('boys-non-stage')">
               <div class="stat-icon indigo"><i class="fa-solid fa-pen-ruler"></i></div>
-              <div class="stat-info"><p>Non-Stage Programmes</p><h3 id="stat-boys-non-stage-progs">0</h3><small style="color:#4f46e5; font-weight:600;">Click for list ➔</small></div>
+              <div class="stat-info"><p>👦 Boys Non-Stage Programmes</p><h3 id="stat-boys-non-stage-progs">0</h3><small style="color:#4f46e5; font-weight:600;">Click for details ➔</small></div>
+            </div>
+
+            <div class="stat-card" onclick="window.showDashboardDetails('girls-non-stage')">
+              <div class="stat-icon purple"><i class="fa-solid fa-palette"></i></div>
+              <div class="stat-info"><p>👧 Girls Non-Stage Programmes</p><h3 id="stat-girls-non-stage-progs">0</h3><small style="color:#7c3aed; font-weight:600;">Click for details ➔</small></div>
             </div>
           </div>
 
@@ -720,7 +971,7 @@
           </div>
         </section>
 
-        <!-- MAIN CHANGE 5: STUDENTS VIEW (All Students, Boys, Girls, Search, Class Filter, Category Filter) -->
+        <!-- STUDENTS VIEW -->
         <section id="view-students" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
@@ -771,7 +1022,7 @@
           </div>
         </section>
 
-        <!-- MAIN CHANGE 4: PROGRAMMES VIEW (Stage & Non-Stage Tabs) -->
+        <!-- PROGRAMMES VIEW -->
         <section id="view-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header mb-2">
@@ -805,7 +1056,7 @@
           <div id="programmes-list-container" class="cards-grid"></div>
         </section>
 
-        <!-- MAIN CHANGE 3: BULK ASSIGNMENT VIEW (Item-wise Bulk Assignment) -->
+        <!-- BULK ASSIGNMENT VIEW -->
         <section id="view-item-bulk-assign" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Bulk Programme Assignment</h2>
@@ -861,7 +1112,7 @@
           </div>
         </section>
 
-        <!-- MAIN CHANGE 6: PDF EXPORT VIEW (Boys PDF & Girls PDF in One Page) -->
+        <!-- PDF EXPORT VIEW -->
         <section id="view-category-pdf" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> Category-wise PDF Export Manager</h2>
@@ -935,6 +1186,47 @@
           </div>
         </section>
 
+        <!-- JUDGES SLIP VIEW (Admin Only - Single Slip Per Programme) -->
+        <section id="view-judges-slip" class="app-view">
+          <div class="glass-card mb-2 no-print">
+            <h2><i class="fa-solid fa-award" style="color:var(--accent-gold);"></i> Judges Slip Generator</h2>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">ഒരു പ്രോഗ്രാം തിരഞ്ഞെടുത്താൽ ഇരു ടീമുകളിലെയും മത്സരാർത്ഥികളുടെ ചെസ്റ്റ് നമ്പറുകൾ മാത്രം അടങ്ങിയ സ്ലിപ്പ് ലഭിക്കും.</p>
+            <hr class="divider">
+            <div class="form-grid mb-2">
+              <div class="form-group">
+                <label>Select Category</label>
+                <select id="js-category" class="form-control">
+                  <option value="Sub Junior">Sub Junior</option>
+                  <option value="Junior">Junior</option>
+                  <option value="Senior">Senior</option>
+                  <option value="General">General</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Select Section</label>
+                <select id="js-gender" class="form-control">
+                  <option value="Male">Boys Section</option>
+                  <option value="Female">Girls Section</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Select Programme</label>
+                <select id="js-programme-select" class="form-control">
+                  <option value="">-- Choose Programme --</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex-gap">
+              <button onclick="window.generateSingleJudgeSlip()" class="btn-primary"><i class="fa-solid fa-receipt"></i> Generate Slip</button>
+              <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Slip</button>
+            </div>
+          </div>
+
+          <div id="judges-slip-output-card" class="glass-card" style="display:none;">
+            <div id="printable-single-slip-area"></div>
+          </div>
+        </section>
+
         <!-- SETTINGS VIEW -->
         <section id="view-settings" class="app-view">
           <div class="glass-card mb-2">
@@ -964,19 +1256,30 @@
             </form>
           </div>
 
+          <div class="glass-card mb-2" id="admin-announcement-card" style="display:none;">
+            <h3><i class="fa-solid fa-bullhorn" style="color:var(--accent-gold);"></i> Live Announcement Ticker Manager</h3>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Enter any announcement message below to display it live across the top ticker banner.</p>
+            <hr class="divider">
+            <form id="form-announcement">
+              <div class="form-group mb-2">
+                <label>Announcement Message</label>
+                <textarea id="announcement-input" class="form-control" rows="2" placeholder="Type live announcement here..."></textarea>
+              </div>
+              <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Broadcast Announcement</button>
+            </form>
+          </div>
+
           <div class="glass-card">
-            <h3><i class="fa-solid fa-database" style="color:var(--accent-gold);"></i> Database Maintenance & Cleanup</h3>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Remove deleted programme references or duplicate assignments instantly.</p>
+            <h3><i class="fa-solid fa-database" style="color:var(--accent-gold);"></i> System Settings & Navigation</h3>
+            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Switch between teams seamlessly.</p>
             <hr class="divider">
             <div class="flex-gap" style="flex-wrap:wrap;">
-              <button onclick="window.cleanDeletedProgrammesData()" class="btn-danger-sm" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-broom"></i> Clean Deleted Programmes Data</button>
-              <button onclick="window.cleanDuplicateAssignments()" class="btn-danger-sm" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-copy"></i> Remove Duplicate Assignments</button>
               <button onclick="window.openTeamSwitchGateway()" class="btn-secondary" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-people-roof"></i> Switch Team Gateway</button>
             </div>
           </div>
         </section>
 
-        <!-- HIDDEN / SUPPORTING VIEWS FOR MODALS & ROUTING -->
+        <!-- SUPPORTING VIEWS -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
@@ -1109,7 +1412,6 @@
           <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
               <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
-              <button onclick="window.cleanDeletedProgrammesData()" class="btn-danger-sm" style="font-size:0.85rem; padding:0.5rem 1rem;"><i class="fa-solid fa-broom"></i> Clean Deleted Programmes Data</button>
             </div>
             <hr class="divider">
             <div class="table-responsive">
@@ -1164,7 +1466,7 @@
         <input type="hidden" id="student-doc-id">
         <div class="form-grid">
           <div class="form-group">
-            <label>Roll No / ID (ഉദാഹരണത്തിന്: 101, 102...)</label>
+            <label>Roll No / ID</label>
             <input type="text" id="student-roll-input" class="form-control" required placeholder="e.g. 101">
           </div>
           <div class="form-group">
@@ -1179,7 +1481,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Class (e.g. 1, 2, 3)</label>
+            <label>Class</label>
             <input type="number" id="student-class-input" class="form-control" required placeholder="e.g. 1">
           </div>
           <div class="form-group">
@@ -1227,7 +1529,7 @@
           </select>
         </div>
         <div class="form-group mt-1">
-          <label>Max Participants Limit <small style="opacity:0.6; font-weight:normal;">(Optional)</small></label>
+          <label>Max Participants Limit</label>
           <input type="number" id="prog-max-input" class="form-control" min="1" placeholder="Leave empty for unlimited">
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Save Programme</button>
@@ -1268,7 +1570,7 @@
     </div>
   </div>
 
-  <!-- FIREBASE API & CENTRALIZED REFACTORED MODULE SCRIPT -->
+  <!-- SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
@@ -1306,6 +1608,7 @@
       mixedGroups: [],
       auditLogs: [],
       teamSettings: {},
+      announcements: [],
       selectedStudentTab: 'all',
       selectedProgType: 'Stage',
       selectedProgSec: 'All',
@@ -1317,6 +1620,19 @@
     };
 
     let activeSnapshotUnsubscribers = [];
+
+    // Rabi'ul Awwal Welcome Splash Screen Controller
+    window.dismissRabiSplash = function() {
+      const splashEl = document.getElementById('rabi-welcome-splash');
+      if (splashEl && !splashEl.classList.contains('splash-hidden')) {
+        splashEl.classList.add('splash-hidden');
+      }
+    };
+
+    // Auto dismiss splash screen after 4 seconds
+    setTimeout(() => {
+      window.dismissRabiSplash();
+    }, 4000);
 
     async function logActivity(actionMessage) {
       try {
@@ -1342,37 +1658,6 @@
       return '-';
     }
 
-    async function validateDatabaseAndCleanup() {
-      if (!state.isAdmin) return;
-      try {
-        const activeStudentIds = new Set(state.students.map(s => s.id));
-        const activeProgIds = new Set(state.programmes.map(p => p.id));
-        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-
-        let repairedCount = 0;
-        for (const assign of state.assignments) {
-          const hasStudent = activeStudentIds.has(assign.studentDocId) || state.students.some(s => s.name.trim().toLowerCase() === assign.studentName?.trim().toLowerCase());
-          const hasProg = activeProgIds.has(assign.programmeDocId) || activeProgNames.has(assign.programmeName?.trim().toLowerCase());
-
-          if (!hasStudent || !hasProg) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            repairedCount++;
-          }
-        }
-
-        for (const prac of state.practice) {
-          const hasProg = activeProgNames.has(prac.programmeName?.trim().toLowerCase());
-          const hasStudent = state.students.some(s => s.name.trim().toLowerCase() === prac.studentName?.trim().toLowerCase());
-          if (!hasProg || !hasStudent) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-            repairedCount++;
-          }
-        }
-      } catch (err) {
-        console.error("Integrity validation error:", err);
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
     });
@@ -1381,6 +1666,7 @@
       setupNavigation();
       setupEventListeners();
       setupAuthObserver();
+      updateJudgeSlipProgrammeOptions();
 
       setTimeout(() => {
         const loader = document.getElementById('loading-screen');
@@ -1391,7 +1677,6 @@
       }, 800);
     }
 
-    // MAIN CHANGE 1 Gateway Handler
     window.selectTeamAndEnter = (teamName) => {
       state.activeTeam = teamName;
       document.getElementById('topbar-team-name').textContent = teamName;
@@ -1484,7 +1769,6 @@
           closeModal('modal-auth');
           showToast('Admin mode granted', 'success');
           logActivity("Admin logged in successfully");
-          validateDatabaseAndCleanup();
         } catch (err) {
           showToast('Invalid admin credentials', 'error');
         }
@@ -1504,6 +1788,25 @@
           logActivity(`Updated team leadership settings for ${state.activeTeam}`);
         } catch (err) {
           showToast('Error saving settings', 'error');
+        }
+      });
+
+      document.getElementById('form-announcement').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        const msg = document.getElementById('announcement-input').value.trim();
+
+        try {
+          await setDoc(doc(db, 'settings', 'live_announcement'), {
+            message: msg,
+            team: state.activeTeam,
+            timestamp: new Date().toISOString()
+          }, { merge: true });
+          showToast('Live announcement updated successfully!', 'success');
+          logActivity(`Updated announcement: "${msg}"`);
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to update announcement', 'error');
         }
       });
 
@@ -1609,6 +1912,9 @@
       document.getElementById('report-type-select').addEventListener('change', renderReportOutput);
       document.getElementById('btn-export-csv').addEventListener('click', exportReportCSV);
       document.getElementById('btn-print-report').addEventListener('click', () => window.print());
+
+      document.getElementById('js-category').addEventListener('change', updateJudgeSlipProgrammeOptions);
+      document.getElementById('js-gender').addEventListener('change', updateJudgeSlipProgrammeOptions);
     }
 
     function setupAuthObserver() {
@@ -1618,22 +1924,127 @@
 
         const roleBadge = document.getElementById('role-badge');
         const btnAuth = document.getElementById('btn-auth-action');
-        const userDisplay = document.getElementById('user-display-name');
+        const announcementCard = document.getElementById('admin-announcement-card');
+        const judgeMenu = document.getElementById('menu-judges-slip');
 
         if (user) {
           roleBadge.textContent = 'Admin Mode';
           roleBadge.className = 'badge badge-admin';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
-          userDisplay.textContent = user.email.split('@')[0];
-          validateDatabaseAndCleanup();
+          if (announcementCard) announcementCard.style.display = 'block';
+          if (judgeMenu) judgeMenu.style.display = 'flex';
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
           btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
-          userDisplay.textContent = 'Visitor';
+          if (announcementCard) announcementCard.style.display = 'none';
+          if (judgeMenu) judgeMenu.style.display = 'none';
         }
       });
     }
+
+    function updateJudgeSlipProgrammeOptions() {
+      const cat = document.getElementById('js-category')?.value;
+      const gender = document.getElementById('js-gender')?.value;
+      const progSelect = document.getElementById('js-programme-select');
+      if (!progSelect) return;
+      
+      const filtered = getUniqueProgrammes(state.programmes.filter(p => p.category === cat && p.gender === gender));
+      progSelect.innerHTML = '<option value="">-- Choose Programme --</option>' + filtered.map(p => `
+        <option value="${p.name}">${p.name} (${p.type})</option>
+      `).join('');
+    }
+
+    window.generateSingleJudgeSlip = function() {
+      const cat = document.getElementById('js-category').value;
+      const gender = document.getElementById('js-gender').value;
+      const progName = document.getElementById('js-programme-select').value;
+      
+      const card = document.getElementById('judges-slip-output-card');
+      const area = document.getElementById('printable-single-slip-area');
+
+      if (!progName) {
+        showToast('ദയവായി ഒരു പ്രോഗ്രാം തിരഞ്ഞെടുക്കുക', 'warning');
+        return;
+      }
+
+      // രണ്ട് ടീമുകളിൽ നിന്നുമുള്ള ഈ പ്രോഗ്രാമിലെ അസൈൻമെന്റുകൾ കണ്ടെത്തുക
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const assignedRecords = state.assignments.filter(a => {
+        const assignProgName = (a.programmeName || '').trim().toLowerCase();
+        if (!activeProgNames.has(assignProgName)) return false;
+
+        const matchProg = assignProgName === progName.trim().toLowerCase();
+        const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
+        const studentGender = studentObj ? studentObj.gender : a.studentGender;
+        const studentCat = studentObj ? studentObj.category : a.studentCategory;
+
+        return matchProg && (studentGender === gender) && (studentCat === cat || a.studentCategory === cat);
+      });
+
+      let contestants = [];
+      assignedRecords.forEach(a => {
+        const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
+        const cleanRoll = getStudentRollNo(student, a);
+        contestants.push({ rollNo: cleanRoll });
+      });
+
+      // റോൾ നമ്പർ അടിസ്ഥാനമാക്കി തരംതിരിക്കാം
+      contestants.sort((a, b) => parseInt(a.rollNo, 10) - parseInt(b.rollNo, 10));
+
+      card.style.display = 'block';
+
+      let rowsHtml = '';
+      if (contestants.length > 0) {
+        contestants.forEach((c, idx) => {
+          rowsHtml += `
+            <tr style="border-bottom:1px solid #ddd;">
+              <td style="padding:10px; text-align:center; font-weight:bold; font-size:1.1rem;">${idx + 1}</td>
+              <td style="padding:10px; text-align:center; font-weight:bold; font-size:1.3rem; color:#0d5c3a;">${c.rollNo}</td>
+              <td style="padding:10px;"></td>
+            </tr>
+          `;
+        });
+      } else {
+        rowsHtml = `<tr><td colspan="3" class="text-center" style="padding:15px; color:#ef4444;">ഈ പ്രോഗ്രാമിൽ മത്സരാർത്ഥികൾ ആരും ഇല്ല.</td></tr>`;
+      }
+
+      area.innerHTML = `
+        <div class="single-judge-slip-card">
+          <div class="judge-slip-top-header">
+            <h2>HIDAYATHUL ISLAM MADRASA - ACHANGI</h2>
+            <p>RABI'UL AWWAL OFFICIAL JUDGES SLIP</p>
+          </div>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; margin-bottom:1rem; font-size:0.95rem; background:#f8faf9; padding:10px; border-radius:8px;">
+            <div><strong>Programme:</strong> <span style="color:#0d5c3a; font-weight:700;">${progName}</span></div>
+            <div><strong>Category:</strong> <span style="color:#d4af37; font-weight:700;">${cat}</span></div>
+            <div><strong>Section:</strong> <span>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</span></div>
+            <div><strong>Total Contestants:</strong> <span>${contestants.length}</span></div>
+          </div>
+
+          <table style="width:100%; border-collapse:collapse; margin-bottom:1.5rem; font-size:0.9rem;">
+            <thead>
+              <tr style="background:#0d5c3a; color:#fff;">
+                <th style="padding:8px; width:15%; text-align:center;">Sl No</th>
+                <th style="padding:8px; width:45%; text-align:center;">Contestant Chest No / Roll No</th>
+                <th style="padding:8px; width:40%; text-align:center;">Marks / Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+
+          <div style="display:flex; justify-content:space-between; margin-top:2rem; font-size:0.85rem; border-top:1px dashed #ccc; padding-top:1rem;">
+            <div><strong>Judge Name:</strong> ........................................</div>
+            <div><strong>Signature:</strong> ........................................</div>
+          </div>
+        </div>
+      `;
+
+      showToast('ജഡ്ജസ് സ്ലിപ്പ് വിജയകരമായി തയ്യാറായി!', 'success');
+    };
 
     function setupRealtimeListeners() {
       activeSnapshotUnsubscribers.forEach(unsub => unsub());
@@ -1660,6 +2071,21 @@
         }
       });
       activeSnapshotUnsubscribers.push(unsubTeam);
+
+      const unsubAnnouncement = onSnapshot(doc(db, 'settings', 'live_announcement'), (s) => {
+        const bannerEl = document.getElementById('announcement-banner');
+        const tickerTextEl = document.getElementById('ticker-text');
+        if (s.exists() && s.data().message && s.data().message.trim() !== '') {
+          const msg = s.data().message;
+          tickerTextEl.textContent = msg;
+          bannerEl.classList.add('active');
+          const inputEl = document.getElementById('announcement-input');
+          if (inputEl && !inputEl.value) inputEl.value = msg;
+        } else {
+          bannerEl.classList.remove('active');
+        }
+      });
+      activeSnapshotUnsubscribers.push(unsubAnnouncement);
 
       const unsubStudents = onSnapshot(collection(db, 'students'), (s) => {
         let fetchedStudents = s.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1690,7 +2116,9 @@
         updateDashboardStats();
         updateBulkProgrammeOptions();
         updateVsProgrammeOptions();
+        updateJudgeSlipProgrammeOptions();
         renderParentSlip();
+        renderDashboardStudentStatusTable();
       });
       activeSnapshotUnsubscribers.push(unsubProgrammes);
 
@@ -1745,20 +2173,23 @@
 
     function updateDashboardStats() {
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
-
       document.getElementById('stat-total-students').textContent = activeStudents.length;
       document.getElementById('stat-total-boys').textContent = activeStudents.filter(s => s.gender === 'Male').length;
       document.getElementById('stat-total-girls').textContent = activeStudents.filter(s => s.gender === 'Female').length;
       
       const uniqueProgs = getUniqueProgrammes(state.programmes);
-      document.getElementById('stat-boys-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Stage').length;
-      document.getElementById('stat-boys-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage').length;
+      document.getElementById('stat-boys-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Stage' && p.gender === 'Male').length;
+      document.getElementById('stat-girls-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Stage' && p.gender === 'Female').length;
+      document.getElementById('stat-boys-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage' && p.gender === 'Male').length;
+      document.getElementById('stat-girls-non-stage-progs').textContent = uniqueProgs.filter(p => p.type === 'Non-Stage' && p.gender === 'Female').length;
 
-      const ready = state.practice.filter(p => p.status === 'Stage Ready').length;
-      const completed = state.practice.filter(p => p.status === 'Completed').length;
-      const pending = state.practice.filter(p => p.status === 'Learning' || !p.status).length;
-      const total = state.practice.length || 1;
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const validPractice = state.practice.filter(p => activeProgNames.has((p.programmeName || '').trim().toLowerCase()));
+
+      const ready = validPractice.filter(p => p.status === 'Stage Ready').length;
+      const completed = validPractice.filter(p => p.status === 'Completed').length;
+      const pending = validPractice.filter(p => p.status === 'Learning' || !p.status).length;
+      const total = validPractice.length || 1;
 
       document.getElementById('label-ready-count').textContent = ready;
       document.getElementById('label-completed-count').textContent = completed;
@@ -1820,12 +2251,13 @@
 
       if (!card || !outputArea) return;
 
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
       const categoryProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => p.gender === gender && p.category === selectedCategory)
       );
 
       if (categoryProgrammes.length === 0) {
-        showToast(`No programmes found for ${selectedCategory} (${gender === 'Male' ? 'Boys Section' : 'Girls Section'})`, 'warning');
+        showToast(`No programmes found for ${selectedCategory}`, 'warning');
         card.style.display = 'none';
         return;
       }
@@ -1839,8 +2271,11 @@
 
       categoryProgrammes.forEach((prog) => {
         const assignedRecords = activeAssignments.filter(a => {
-          const matchProg = (a.programmeDocId === prog.id) || (a.programmeName.trim().toLowerCase() === prog.name.trim().toLowerCase());
-          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+          const assignProgName = (a.programmeName || '').trim().toLowerCase();
+          if (!activeProgNames.has(assignProgName)) return false;
+
+          const matchProg = (a.programmeDocId === prog.id) || (assignProgName === prog.name.trim().toLowerCase());
+          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const studentGender = studentObj ? studentObj.gender : a.studentGender;
           const studentCat = studentObj ? studentObj.category : a.studentCategory;
 
@@ -1849,7 +2284,7 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
-          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
           matchedItems.push({
             assignmentId: a.id,
@@ -1899,7 +2334,7 @@
                     <td><strong style="color:#0d5c3a;">${s.name}</strong></td>
                     <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
                   </tr>
-                `).join('') : `<tr><td colspan="4" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme in ${selectedCategory} category.</td></tr>`}
+                `).join('') : `<tr><td colspan="4" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme.</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -1907,7 +2342,7 @@
       });
 
       outputArea.innerHTML = fullHtml;
-      showToast(`Generated PDF for ${gender === 'Male' ? 'Boys' : 'Girls'} ${selectedCategory}`, 'success');
+      showToast(`Generated PDF successfully`, 'success');
     }
 
     function populateStudentClassFilterOptions() {
@@ -1942,6 +2377,7 @@
       const filterSearch = document.getElementById('dash-practice-search-input')?.value.toLowerCase() || '';
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
 
       let studentList = activeStudents.filter(s => {
         const matchClass = !filterClass || s.class.toString() === filterClass;
@@ -1959,21 +2395,28 @@
       }
 
       container.innerHTML = studentList.map(s => {
-        const studentPractice = state.practice.filter(p => p.studentName === s.name);
+        const studentPractice = state.practice.filter(p => {
+          const progName = (p.programmeName || '').trim().toLowerCase();
+          return p.studentName === s.name && activeProgNames.has(progName);
+        });
+
         const completedItems = studentPractice.filter(p => p.status === 'Completed' || p.status === 'Stage Ready');
         const learningItems = studentPractice.filter(p => p.status === 'Learning' || !p.status);
 
-        const completedBadgesHtml = completedItems.length 
-          ? completedItems.map(p => {
-              const icon = p.status === 'Stage Ready' ? '⭐' : '✅';
-              const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : 'badge-completed';
-              return `<span class="badge ${bClass}">${icon} ${p.programmeName}</span>`;
-            }).join(' ')
-          : '<small style="opacity:0.5;">None</small>';
+        const createBadgeHtml = (p) => {
+          const icon = p.status === 'Stage Ready' ? '⭐' : (p.status === 'Completed' ? '✅' : '🟡');
+          const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : (p.status === 'Completed' ? 'badge-completed' : 'badge-learning');
+          
+          let deleteBtnHtml = '';
+          if (state.isAdmin) {
+            deleteBtnHtml = ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Delete Programme"><i class="fa-solid fa-trash"></i></button>`;
+          }
 
-        const learningBadgesHtml = learningItems.length
-          ? learningItems.map(p => `<span class="badge badge-learning">🟡 ${p.programmeName}</span>`).join(' ')
-          : '<small style="opacity:0.5;">None</small>';
+          return `<span class="badge ${bClass}">${icon} ${p.programmeName}${deleteBtnHtml}</span>`;
+        };
+
+        const completedBadgesHtml = completedItems.length ? completedItems.map(createBadgeHtml).join(' ') : '<small style="opacity:0.5;">None</small>';
+        const learningBadgesHtml = learningItems.length ? learningItems.map(createBadgeHtml).join(' ') : '<small style="opacity:0.5;">None</small>';
 
         let actionBtnHtml = '';
         if (state.isAdmin && studentPractice.length > 0) {
@@ -2016,6 +2459,27 @@
         `;
       }).join('');
     }
+
+    window.removeStudentPracticeItem = async (practiceId, studentName, progName) => {
+      if (!state.isAdmin) return showToast('Admin access required', 'error');
+
+      if (confirm(`Remove "${progName}" for ${studentName}?`)) {
+        try {
+          await deleteDoc(doc(db, 'practice', practiceId));
+
+          const matchedAssigns = state.assignments.filter(a => a.studentName === studentName && a.programmeName?.trim().toLowerCase() === progName.trim().toLowerCase());
+          for (const assign of matchedAssigns) {
+            await deleteDoc(doc(db, 'assignments', assign.id));
+          }
+
+          showToast(`Removed ${progName} for ${studentName}`, 'success');
+          logActivity(`Removed "${progName}" from ${studentName} via Dashboard Card`);
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to remove item', 'error');
+        }
+      }
+    };
 
     function setupCardSelectors() {
       const bindGroup = (gridId, stateField, nextGroupId) => {
@@ -2097,8 +2561,8 @@
 
       checklistEl.innerHTML = targetStudents.map(s => {
         const existingAssign = activeAssignments.find(a => 
-          (a.programmeDocId === progId || (a.programmeName.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender)) &&
-          (a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase())
+          (a.programmeDocId === progId || (a.programmeName?.trim().toLowerCase() === selectedProg.name.trim().toLowerCase() && a.studentGender === gender)) &&
+          (a.studentDocId === s.id || a.studentName?.trim().toLowerCase() === s.name.trim().toLowerCase())
         );
 
         const isAssigned = !!existingAssign;
@@ -2274,13 +2738,15 @@
       subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
 
       const getTeamList = (teamName) => {
-        const assigned = state.assignments.filter(a => 
-          a.team === teamName && 
-          (a.programmeDocId === progId || (a.programmeName === selectedProg.name && a.studentGender === gender && a.studentCategory === cat))
-        );
+        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+        const assigned = state.assignments.filter(a => {
+          const assignProgName = (a.programmeName || '').trim().toLowerCase();
+          return a.team === teamName && activeProgNames.has(assignProgName) &&
+            (a.programmeDocId === progId || (assignProgName === selectedProg.name.trim().toLowerCase() && a.studentGender === gender && a.studentCategory === cat));
+        });
 
         let items = assigned.map(a => {
-          const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
+          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
           return {
             name: a.studentName,
@@ -2333,7 +2799,12 @@
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
 
-      const studentPractice = state.practice.filter(p => p.studentName === s.name);
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const studentPractice = state.practice.filter(p => {
+        const progName = (p.programmeName || '').trim().toLowerCase();
+        return p.studentName === s.name && activeProgNames.has(progName);
+      });
+
       document.getElementById('modal-status-student-name').textContent = `${s.name}`;
       document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)} | ${s.category} (${s.gender})`;
 
@@ -2460,7 +2931,7 @@
             <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
             ${state.isAdmin ? `
               <div style="margin-top:0.8rem; text-align:right;">
-                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')">Delete</button>
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete Programme</button>
               </div>
             ` : ''}
           </div>
@@ -2530,12 +3001,18 @@
           </table>
         `;
       } else {
-        let isStage = type.includes('stage');
-        let progType = isStage ? 'Stage' : 'Non-Stage';
+        let gender = 'Male';
+        let progType = 'Stage';
+        
+        if (type === 'girls-stage') { gender = 'Female'; progType = 'Stage'; }
+        if (type === 'boys-stage') { gender = 'Male'; progType = 'Stage'; }
+        if (type === 'girls-non-stage') { gender = 'Female'; progType = 'Non-Stage'; }
+        if (type === 'boys-non-stage') { gender = 'Male'; progType = 'Non-Stage'; }
 
-        titleEl.textContent = `${progType} Programmes List`;
+        const genderLabel = gender === 'Male' ? 'Boys' : 'Girls';
+        titleEl.textContent = `${genderLabel} ${progType} Programmes List`;
 
-        let list = state.programmes.filter(p => p.type === progType);
+        let list = state.programmes.filter(p => p.gender === gender && p.type === progType);
         if (state.dashModalFilterCat !== 'All') list = list.filter(p => p.category === state.dashModalFilterCat);
 
         list = getUniqueProgrammes(list);
@@ -2558,6 +3035,7 @@
                 <th>Gender Section</th>
                 <th>Max Limit</th>
                 <th>Assigned Count</th>
+                <th class="no-print">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -2571,9 +3049,14 @@
                     <td>${p.gender === 'Male' ? 'Boys' : 'Girls'}</td>
                     <td>${limitText}</td>
                     <td>${assignedCount} ${p.maxParticipants ? '/ ' + p.maxParticipants : ''}</td>
+                    <td>
+                      ${state.isAdmin ? `
+                        <button class="btn-danger-sm" onclick="window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                      ` : '-'}
+                    </td>
                   </tr>
                 `;
-              }).join('') : '<tr><td colspan="5" class="text-center">No programmes found.</td></tr>'}
+              }).join('') : '<tr><td colspan="6" class="text-center">No programmes found.</td></tr>'}
             </tbody>
           </table>
         `;
@@ -2612,7 +3095,7 @@
         <p><strong>Max Limit:</strong> ${p.maxParticipants ? p.maxParticipants : 'Unlimited'}</p>
         <hr class="divider">
         <h4>Assigned Participants (${assigned.length})</h4>
-        <ul class="activity-list">
+        <ul class="activity-list mb-2">
           ${assigned.length ? assigned.map(a => {
             const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
             const roll = getStudentRollNo(student, a);
@@ -2620,6 +3103,9 @@
             return `<li>[Roll No: ${roll}] ${cls} - ${a.studentName}</li>`;
           }).join('') : '<li>No students assigned yet.</li>'}
         </ul>
+        ${state.isAdmin ? `
+          <button class="btn-danger full-width" onclick="window.deleteProgramme('${p.id}'); closeModal('modal-prog-details');"><i class="fa-solid fa-trash"></i> Delete This Programme Entirely</button>
+        ` : ''}
       `;
       openModal('modal-prog-details');
     };
@@ -2629,78 +3115,26 @@
       const prog = state.programmes.find(p => p.id === id);
       if (!prog) return;
 
-      if (confirm(`"${prog.name}" എന്ന പ്രോഗ്രാമും അതിലെ എല്ലാ അസൈൻമെന്റുകളും ഡിലീറ്റ് ചെയ്യണോ?`)) {
+      if (confirm(`"${prog.name}" പൂർണ്ണമായി ഡിലീറ്റ് ചെയ്യണോ? ഇത് എല്ലാ സ്ഥലത്തുനിന്നും (അസൈൻമെന്റ്, ട്രാക്കർ, ലിസ്റ്റ്) ഒഴിവാക്കപ്പെടും.`)) {
         try {
           await deleteDoc(doc(db, 'programmes', id));
-          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName === prog.name);
+          
+          const relatedAssignments = state.assignments.filter(a => a.programmeDocId === id || a.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase());
           for (const assign of relatedAssignments) {
             await deleteDoc(doc(db, 'assignments', assign.id));
           }
-          const relatedPractice = state.practice.filter(p => p.programmeName === prog.name);
+
+          const relatedPractice = state.practice.filter(p => p.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase());
           for (const prac of relatedPractice) {
             await deleteDoc(doc(db, 'practice', prac.id));
           }
-          showToast('പ്രോഗ്രാമും അനുബന്ധ ഡാറ്റയും ഡിലീറ്റ് ചെയ്തു', 'success');
-          logActivity(`Deleted programme: ${prog.name}`);
+
+          showToast('പ്രോഗ്രാമും അതിലെ ഡാറ്റയും പൂർണ്ണമായി ഡിലീറ്റ് ചെയ്തു', 'success');
+          logActivity(`Deleted programme completely: ${prog.name}`);
         } catch (err) {
           console.error(err);
           showToast('Failed to delete programme', 'error');
         }
-      }
-    };
-
-    window.cleanDeletedProgrammesData = async () => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      if (!confirm('ഇപ്പോൾ പ്രോഗ്രാം ലിസ്റ്റിൽ ഇല്ലാത്ത പഴയ പ്രോഗ്രാമുകളുടെ എല്ലാ ഡാറ്റയും ട്രാക്കറിൽ നിന്നും ഡാറ്റാബേസിൽ നിന്നും പൂർണ്ണമായി മാറ്റണോ?')) return;
-
-      try {
-        const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
-        let cleanedCount = 0;
-
-        for (const assign of state.assignments) {
-          const assignProgName = (assign.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(assignProgName)) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            cleanedCount++;
-          }
-        }
-        for (const prac of state.practice) {
-          const pracProgName = (prac.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(pracProgName)) {
-            await deleteDoc(doc(db, 'practice', prac.id));
-            cleanedCount++;
-          }
-        }
-        showToast(`${cleanedCount} പഴയ ഡാറ്റ വിജയകരമായി മായ്ച്ചു!`, 'success');
-        logActivity(`Cleaned ${cleanedCount} old programme records`);
-      } catch (err) {
-        console.error(err);
-        showToast('ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
-      }
-    };
-
-    window.cleanDuplicateAssignments = async () => {
-      if (!state.isAdmin) return showToast('Admin access required', 'error');
-      if (!confirm('ഒരേ കുട്ടിക്ക് ഒന്നിൽ കൂടുതൽ തവണ ആവർത്തിച്ചു വന്ന ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ മായ്ച്ചു് ഒന്നാക്കി മാറ്റണോ?')) return;
-
-      try {
-        const seenKeys = new Set();
-        let removedCount = 0;
-
-        for (const assign of state.assignments) {
-          const key = `${assign.studentName.trim().toLowerCase()}_${assign.programmeName.trim().toLowerCase()}`;
-          if (seenKeys.has(key)) {
-            await deleteDoc(doc(db, 'assignments', assign.id));
-            removedCount++;
-          } else {
-            seenKeys.add(key);
-          }
-        }
-        showToast(`${removedCount} ഡ്യൂപ്ലിക്കേറ്റ് അസൈൻമെന്റുകൾ ഡാറ്റാബേസിൽ നിന്ന് നീക്കം ചെയ്തു!`, 'success');
-        logActivity(`Cleaned ${removedCount} duplicate assignment(s)`);
-      } catch (err) {
-        console.error(err);
-        showToast('ഡ്യൂപ്ലിക്കേറ്റ് ക്ലീൻ ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു', 'error');
       }
     };
 
@@ -2842,8 +3276,9 @@
       const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
 
       const userAssignments = state.assignments.filter(a => {
-        const isStudent = a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase();
-        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(a.programmeName.trim().toLowerCase());
+        const isStudent = a.studentDocId === s.id || a.studentName?.trim().toLowerCase() === s.name.trim().toLowerCase();
+        const assignProgName = (a.programmeName || '').trim().toLowerCase();
+        const isProgActive = activeProgDocIds.has(a.programmeDocId) || activeProgNames.has(assignProgName);
         return isStudent && isProgActive;
       });
 
@@ -2865,7 +3300,12 @@
       const s = state.students.find(x => x.id === studentId);
       if (!s) return showToast('Please select a student first', 'warning');
 
-      const userAssignments = state.assignments.filter(a => a.studentDocId === s.id || a.studentName.trim().toLowerCase() === s.name.trim().toLowerCase());
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const userAssignments = state.assignments.filter(a => {
+        const isStudent = a.studentDocId === s.id || a.studentName?.trim().toLowerCase() === s.name.trim().toLowerCase();
+        const assignProgName = (a.programmeName || '').trim().toLowerCase();
+        return isStudent && activeProgNames.has(assignProgName);
+      });
 
       let progsText = '';
       let idx = 1;
@@ -2924,7 +3364,13 @@
       const tbody = document.getElementById('tbody-practice-tracker');
       if (!tbody) return;
 
-      let sortedPractice = [...state.practice].sort((a, b) => {
+      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const validPractice = state.practice.filter(p => {
+        const progName = (p.programmeName || '').trim().toLowerCase();
+        return activeProgNames.has(progName);
+      });
+
+      let sortedPractice = [...validPractice].sort((a, b) => {
         const stA = state.students.find(s => s.name === a.studentName);
         const stB = state.students.find(s => s.name === b.studentName);
         const rollA = parseInt(getStudentRollNo(stA, null), 10);
@@ -2999,7 +3445,7 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.textContent = msg;
+      toast.textContent = `✅ ${msg}`;
       container.appendChild(toast);
       setTimeout(() => toast.remove(), 3200);
     }
