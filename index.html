@@ -676,7 +676,7 @@
 
     .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
-    /* FLOATING PUBLISH BUTTON */
+    /* FLOATING PUBLISH BUTTON (Hidden by default for visitors) */
     .floating-publish-btn {
       position: fixed;
       bottom: 30px;
@@ -686,7 +686,7 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      display: flex;
+      display: none; /* Controlled via JS based on login status */
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
@@ -803,14 +803,14 @@
         <a href="#" class="nav-item" data-view="programmes"><i class="fa-solid fa-microphone"></i> <span>Programmes</span></a>
         <a href="#" class="nav-item" data-view="item-bulk-assign"><i class="fa-solid fa-list-check"></i> <span>Bulk Assignment</span></a>
         
-        <!-- NEW DEDICATED RESULT MANAGEMENT MENU ITEM -->
-        <a href="#" class="nav-item" data-view="admin-result-management" id="menu-result-management"><i class="fa-solid fa-trophy"></i> <span>Result Management</span></a>
+        <!-- NEW DEDICATED RESULT MANAGEMENT MENU ITEM (Admin Only) -->
+        <a href="#" class="nav-item" data-view="admin-result-management" id="menu-result-management" style="display:none;"><i class="fa-solid fa-trophy"></i> <span>Result Management</span></a>
 
         <a href="#" class="nav-item" data-view="category-pdf"><i class="fa-solid fa-file-pdf"></i> <span>PDF Export</span></a>
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports</span></a>
         
         <!-- Judges Slip (Admin Only) -->
-        <a href="#" class="nav-item" data-view="judges-slip" id="menu-judges-slip"><i class="fa-solid fa-award"></i> <span>Judges Slip (Single)</span></a>
+        <a href="#" class="nav-item" data-view="judges-slip" id="menu-judges-slip" style="display:none;"><i class="fa-solid fa-award"></i> <span>Judges Slip (Single)</span></a>
         
         <a href="#" class="nav-item" data-view="settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
 
@@ -873,7 +873,7 @@
                 <p style="font-size:0.85rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard & Results</p>
               </div>
               <div id="admin-result-action-btn-container">
-                <button class="btn-secondary" onclick="openModal('modal-publish-result')"><i class="fa-solid fa-plus"></i> Publish Result</button>
+                <!-- Dynamically rendered based on admin login state -->
               </div>
             </div>
 
@@ -883,17 +883,17 @@
               <div id="championship-leader-display" style="font-size:1.4rem; font-weight:800; margin-top:0.2rem;">Loading Leaderboard...</div>
             </div>
 
-            <!-- Live Team Scoreboard System (Auto Points: 1st=10, 2nd=5, 3rd=3) -->
+            <!-- Live Team Scoreboard System (Clickable to view winners per team) -->
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-bottom:1.2rem;">
-              <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center;">
+              <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
                 <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-SSALAM</h4>
-                <div id="team1-score-display" style="font-size:1.6rem; font-weight:800; color:var(--accent-gold);">0 Pts</div>
-                <small id="team1-winners-display" style="opacity:0.8;">Winners: 0</small>
+                <div id="team1-score-display" style="font-size:1.6rem; font-weight:800; color:var(--accent-gold);">0 Points</div>
+                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
               </div>
-              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1.1rem; text-align:center;">
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-NNOOR')">
                 <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-NNOOR</h4>
-                <div id="team2-score-display" style="font-size:1.6rem; font-weight:800; color:#fff;">0 Pts</div>
-                <small id="team2-winners-display" style="opacity:0.8;">Winners: 0</small>
+                <div id="team2-score-display" style="font-size:1.6rem; font-weight:800; color:#fff;">0 Points</div>
+                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
               </div>
             </div>
 
@@ -1594,7 +1594,7 @@
     </main>
   </div>
 
-  <!-- FLOATING PUBLISH BUTTON -->
+  <!-- FLOATING PUBLISH BUTTON (Admin Only) -->
   <div id="floating-publish-trigger" class="floating-publish-btn" onclick="openModal('modal-publish-result')" title="Publish Result">
     <i class="fa-solid fa-trophy"></i>
   </div>
@@ -1617,6 +1617,19 @@
         </div>
         <button type="submit" class="btn-primary full-width mt-2">Sign In</button>
       </form>
+    </div>
+  </div>
+
+  <!-- TEAM WINNERS DETAILS MODAL -->
+  <div id="modal-team-winners" class="modal">
+    <div class="modal-content glass-card wide">
+      <div class="modal-header">
+        <h3 id="modal-team-title" style="color:var(--accent-gold);">Team Winners List</h3>
+        <button class="close-modal" onclick="closeModal('modal-team-winners')">×</button>
+      </div>
+      <div id="modal-team-winners-list" class="table-responsive">
+        <!-- Loaded dynamically -->
+      </div>
     </div>
   </div>
 
@@ -1766,7 +1779,7 @@
     </div>
   </div>
 
-  <!-- ADMIN RESULT PUBLISHING MODAL (Single Submit for 1st, 2nd, 3rd with Unique Dropdown) -->
+  <!-- ADMIN RESULT PUBLISHING MODAL -->
   <div id="modal-publish-result" class="modal">
     <div class="modal-content glass-card wide" style="max-width: 720px;">
       <div class="modal-header">
@@ -1813,7 +1826,7 @@
             </select>
           </div>
           
-          <!-- 1st Place Winner Selection (10 Points) -->
+          <!-- 1st Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:10px; border-radius:8px; border:1px solid var(--accent-gold);">
             <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner Name (10 Points)</label>
             <select id="pub-1st-student-select" class="form-control mb-1" onchange="document.getElementById('pub-1st-student').value=this.value;">
@@ -1822,7 +1835,7 @@
             <input type="text" id="pub-1st-student" class="form-control" placeholder="1st Place Winner Name">
           </div>
 
-          <!-- 2nd Place Winner Selection (5 Points) -->
+          <!-- 2nd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">2nd Place Winner Name (5 Points)</label>
             <select id="pub-2nd-student-select" class="form-control mb-1" onchange="document.getElementById('pub-2nd-student').value=this.value;">
@@ -1831,7 +1844,7 @@
             <input type="text" id="pub-2nd-student" class="form-control" placeholder="2nd Place Winner Name">
           </div>
 
-          <!-- 3rd Place Winner Selection (3 Points) -->
+          <!-- 3rd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">3rd Place Winner Name (3 Points)</label>
             <select id="pub-3rd-student-select" class="form-control mb-1" onchange="document.getElementById('pub-3rd-student').value=this.value;">
@@ -2063,7 +2076,6 @@
         }
       });
 
-      // Admin Result Publishing Form Handler (Saves 1st, 2nd, 3rd place winners with automatic points)
       const pubForm = document.getElementById('form-publish-result');
       if (pubForm) {
         pubForm.addEventListener('submit', async (e) => {
@@ -2270,7 +2282,7 @@
           if (announcementCard) announcementCard.style.display = 'block';
           if (judgeMenu) judgeMenu.style.display = 'flex';
           if (resultMgmtMenu) resultMgmtMenu.style.display = 'flex';
-          if (floatBtn) floatBtn.style.display = 'flex';
+          if (floatBtn) floatBtn.style.display = 'flex'; // Only show when logged in
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
@@ -2278,7 +2290,7 @@
           if (announcementCard) announcementCard.style.display = 'none';
           if (judgeMenu) judgeMenu.style.display = 'none';
           if (resultMgmtMenu) resultMgmtMenu.style.display = 'none';
-          if (floatBtn) floatBtn.style.display = 'none';
+          if (floatBtn) floatBtn.style.display = 'none'; // Hidden for visitors
         }
         renderAdminResultActionBtn();
         renderManagePublishedResultsTable();
@@ -2288,7 +2300,11 @@
     function renderAdminResultActionBtn() {
       const container = document.getElementById('admin-result-action-btn-container');
       if (!container) return;
-      container.innerHTML = `<button class="btn-secondary" onclick="openModal('modal-publish-result')"><i class="fa-solid fa-plus"></i> Publish Result</button>`;
+      if (state.isAdmin) {
+        container.innerHTML = `<button class="btn-secondary" onclick="openModal('modal-publish-result')"><i class="fa-solid fa-plus"></i> Publish Result</button>`;
+      } else {
+        container.innerHTML = ''; // Hide publish button completely for visitors
+      }
     }
 
     function updateJudgeSlipProgrammeOptions() {
@@ -2312,7 +2328,7 @@
       const area = document.getElementById('printable-single-slip-area');
 
       if (!progName) {
-        showToast('ദയവായി ഒരു പ്രോഗ്രാം തിരഞ്ഞെടുക്കുക', 'warning');
+        showToast('Please select a programme', 'warning');
         return;
       }
 
@@ -2352,7 +2368,7 @@
           `;
         });
       } else {
-        rowsHtml = `<tr><td colspan="3" class="text-center" style="padding:15px; color:#ef4444;">ഈ പ്രോഗ്രാമിൽ മത്സരാർത്ഥികൾ ആരും ഇല്ല.</td></tr>`;
+        rowsHtml = `<tr><td colspan="3" class="text-center" style="padding:15px; color:#ef4444;">No contestants found for this programme.</td></tr>`;
       }
 
       area.innerHTML = `
@@ -2389,7 +2405,7 @@
         </div>
       `;
 
-      showToast('ജഡ്ജസ് സ്ലിപ്പ് വിജയകരമായി തയ്യാറായി!', 'success');
+      showToast('Judge slip generated successfully!', 'success');
     };
 
     function setupRealtimeListeners() {
@@ -2457,7 +2473,6 @@
       });
       activeSnapshotUnsubscribers.push(unsubMixed);
 
-      // Programmes Listener - Automatically updates Result Search Portal & Publishing Dropdowns dynamically in real-time
       const unsubProgrammes = onSnapshot(collection(db, 'programmes'), (s) => {
         state.programmes = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderProgrammeCards();
@@ -2483,7 +2498,6 @@
       });
       activeSnapshotUnsubscribers.push(unsubAssignments);
 
-      // Published Results Real-time Listener for Automatic Syncing across Scoreboard, Search, Showcase & Certificates
       const unsubResults = onSnapshot(collection(db, 'publishedResults'), (s) => {
         state.publishedResults = s.docs.map(d => ({ id: d.id, ...d.data() }));
         updateChampionshipScoreboard();
@@ -2511,9 +2525,8 @@
       activeSnapshotUnsubscribers.push(unsubLogs);
     }
 
-    // Automatic Point Calculation for 1st (10pts), 2nd (5pts), 3rd (3pts)
     function updateChampionshipScoreboard() {
-      let t1Pts = 0, t2Pts = 0, t1Wins = 0, t2Wins = 0;
+      let t1Pts = 0, t2Pts = 0;
 
       state.publishedResults.forEach(r => {
         let pts = 0;
@@ -2523,18 +2536,13 @@
 
         if (r.team === 'MADEENATHU-SSALAM') {
           t1Pts += pts;
-          if (r.firstStudent) t1Wins++;
         } else if (r.team === 'MADEENATHU-NNOOR') {
           t2Pts += pts;
-          if (r.firstStudent) t2Wins++;
         }
       });
 
-      document.getElementById('team1-score-display').textContent = `${t1Pts} Pts`;
-      document.getElementById('team1-winners-display').textContent = `Winners: ${t1Wins}`;
-
-      document.getElementById('team2-score-display').textContent = `${t2Pts} Pts`;
-      document.getElementById('team2-winners-display').textContent = `Winners: ${t2Wins}`;
+      document.getElementById('team1-score-display').textContent = `${t1Pts} Points`;
+      document.getElementById('team2-score-display').textContent = `${t2Pts} Points`;
 
       const leaderEl = document.getElementById('championship-leader-display');
       if (t1Pts > t2Pts) {
@@ -2546,7 +2554,50 @@
       }
     }
 
-    // Dynamic Public Result Search Portal Logic
+    // Opens detailed winners modal when clicking a team's score card
+    window.showTeamWinners = function(teamName) {
+      const listEl = document.getElementById('modal-team-winners-list');
+      const titleEl = document.getElementById('modal-team-title');
+      
+      titleEl.textContent = teamName + ' - Detailed Winners List';
+      const winners = state.publishedResults.filter(r => r.team === teamName);
+      
+      if(winners.length === 0) {
+        listEl.innerHTML = '<p class="text-center" style="padding: 1.5rem; color:#ef4444;">No winners published for this team yet.</p>';
+      } else {
+        let html = `
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Programme Name</th>
+                <th>Category</th>
+                <th>Section</th>
+                <th>Type</th>
+                <th>1st Place (Winner)</th>
+                <th>2nd Place</th>
+                <th>3rd Place</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${winners.map(r => `
+                <tr>
+                  <td><strong>${r.programmeName}</strong></td>
+                  <td><span class="badge badge-visitor">${r.category}</span></td>
+                  <td>${r.gender || '-'}</td>
+                  <td>${r.programmeType || '-'}</td>
+                  <td><span style="color:var(--accent-gold); font-weight:bold;">${r.firstStudent || r.studentName || '-'}</span></td>
+                  <td>${r.secondStudent || '-'}</td>
+                  <td>${r.thirdStudent || '-'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        listEl.innerHTML = html;
+      }
+      openModal('modal-team-winners');
+    };
+
     window.onPublicSearchFilterChange = function() {
       const cat = document.getElementById('pub-search-category').value;
       const gender = document.getElementById('pub-search-gender').value;
@@ -2571,7 +2622,6 @@
       `).join('');
     };
 
-    // Populate programmes dynamically for Result Publishing Modal
     window.updatePublishProgrammeAndParticipantOptions = function() {
       const cat = document.getElementById('pub-category').value;
       const gender = document.getElementById('pub-gender').value;
@@ -2591,7 +2641,6 @@
       updatePublishParticipantDropdowns();
     };
 
-    // Populate participant dropdowns with unique assigned students (Duplicate prevention applied)
     window.updatePublishParticipantDropdowns = function() {
       const progSelect = document.getElementById('pub-prog-name-select');
       const selectedProgName = progSelect ? progSelect.value : '';
@@ -2612,7 +2661,6 @@
         return matchProg && sectionMatch && (sCat === cat || !sCat);
       });
 
-      // Filter unique student names (case-insensitive deduplication)
       const uniqueNamesMap = new Map();
       matchingAssignments.forEach(a => {
         if (a.studentName) {
@@ -2652,7 +2700,6 @@
       student3Select.innerHTML = optionsHtml;
     };
 
-    // Step 5: Fixed Result Details Page
     window.openResultDetailsPage = function(programmeName, category, gender, type) {
       const modalTitle = document.getElementById('res-modal-title');
       const modalMeta = document.getElementById('res-modal-meta');
@@ -2787,7 +2834,6 @@
       });
     }
 
-    // Render Admin Published Results List for Result Management Page grouped by category
     function renderManagePublishedResultsTable() {
       const tbody = document.getElementById('tbody-manage-published-results');
       if (!tbody) return;
@@ -2866,7 +2912,6 @@
       }
     };
 
-    // Winner Showcase Cards
     function renderWinnerShowcase() {
       const showcaseGrid = document.getElementById('home-winner-showcase-grid');
       if (!showcaseGrid) return;
@@ -3713,7 +3758,7 @@
                     <td><strong>${cleanRoll}</strong></td>
                     <td>
                       <strong style="color: var(--primary-green);">Class ${s.class} - ${s.name}</strong>
-                      <br><small style="color: #6b7280; font-size: 0.75rem;">ക്ലിക്ക് ചെയ്ത് പ്രോഗ്രാം കാണുക ➔</small>
+                      <br><small style="color: #6b7280; font-size: 0.75rem;">Click to view student programme slip ➔</small>
                     </td>
                     <td>${s.gender === 'Male' ? 'Boys' : 'Girls'}</td>
                     <td>Class ${s.class}</td>
@@ -3834,7 +3879,7 @@
       const prog = state.programmes.find(p => p.id === id);
       if (!prog) return;
 
-      if (confirm(`"${prog.name}" പൂർണ്ണമായി ഡിലീറ്റ് ചെയ്യണോ? ഇത് എല്ലാ സ്ഥലത്തുനിന്നും (അസൈൻമെന്റ്, ട്രാക്കർ, ലിസ്റ്റ്) ഒഴിവാക്കപ്പെടും.`)) {
+      if (confirm(`Are you sure you want to completely delete "${prog.name}"? This will remove all related assignments and tracking data.`)) {
         try {
           await deleteDoc(doc(db, 'programmes', id));
           
@@ -3848,7 +3893,7 @@
             await deleteDoc(doc(db, 'practice', prac.id));
           }
 
-          showToast('പ്രോഗ്രാമും അതിലെ ഡാറ്റയും പൂർണ്ണമായി ഡിലീറ്റ് ചെയ്തു', 'success');
+          showToast('Programme deleted successfully', 'success');
           logActivity(`Deleted programme completely: ${prog.name}`);
           onPublicSearchFilterChange();
         } catch (err) {
