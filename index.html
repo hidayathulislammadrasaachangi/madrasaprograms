@@ -587,13 +587,73 @@
     .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
     .tab-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
 
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
-    .modal.active { display: flex; }
-    .modal-content { width: 100%; max-width: 520px; background: var(--bg-light); border: 1px solid var(--glass-border-light); max-height: 90vh; overflow-y: auto; border-radius: 16px; padding: 1.5rem; }
-    body.dark-mode .modal-content { background: var(--bg-dark); border-color: var(--glass-border-dark); }
+    /* APP-FRIENDLY MOBILE FOREGROUND MODAL STYLES */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      z-index: 9999999;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      overflow-y: auto;
+    }
+    .modal.active {
+      display: flex;
+      animation: fadeInModal 0.2s ease-out;
+    }
+    @keyframes fadeInModal {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 550px;
+      background: var(--card-bg-light);
+      border: 2px solid var(--accent-gold);
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+      position: relative;
+      margin: auto;
+    }
+    body.dark-mode .modal-content {
+      background: #0d1f17;
+      border-color: var(--accent-gold);
+    }
     .modal-content.wide { max-width: 720px; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-    .close-modal { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: inherit; }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(212,175,55,0.3);
+      padding-bottom: 0.6rem;
+      position: sticky;
+      top: 0;
+      background: inherit;
+      z-index: 10;
+    }
+    .close-modal {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
 
     .status-manage-card {
       background: rgba(255, 255, 255, 0.95);
@@ -667,7 +727,7 @@
     .spinner { width: 52px; height: 52px; border: 5px solid rgba(255,255,255,0.15); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1.2rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 0.6rem; }
+    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 99999999; display: flex; flex-direction: column; gap: 0.6rem; }
     .toast { padding: 0.9rem 1.3rem; border-radius: 8px; background: #222; color: #fff; font-size: 0.9rem; font-weight: 500; }
     .toast.success { background: #10b981; } .toast.error { background: #ef4444; } .toast.warning { background: #f59e0b; color: #000; }
 
@@ -1779,12 +1839,12 @@
     </div>
   </div>
 
-  <!-- ADMIN RESULT PUBLISHING MODAL -->
+  <!-- ADMIN RESULT PUBLISHING MODAL (App-Friendly Foreground UI) -->
   <div id="modal-publish-result" class="modal">
     <div class="modal-content glass-card wide" style="max-width: 720px;">
       <div class="modal-header">
         <h3 id="modal-pub-title">🏆 Publish Result (1st, 2nd, 3rd)</h3>
-        <button class="close-modal">×</button>
+        <button class="close-modal" onclick="closeModal('modal-publish-result')">×</button>
       </div>
       <form id="form-publish-result">
         <input type="hidden" id="pub-doc-id">
@@ -1818,39 +1878,35 @@
               <option value="">-- Choose Programme --</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Team</label>
-            <select id="pub-team" class="form-control" required>
-              <option value="MADEENATHU-SSALAM">MADEENATHU-SSALAM</option>
-              <option value="MADEENATHU-NNOOR">MADEENATHU-NNOOR</option>
-            </select>
-          </div>
           
           <!-- 1st Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:10px; border-radius:8px; border:1px solid var(--accent-gold);">
             <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner Name (10 Points)</label>
-            <select id="pub-1st-student-select" class="form-control mb-1" onchange="document.getElementById('pub-1st-student').value=this.value;">
+            <select id="pub-1st-student-select" class="form-control mb-1" onchange="onFirstStudentSelectChange(this.value)">
               <option value="">-- Select from assigned list or type below --</option>
             </select>
-            <input type="text" id="pub-1st-student" class="form-control" placeholder="1st Place Winner Name">
+            <input type="text" id="pub-1st-student" class="form-control" placeholder="1st Place Winner Name" oninput="manualFirstStudentInput(this.value)">
+            <small id="detected-team-label" style="color:var(--accent-gold); font-weight:700; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
           <!-- 2nd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">2nd Place Winner Name (5 Points)</label>
-            <select id="pub-2nd-student-select" class="form-control mb-1" onchange="document.getElementById('pub-2nd-student').value=this.value;">
+            <select id="pub-2nd-student-select" class="form-control mb-1" onchange="onSecondStudentSelectChange(this.value)">
               <option value="">-- Select from assigned list or type below --</option>
             </select>
-            <input type="text" id="pub-2nd-student" class="form-control" placeholder="2nd Place Winner Name">
+            <input type="text" id="pub-2nd-student" class="form-control" placeholder="2nd Place Winner Name" oninput="manualSecondStudentInput(this.value)">
+            <small id="detected-team-label-2nd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
           <!-- 3rd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">3rd Place Winner Name (3 Points)</label>
-            <select id="pub-3rd-student-select" class="form-control mb-1" onchange="document.getElementById('pub-3rd-student').value=this.value;">
+            <select id="pub-3rd-student-select" class="form-control mb-1" onchange="onThirdStudentSelectChange(this.value)">
               <option value="">-- Select from assigned list or type below --</option>
             </select>
-            <input type="text" id="pub-3rd-student" class="form-control" placeholder="3rd Place Winner Name">
+            <input type="text" id="pub-3rd-student" class="form-control" placeholder="3rd Place Winner Name" oninput="manualThirdStudentInput(this.value)">
+            <small id="detected-team-label-3rd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
         </div>
         <button type="submit" class="btn-primary full-width mt-2" style="width:100%; margin-top:1.2rem;">Publish Result & Auto-Calculate Points</button>
@@ -2084,14 +2140,28 @@
           const docId = document.getElementById('pub-doc-id').value;
           const progSelect = document.getElementById('pub-prog-name-select');
           const programmeName = progSelect.options[progSelect.selectedIndex]?.text || '';
+          
+          const firstStudentName = document.getElementById('pub-1st-student').value;
+          
+          // Find team of 1st place student to represent the entry team in directory/scoreboards
+          let primaryTeam = 'MADEENATHU-SSALAM';
+          const foundStd = state.students.find(s => s.name.trim().toLowerCase() === firstStudentName.trim().toLowerCase());
+          if (foundStd && foundStd.team) {
+            primaryTeam = foundStd.team;
+          } else {
+            const foundAssign = state.assignments.find(a => a.studentName?.trim().toLowerCase() === firstStudentName.trim().toLowerCase());
+            if (foundAssign && foundAssign.team) {
+              primaryTeam = foundAssign.team;
+            }
+          }
 
           const resData = {
             programmeName: programmeName,
             category: document.getElementById('pub-category').value,
             gender: document.getElementById('pub-gender').value,
             programmeType: document.getElementById('pub-type').value,
-            team: document.getElementById('pub-team').value,
-            firstStudent: document.getElementById('pub-1st-student').value,
+            team: primaryTeam,
+            firstStudent: firstStudentName,
             secondStudent: document.getElementById('pub-2nd-student').value || '',
             thirdStudent: document.getElementById('pub-3rd-student').value || '',
             timestamp: new Date().toISOString()
@@ -2107,7 +2177,7 @@
               await addDoc(collection(db, 'publishedResults'), resData);
               closeModal('modal-publish-result');
               showToast('Result Published Successfully & Points Auto-Calculated', 'success');
-              logActivity(`Published result: ${resData.programmeName} (${resData.team})`);
+              logActivity(`Published result: ${resData.programmeName}`);
             }
             pubForm.reset();
             document.getElementById('pub-doc-id').value = '';
@@ -2261,6 +2331,50 @@
 
       document.getElementById('js-category').addEventListener('change', updateJudgeSlipProgrammeOptions);
       document.getElementById('js-gender').addEventListener('change', updateJudgeSlipProgrammeOptions);
+    }
+
+    window.onFirstStudentSelectChange = function(val) {
+      document.getElementById('pub-1st-student').value = val;
+      detectTeamForStudent(val, 'detected-team-label');
+    };
+    window.manualFirstStudentInput = function(val) {
+      detectTeamForStudent(val, 'detected-team-label');
+    };
+
+    window.onSecondStudentSelectChange = function(val) {
+      document.getElementById('pub-2nd-student').value = val;
+      detectTeamForStudent(val, 'detected-team-label-2nd');
+    };
+    window.manualSecondStudentInput = function(val) {
+      detectTeamForStudent(val, 'detected-team-label-2nd');
+    };
+
+    window.onThirdStudentSelectChange = function(val) {
+      document.getElementById('pub-3rd-student').value = val;
+      detectTeamForStudent(val, 'detected-team-label-3rd');
+    };
+    window.manualThirdStudentInput = function(val) {
+      detectTeamForStudent(val, 'detected-team-label-3rd');
+    };
+
+    function detectTeamForStudent(studentName, labelId) {
+      const label = document.getElementById(labelId);
+      if (!label) return;
+      if (!studentName) {
+        label.textContent = "Team: Auto-detected from student";
+        return;
+      }
+      const foundStd = state.students.find(s => s.name.trim().toLowerCase() === studentName.trim().toLowerCase());
+      if (foundStd && foundStd.team) {
+        label.innerHTML = `Team: <strong style="color:#10b981; font-size:1rem;">${foundStd.team}</strong>`;
+      } else {
+        const foundAssign = state.assignments.find(a => a.studentName?.trim().toLowerCase() === studentName.trim().toLowerCase());
+        if (foundAssign && foundAssign.team) {
+          label.innerHTML = `Team: <strong style="color:#10b981; font-size:1rem;">${foundAssign.team}</strong>`;
+        } else {
+          label.innerHTML = `Team: <span style="color:var(--accent-gold);">Not found in student database</span>`;
+        }
+      }
     }
 
     function setupAuthObserver() {
@@ -2515,7 +2629,7 @@
         updateDashboardStats();
         renderDashboardStudentStatusTable();
       });
-      activeSnapshotUnsubscribers.push(unsubPractice);
+      activeSnapshotUnsubscribers.push(qPractice);
 
       const qLogs = query(collection(db, 'audit_logs'), where('team', '==', state.activeTeam), limit(15));
       const unsubLogs = onSnapshot(qLogs, (s) => {
@@ -2526,19 +2640,35 @@
       activeSnapshotUnsubscribers.push(unsubLogs);
     }
 
+    // Helper to get student team dynamically
+    function getStudentTeam(studentName) {
+      if (!studentName) return null;
+      const foundStd = state.students.find(s => s.name.trim().toLowerCase() === studentName.trim().toLowerCase());
+      if (foundStd && foundStd.team) return foundStd.team;
+      const foundAssign = state.assignments.find(a => a.studentName?.trim().toLowerCase() === studentName.trim().toLowerCase());
+      if (foundAssign && foundAssign.team) return foundAssign.team;
+      return null;
+    }
+
     function updateChampionshipScoreboard() {
       let t1Pts = 0, t2Pts = 0;
 
       state.publishedResults.forEach(r => {
-        let pts = 0;
-        if (r.firstStudent) pts += 10;
-        if (r.secondStudent) pts += 5;
-        if (r.thirdStudent) pts += 3;
-
-        if (r.team === 'MADEENATHU-SSALAM') {
-          t1Pts += pts;
-        } else if (r.team === 'MADEENATHU-NNOOR') {
-          t2Pts += pts;
+        // Calculate points dynamically based on each winner's actual team
+        if (r.firstStudent) {
+          const t1 = getStudentTeam(r.firstStudent) || r.team;
+          if (t1 === 'MADEENATHU-SSALAM') t1Pts += 10;
+          else if (t1 === 'MADEENATHU-NNOOR') t2Pts += 10;
+        }
+        if (r.secondStudent) {
+          const t2 = getStudentTeam(r.secondStudent) || r.team;
+          if (t2 === 'MADEENATHU-SSALAM') t1Pts += 5;
+          else if (t2 === 'MADEENATHU-NNOOR') t2Pts += 5;
+        }
+        if (r.thirdStudent) {
+          const t3 = getStudentTeam(r.thirdStudent) || r.team;
+          if (t3 === 'MADEENATHU-SSALAM') t1Pts += 3;
+          else if (t3 === 'MADEENATHU-NNOOR') t2Pts += 3;
         }
       });
 
@@ -2560,10 +2690,17 @@
       const titleEl = document.getElementById('modal-team-title');
       
       titleEl.textContent = teamName + ' - Detailed Winners List';
-      const winners = state.publishedResults.filter(r => r.team === teamName);
       
-      if(winners.length === 0) {
-        listEl.innerHTML = '<p class="text-center" style="padding: 1.5rem; color:#ef4444;">No winners published for this team yet.</p>';
+      // Filter results where any of 1st, 2nd, or 3rd belongs to this team
+      const teamWinners = state.publishedResults.filter(r => {
+        const t1 = getStudentTeam(r.firstStudent) || r.team;
+        const t2 = getStudentTeam(r.secondStudent);
+        const t3 = getStudentTeam(r.thirdStudent);
+        return t1 === teamName || t2 === teamName || t3 === teamName;
+      });
+      
+      if(teamWinners.length === 0) {
+        listEl.innerHTML = '<p class="text-center" style="padding: 1.5rem; color:#ef4444;">No winners found for this team yet.</p>';
       } else {
         let html = `
           <table class="data-table">
@@ -2572,24 +2709,28 @@
                 <th>Programme Name</th>
                 <th>Category</th>
                 <th>Section</th>
-                <th>Type</th>
-                <th>1st Place (Winner)</th>
+                <th>1st Place</th>
                 <th>2nd Place</th>
                 <th>3rd Place</th>
               </tr>
             </thead>
             <tbody>
-              ${winners.map(r => `
-                <tr>
-                  <td><strong>${r.programmeName}</strong></td>
-                  <td><span class="badge badge-visitor">${r.category}</span></td>
-                  <td>${r.gender || '-'}</td>
-                  <td>${r.programmeType || '-'}</td>
-                  <td><span style="color:var(--accent-gold); font-weight:bold;">${r.firstStudent || r.studentName || '-'}</span></td>
-                  <td>${r.secondStudent || '-'}</td>
-                  <td>${r.thirdStudent || '-'}</td>
-                </tr>
-              `).join('')}
+              ${teamWinners.map(r => {
+                const t1 = getStudentTeam(r.firstStudent) || r.team;
+                const t2 = getStudentTeam(r.secondStudent);
+                const t3 = getStudentTeam(r.thirdStudent);
+
+                return `
+                  <tr>
+                    <td><strong>${r.programmeName}</strong></td>
+                    <td><span class="badge badge-visitor">${r.category}</span></td>
+                    <td>${r.gender || '-'}</td>
+                    <td>${r.firstStudent ? `${r.firstStudent} ${t1 === teamName ? '<span style="color:#10b981; font-size:0.75rem;">(Theirs)</span>' : ''}` : '-'}</td>
+                    <td>${r.secondStudent ? `${r.secondStudent} ${t2 === teamName ? '<span style="color:#10b981; font-size:0.75rem;">(Theirs)</span>' : ''}` : '-'}</td>
+                    <td>${r.thirdStudent ? `${r.thirdStudent} ${t3 === teamName ? '<span style="color:#10b981; font-size:0.75rem;">(Theirs)</span>' : ''}` : '-'}</td>
+                  </tr>
+                `;
+              }).join('')}
             </tbody>
           </table>
         `;
@@ -2739,34 +2880,39 @@
       let winnersHtml = '';
 
       if (result.firstStudent || result.studentName) {
+        const t1 = getStudentTeam(result.firstStudent || result.studentName) || result.team;
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; justify-content:space-between; align-items:center;">
             <div>
               <span class="badge badge-admin">1st Place (10 Pts)</span>
               <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${result.firstStudent || result.studentName}</h3>
-              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--primary-green);">${result.team}</strong></p>
+              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--primary-green);">${t1}</strong></p>
             </div>
           </div>
         `;
       }
 
       if (result.secondStudent) {
+        const t2 = getStudentTeam(result.secondStudent) || 'N/A';
         winnersHtml += `
           <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1rem; display:flex; justify-content:space-between; align-items:center;">
             <div>
               <span class="badge badge-visitor">2nd Place (5 Pts)</span>
               <h4 style="color:#fff; font-size:1.2rem; font-weight:700; margin-top:0.3rem;">${result.secondStudent}</h4>
+              <p style="font-size:0.85rem; font-weight:600; opacity:0.8; margin-top:0.1rem;">Team: <strong>${t2}</strong></p>
             </div>
           </div>
         `;
       }
 
       if (result.thirdStudent) {
+        const t3 = getStudentTeam(result.thirdStudent) || 'N/A';
         winnersHtml += `
           <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1rem; display:flex; justify-content:space-between; align-items:center;">
             <div>
               <span class="badge badge-visitor">3rd Place (3 Pts)</span>
               <h4 style="color:#fff; font-size:1.2rem; font-weight:700; margin-top:0.3rem;">${result.thirdStudent}</h4>
+              <p style="font-size:0.85rem; font-weight:600; opacity:0.8; margin-top:0.1rem;">Team: <strong>${t3}</strong></p>
             </div>
           </div>
         `;
@@ -2780,6 +2926,7 @@
       const r = state.currentViewingResult;
       if (!r || !r.firstStudent && !r.studentName) return;
       closeModal('modal-result-details');
+      const t1 = getStudentTeam(r.firstStudent || r.studentName) || r.team;
 
       const area = document.getElementById('certificate-print-area');
       area.innerHTML = `
@@ -2790,7 +2937,7 @@
           
           <p style="font-size:0.9rem; opacity:0.9;">This is proudly presented to</p>
           <h2 style="font-size:2.2rem; color:var(--accent-gold); font-family:'Amiri', serif; margin:0.4rem 0;">${r.firstStudent || r.studentName}</h2>
-          <p style="font-size:0.95rem;">Category: <strong>${r.category}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${r.team}</strong></p>
+          <p style="font-size:0.95rem;">Category: <strong>${r.category}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${t1}</strong></p>
           <p style="font-size:1.05rem; margin-top:0.6rem;">for securing <strong style="color:var(--accent-gold);">1st Place</strong> in <strong style="color:var(--accent-gold);">${r.programmeName}</strong></p>
           
           <div style="display:flex; justify-content:space-between; margin-top:2.5rem; font-size:0.8rem; border-top:1px solid rgba(212,175,55,0.4); padding-top:0.8rem;">
@@ -2807,6 +2954,7 @@
       const r = state.currentViewingResult;
       if (!r || !r.firstStudent && !r.studentName) return;
       closeModal('modal-result-details');
+      const t1 = getStudentTeam(r.firstStudent || r.studentName) || r.team;
 
       const area = document.getElementById('poster-print-area');
       area.innerHTML = `
@@ -2816,7 +2964,7 @@
           <h1 style="font-size:1.6rem; color:var(--accent-gold); font-family:'Amiri', serif; margin-bottom:0.3rem;">CHAMPIONSHIP WINNER</h1>
           <h2 style="font-size:1.4rem; margin:0.4rem 0;">${r.firstStudent || r.studentName}</h2>
           <p style="font-size:0.9rem; opacity:0.9;">${r.programmeName} (${r.category})</p>
-          <p style="font-size:0.85rem; font-weight:700; color:var(--accent-gold); margin-top:0.4rem;">Team: ${r.team}</p>
+          <p style="font-size:0.85rem; font-weight:700; color:var(--accent-gold); margin-top:0.4rem;">Team: ${t1}</p>
         </div>
       `;
       openModal('modal-poster');
@@ -2880,10 +3028,12 @@
       document.getElementById('pub-prog-name-select').value = r.programmeName || '';
       updatePublishParticipantDropdowns();
 
-      document.getElementById('pub-team').value = r.team || 'MADEENATHU-SSALAM';
       document.getElementById('pub-1st-student').value = r.firstStudent || r.studentName || '';
+      detectTeamForStudent(document.getElementById('pub-1st-student').value, 'detected-team-label');
       document.getElementById('pub-2nd-student').value = r.secondStudent || '';
+      detectTeamForStudent(document.getElementById('pub-2nd-student').value, 'detected-team-label-2nd');
       document.getElementById('pub-3rd-student').value = r.thirdStudent || '';
+      detectTeamForStudent(document.getElementById('pub-3rd-student').value, 'detected-team-label-3rd');
 
       openModal('modal-publish-result');
     };
@@ -2925,12 +3075,13 @@
 
       showcaseGrid.innerHTML = recentWinners.map(r => {
         const winnerName = r.firstStudent || r.studentName || 'Winner';
+        const t1 = getStudentTeam(winnerName) || r.team;
         return `
           <div style="background:rgba(255,255,255,0.07); border:1px solid rgba(212,175,55,0.3); border-radius:10px; padding:0.9rem; text-align:center; cursor:pointer;" onclick="window.openResultDetailsPage('${r.programmeName}', '${r.category}', '${r.gender || 'Boys'}', '${r.programmeType || 'Stage'}')">
             <div style="font-size:1.2rem; margin-bottom:0.2rem;">🏆</div>
             <h5 style="color:var(--accent-gold); font-size:0.95rem; margin-bottom:0.1rem;">${winnerName}</h5>
             <p style="font-size:0.8rem; font-weight:600;">${r.programmeName}</p>
-            <span class="badge badge-admin mt-1" style="font-size:0.7rem;">1st Place &bull; ${r.team}</span>
+            <span class="badge badge-admin mt-1" style="font-size:0.7rem;">1st Place &bull; ${t1}</span>
           </div>
         `;
       }).join('');
@@ -3414,7 +3565,7 @@
             programmeDocId: prog.id,
             programmeName: prog.name,
             programmeType: prog.type,
-            team: state.activeTeam
+            team: student.team || state.activeTeam
           });
 
           await addDoc(collection(db, 'practice'), {
@@ -3423,7 +3574,7 @@
             programmeName: prog.name,
             studentGender: student.gender,
             studentCategory: student.category,
-            team: state.activeTeam,
+            team: student.team || state.activeTeam,
             status: 'Learning'
           });
 
