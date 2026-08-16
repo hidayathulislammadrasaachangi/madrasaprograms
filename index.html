@@ -676,7 +676,7 @@
 
     .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
-    /* FLOATING PUBLISH BUTTON (Hidden by default for visitors) */
+    /* FLOATING PUBLISH BUTTON (Admin Only) */
     .floating-publish-btn {
       position: fixed;
       bottom: 30px;
@@ -686,7 +686,7 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      display: none; /* Controlled via JS based on login status */
+      display: none;
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
@@ -1488,7 +1488,7 @@
                   <tr style="background:#f4f7f5; color:#0d5c3a;">
                     <th>#</th>
                     <th>Programme Item Name</th>
-                    <th>Category / Type</th>
+                    <th>Category / Type / Status</th>
                   </tr>
                 </thead>
                 <tbody id="slip-out-table-body">
@@ -2282,7 +2282,7 @@
           if (announcementCard) announcementCard.style.display = 'block';
           if (judgeMenu) judgeMenu.style.display = 'flex';
           if (resultMgmtMenu) resultMgmtMenu.style.display = 'flex';
-          if (floatBtn) floatBtn.style.display = 'flex'; // Only show when logged in
+          if (floatBtn) floatBtn.style.display = 'flex';
         } else {
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
@@ -2290,7 +2290,7 @@
           if (announcementCard) announcementCard.style.display = 'none';
           if (judgeMenu) judgeMenu.style.display = 'none';
           if (resultMgmtMenu) resultMgmtMenu.style.display = 'none';
-          if (floatBtn) floatBtn.style.display = 'none'; // Hidden for visitors
+          if (floatBtn) floatBtn.style.display = 'none';
         }
         renderAdminResultActionBtn();
         renderManagePublishedResultsTable();
@@ -2303,7 +2303,7 @@
       if (state.isAdmin) {
         container.innerHTML = `<button class="btn-secondary" onclick="openModal('modal-publish-result')"><i class="fa-solid fa-plus"></i> Publish Result</button>`;
       } else {
-        container.innerHTML = ''; // Hide publish button completely for visitors
+        container.innerHTML = '';
       }
     }
 
@@ -2504,6 +2504,7 @@
         renderWinnerShowcase();
         renderManagePublishedResultsTable();
         onPublicSearchFilterChange();
+        renderParentSlip();
       });
       activeSnapshotUnsubscribers.push(unsubResults);
 
@@ -2554,7 +2555,6 @@
       }
     }
 
-    // Opens detailed winners modal when clicking a team's score card
     window.showTeamWinners = function(teamName) {
       const listEl = document.getElementById('modal-team-winners-list');
       const titleEl = document.getElementById('modal-team-title');
@@ -4048,7 +4048,32 @@
       let rowsHtml = '';
       let index = 1;
       userAssignments.forEach(a => {
-        rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>${a.programmeType} (${a.studentCategory})</td></tr>`;
+        const publishedRes = state.publishedResults.find(r => 
+          r.programmeName?.trim().toLowerCase() === a.programmeName?.trim().toLowerCase() &&
+          r.category === s.category
+        );
+
+        const practiceRecord = state.practice.find(p => p.studentName === s.name && p.programmeName?.trim().toLowerCase() === a.programmeName?.trim().toLowerCase());
+        const isCompleted = publishedRes || (practiceRecord && (practiceRecord.status === 'Completed' || practiceRecord.status === 'Stage Ready'));
+
+        let statusBadge = '';
+        if (publishedRes) {
+          if (publishedRes.firstStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
+            statusBadge = `<span style="background:#d4af37; color:#072e1d; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">🏆 1st Place</span>`;
+          } else if (publishedRes.secondStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
+            statusBadge = `<span style="background:#9ca3af; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">🥈 2nd Place</span>`;
+          } else if (publishedRes.thirdStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
+            statusBadge = `<span style="background:#b45309; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">🥉 3rd Place</span>`;
+          } else {
+            statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">✅ Completed / Participated</span>`;
+          }
+        } else if (isCompleted) {
+          statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">✅ Completed</span>`;
+        } else {
+          statusBadge = `<span style="background:#f59e0b; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">⏳ Pending / Upcoming</span>`;
+        }
+
+        rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>${a.programmeType} (${a.studentCategory}) <br> ${statusBadge}</td></tr>`;
       });
 
       if (userAssignments.length === 0) {
