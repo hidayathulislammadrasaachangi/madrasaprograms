@@ -241,6 +241,33 @@
       gap: 0.4rem;
     }
 
+    .online-users-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
     .view-container { padding: 1.8rem; flex: 1; }
     .app-view { display: none; }
     .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
@@ -692,7 +719,7 @@
 
         <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem;">
           <span style="opacity: 0.7; color: #fff;">Designed & Developed by</span><br>
-          <strong style="color: var(--accent-gold); font-size: 0.82rem;">ABDUL KAREEM FAZILY AL-JALALI</strong>
+          <strong style="color: var(--accent-gold); font-size: 0.82rem;">Abdul Kareem Fazily Al-Jalali</strong>
         </div>
       </div>
     </aside>
@@ -704,6 +731,9 @@
           <h2 id="page-title">Dashboard</h2>
         </div>
         <div class="topbar-right" style="display:flex; align-items:center; gap: 1rem;">
+          <div class="online-users-badge" title="Live Online Users">
+            <span class="online-dot"></span> <span id="online-users-count">1</span> Online
+          </div>
           <div id="current-team-pill-display" class="current-team-pill"><i class="fa-solid fa-shield-halved"></i> <span id="topbar-team-name">MADEENATHU-SSALAM</span></div>
           <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
           <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;" class="mobile-only-hide">
@@ -866,9 +896,7 @@
                 <h2 style="font-family:'Amiri', serif; font-size:1.8rem; color:var(--accent-gold);">🏆 LIVE CHAMPIONSHIP & RESULTS CENTER</h2>
                 <p style="font-size:0.85rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard & Results</p>
               </div>
-              <div id="admin-result-action-btn-container">
-                <!-- Dynamically rendered based on admin login state -->
-              </div>
+              <div id="admin-result-action-btn-container"></div>
             </div>
 
             <!-- Championship Leader Card -->
@@ -877,7 +905,7 @@
               <div id="championship-leader-display" style="font-size:1.4rem; font-weight:800; margin-top:0.2rem;">Loading Leaderboard...</div>
             </div>
 
-            <!-- Live Team Scoreboard System (Clickable to view winners per team) -->
+            <!-- Live Team Scoreboard System -->
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-bottom:1.2rem;">
               <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
                 <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-SSALAM</h4>
@@ -1495,9 +1523,7 @@
         <h3 id="modal-team-title" style="color:var(--accent-gold);">Team Winners List</h3>
         <button class="close-modal" onclick="closeModal('modal-team-winners')">×</button>
       </div>
-      <div id="modal-team-winners-list" class="table-responsive">
-        <!-- Loaded dynamically -->
-      </div>
+      <div id="modal-team-winners-list" class="table-responsive"></div>
     </div>
   </div>
 
@@ -1643,7 +1669,7 @@
     </div>
   </div>
 
-  <!-- ADMIN RESULT PUBLISHING MODAL (App-Friendly Foreground UI) -->
+  <!-- ADMIN RESULT PUBLISHING MODAL -->
   <div id="modal-publish-result" class="modal">
     <div class="modal-content glass-card wide" style="max-width: 720px;">
       <div class="modal-header">
@@ -1683,7 +1709,6 @@
             </select>
           </div>
           
-          <!-- 1st Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:10px; border-radius:8px; border:1px solid var(--accent-gold);">
             <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner Name (10 Points)</label>
             <select id="pub-1st-student-select" class="form-control mb-1" onchange="onFirstStudentSelectChange(this.value)">
@@ -1693,7 +1718,6 @@
             <small id="detected-team-label" style="color:var(--accent-gold); font-weight:700; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
-          <!-- 2nd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">2nd Place Winner Name (5 Points)</label>
             <select id="pub-2nd-student-select" class="form-control mb-1" onchange="onSecondStudentSelectChange(this.value)">
@@ -1703,7 +1727,6 @@
             <small id="detected-team-label-2nd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
-          <!-- 3rd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">3rd Place Winner Name (3 Points)</label>
             <select id="pub-3rd-student-select" class="form-control mb-1" onchange="onThirdStudentSelectChange(this.value)">
@@ -1727,10 +1750,14 @@
     import { 
       getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, query, where, limit, enableIndexedDbPersistence 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { 
+      getDatabase, ref, onValue, set, onDisconnect, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCnSz248OfMbDr3V3kD9NAZkVxxON2fIvE",
       authDomain: "madrasa-4c7e2.firebaseapp.com",
+      databaseURL: "https://madrasa-4c7e2-default-rtdb.firebaseio.com",
       projectId: "madrasa-4c7e2",
       storageBucket: "madrasa-4c7e2.firebasestorage.app",
       messagingSenderId: "770067409084",
@@ -1740,10 +1767,33 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const rtdb = getDatabase(app);
 
     enableIndexedDbPersistence(db).catch((err) => {
       if (err.code === 'failed-precondition') console.warn('Persistence enabled in first tab only.');
     });
+
+    // REALTIME VISITOR PRESENCE COUNTER
+    function initOnlinePresence() {
+      const myConnectionRef = ref(rtdb, 'stats/online_users/' + Date.now() + Math.random());
+      const connectedRef = ref(rtdb, '.info/connected');
+
+      onValue(connectedRef, (snap) => {
+        if (snap.val() === true) {
+          onDisconnect(myConnectionRef).remove();
+          set(myConnectionRef, { online: true, timestamp: serverTimestamp() });
+        }
+      });
+
+      const onlineUsersRef = ref(rtdb, 'stats/online_users');
+      onValue(onlineUsersRef, (snapshot) => {
+        const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 1;
+        const onlineCountEl = document.getElementById('online-users-count');
+        if (onlineCountEl) {
+          onlineCountEl.textContent = count;
+        }
+      });
+    }
 
     const state = {
       currentUser: null,
@@ -1798,6 +1848,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
+      initOnlinePresence();
     });
 
     function initApp() {
@@ -1846,8 +1897,6 @@
         if (id === 'modal-publish-result') {
           updatePublishProgrammeAndParticipantOptions();
         }
-      } else {
-        console.error("Modal not found: " + id);
       }
     };
 
@@ -1936,7 +1985,6 @@
           const category = document.getElementById('pub-category').value;
           const gender = document.getElementById('pub-gender').value;
 
-          // Duplicate checking during publish result
           const isDuplicate = state.publishedResults.some(r => {
             return r.id !== docId &&
                    r.programmeName?.trim().toLowerCase() === programmeName.trim().toLowerCase() &&
@@ -1945,7 +1993,7 @@
           });
 
           if (isDuplicate) {
-            showToast(`⚠️ ഈ പ്രോഗ്രാം (${programmeName}) ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്! (Already published)`, 'warning');
+            showToast(`⚠️ ഈ പ്രോഗ്രാം (${programmeName}) ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
             return;
           }
           
@@ -2074,7 +2122,6 @@
       document.getElementById('btn-print-parent-slip').addEventListener('click', () => window.print());
       document.getElementById('btn-whatsapp-parent-slip').addEventListener('click', shareWhatsAppSlip);
 
-      // Separate Stage & Non-Stage PDF Export Listeners
       document.getElementById('btn-generate-boys-stage-pdf').addEventListener('click', () => generateGenderWisePDF('Male', 'Stage'));
       document.getElementById('btn-generate-boys-nonstage-pdf').addEventListener('click', () => generateGenderWisePDF('Male', 'Non-Stage'));
       document.getElementById('btn-generate-girls-stage-pdf').addEventListener('click', () => generateGenderWisePDF('Female', 'Stage'));
@@ -2094,7 +2141,6 @@
         const gender = document.getElementById('prog-gender-input').value;
         const type = document.getElementById('prog-type-hidden').value;
 
-        // Duplicate checking during programme addition
         const isDuplicate = state.programmes.some(p => {
           return p.id !== docId &&
                  p.name?.trim().toLowerCase() === progName.trim().toLowerCase() &&
@@ -2465,7 +2511,7 @@
         state.auditLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         renderAuditLogs();
       });
-      activeSnapshotUnsubscribers.push(qLogs);
+      activeSnapshotUnsubscribers.push(unsubLogs);
     }
 
     function getStudentTeam(studentName) {
@@ -2704,7 +2750,6 @@
 
       let winnersHtml = '';
 
-      // 1st Place Card Box
       if (result.firstStudent || result.studentName) {
         const studentName = result.firstStudent || result.studentName;
         const t1 = getStudentTeam(studentName) || result.team;
@@ -2723,7 +2768,6 @@
         `;
       }
 
-      // 2nd Place Card Box
       if (result.secondStudent) {
         const studentName = result.secondStudent;
         const t2 = getStudentTeam(studentName) || 'N/A';
@@ -2742,7 +2786,6 @@
         `;
       }
 
-      // 3rd Place Card Box
       if (result.thirdStudent) {
         const studentName = result.thirdStudent;
         const t3 = getStudentTeam(studentName) || 'N/A';
@@ -3393,7 +3436,6 @@
         const student = state.students.find(s => s.id === studentId);
         if (!student) continue;
 
-        // Duplicate checking for student assignment
         const alreadyAssigned = state.assignments.some(a => 
           (a.studentDocId === student.id || a.studentName?.trim().toLowerCase() === student.name.trim().toLowerCase()) &&
           (a.programmeDocId === prog.id || a.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase())
