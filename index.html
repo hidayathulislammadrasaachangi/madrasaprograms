@@ -1937,8 +1937,25 @@
           const docId = document.getElementById('pub-doc-id').value;
           const progSelect = document.getElementById('pub-prog-name-select');
           const programmeName = progSelect.options[progSelect.selectedIndex]?.text || '';
+          const category = document.getElementById('pub-category').value;
+          const gender = document.getElementById('pub-gender').value;
           
           const firstStudentName = document.getElementById('pub-1st-student').value;
+
+          // --- ഡ്യൂപ്ലിക്കേറ്റ് എൻട്രി തടയാനുള്ള പരിശോധന ---
+          if (!docId) {
+            const isDuplicate = state.publishedResults.some(r => 
+              r.programmeName === programmeName && 
+              r.category === category && 
+              r.gender === gender
+            );
+
+            if (isDuplicate) {
+              alert('⚠️ ഈ പ്രോഗ്രാമിന് ഇതിനകം റിസൾട്ട് പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്! എഡിറ്റ് ചെയ്യാൻ ലിസ്റ്റിൽ നിന്ന് എടുക്കുക.');
+              return;
+            }
+          }
+          // ----------------------------------------
           
           let primaryTeam = 'MADEENATHU-SSALAM';
           const foundStd = state.students.find(s => s.name.trim().toLowerCase() === firstStudentName.trim().toLowerCase());
@@ -3115,7 +3132,6 @@
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
       
-      // Stage പ്രോഗ്രാമുകൾ മാത്രം ഫിൽറ്റർ ചെയ്യാൻ പ്രോഗ്രാം ടൈപ്പ് പരിശോധിക്കുന്നു
       const stageProgNames = new Set(
         state.programmes
           .filter(p => p.type === 'Stage')
@@ -3138,7 +3154,6 @@
       }
 
       container.innerHTML = studentList.map(s => {
-        // Stage പ്രോഗ്രാമുകൾ മാത്രം എടുക്കുന്നു (Non-stage ഒഴിവാക്കി)
         const studentPractice = state.practice.filter(p => {
           const progName = (p.programmeName || '').trim().toLowerCase();
           return p.studentName === s.name && stageProgNames.has(progName);
