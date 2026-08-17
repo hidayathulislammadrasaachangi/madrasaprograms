@@ -44,186 +44,6 @@
     body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
     body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
-    /* RABI'UL AWWAL WELCOME SPLASH SCREEN STYLES (ARABIC ONLY) */
-    #rabi-welcome-splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 999999;
-      background: linear-gradient(135deg, #051a10 0%, #0d5c3a 40%, #1b3d2b 80%, #08110b 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      color: #ffffff;
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-      overflow: hidden;
-    }
-
-    #rabi-welcome-splash.splash-hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    #rabi-welcome-splash::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200vw;
-      height: 200vh;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(13, 92, 58, 0.1) 40%, transparent 70%);
-      animation: splashZoom 12s infinite alternate ease-in-out;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    @keyframes splashZoom {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.12); }
-    }
-
-    .splash-content-wrapper {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 750px;
-      margin: auto;
-      gap: 1.5rem;
-    }
-
-    .splash-arabic-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 1.5rem 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      animation: fadeInDown 1s ease-out 0.2s both;
-      width: 100%;
-    }
-
-    .splash-arabic-text-primary {
-      font-family: 'Amiri', serif;
-      font-size: 1.8rem;
-      color: var(--accent-gold);
-      font-weight: 700;
-      line-height: 1.8;
-      letter-spacing: 0.5px;
-      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
-    }
-
-    .splash-arabic-text-secondary {
-      font-family: 'Amiri', serif;
-      font-size: 1.5rem;
-      color: #ffffff;
-      font-weight: 600;
-      margin-top: 0.5rem;
-      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-    }
-
-    .splash-madrasa-sub {
-      font-size: 1.05rem;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 600;
-      animation: fadeIn 1s ease-out 0.8s both;
-    }
-
-    .splash-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-      animation: fadeInUp 1s ease-out 1s both;
-      z-index: 2;
-    }
-
-    .splash-btn-enter {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 0.85rem 2.2rem;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: all 0.3s ease;
-    }
-
-    .splash-btn-enter:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(16, 185, 129, 0.6);
-      background: linear-gradient(135deg, #059669, #047857);
-    }
-
-    .splash-btn-skip {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--accent-gold);
-      border: 1.5px solid rgba(212, 175, 55, 0.4);
-      padding: 0.85rem 1.8rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-
-    .splash-btn-skip:hover {
-      background: rgba(212, 175, 55, 0.2);
-      border-color: var(--accent-gold);
-      transform: translateY(-3px);
-    }
-
-    .splash-footer-credit {
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.6);
-      z-index: 2;
-      letter-spacing: 0.5px;
-      animation: fadeIn 1s ease-out 1.2s both;
-    }
-    .splash-footer-credit strong {
-      color: var(--accent-gold);
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @media (max-width: 768px) {
-      .splash-arabic-text-primary { font-size: 1.4rem; }
-      .splash-arabic-text-secondary { font-size: 1.2rem; }
-      .splash-actions { flex-direction: column; width: 100%; padding: 0 1rem; }
-      .splash-btn-enter, .splash-btn-skip { width: 100%; justify-content: center; }
-    }
-
     /* SINGLE JUDGE SLIP STYLES */
     .single-judge-slip-card {
       border: 2px dashed var(--accent-gold);
@@ -785,33 +605,6 @@
 </head>
 <body class="light-mode">
 
-  <!-- RABI'UL AWWAL WELCOME SPLASH SCREEN (ARABIC ONLY) -->
-  <div id="rabi-welcome-splash">
-    <div></div>
-    
-    <div class="splash-content-wrapper">
-      <div class="splash-arabic-box">
-        <div class="splash-arabic-text-primary">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</div>
-        <div class="splash-arabic-text-secondary">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ</div>
-      </div>
-
-      <div class="splash-madrasa-sub">Hidayathul Islam Madrasa • Achangi</div>
-
-      <div class="splash-actions">
-        <button class="splash-btn-enter" onclick="window.dismissRabiSplash()">
-          <i class="fa-solid fa-arrow-right-to-bracket"></i> Enter Portal
-        </button>
-        <button class="splash-btn-skip" onclick="window.dismissRabiSplash()">
-          Skip
-        </button>
-      </div>
-    </div>
-
-    <div class="splash-footer-credit">
-      Rabi'ul Awwal Welcome Gateway &bull; Designed for <strong>Hidayathul Islam Madrasa</strong>
-    </div>
-  </div>
-
   <!-- TEAM SELECTION GATEWAY -->
   <div id="team-selection-gateway">
     <div class="gateway-header">
@@ -859,6 +652,10 @@
       <!-- DASHBOARD MENU -->
       <nav class="sidebar-menu">
         <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+        
+        <!-- Live Results -->
+        <a href="#" class="nav-item" data-view="live-results"><i class="fa-solid fa-trophy"></i> <span>Live Results</span></a>
+
         <a href="#" class="nav-item" data-view="students"><i class="fa-solid fa-user-graduate"></i> <span>Students</span></a>
         <a href="#" class="nav-item" data-view="programmes"><i class="fa-solid fa-microphone"></i> <span>Programmes</span></a>
         <a href="#" class="nav-item" data-view="item-bulk-assign"><i class="fa-solid fa-list-check"></i> <span>Bulk Assignment</span></a>
@@ -924,90 +721,6 @@
 
         <!-- DASHBOARD VIEW -->
         <section id="view-dashboard" class="app-view active">
-
-          <!-- 🏆 LIVE CHAMPIONSHIP & RESULTS CENTER -->
-          <div class="glass-card mb-2" style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #157a4c 100%); color: #fff; border: 2px solid var(--accent-gold);">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.2rem;">
-              <div>
-                <h2 style="font-family:'Amiri', serif; font-size:1.8rem; color:var(--accent-gold);">🏆 LIVE CHAMPIONSHIP & RESULTS CENTER</h2>
-                <p style="font-size:0.85rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard & Results</p>
-              </div>
-              <div id="admin-result-action-btn-container">
-                <!-- Dynamically rendered based on admin login state -->
-              </div>
-            </div>
-
-            <!-- Championship Leader Card -->
-            <div style="background:rgba(0,0,0,0.3); border:1px solid var(--accent-gold); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1.2rem;">
-              <span style="font-size:0.8rem; text-transform:uppercase; color:var(--accent-gold); font-weight:700;"><i class="fa-solid fa-trophy"></i> Current Leading Team</span>
-              <div id="championship-leader-display" style="font-size:1.4rem; font-weight:800; margin-top:0.2rem;">Loading Leaderboard...</div>
-            </div>
-
-            <!-- Live Team Scoreboard System (Clickable to view winners per team) -->
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-bottom:1.2rem;">
-              <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
-                <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-SSALAM</h4>
-                <div id="team1-score-display" style="font-size:1.6rem; font-weight:800; color:var(--accent-gold);">0 Points</div>
-                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
-              </div>
-              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-NNOOR')">
-                <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-NNOOR</h4>
-                <div id="team2-score-display" style="font-size:1.6rem; font-weight:800; color:#fff;">0 Points</div>
-                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
-              </div>
-            </div>
-
-            <!-- DYNAMIC PUBLIC RESULT SEARCH PORTAL -->
-            <div style="background:rgba(0,0,0,0.25); padding:1.2rem; border-radius:12px; border:1px solid rgba(212,175,55,0.3);">
-              <h4 style="margin-bottom:0.8rem; color:var(--accent-gold); font-size:1rem;"><i class="fa-solid fa-magnifying-glass"></i> Public Result Search Portal</h4>
-              
-              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:1rem; margin-bottom:1rem;">
-                <div class="form-group">
-                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 1: Select Category</label>
-                  <select id="pub-search-category" class="form-control" onchange="onPublicSearchFilterChange()">
-                    <option value="All">All Categories</option>
-                    <option value="Sub Junior">Sub Junior</option>
-                    <option value="Junior">Junior</option>
-                    <option value="Senior">Senior</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Section</label>
-                  <select id="pub-search-gender" class="form-control" onchange="onPublicSearchFilterChange()">
-                    <option value="All">All Sections (Boys & Girls)</option>
-                    <option value="Boys">Boys</option>
-                    <option value="Girls">Girls</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 3: Select Programme Type</label>
-                  <select id="pub-search-type" class="form-control" onchange="onPublicSearchFilterChange()">
-                    <option value="All">All Types (Stage & Non-Stage)</option>
-                    <option value="Stage">Stage</option>
-                    <option value="Non-Stage">Non-Stage</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label style="font-size:0.85rem; color:var(--accent-gold); font-weight:700;">Step 4: Available Programmes from Database (Dynamic)</label>
-                <div id="pub-programmes-chips-container" style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.4rem; min-height:45px; background:rgba(0,0,0,0.15); padding:0.8rem; border-radius:8px;">
-                  <span style="font-size:0.85rem; opacity:0.7; font-style:italic;">Loading programmes from Firebase database...</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Winner Showcase Cards -->
-            <div class="mt-2">
-              <h4 style="margin-bottom:0.6rem; color:var(--accent-gold); font-size:0.95rem;"><i class="fa-solid fa-award"></i> Winner Showcase & Latest Published Results</h4>
-              <div id="home-winner-showcase-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:0.8rem;">
-                <p style="font-size:0.85rem; opacity:0.7; text-align:center;">No winners published yet.</p>
-              </div>
-            </div>
-          </div>
 
           <!-- EXISTING DASHBOARD CARDS & CONTENT -->
           <div class="hero-banner">
@@ -1141,6 +854,92 @@
             
             <div id="tbody-dash-student-status" class="student-practice-cards-list">
               <p class="text-center">Loading student practice overview...</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- LIVE RESULTS VIEW -->
+        <section id="view-live-results" class="app-view">
+          <div class="glass-card mb-2" style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #157a4c 100%); color: #fff; border: 2px solid var(--accent-gold);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.2rem;">
+              <div>
+                <h2 style="font-family:'Amiri', serif; font-size:1.8rem; color:var(--accent-gold);">🏆 LIVE CHAMPIONSHIP & RESULTS CENTER</h2>
+                <p style="font-size:0.85rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard & Results</p>
+              </div>
+              <div id="admin-result-action-btn-container">
+                <!-- Dynamically rendered based on admin login state -->
+              </div>
+            </div>
+
+            <!-- Championship Leader Card -->
+            <div style="background:rgba(0,0,0,0.3); border:1px solid var(--accent-gold); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1.2rem;">
+              <span style="font-size:0.8rem; text-transform:uppercase; color:var(--accent-gold); font-weight:700;"><i class="fa-solid fa-trophy"></i> Current Leading Team</span>
+              <div id="championship-leader-display" style="font-size:1.4rem; font-weight:800; margin-top:0.2rem;">Loading Leaderboard...</div>
+            </div>
+
+            <!-- Live Team Scoreboard System (Clickable to view winners per team) -->
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-bottom:1.2rem;">
+              <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
+                <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-SSALAM</h4>
+                <div id="team1-score-display" style="font-size:1.6rem; font-weight:800; color:var(--accent-gold);">0 Points</div>
+                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
+              </div>
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-NNOOR')">
+                <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-NNOOR</h4>
+                <div id="team2-score-display" style="font-size:1.6rem; font-weight:800; color:#fff;">0 Points</div>
+                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
+              </div>
+            </div>
+
+            <!-- DYNAMIC PUBLIC RESULT SEARCH PORTAL -->
+            <div style="background:rgba(0,0,0,0.25); padding:1.2rem; border-radius:12px; border:1px solid rgba(212,175,55,0.3);">
+              <h4 style="margin-bottom:0.8rem; color:var(--accent-gold); font-size:1rem;"><i class="fa-solid fa-magnifying-glass"></i> Public Result Search Portal</h4>
+              
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:1rem; margin-bottom:1rem;">
+                <div class="form-group">
+                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 1: Select Category</label>
+                  <select id="pub-search-category" class="form-control" onchange="onPublicSearchFilterChange()">
+                    <option value="All">All Categories</option>
+                    <option value="Sub Junior">Sub Junior</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
+                    <option value="General">General</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Section</label>
+                  <select id="pub-search-gender" class="form-control" onchange="onPublicSearchFilterChange()">
+                    <option value="All">All Sections (Boys & Girls)</option>
+                    <option value="Boys">Boys</option>
+                    <option value="Girls">Girls</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 3: Select Programme Type</label>
+                  <select id="pub-search-type" class="form-control" onchange="onPublicSearchFilterChange()">
+                    <option value="All">All Types (Stage & Non-Stage)</option>
+                    <option value="Stage">Stage</option>
+                    <option value="Non-Stage">Non-Stage</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label style="font-size:0.85rem; color:var(--accent-gold); font-weight:700;">Step 4: Available Programmes from Database (Dynamic)</label>
+                <div id="pub-programmes-chips-container" style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.4rem; min-height:45px; background:rgba(0,0,0,0.15); padding:0.8rem; border-radius:8px;">
+                  <span style="font-size:0.85rem; opacity:0.7; font-style:italic;">Loading programmes from Firebase database...</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Winner Showcase Cards -->
+            <div class="mt-2">
+              <h4 style="margin-bottom:0.6rem; color:var(--accent-gold); font-size:0.95rem;"><i class="fa-solid fa-award"></i> Winner Showcase & Latest Published Results</h4>
+              <div id="home-winner-showcase-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:0.8rem;">
+                <p style="font-size:0.85rem; opacity:0.7; text-align:center;">No winners published yet.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -1977,17 +1776,6 @@
 
     let activeSnapshotUnsubscribers = [];
 
-    window.dismissRabiSplash = function() {
-      const splashEl = document.getElementById('rabi-welcome-splash');
-      if (splashEl && !splashEl.classList.contains('splash-hidden')) {
-        splashEl.classList.add('splash-hidden');
-      }
-    };
-
-    setTimeout(() => {
-      window.dismissRabiSplash();
-    }, 4000);
-
     async function logActivity(actionMessage) {
       try {
         await addDoc(collection(db, 'audit_logs'), {
@@ -2686,7 +2474,6 @@
 
       const leaderEl = document.getElementById('championship-leader-display');
       
-      // ബോർഡിലുള്ള ടീമിന്റെ മാർക്കുകൾ അധികമാർക്ക് ഉള്ള ഗ്രൂപ്പിന്റെ പേര് മുകളിൽ കാണിക്കൽ (Requirement implemented)
       if (t1Pts > t2Pts) {
         leaderEl.innerHTML = `🏆 MADEENATHU-SSALAM (${t1Pts} Points) — Lead by ${t1Pts - t2Pts} Points`;
       } else if (t2Pts > t1Pts) {
