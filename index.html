@@ -2436,7 +2436,7 @@
         state.auditLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         renderAuditLogs();
       });
-      activeSnapshotUnsubscribers.push(unsubLogs);
+      activeSnapshotUnsubscribers.push(qLogs);
     }
 
     function getStudentTeam(studentName) {
@@ -3114,7 +3114,13 @@
       const filterSearch = document.getElementById('dash-practice-search-input')?.value.toLowerCase() || '';
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
-      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      
+      // Stage പ്രോഗ്രാമുകൾ മാത്രം ഫിൽറ്റർ ചെയ്യാൻ പ്രോഗ്രാം ടൈപ്പ് പരിശോധിക്കുന്നു
+      const stageProgNames = new Set(
+        state.programmes
+          .filter(p => p.type === 'Stage')
+          .map(p => p.name.trim().toLowerCase())
+      );
 
       let studentList = activeStudents.filter(s => {
         const matchClass = !filterClass || s.class.toString() === filterClass;
@@ -3132,9 +3138,10 @@
       }
 
       container.innerHTML = studentList.map(s => {
+        // Stage പ്രോഗ്രാമുകൾ മാത്രം എടുക്കുന്നു (Non-stage ഒഴിവാക്കി)
         const studentPractice = state.practice.filter(p => {
           const progName = (p.programmeName || '').trim().toLowerCase();
-          return p.studentName === s.name && activeProgNames.has(progName);
+          return p.studentName === s.name && stageProgNames.has(progName);
         });
 
         const completedItems = studentPractice.filter(p => p.status === 'Completed' || p.status === 'Stage Ready');
@@ -3156,7 +3163,7 @@
         if (studentPractice.length > 0) {
           actionBtnHtml = `<button class="btn-action-sm btn-manage" onclick="window.openStatusManageModal('${s.id}')"><i class="fa-solid fa-sliders"></i> Manage Progress</button>`;
         } else {
-          actionBtnHtml = '<small style="opacity:0.5;">No items assigned</small>';
+          actionBtnHtml = '<small style="opacity:0.5;">No stage items assigned</small>';
         }
 
         const cleanRoll = getStudentRollNo(s, null);
@@ -3173,18 +3180,18 @@
             <div class="programmes-badges-group">
               ${completedItems.length > 0 ? `
                 <div>
-                  <div class="badge-section-label" style="color: #10b981;">Completed Practice Items:</div>
+                  <div class="badge-section-label" style="color: #10b981;">Completed Stage Items:</div>
                   <div class="badges-flex-container">${completedBadgesHtml}</div>
                 </div>
               ` : ''}
               ${learningItems.length > 0 ? `
                 <div>
-                  <div class="badge-section-label" style="color: #f59e0b;">Pending Practice Items:</div>
+                  <div class="badge-section-label" style="color: #f59e0b;">Pending Stage Items:</div>
                   <div class="badges-flex-container">${learningBadgesHtml}</div>
                 </div>
               ` : ''}
               ${studentPractice.length === 0 ? `
-                <div style="font-size: 0.82rem; opacity:0.65; font-style: italic;">No programmes assigned to this student yet.</div>
+                <div style="font-size: 0.82rem; opacity:0.65; font-style: italic;">No stage programmes assigned to this student.</div>
               ` : ''}
             </div>
           </div>
@@ -3523,10 +3530,15 @@
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
 
-      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
+      const stageProgNames = new Set(
+        state.programmes
+          .filter(p => p.type === 'Stage')
+          .map(p => p.name.trim().toLowerCase())
+      );
+
       const studentPractice = state.practice.filter(p => {
         const progName = (p.programmeName || '').trim().toLowerCase();
-        return p.studentName === s.name && activeProgNames.has(progName);
+        return p.studentName === s.name && stageProgNames.has(progName);
       });
 
       document.getElementById('modal-status-student-name').textContent = `${s.name}`;
@@ -3561,7 +3573,7 @@
             </div>
           </div>
         `;
-      }).join('') || '<p>No items assigned.</p>';
+      }).join('') || '<p>No stage items assigned.</p>';
 
       openModal('modal-manage-student-status');
     };
