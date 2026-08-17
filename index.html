@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="description" content="Hidayathul Islam Madrasa Achangi - Rabi'ul Awwal Programme Management System">
   
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -41,6 +41,13 @@
       transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
     body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
@@ -64,7 +71,7 @@
     .judge-slip-top-header h2 { font-family: 'Amiri', serif; font-size: 1.6rem; color: #0d5c3a; }
     .judge-slip-top-header p { font-weight: 700; font-size: 0.85rem; color: #d4af37; text-transform: uppercase; }
 
-    .app-container { display: flex; min-height: 100vh; position: relative; }
+    .app-container { display: flex; min-height: 100vh; width: 100%; position: relative; }
 
     #team-selection-gateway {
       position: fixed;
@@ -128,6 +135,7 @@
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
       position: sticky; top: 70px; z-index: 85;
       overflow: hidden;
+      width: 100%;
     }
     .announcement-ticker.active { display: flex; }
     .ticker-badge { background: #072e1d; color: var(--accent-gold); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
@@ -141,6 +149,7 @@
       padding: 1.5rem;
       box-shadow: var(--shadow-light);
       margin-bottom: 1.5rem;
+      width: 100%;
     }
     body.dark-mode .glass-card {
       background: var(--card-bg-dark);
@@ -211,6 +220,7 @@
       display: flex;
       flex-direction: column;
       min-width: 0;
+      width: calc(100% - 290px);
     }
 
     .topbar {
@@ -223,6 +233,7 @@
       background: var(--card-bg-light);
       backdrop-filter: blur(10px);
       position: sticky; top: 0; z-index: 90;
+      width: 100%;
     }
     body.dark-mode .topbar { background: var(--card-bg-dark); border-bottom-color: var(--glass-border-dark); }
 
@@ -239,6 +250,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      white-space: nowrap;
     }
 
     .online-users-badge {
@@ -252,6 +264,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      white-space: nowrap;
     }
     .online-dot {
       width: 8px;
@@ -268,8 +281,8 @@
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    .view-container { padding: 1.8rem; flex: 1; }
-    .app-view { display: none; }
+    .view-container { padding: 1.8rem; flex: 1; width: 100%; }
+    .app-view { display: none; width: 100%; }
     .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
     .hero-banner {
@@ -284,6 +297,7 @@
       box-shadow: 0 12px 30px -5px rgba(13, 92, 58, 0.3);
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
     
     .hero-text-content { flex: 1; padding-right: 1rem; }
@@ -364,6 +378,7 @@
       border: 1px solid rgba(0,0,0,0.15);
       background: rgba(255, 255, 255, 0.8);
       font-size: 0.92rem; outline: none;
+      width: 100%;
     }
     body.dark-mode .form-control { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.15); color: white; }
 
@@ -377,9 +392,9 @@
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
     .btn-danger-sm { background: #ef4444; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; }
     
-    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
+    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; display: inline-flex; align-items: center; justify-content: center; }
 
-    .student-practice-cards-list { display: flex; flex-direction: column; gap: 1rem; }
+    .student-practice-cards-list { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
 
     .student-practice-card {
       background: var(--card-bg-light);
@@ -390,6 +405,7 @@
       flex-direction: column;
       gap: 0.8rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      width: 100%;
     }
     body.dark-mode .student-practice-card {
       background: rgba(18, 30, 25, 0.6);
@@ -566,7 +582,7 @@
     }
     body.dark-mode .selector-chip.selected { background: rgba(212, 175, 55, 0.18); border-color: var(--accent-gold); }
 
-    .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; }
+    .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; width: 100%; }
     .action-header { display: flex; justify-content: space-between; align-items: center; }
     .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; }
 
@@ -610,7 +626,7 @@
     @media (max-width: 900px) {
       .sidebar { width: 82%; max-width: 300px; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); }
       .sidebar.open { transform: translateX(0); }
-      .main-content { margin-left: 0; }
+      .main-content { margin-left: 0; width: 100% !important; }
       .topbar { padding: 0 1rem; }
       .mobile-only { display: inline-flex !important; align-items: center; justify-content: center; }
       .dashboard-grid, .filter-bar, .form-grid { grid-template-columns: 1fr; }
@@ -621,7 +637,7 @@
     @media print {
       body, html { background: #fff !important; color: #000 !important; }
       .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print, .loading-screen, .floating-publish-btn { display: none !important; }
-      .main-content { margin-left: 0 !important; }
+      .main-content { margin-left: 0 !important; width: 100% !important; }
       .view-container { padding: 0 !important; }
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
@@ -2511,7 +2527,7 @@
         state.auditLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         renderAuditLogs();
       });
-      activeSnapshotUnsubscribers.push(unsubLogs);
+      activeSnapshotUnsubscribers.push(qLogs);
     }
 
     function getStudentTeam(studentName) {
