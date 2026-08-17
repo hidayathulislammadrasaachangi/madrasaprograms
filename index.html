@@ -1623,10 +1623,6 @@
       </div>
       <div id="res-modal-meta" style="font-size:0.9rem; margin-bottom:1rem; opacity:0.9; background:rgba(0,0,0,0.05); padding:10px; border-radius:8px;"></div>
       <div id="res-modal-winners-list" style="display:flex; flex-direction:column; gap:0.8rem;"></div>
-      <div class="flex-gap mt-2" id="res-modal-actions-container" style="display:none; justify-content:flex-end; gap:0.8rem;">
-        <button class="btn-primary" id="btn-cert-modal" onclick="openCertificateModalFromDetails()"><i class="fa-solid fa-award"></i> Winner Certificate</button>
-        <button class="btn-secondary" id="btn-poster-modal" onclick="openPosterModalFromDetails()"><i class="fa-solid fa-image"></i> Status Poster</button>
-      </div>
     </div>
   </div>
 
@@ -1693,7 +1689,7 @@
             <select id="pub-1st-student-select" class="form-control mb-1" onchange="onFirstStudentSelectChange(this.value)">
               <option value="">-- Select from assigned list or type below --</option>
             </select>
-            <input type="text" id="pub-1st-student" class="form-control" placeholder="1st Place Winner Name" oninput="manualFirstStudentInput(this.value)">
+            <input type="text" id="pub-1st-student" class="form-control mt-1" placeholder="1st Place Winner Name" oninput="manualFirstStudentInput(this.value)">
             <small id="detected-team-label" style="color:var(--accent-gold); font-weight:700; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
@@ -1703,7 +1699,7 @@
             <select id="pub-2nd-student-select" class="form-control mb-1" onchange="onSecondStudentSelectChange(this.value)">
               <option value="">-- Select from assigned list or type below --</option>
             </select>
-            <input type="text" id="pub-2nd-student" class="form-control" placeholder="2nd Place Winner Name" oninput="manualSecondStudentInput(this.value)">
+            <input type="text" id="pub-2nd-student" class="form-control mt-1" placeholder="2nd Place Winner Name" oninput="manualSecondStudentInput(this.value)">
             <small id="detected-team-label-2nd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
@@ -1713,7 +1709,7 @@
             <select id="pub-3rd-student-select" class="form-control mb-1" onchange="onThirdStudentSelectChange(this.value)">
               <option value="">-- Select from assigned list or type below --</option>
             </select>
-            <input type="text" id="pub-3rd-student" class="form-control" placeholder="3rd Place Winner Name" oninput="manualThirdStudentInput(this.value)">
+            <input type="text" id="pub-3rd-student" class="form-control mt-1" placeholder="3rd Place Winner Name" oninput="manualThirdStudentInput(this.value)">
             <small id="detected-team-label-3rd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
         </div>
@@ -1939,23 +1935,21 @@
           const programmeName = progSelect.options[progSelect.selectedIndex]?.text || '';
           const category = document.getElementById('pub-category').value;
           const gender = document.getElementById('pub-gender').value;
+
+          // Duplicate checking during publish result
+          const isDuplicate = state.publishedResults.some(r => {
+            return r.id !== docId &&
+                   r.programmeName?.trim().toLowerCase() === programmeName.trim().toLowerCase() &&
+                   r.category === category &&
+                   r.gender === gender;
+          });
+
+          if (isDuplicate) {
+            showToast(`⚠️ ഈ പ്രോഗ്രാം (${programmeName}) ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്! (Already published)`, 'warning');
+            return;
+          }
           
           const firstStudentName = document.getElementById('pub-1st-student').value;
-
-          // --- ഡ്യൂപ്ലിക്കേറ്റ് എൻട്രി തടയാനുള്ള പരിശോധന ---
-          if (!docId) {
-            const isDuplicate = state.publishedResults.some(r => 
-              r.programmeName === programmeName && 
-              r.category === category && 
-              r.gender === gender
-            );
-
-            if (isDuplicate) {
-              alert('⚠️ ഈ പ്രോഗ്രാമിന് ഇതിനകം റിസൾട്ട് പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്! എഡിറ്റ് ചെയ്യാൻ ലിസ്റ്റിൽ നിന്ന് എടുക്കുക.');
-              return;
-            }
-          }
-          // ----------------------------------------
           
           let primaryTeam = 'MADEENATHU-SSALAM';
           const foundStd = state.students.find(s => s.name.trim().toLowerCase() === firstStudentName.trim().toLowerCase());
@@ -1970,8 +1964,8 @@
 
           const resData = {
             programmeName: programmeName,
-            category: document.getElementById('pub-category').value,
-            gender: document.getElementById('pub-gender').value,
+            category: category,
+            gender: gender,
             programmeType: document.getElementById('pub-type').value,
             team: primaryTeam,
             firstStudent: firstStudentName,
@@ -2095,12 +2089,30 @@
 
         const docId = document.getElementById('prog-doc-id').value;
         const maxVal = document.getElementById('prog-max-input').value;
+        const progName = document.getElementById('prog-name-input').value;
+        const category = document.getElementById('prog-category-input').value;
+        const gender = document.getElementById('prog-gender-input').value;
+        const type = document.getElementById('prog-type-hidden').value;
+
+        // Duplicate checking during programme addition
+        const isDuplicate = state.programmes.some(p => {
+          return p.id !== docId &&
+                 p.name?.trim().toLowerCase() === progName.trim().toLowerCase() &&
+                 p.category === category &&
+                 p.gender === gender &&
+                 p.type === type;
+        });
+
+        if (isDuplicate) {
+          showToast(`⚠️ ഈ പ്രോഗ്രാം (${progName}) ഈ കാറ്റഗറിയിലും സെക്ഷനിലും ഇതിനകം ആഡ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
+          return;
+        }
         
         const progData = {
-          name: document.getElementById('prog-name-input').value,
-          gender: document.getElementById('prog-gender-input').value,
-          category: document.getElementById('prog-category-input').value,
-          type: document.getElementById('prog-type-hidden').value,
+          name: progName,
+          gender: gender,
+          category: category,
+          type: type,
           maxParticipants: maxVal ? parseInt(maxVal, 10) : null,
           team: 'ALL'
         };
@@ -2662,7 +2674,6 @@
       const modalTitle = document.getElementById('res-modal-title');
       const modalMeta = document.getElementById('res-modal-meta');
       const modalWinners = document.getElementById('res-modal-winners-list');
-      const actionsContainer = document.getElementById('res-modal-actions-container');
 
       modalTitle.textContent = `${programmeName} - Result Details`;
       modalMeta.innerHTML = `
@@ -2687,49 +2698,64 @@
             <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem;">The scores and winner details for ${programmeName} have not been published by the admin yet.</p>
           </div>
         `;
-        if (actionsContainer) actionsContainer.style.display = 'none';
         openModal('modal-result-details');
         return;
       }
 
-      if (actionsContainer) actionsContainer.style.display = 'flex';
-
       let winnersHtml = '';
 
+      // 1st Place Card Box
       if (result.firstStudent || result.studentName) {
-        const t1 = getStudentTeam(result.firstStudent || result.studentName) || result.team;
+        const studentName = result.firstStudent || result.studentName;
+        const t1 = getStudentTeam(studentName) || result.team;
         winnersHtml += `
-          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; justify-content:space-between; align-items:center;">
+          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.8rem;">
             <div>
               <span class="badge badge-admin">1st Place (10 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${result.firstStudent || result.studentName}</h3>
+              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${studentName}</h3>
               <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--primary-green);">${t1}</strong></p>
             </div>
-          </div>
-        `;
-      }
-
-      if (result.secondStudent) {
-        const t2 = getStudentTeam(result.secondStudent) || 'N/A';
-        winnersHtml += `
-          <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1rem; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <span class="badge badge-visitor">2nd Place (5 Pts)</span>
-              <h4 style="color:#fff; font-size:1.2rem; font-weight:700; margin-top:0.3rem;">${result.secondStudent}</h4>
-              <p style="font-size:0.85rem; font-weight:600; opacity:0.8; margin-top:0.1rem;">Team: <strong>${t2}</strong></p>
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${t1}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
+              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${t1}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
           </div>
         `;
       }
 
-      if (result.thirdStudent) {
-        const t3 = getStudentTeam(result.thirdStudent) || 'N/A';
+      // 2nd Place Card Box
+      if (result.secondStudent) {
+        const studentName = result.secondStudent;
+        const t2 = getStudentTeam(studentName) || 'N/A';
         winnersHtml += `
-          <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1rem; display:flex; justify-content:space-between; align-items:center;">
+          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.8rem;">
             <div>
-              <span class="badge badge-visitor">3rd Place (3 Pts)</span>
-              <h4 style="color:#fff; font-size:1.2rem; font-weight:700; margin-top:0.3rem;">${result.thirdStudent}</h4>
-              <p style="font-size:0.85rem; font-weight:600; opacity:0.8; margin-top:0.1rem;">Team: <strong>${t3}</strong></p>
+              <span class="badge badge-admin" style="background:#9ca3af; color:#fff;">2nd Place (5 Pts)</span>
+              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${studentName}</h3>
+              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--accent-gold);">${t2}</strong></p>
+            </div>
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${t2}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
+              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${t2}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
+            </div>
+          </div>
+        `;
+      }
+
+      // 3rd Place Card Box
+      if (result.thirdStudent) {
+        const studentName = result.thirdStudent;
+        const t3 = getStudentTeam(studentName) || 'N/A';
+        winnersHtml += `
+          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.8rem;">
+            <div>
+              <span class="badge badge-admin" style="background:#b45309; color:#fff;">3rd Place (3 Pts)</span>
+              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${studentName}</h3>
+              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--accent-gold);">${t3}</strong></p>
+            </div>
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${t3}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
+              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${t3}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
           </div>
         `;
@@ -2739,12 +2765,8 @@
       openModal('modal-result-details');
     };
 
-    window.openCertificateModalFromDetails = function() {
-      const r = state.currentViewingResult;
-      if (!r || !r.firstStudent && !r.studentName) return;
+    window.openSpecificCertificateModal = function(studentName, positionText, progName, category, teamName) {
       closeModal('modal-result-details');
-      const t1 = getStudentTeam(r.firstStudent || r.studentName) || r.team;
-
       const area = document.getElementById('certificate-print-area');
       area.innerHTML = `
         <div style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 50%, #08110b 100%); border: 6px solid var(--accent-gold); border-radius: 16px; padding: 2.5rem; color: #fff; text-align: center; margin: 1rem auto;">
@@ -2753,9 +2775,9 @@
           <p style="font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; color:var(--accent-gold); font-weight:600; margin-bottom:1.5rem;">Rabi'ul Awwal Winner Certificate</p>
           
           <p style="font-size:0.9rem; opacity:0.9;">This is proudly presented to</p>
-          <h2 style="font-size:2.2rem; color:var(--accent-gold); font-family:'Amiri', serif; margin:0.4rem 0;">${r.firstStudent || r.studentName}</h2>
-          <p style="font-size:0.95rem;">Category: <strong>${r.category}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${t1}</strong></p>
-          <p style="font-size:1.05rem; margin-top:0.6rem;">for securing <strong style="color:var(--accent-gold);">1st Place</strong> in <strong style="color:var(--accent-gold);">${r.programmeName}</strong></p>
+          <h2 style="font-size:2.2rem; color:var(--accent-gold); font-family:'Amiri', serif; margin:0.4rem 0;">${studentName}</h2>
+          <p style="font-size:0.95rem;">Category: <strong>${category}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${teamName}</strong></p>
+          <p style="font-size:1.05rem; margin-top:0.6rem;">for securing <strong style="color:var(--accent-gold);">${positionText}</strong> in <strong style="color:var(--accent-gold);">${progName}</strong></p>
           
           <div style="display:flex; justify-content:space-between; margin-top:2.5rem; font-size:0.8rem; border-top:1px solid rgba(212,175,55,0.4); padding-top:0.8rem;">
             <div>Principal Signature</div>
@@ -2767,21 +2789,17 @@
       openModal('modal-certificate');
     };
 
-    window.openPosterModalFromDetails = function() {
-      const r = state.currentViewingResult;
-      if (!r || !r.firstStudent && !r.studentName) return;
+    window.openSpecificPosterModal = function(studentName, positionText, progName, category, teamName) {
       closeModal('modal-result-details');
-      const t1 = getStudentTeam(r.firstStudent || r.studentName) || r.team;
-
       const area = document.getElementById('poster-print-area');
       area.innerHTML = `
         <div style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #06150c 100%); border: 5px solid var(--accent-gold); border-radius: 20px; padding: 2rem; color: #fff; text-align: center;">
           <h3 style="font-family:'Amiri', serif; color:var(--accent-gold); font-size:1.1rem;">HIDAYATHUL ISLAM MADRASA</h3>
           <div style="font-size:3.5rem; margin:0.8rem 0;">🏆</div>
-          <h1 style="font-size:1.6rem; color:var(--accent-gold); font-family:'Amiri', serif; margin-bottom:0.3rem;">CHAMPIONSHIP WINNER</h1>
-          <h2 style="font-size:1.4rem; margin:0.4rem 0;">${r.firstStudent || r.studentName}</h2>
-          <p style="font-size:0.9rem; opacity:0.9;">${r.programmeName} (${r.category})</p>
-          <p style="font-size:0.85rem; font-weight:700; color:var(--accent-gold); margin-top:0.4rem;">Team: ${t1}</p>
+          <h1 style="font-size:1.4rem; color:var(--accent-gold); font-family:'Amiri', serif; margin-bottom:0.2rem;">${positionText.toUpperCase()} WINNER</h1>
+          <h2 style="font-size:1.5rem; margin:0.4rem 0;">${studentName}</h2>
+          <p style="font-size:0.9rem; opacity:0.9;">${progName} (${category})</p>
+          <p style="font-size:0.85rem; font-weight:700; color:var(--accent-gold); margin-top:0.4rem;">Team: ${teamName}</p>
         </div>
       `;
       openModal('modal-poster');
@@ -3375,6 +3393,17 @@
         const student = state.students.find(s => s.id === studentId);
         if (!student) continue;
 
+        // Duplicate checking for student assignment
+        const alreadyAssigned = state.assignments.some(a => 
+          (a.studentDocId === student.id || a.studentName?.trim().toLowerCase() === student.name.trim().toLowerCase()) &&
+          (a.programmeDocId === prog.id || a.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase())
+        );
+
+        if (alreadyAssigned) {
+          showToast(`⚠️ ${student.name} എന്ന കുട്ടിക്ക് ഈ പ്രോഗ്രാം ഇതിനകം ആഡ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
+          continue;
+        }
+
         try {
           const cleanRoll = getStudentRollNo(student, null);
           const assignDoc = await addDoc(collection(db, 'assignments'), {
@@ -3406,9 +3435,11 @@
         }
       }
 
-      showToast(`Assigned ${prog.name} to ${count} student(s) successfully!`, 'success');
-      logActivity(`Bulk assigned "${prog.name}" to ${count} student(s)`);
-      renderBulkStudentChecklist();
+      if (count > 0) {
+        showToast(`Assigned ${prog.name} to ${count} student(s) successfully!`, 'success');
+        logActivity(`Bulk assigned "${prog.name}" to ${count} student(s)`);
+        renderBulkStudentChecklist();
+      }
     }
 
     function setupVsCardSelectors() {
