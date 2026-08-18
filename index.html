@@ -41,17 +41,22 @@
       transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
     body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
     body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
-    /* SINGLE JUDGE SLIP STYLES */
     .single-judge-slip-card {
       border: 2px dashed var(--accent-gold);
       padding: 2rem;
       border-radius: 14px;
       background: white;
       color: #111;
-      max-width: 650px;
+      max-width: 750px;
       margin: 1.5rem auto;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
@@ -64,7 +69,12 @@
     .judge-slip-top-header h2 { font-family: 'Amiri', serif; font-size: 1.6rem; color: #0d5c3a; }
     .judge-slip-top-header p { font-weight: 700; font-size: 0.85rem; color: #d4af37; text-transform: uppercase; }
 
-    .app-container { display: flex; min-height: 100vh; position: relative; }
+    .app-container { 
+      display: flex; 
+      min-height: 100vh; 
+      width: 100%;
+      position: relative; 
+    }
 
     #team-selection-gateway {
       position: fixed;
@@ -128,6 +138,7 @@
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
       position: sticky; top: 70px; z-index: 85;
       overflow: hidden;
+      width: 100%;
     }
     .announcement-ticker.active { display: flex; }
     .ticker-badge { background: #072e1d; color: var(--accent-gold); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
@@ -141,6 +152,7 @@
       padding: 1.5rem;
       box-shadow: var(--shadow-light);
       margin-bottom: 1.5rem;
+      width: 100%;
     }
     body.dark-mode .glass-card {
       background: var(--card-bg-dark);
@@ -149,7 +161,7 @@
     }
 
     .sidebar {
-      width: 290px;
+      width: 270px;
       background: linear-gradient(180deg, #052214 0%, #0d5c3a 100%);
       color: #ffffff;
       display: flex;
@@ -207,10 +219,11 @@
 
     .main-content {
       flex: 1;
-      margin-left: 290px;
+      margin-left: 270px;
       display: flex;
       flex-direction: column;
       min-width: 0;
+      width: calc(100% - 270px);
     }
 
     .topbar {
@@ -223,6 +236,7 @@
       background: var(--card-bg-light);
       backdrop-filter: blur(10px);
       position: sticky; top: 0; z-index: 90;
+      width: 100%;
     }
     body.dark-mode .topbar { background: var(--card-bg-dark); border-bottom-color: var(--glass-border-dark); }
 
@@ -241,8 +255,12 @@
       gap: 0.4rem;
     }
 
-    .view-container { padding: 1.8rem; flex: 1; }
-    .app-view { display: none; }
+    .view-container { 
+      padding: 1.8rem; 
+      flex: 1; 
+      width: 100%;
+    }
+    .app-view { display: none; width: 100%; }
     .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
     .hero-banner {
@@ -257,6 +275,7 @@
       box-shadow: 0 12px 30px -5px rgba(13, 92, 58, 0.3);
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
     
     .hero-text-content { flex: 1; padding-right: 1rem; }
@@ -277,7 +296,13 @@
       gap: 0.4rem;
     }
 
-    .team-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; font-size: 0.9rem; }
+    .team-info-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap: 1.2rem; 
+      font-size: 0.9rem; 
+      width: 100%;
+    }
     .info-item { display: flex; flex-direction: column; gap: 0.2rem; }
     .info-label { font-size: 0.75rem; text-transform: uppercase; color: #6b7280; font-weight: 600; }
     body.dark-mode .info-label { color: #9ca3af; }
@@ -286,7 +311,13 @@
     .highlight-gold { color: var(--primary-green); font-weight: 700; font-size: 1rem; }
     body.dark-mode .highlight-gold { color: var(--accent-gold); }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+    /* EXPANDED STATS GRID FOR FULL SCREEN USAGE */
+    .stats-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+      gap: 1.25rem; 
+      width: 100%;
+    }
     .stat-card {
       background: var(--card-bg-light);
       border: 1px solid var(--glass-border-light);
@@ -323,11 +354,21 @@
 
     .bg-success { background-color: #10b981; } .bg-warning { background-color: #f59e0b; } .bg-danger { background-color: #ef4444; }
 
-    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .dashboard-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+      gap: 1.5rem; 
+      width: 100%;
+    }
     .activity-list { list-style: none; max-height: 260px; overflow-y: auto; }
     .activity-list li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.88rem; }
 
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .form-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+      gap: 1rem; 
+      width: 100%;
+    }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-group label { font-size: 0.85rem; font-weight: 600; opacity: 0.9; }
 
@@ -337,6 +378,7 @@
       border: 1px solid rgba(0,0,0,0.15);
       background: rgba(255, 255, 255, 0.8);
       font-size: 0.92rem; outline: none;
+      width: 100%;
     }
     body.dark-mode .form-control { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.15); color: white; }
 
@@ -352,7 +394,21 @@
     
     .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
 
-    .student-practice-cards-list { display: flex; flex-direction: column; gap: 1rem; }
+    /* DYNAMIC ACCESS RESTRICTION CLASSES */
+    .admin-only-action { display: none !important; }
+    body.is-team-admin .admin-only-action { display: inline-flex !important; }
+    body.is-team-admin div.admin-only-action { display: block !important; }
+
+    .super-admin-only-action { display: none !important; }
+    body.is-super-admin .super-admin-only-action { display: inline-flex !important; }
+    body.is-super-admin div.super-admin-only-action { display: block !important; }
+
+    .student-practice-cards-list { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+      gap: 1rem; 
+      width: 100%;
+    }
 
     .student-practice-card {
       background: var(--card-bg-light);
@@ -363,6 +419,7 @@
       flex-direction: column;
       gap: 0.8rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      width: 100%;
     }
     body.dark-mode .student-practice-card {
       background: rgba(18, 30, 25, 0.6);
@@ -400,14 +457,18 @@
     .badge-completed { background: #10b981; color: #fff; }
     .badge-stageready { background: #6366f1; color: #fff; }
 
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .cards-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+      gap: 1.25rem; 
+      width: 100%;
+    }
     .programme-card { border-left: 4px solid var(--accent-gold); cursor: pointer; }
 
-    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem; width: 100%; }
     .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
     .tab-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
 
-    /* APP-FRIENDLY MOBILE FOREGROUND MODAL STYLES */
     .modal {
       display: none;
       position: fixed;
@@ -431,7 +492,7 @@
 
     .modal-content {
       width: 100%;
-      max-width: 550px;
+      max-width: 600px;
       background: var(--card-bg-light);
       border: 2px solid var(--accent-gold);
       max-height: 90vh;
@@ -446,7 +507,7 @@
       background: #0d1f17;
       border-color: var(--accent-gold);
     }
-    .modal-content.wide { max-width: 720px; }
+    .modal-content.wide { max-width: 850px; }
     
     .modal-header {
       display: flex;
@@ -504,13 +565,27 @@
     }
     body.dark-mode .status-select-dropdown { background: rgba(0,0,0,0.4); color: white; border-color: var(--accent-gold); }
 
-    .student-app-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; max-height: 280px; overflow-y: auto; padding: 0.3rem; }
+    .student-app-card-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+      gap: 0.8rem; 
+      max-height: 350px; 
+      overflow-y: auto; 
+      padding: 0.3rem; 
+      width: 100%;
+    }
     .student-app-card { background: rgba(255, 255, 255, 0.9); border: 1.5px solid var(--glass-border-light); border-radius: 12px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
     body.dark-mode .student-app-card { background: rgba(0, 0, 0, 0.25); }
     .student-app-card.active { border-width: 2px; background: rgba(13, 92, 58, 0.15); border-color: var(--primary-green); }
     .student-avatar-icon { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
 
-    .selector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.65rem; margin-top: 0.4rem; }
+    .selector-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+      gap: 0.65rem; 
+      margin-top: 0.4rem; 
+      width: 100%;
+    }
 
     .selector-chip {
       background: rgba(0, 0, 0, 0.03);
@@ -539,24 +614,31 @@
     }
     body.dark-mode .selector-chip.selected { background: rgba(212, 175, 55, 0.18); border-color: var(--accent-gold); }
 
-    .filter-bar { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8rem; }
-    .action-header { display: flex; justify-content: space-between; align-items: center; }
-    .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; }
+    .filter-bar { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+      gap: 0.8rem; 
+      width: 100%;
+    }
+    .action-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; width: 100%; }
 
     .loading-screen { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #072e1d; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
     .spinner { width: 52px; height: 52px; border: 5px solid rgba(255,255,255,0.15); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1.2rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 99999999; display: flex; flex-direction: column; gap: 0.6rem; }
-    .toast { padding: 0.9rem 1.3rem; border-radius: 8px; background: #222; color: #fff; font-size: 0.9rem; font-weight: 500; }
-    .toast.success { background: #10b981; } .toast.error { background: #ef4444; } .toast.warning { background: #f59e0b; color: #000; }
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999999; display: flex; flex-direction: column; gap: 0.6rem; pointer-events: none; }
+    .toast { padding: 0.9rem 1.4rem; border-radius: 10px; color: #fff; font-size: 0.95rem; font-weight: 600; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .toast.success { background: #10b981; border-left: 5px solid #059669; }
+    .toast.error { background: #ef4444; border-left: 5px solid #b91c1c; }
+    .toast.warning { background: #f59e0b; color: #000; border-left: 5px solid #d97706; }
 
-    .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: 12px; background: white; color: #111; margin-top: 1rem; }
+    .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: 12px; background: white; color: #111; margin-top: 1rem; width: 100%; }
     .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.8rem; margin-bottom: 1rem; }
 
     .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
 
-    /* FLOATING PUBLISH BUTTON (Admin Only) */
     .floating-publish-btn {
       position: fixed;
       bottom: 30px;
@@ -583,18 +665,18 @@
     @media (max-width: 900px) {
       .sidebar { width: 82%; max-width: 300px; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); }
       .sidebar.open { transform: translateX(0); }
-      .main-content { margin-left: 0; }
+      .main-content { margin-left: 0; width: 100%; }
       .topbar { padding: 0 1rem; }
+      .view-container { padding: 1rem; }
       .mobile-only { display: inline-flex !important; align-items: center; justify-content: center; }
-      .dashboard-grid, .filter-bar, .form-grid { grid-template-columns: 1fr; }
       .hero-banner { flex-direction: column; gap: 1rem; padding: 1.5rem; }
       #vs-tables-grid { grid-template-columns: 1fr !important; }
     }
 
     @media print {
       body, html { background: #fff !important; color: #000 !important; }
-      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print, .loading-screen, .floating-publish-btn { display: none !important; }
-      .main-content { margin-left: 0 !important; }
+      .sidebar, .topbar, .btn-primary, .btn-secondary, .btn-whatsapp, .btn-danger, .icon-btn, .tab-buttons, .filter-card-parent, .no-print, .loading-screen, .floating-publish-btn, .admin-only-action, .super-admin-only-action { display: none !important; }
+      .main-content { margin-left: 0 !important; width: 100% !important; }
       .view-container { padding: 0 !important; }
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
@@ -605,7 +687,6 @@
 </head>
 <body class="light-mode">
 
-  <!-- TEAM SELECTION GATEWAY -->
   <div id="team-selection-gateway">
     <div class="gateway-header">
       <h1>HIDAYATHUL ISLAM MADRASA</h1>
@@ -649,24 +730,16 @@
         <button id="close-sidebar" class="mobile-only icon-btn"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- DASHBOARD MENU -->
       <nav class="sidebar-menu">
         <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
-        
-        <!-- Live Results -->
         <a href="#" class="nav-item" data-view="live-results"><i class="fa-solid fa-trophy"></i> <span>Live Results</span></a>
-
         <a href="#" class="nav-item" data-view="students"><i class="fa-solid fa-user-graduate"></i> <span>Students</span></a>
         <a href="#" class="nav-item" data-view="programmes"><i class="fa-solid fa-microphone"></i> <span>Programmes</span></a>
         <a href="#" class="nav-item" data-view="item-bulk-assign"><i class="fa-solid fa-list-check"></i> <span>Bulk Assignment</span></a>
         
-        <!-- NEW DEDICATED RESULT MANAGEMENT MENU ITEM (Admin Only) -->
         <a href="#" class="nav-item" data-view="admin-result-management" id="menu-result-management" style="display:none;"><i class="fa-solid fa-trophy"></i> <span>Result Management</span></a>
-
         <a href="#" class="nav-item" data-view="category-pdf"><i class="fa-solid fa-file-pdf"></i> <span>PDF Export</span></a>
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports</span></a>
-        
-        <!-- Judges Slip (Admin Only) -->
         <a href="#" class="nav-item" data-view="judges-slip" id="menu-judges-slip" style="display:none;"><i class="fa-solid fa-award"></i> <span>Judges Slip (Single)</span></a>
         
         <a href="#" class="nav-item" data-view="settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
@@ -684,9 +757,22 @@
         <div id="auth-status" class="auth-status mb-2">
           <span class="badge badge-visitor" id="role-badge">View Only</span>
         </div>
-        <button id="btn-auth-action" class="btn-primary full-width mb-2"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
 
-        <a href="https://wa.me/919113695271?text=Hello%20Hidayathul%20Islam%20Madrasa%20Support" target="_blank" class="btn-whatsapp full-width" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem;">
+        <div id="login-buttons-container">
+          <button id="btn-team-admin-login" class="btn-primary full-width mb-1" style="font-size:0.8rem; padding:0.65rem 0.5rem; text-transform: uppercase;">
+            <i class="fa-solid fa-shield-halved"></i> <span id="team-login-btn-text">MADEENATHU-SSALAM Admin Login</span>
+          </button>
+
+          <button id="btn-super-admin-login" class="btn-secondary full-width mb-2" style="font-size:0.8rem; padding:0.65rem 0.5rem;">
+            <i class="fa-solid fa-crown"></i> Super Admin Login
+          </button>
+        </div>
+
+        <button id="btn-signout-action" class="btn-primary full-width mb-2" style="display:none; background:#dc2626;">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </button>
+
+        <a href="https://wa.me/919113695271?text=Hello%20Hidayathul%20Islam%20Madrasa%20Support" target="_blank" class="btn-whatsapp full-width" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.3rem;">
           <i class="fa-brands fa-whatsapp"></i> Helpline Support
         </a>
 
@@ -719,10 +805,7 @@
 
       <div id="view-container" class="view-container">
 
-        <!-- DASHBOARD VIEW -->
         <section id="view-dashboard" class="app-view active">
-
-          <!-- EXISTING DASHBOARD CARDS & CONTENT -->
           <div class="hero-banner">
             <div class="hero-text-content">
               <h1 id="dash-madrasa-name">HIDAYATHUL ISLAM MADRASA <span>ACHANGI</span></h1>
@@ -858,7 +941,6 @@
           </div>
         </section>
 
-        <!-- LIVE RESULTS VIEW -->
         <section id="view-live-results" class="app-view">
           <div class="glass-card mb-2" style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #157a4c 100%); color: #fff; border: 2px solid var(--accent-gold);">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.2rem;">
@@ -866,18 +948,14 @@
                 <h2 style="font-family:'Amiri', serif; font-size:1.8rem; color:var(--accent-gold);">🏆 LIVE CHAMPIONSHIP & RESULTS CENTER</h2>
                 <p style="font-size:0.85rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard & Results</p>
               </div>
-              <div id="admin-result-action-btn-container">
-                <!-- Dynamically rendered based on admin login state -->
-              </div>
+              <div id="admin-result-action-btn-container"></div>
             </div>
 
-            <!-- Championship Leader Card -->
             <div style="background:rgba(0,0,0,0.3); border:1px solid var(--accent-gold); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1.2rem;">
               <span style="font-size:0.8rem; text-transform:uppercase; color:var(--accent-gold); font-weight:700;"><i class="fa-solid fa-trophy"></i> Current Leading Team</span>
               <div id="championship-leader-display" style="font-size:1.4rem; font-weight:800; margin-top:0.2rem;">Loading Leaderboard...</div>
             </div>
 
-            <!-- Live Team Scoreboard System (Clickable to view winners per team) -->
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-bottom:1.2rem;">
               <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
                 <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-SSALAM</h4>
@@ -891,7 +969,6 @@
               </div>
             </div>
 
-            <!-- DYNAMIC PUBLIC RESULT SEARCH PORTAL -->
             <div style="background:rgba(0,0,0,0.25); padding:1.2rem; border-radius:12px; border:1px solid rgba(212,175,55,0.3);">
               <h4 style="margin-bottom:0.8rem; color:var(--accent-gold); font-size:1rem;"><i class="fa-solid fa-magnifying-glass"></i> Public Result Search Portal</h4>
               
@@ -929,12 +1006,11 @@
               <div class="form-group">
                 <label style="font-size:0.85rem; color:var(--accent-gold); font-weight:700;">Step 4: Available Programmes from Database (Dynamic)</label>
                 <div id="pub-programmes-chips-container" style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.4rem; min-height:45px; background:rgba(0,0,0,0.15); padding:0.8rem; border-radius:8px;">
-                  <span style="font-size:0.85rem; opacity:0.7; font-style:italic;">Loading programmes from Firebase database...</span>
+                  <span style="font-size:0.85rem; opacity:0.7; font-style:italic;">Loading programmes from database...</span>
                 </div>
               </div>
             </div>
 
-            <!-- Winner Showcase Cards -->
             <div class="mt-2">
               <h4 style="margin-bottom:0.6rem; color:var(--accent-gold); font-size:0.95rem;"><i class="fa-solid fa-award"></i> Winner Showcase & Latest Published Results</h4>
               <div id="home-winner-showcase-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:0.8rem;">
@@ -944,7 +1020,6 @@
           </div>
         </section>
 
-        <!-- DEDICATED ADMIN RESULT MANAGEMENT PAGE -->
         <section id="view-admin-result-management" class="app-view">
           <div class="glass-card mb-2">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
@@ -952,16 +1027,14 @@
                 <h2><i class="fa-solid fa-trophy" style="color:var(--accent-gold);"></i> Result Management & Publishing Hub</h2>
                 <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Publish results, manage 1st, 2nd, and 3rd place winners, and auto-generate certificates & status posters.</p>
               </div>
-              <button onclick="openModal('modal-publish-result')" class="btn-primary"><i class="fa-solid fa-plus"></i> Publish Result</button>
+              <button onclick="openModal('modal-publish-result')" class="btn-primary super-admin-only-action"><i class="fa-solid fa-plus"></i> Publish Result</button>
             </div>
           </div>
 
-          <!-- Published Results Directory Grouped by Categories -->
           <div class="glass-card">
             <h3><i class="fa-solid fa-list" style="color:var(--accent-gold);"></i> Published Results Directory</h3>
-            <p style="font-size:0.82rem; opacity:0.8; margin-bottom:1rem;">Manage all published results grouped by categories (Sub Junior, Junior, Senior, General) with edit, republish, view, and delete options.</p>
+            <p style="font-size:0.82rem; opacity:0.8; margin-bottom:1rem;">Manage all published results grouped by categories.</p>
             
-            <!-- Category Tabs for Results Directory -->
             <div class="tab-buttons mb-2" id="results-directory-category-tabs">
               <button class="tab-btn active" data-cat="All">All Categories</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
@@ -976,7 +1049,7 @@
                   <tr>
                     <th>Programme Name</th>
                     <th>Category</th>
-                    <th>Section (Boys/Girls)</th>
+                    <th>Section</th>
                     <th>Team</th>
                     <th>1st Place</th>
                     <th>2nd Place</th>
@@ -992,12 +1065,11 @@
           </div>
         </section>
 
-        <!-- STUDENTS VIEW -->
         <section id="view-students" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
               <h2><i class="fa-solid fa-user-graduate" style="color:var(--accent-gold);"></i> Student Directory & Management</h2>
-              <button id="btn-add-student" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Student</button>
+              <button id="btn-add-student" class="btn-primary admin-only-action"><i class="fa-solid fa-plus"></i> Add Student</button>
             </div>
             <hr class="divider">
             
@@ -1043,12 +1115,11 @@
           </div>
         </section>
 
-        <!-- PROGRAMMES VIEW -->
         <section id="view-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header mb-2">
               <h2><i class="fa-solid fa-microphone" style="color:var(--accent-gold);"></i> Programmes Management</h2>
-              <div class="flex-gap">
+              <div class="flex-gap super-admin-only-action">
                 <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
                 <button id="btn-add-non-stage-prog" class="btn-secondary" style="background:#4f46e5; color:white;"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
               </div>
@@ -1077,7 +1148,6 @@
           <div id="programmes-list-container" class="cards-grid"></div>
         </section>
 
-        <!-- BULK ASSIGNMENT VIEW -->
         <section id="view-item-bulk-assign" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Bulk Programme Assignment</h2>
@@ -1126,14 +1196,13 @@
                 <h3 id="bulk-selected-item-title" style="color:var(--primary-green);">Select Students for Programme</h3>
                 <p id="bulk-selected-item-subtitle" style="font-size:0.82rem; color:var(--accent-gold); font-weight:600;"></p>
               </div>
-              <button id="btn-save-item-bulk" class="btn-primary"><i class="fa-solid fa-circle-check"></i> Save Assignments for Selected Students</button>
+              <button id="btn-save-item-bulk" class="btn-primary admin-only-action"><i class="fa-solid fa-circle-check"></i> Save Assignments for Selected Students</button>
             </div>
             <hr class="divider">
             <div id="bulk-students-checklist" style="max-height: 420px; overflow-y: auto; border:1px solid var(--glass-border-light); padding:1rem; border-radius:12px; background:rgba(0,0,0,0.02);"></div>
           </div>
         </section>
 
-        <!-- PDF EXPORT VIEW -->
         <section id="view-category-pdf" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> Category-wise & Type-wise PDF Export Manager</h2>
@@ -1190,7 +1259,6 @@
           </div>
         </section>
 
-        <!-- REPORTS VIEW -->
         <section id="view-reports" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-file-invoice" style="color:var(--accent-gold);"></i> Reports & Export Manager</h2>
@@ -1213,7 +1281,6 @@
           </div>
         </section>
 
-        <!-- JUDGES SLIP VIEW (Admin Only - Single Slip Per Programme) -->
         <section id="view-judges-slip" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2><i class="fa-solid fa-award" style="color:var(--accent-gold);"></i> Judges Slip Generator</h2>
@@ -1254,7 +1321,6 @@
           </div>
         </section>
 
-        <!-- SETTINGS VIEW -->
         <section id="view-settings" class="app-view">
           <div class="glass-card mb-2">
             <h2><i class="fa-solid fa-gear" style="color:var(--accent-gold);"></i> Team Leadership Settings</h2>
@@ -1279,7 +1345,7 @@
                   <input type="text" id="team-girls-leaders-input" class="form-control" placeholder="Girls team leaders">
                 </div>
               </div>
-              <button type="submit" class="btn-primary mt-2"><i class="fa-solid fa-floppy-disk"></i> Save Team Settings</button>
+              <button type="submit" class="btn-primary mt-2 admin-only-action"><i class="fa-solid fa-floppy-disk"></i> Save Team Settings</button>
             </form>
           </div>
 
@@ -1306,7 +1372,6 @@
           </div>
         </section>
 
-        <!-- SUPPORTING VIEWS -->
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
             <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
@@ -1374,7 +1439,6 @@
           </div>
         </section>
 
-        <!-- TEAM VERSUS VIEW -->
         <section id="view-team-versus" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> Team vs Team Head-to-Head Comparison</h2>
@@ -1434,7 +1498,6 @@
           </div>
         </section>
 
-        <!-- PRACTICE TRACKER VIEW -->
         <section id="view-practice-tracker" class="app-view">
           <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
@@ -1462,8 +1525,7 @@
     </main>
   </div>
 
-  <!-- FLOATING PUBLISH BUTTON (Admin Only) -->
-  <div id="floating-publish-trigger" class="floating-publish-btn" onclick="openModal('modal-publish-result')" title="Publish Result">
+  <div id="floating-publish-trigger" class="floating-publish-btn super-admin-only-action" onclick="openModal('modal-publish-result')" title="Publish Result">
     <i class="fa-solid fa-trophy"></i>
   </div>
 
@@ -1471,33 +1533,30 @@
   <div id="modal-auth" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-shield-halved"></i> Admin Login</h3>
+        <h3 id="login-modal-title"><i class="fa-solid fa-shield-halved"></i> Admin Login</h3>
         <button class="close-modal">×</button>
       </div>
       <form id="form-login">
         <div class="form-group">
-          <label>Admin Email</label>
+          <label id="login-email-label">Admin Email</label>
           <input type="email" id="login-email" class="form-control" required placeholder="admin@madrasa.com">
         </div>
         <div class="form-group mt-1">
           <label>Password</label>
           <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
         </div>
-        <button type="submit" class="btn-primary full-width mt-2">Sign In</button>
+        <button type="submit" class="btn-primary full-width mt-2" id="login-submit-btn">Sign In</button>
       </form>
     </div>
   </div>
 
-  <!-- TEAM WINNERS DETAILS MODAL -->
   <div id="modal-team-winners" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
         <h3 id="modal-team-title" style="color:var(--accent-gold);">Team Winners List</h3>
         <button class="close-modal" onclick="closeModal('modal-team-winners')">×</button>
       </div>
-      <div id="modal-team-winners-list" class="table-responsive">
-        <!-- Loaded dynamically -->
-      </div>
+      <div id="modal-team-winners-list" class="table-responsive"></div>
     </div>
   </div>
 
@@ -1643,7 +1702,6 @@
     </div>
   </div>
 
-  <!-- ADMIN RESULT PUBLISHING MODAL (App-Friendly Foreground UI) -->
   <div id="modal-publish-result" class="modal">
     <div class="modal-content glass-card wide" style="max-width: 720px;">
       <div class="modal-header">
@@ -1683,7 +1741,6 @@
             </select>
           </div>
           
-          <!-- 1st Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:10px; border-radius:8px; border:1px solid var(--accent-gold);">
             <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner Name (10 Points)</label>
             <select id="pub-1st-student-select" class="form-control mb-1" onchange="onFirstStudentSelectChange(this.value)">
@@ -1693,7 +1750,6 @@
             <small id="detected-team-label" style="color:var(--accent-gold); font-weight:700; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
-          <!-- 2nd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">2nd Place Winner Name (5 Points)</label>
             <select id="pub-2nd-student-select" class="form-control mb-1" onchange="onSecondStudentSelectChange(this.value)">
@@ -1703,7 +1759,6 @@
             <small id="detected-team-label-2nd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
           </div>
 
-          <!-- 3rd Place -->
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
             <label style="font-weight:700;">3rd Place Winner Name (3 Points)</label>
             <select id="pub-3rd-student-select" class="form-control mb-1" onchange="onThirdStudentSelectChange(this.value)">
@@ -1718,7 +1773,6 @@
     </div>
   </div>
 
-  <!-- SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
@@ -1748,6 +1802,8 @@
     const state = {
       currentUser: null,
       isAdmin: false,
+      isSuperAdmin: false,
+      adminTeam: null,
       activeTeam: 'MADEENATHU-SSALAM',
       students: [],
       programmes: [],
@@ -1771,6 +1827,20 @@
     };
 
     let activeSnapshotUnsubscribers = [];
+
+    function isTeamAuthorized() {
+      if (!state.currentUser) return false;
+      if (state.isSuperAdmin) return true;
+      return state.adminTeam === state.activeTeam;
+    }
+
+    function updateAccessUI() {
+      if (isTeamAuthorized()) {
+        document.body.classList.add('is-team-admin');
+      } else {
+        document.body.classList.remove('is-team-admin');
+      }
+    }
 
     async function logActivity(actionMessage) {
       try {
@@ -1805,6 +1875,7 @@
       setupEventListeners();
       setupAuthObserver();
       updateJudgeSlipProgrammeOptions();
+      updateSidebarTeamButtons();
 
       setTimeout(() => {
         const loader = document.getElementById('loading-screen');
@@ -1815,11 +1886,21 @@
       }, 800);
     }
 
+    function updateSidebarTeamButtons() {
+      const teamBtnText = document.getElementById('team-login-btn-text');
+      if (teamBtnText) {
+        teamBtnText.textContent = `${state.activeTeam} Admin Login`;
+      }
+    }
+
     window.selectTeamAndEnter = (teamName) => {
       state.activeTeam = teamName;
       document.getElementById('topbar-team-name').textContent = teamName;
+      document.getElementById('dash-team-name').textContent = teamName;
+      document.getElementById('team-name-input').value = teamName;
       document.getElementById('team-selection-gateway').classList.add('hidden');
-      showToast(`Welcome to ${teamName}!`, 'success');
+      updateSidebarTeamButtons();
+      updateAccessUI();
       setupRealtimeListeners();
     };
 
@@ -1897,15 +1978,40 @@
     }
 
     function setupEventListeners() {
-      document.getElementById('btn-auth-action').addEventListener('click', () => {
-        if (state.currentUser) {
-          signOut(auth).then(() => {
-            showToast('Signed out successfully', 'success');
-            logActivity("Admin signed out");
-          });
+      document.getElementById('btn-team-admin-login').addEventListener('click', () => {
+        const modalTitle = document.getElementById('login-modal-title');
+        const emailInput = document.getElementById('login-email');
+        const emailLabel = document.getElementById('login-email-label');
+
+        modalTitle.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${state.activeTeam} Admin Login`;
+        emailLabel.textContent = `${state.activeTeam} Admin Email`;
+        
+        if (state.activeTeam === 'MADEENATHU-SSALAM') {
+          emailInput.value = 'salam.admin@madrasa.com';
         } else {
-          openModal('modal-auth');
+          emailInput.value = 'noor.admin@madrasa.com';
         }
+        document.getElementById('login-password').value = '';
+        openModal('modal-auth');
+      });
+
+      document.getElementById('btn-super-admin-login').addEventListener('click', () => {
+        const modalTitle = document.getElementById('login-modal-title');
+        const emailInput = document.getElementById('login-email');
+        const emailLabel = document.getElementById('login-email-label');
+
+        modalTitle.innerHTML = `<i class="fa-solid fa-crown" style="color:var(--accent-gold);"></i> Super Admin Login`;
+        emailLabel.textContent = `Super Admin Email`;
+        emailInput.value = 'admin@madrasa.com';
+        document.getElementById('login-password').value = '';
+        openModal('modal-auth');
+      });
+
+      document.getElementById('btn-signout-action').addEventListener('click', () => {
+        signOut(auth).then(() => {
+          showToast('Signed out successfully', 'success');
+          logActivity("Admin signed out");
+        });
       });
 
       document.querySelectorAll('.close-modal').forEach(btn => {
@@ -1914,13 +2020,16 @@
 
       document.getElementById('form-login').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
+        const passInput = document.getElementById('login-password').value;
+
         try {
-          await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value);
+          await signInWithEmailAndPassword(auth, emailInput, passInput);
           closeModal('modal-auth');
-          showToast('Admin mode granted', 'success');
-          logActivity("Admin logged in successfully");
-          renderAdminResultActionBtn();
+          showToast(`Welcome! Logged in successfully`, 'success');
+          logActivity(`Admin logged in: ${emailInput}`);
         } catch (err) {
+          console.error("Login failed:", err);
           showToast('Invalid admin credentials', 'error');
         }
       });
@@ -1929,6 +2038,7 @@
       if (pubForm) {
         pubForm.addEventListener('submit', async (e) => {
           e.preventDefault();
+          if (!state.isSuperAdmin) return showToast('Super Admin permission required to publish results!', 'error');
 
           const docId = document.getElementById('pub-doc-id').value;
           const progSelect = document.getElementById('pub-prog-name-select');
@@ -1936,7 +2046,6 @@
           const category = document.getElementById('pub-category').value;
           const gender = document.getElementById('pub-gender').value;
 
-          // Duplicate checking during publish result
           const isDuplicate = state.publishedResults.some(r => {
             return r.id !== docId &&
                    r.programmeName?.trim().toLowerCase() === programmeName.trim().toLowerCase() &&
@@ -1945,12 +2054,11 @@
           });
 
           if (isDuplicate) {
-            showToast(`⚠️ ഈ പ്രോഗ്രാം (${programmeName}) ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്! (Already published)`, 'warning');
+            showToast(`⚠️ ഈ പ്രോഗ്രാം (${programmeName}) ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
             return;
           }
           
           const firstStudentName = document.getElementById('pub-1st-student').value;
-          
           let primaryTeam = 'MADEENATHU-SSALAM';
           const foundStd = state.students.find(s => s.name.trim().toLowerCase() === firstStudentName.trim().toLowerCase());
           if (foundStd && foundStd.team) {
@@ -1997,7 +2105,8 @@
 
       document.getElementById('form-team-settings').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        if (!isTeamAuthorized()) return showToast(`Permission denied! Only ${state.activeTeam} Admin can save settings here.`, 'error');
+        
         const data = {
           advisors: document.getElementById('team-advisors-input').value,
           boysLeaders: document.getElementById('team-boys-leaders-input').value,
@@ -2014,7 +2123,7 @@
 
       document.getElementById('form-announcement').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        if (!state.isSuperAdmin && !state.isAdmin) return showToast('Admin mode required', 'error');
         const msg = document.getElementById('announcement-input').value.trim();
 
         try {
@@ -2032,7 +2141,7 @@
       });
 
       document.getElementById('btn-add-student').addEventListener('click', () => {
-        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
         document.getElementById('form-student').reset();
         document.getElementById('student-doc-id').value = '';
         document.getElementById('modal-student-title').textContent = 'Add Student';
@@ -2041,7 +2150,7 @@
 
       document.getElementById('form-student').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
 
         const docId = document.getElementById('student-doc-id').value;
         const studentData = {
@@ -2074,7 +2183,6 @@
       document.getElementById('btn-print-parent-slip').addEventListener('click', () => window.print());
       document.getElementById('btn-whatsapp-parent-slip').addEventListener('click', shareWhatsAppSlip);
 
-      // Separate Stage & Non-Stage PDF Export Listeners
       document.getElementById('btn-generate-boys-stage-pdf').addEventListener('click', () => generateGenderWisePDF('Male', 'Stage'));
       document.getElementById('btn-generate-boys-nonstage-pdf').addEventListener('click', () => generateGenderWisePDF('Male', 'Non-Stage'));
       document.getElementById('btn-generate-girls-stage-pdf').addEventListener('click', () => generateGenderWisePDF('Female', 'Stage'));
@@ -2085,7 +2193,7 @@
 
       document.getElementById('form-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isAdmin) return showToast('Admin mode required', 'error');
+        if (!state.isSuperAdmin) return showToast('Super Admin permission required to add programmes!', 'error');
 
         const docId = document.getElementById('prog-doc-id').value;
         const maxVal = document.getElementById('prog-max-input').value;
@@ -2094,7 +2202,6 @@
         const gender = document.getElementById('prog-gender-input').value;
         const type = document.getElementById('prog-type-hidden').value;
 
-        // Duplicate checking during programme addition
         const isDuplicate = state.programmes.some(p => {
           return p.id !== docId &&
                  p.name?.trim().toLowerCase() === progName.trim().toLowerCase() &&
@@ -2200,7 +2307,7 @@
         if (foundAssign && foundAssign.team) {
           label.innerHTML = `Team: <strong style="color:#10b981; font-size:1rem;">${foundAssign.team}</strong>`;
         } else {
-          label.innerHTML = `Team: <span style="color:var(--accent-gold);">Not found in student database</span>`;
+          label.innerHTML = `Team: <span style="color:var(--accent-gold);">Not found in database</span>`;
         }
       }
     }
@@ -2211,38 +2318,79 @@
         state.isAdmin = !!user;
 
         const roleBadge = document.getElementById('role-badge');
-        const btnAuth = document.getElementById('btn-auth-action');
+        const loginButtonsContainer = document.getElementById('login-buttons-container');
+        const btnSignOut = document.getElementById('btn-signout-action');
         const announcementCard = document.getElementById('admin-announcement-card');
         const judgeMenu = document.getElementById('menu-judges-slip');
         const resultMgmtMenu = document.getElementById('menu-result-management');
         const floatBtn = document.getElementById('floating-publish-trigger');
 
         if (user) {
-          roleBadge.textContent = 'Admin Mode';
-          roleBadge.className = 'badge badge-admin';
-          btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
+          const email = (user.email || '').toLowerCase();
+          loginButtonsContainer.style.display = 'none';
+          btnSignOut.style.display = 'block';
           if (announcementCard) announcementCard.style.display = 'block';
-          if (judgeMenu) judgeMenu.style.display = 'flex';
-          if (resultMgmtMenu) resultMgmtMenu.style.display = 'flex';
-          if (floatBtn) floatBtn.style.display = 'flex';
+
+          if (email.includes('salam')) {
+            state.isSuperAdmin = false;
+            state.adminTeam = 'MADEENATHU-SSALAM';
+            state.activeTeam = 'MADEENATHU-SSALAM';
+            roleBadge.textContent = 'Madeenathu-Ssalam Admin';
+            roleBadge.className = 'badge badge-completed';
+            document.body.classList.remove('is-super-admin');
+            if (judgeMenu) judgeMenu.style.display = 'none';
+            if (resultMgmtMenu) resultMgmtMenu.style.display = 'none';
+            if (floatBtn) floatBtn.style.display = 'none';
+          } else if (email.includes('noor')) {
+            state.isSuperAdmin = false;
+            state.adminTeam = 'MADEENATHU-NNOOR';
+            state.activeTeam = 'MADEENATHU-NNOOR';
+            roleBadge.textContent = 'Madeenathu-Nnoor Admin';
+            roleBadge.className = 'badge badge-stageready';
+            document.body.classList.remove('is-super-admin');
+            if (judgeMenu) judgeMenu.style.display = 'none';
+            if (resultMgmtMenu) resultMgmtMenu.style.display = 'none';
+            if (floatBtn) floatBtn.style.display = 'none';
+          } else {
+            state.isSuperAdmin = true;
+            state.adminTeam = 'ALL';
+            roleBadge.textContent = 'Super Admin';
+            roleBadge.className = 'badge badge-admin';
+            document.body.classList.add('is-super-admin');
+            if (judgeMenu) judgeMenu.style.display = 'flex';
+            if (resultMgmtMenu) resultMgmtMenu.style.display = 'flex';
+            if (floatBtn) floatBtn.style.display = 'flex';
+          }
         } else {
+          state.isSuperAdmin = false;
+          state.adminTeam = null;
+          document.body.classList.remove('is-super-admin');
           roleBadge.textContent = 'View Only';
           roleBadge.className = 'badge badge-visitor';
-          btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Admin Login';
+          loginButtonsContainer.style.display = 'block';
+          btnSignOut.style.display = 'none';
           if (announcementCard) announcementCard.style.display = 'none';
           if (judgeMenu) judgeMenu.style.display = 'none';
           if (resultMgmtMenu) resultMgmtMenu.style.display = 'none';
           if (floatBtn) floatBtn.style.display = 'none';
         }
+        
+        document.getElementById('topbar-team-name').textContent = state.activeTeam;
+        document.getElementById('dash-team-name').textContent = state.activeTeam;
+        document.getElementById('team-name-input').value = state.activeTeam;
+        
+        updateAccessUI();
+        setupRealtimeListeners();
         renderAdminResultActionBtn();
         renderManagePublishedResultsTable();
+        updateSidebarTeamButtons();
       });
     }
 
     function renderAdminResultActionBtn() {
       const container = document.getElementById('admin-result-action-btn-container');
       if (!container) return;
-      if (state.isAdmin) {
+      if (state.isSuperAdmin) {
         container.innerHTML = `<button class="btn-secondary" onclick="openModal('modal-publish-result')"><i class="fa-solid fa-plus"></i> Publish Result</button>`;
       } else {
         container.innerHTML = '';
@@ -2351,10 +2499,16 @@
     };
 
     function setupRealtimeListeners() {
-      activeSnapshotUnsubscribers.forEach(unsub => unsub());
+      activeSnapshotUnsubscribers.forEach(unsub => {
+        if (typeof unsub === 'function') unsub();
+      });
       activeSnapshotUnsubscribers = [];
 
+      updateAccessUI();
+
       document.getElementById('team-name-input').value = state.activeTeam;
+      document.getElementById('dash-team-name').textContent = state.activeTeam;
+      document.getElementById('topbar-team-name').textContent = state.activeTeam;
 
       const unsubTeam = onSnapshot(doc(db, 'teams', state.activeTeam), (s) => {
         if (s.exists()) {
@@ -2408,8 +2562,7 @@
       });
       activeSnapshotUnsubscribers.push(unsubStudents);
 
-      const qMixed = query(collection(db, 'mixed_groups'), where('team', '==', state.activeTeam));
-      const unsubMixed = onSnapshot(qMixed, (s) => {
+      const unsubMixed = onSnapshot(query(collection(db, 'mixed_groups'), where('team', '==', state.activeTeam)), (s) => {
         state.mixedGroups = s.docs.map(d => ({ id: d.id, ...d.data() }));
         updateDashboardStats();
       });
@@ -2450,22 +2603,20 @@
       });
       activeSnapshotUnsubscribers.push(unsubResults);
 
-      const qPractice = query(collection(db, 'practice'), where('team', '==', state.activeTeam));
-      const unsubPractice = onSnapshot(qPractice, (s) => {
+      const unsubPractice = onSnapshot(query(collection(db, 'practice'), where('team', '==', state.activeTeam)), (s) => {
         state.practice = s.docs.map(d => ({ id: d.id, ...d.data() }));
         renderPracticeTable();
         updateDashboardStats();
         renderDashboardStudentStatusTable();
       });
-      activeSnapshotUnsubscribers.push(qPractice);
+      activeSnapshotUnsubscribers.push(unsubPractice);
 
-      const qLogs = query(collection(db, 'audit_logs'), where('team', '==', state.activeTeam), limit(15));
-      const unsubLogs = onSnapshot(qLogs, (s) => {
+      const unsubLogs = onSnapshot(query(collection(db, 'audit_logs'), where('team', '==', state.activeTeam), limit(15)), (s) => {
         state.auditLogs = s.docs.map(d => ({ id: d.id, ...d.data() }));
         state.auditLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         renderAuditLogs();
       });
-      activeSnapshotUnsubscribers.push(qLogs);
+      activeSnapshotUnsubscribers.push(unsubLogs);
     }
 
     function getStudentTeam(studentName) {
@@ -2695,7 +2846,7 @@
           <div style="text-align:center; padding: 2.5rem 1rem; background: rgba(239, 68, 68, 0.08); border-radius: 12px; border: 1.5px dashed #ef4444;">
             <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏳</div>
             <h4 style="color: #ef4444; font-size: 1.2rem; font-weight: 700;">Results Not Published Yet</h4>
-            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem;">The scores and winner details for ${programmeName} have not been published by the admin yet.</p>
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem;">The scores and winner details for ${programmeName} have not been published yet.</p>
           </div>
         `;
         openModal('modal-result-details');
@@ -2704,7 +2855,6 @@
 
       let winnersHtml = '';
 
-      // 1st Place Card Box
       if (result.firstStudent || result.studentName) {
         const studentName = result.firstStudent || result.studentName;
         const t1 = getStudentTeam(studentName) || result.team;
@@ -2723,7 +2873,6 @@
         `;
       }
 
-      // 2nd Place Card Box
       if (result.secondStudent) {
         const studentName = result.secondStudent;
         const t2 = getStudentTeam(studentName) || 'N/A';
@@ -2742,7 +2891,6 @@
         `;
       }
 
-      // 3rd Place Card Box
       if (result.thirdStudent) {
         const studentName = result.thirdStudent;
         const t3 = getStudentTeam(studentName) || 'N/A';
@@ -2841,16 +2989,19 @@
           <td>${r.secondStudent || '-'}</td>
           <td>${r.thirdStudent || '-'}</td>
           <td>
-            <button class="btn-action-sm btn-manage" onclick="window.editPublishedResult('${r.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
-            <button class="btn-action-sm btn-manage" onclick="window.republishResult('${r.id}')" style="background:rgba(16,185,129,0.2); color:#10b981; border-color:#10b981;"><i class="fa-solid fa-rotate"></i> Republish</button>
             <button class="btn-action-sm btn-manage" onclick="window.openResultDetailsPageFromId('${r.id}')" style="background:rgba(59,130,246,0.2); color:#3b82f6; border-color:#3b82f6;"><i class="fa-solid fa-eye"></i> View</button>
-            <button class="btn-danger-sm" onclick="window.deletePublishedResult('${r.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+            ${state.isSuperAdmin ? `
+              <button class="btn-action-sm btn-manage" onclick="window.editPublishedResult('${r.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+              <button class="btn-action-sm btn-manage" onclick="window.republishResult('${r.id}')" style="background:rgba(16,185,129,0.2); color:#10b981; border-color:#10b981;"><i class="fa-solid fa-rotate"></i> Republish</button>
+              <button class="btn-danger-sm" onclick="window.deletePublishedResult('${r.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+            ` : ''}
           </td>
         </tr>
       `).join('');
     }
 
     window.editPublishedResult = function(id) {
+      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
       const r = state.publishedResults.find(x => x.id === id);
       if (!r) return;
 
@@ -2874,6 +3025,7 @@
     };
 
     window.republishResult = function(id) {
+      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
       showToast('Result Published Successfully', 'success');
       logActivity(`Republished result ID: ${id}`);
     };
@@ -2885,6 +3037,7 @@
     };
 
     window.deletePublishedResult = async function(id) {
+      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
       if (confirm('Are you sure you want to delete this published result?')) {
         try {
           await deleteDoc(doc(db, 'publishedResults', id));
@@ -3184,7 +3337,7 @@
           const icon = p.status === 'Stage Ready' ? '⭐' : (p.status === 'Completed' ? '✅' : '🟡');
           const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : (p.status === 'Completed' ? 'badge-completed' : 'badge-learning');
           
-          let deleteBtnHtml = ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Delete Programme"><i class="fa-solid fa-trash"></i></button>`;
+          let deleteBtnHtml = isTeamAuthorized() ? ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Delete Programme"><i class="fa-solid fa-trash"></i></button>` : '';
 
           return `<span class="badge ${bClass}">${icon} ${p.programmeName}${deleteBtnHtml}</span>`;
         };
@@ -3193,10 +3346,10 @@
         const learningBadgesHtml = learningItems.length ? learningItems.map(createBadgeHtml).join(' ') : '<small style="opacity:0.5;">None</small>';
 
         let actionBtnHtml = '';
-        if (studentPractice.length > 0) {
+        if (isTeamAuthorized() && studentPractice.length > 0) {
           actionBtnHtml = `<button class="btn-action-sm btn-manage" onclick="window.openStatusManageModal('${s.id}')"><i class="fa-solid fa-sliders"></i> Manage Progress</button>`;
         } else {
-          actionBtnHtml = '<small style="opacity:0.5;">No stage items assigned</small>';
+          actionBtnHtml = '';
         }
 
         const cleanRoll = getStudentRollNo(s, null);
@@ -3233,6 +3386,7 @@
     }
 
     window.removeStudentPracticeItem = async (practiceId, studentName, progName) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       if (confirm(`Remove "${progName}" for ${studentName}?`)) {
         try {
           await deleteDoc(doc(db, 'practice', practiceId));
@@ -3350,9 +3504,11 @@
               ${isAssigned ? `
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                   <span class="badge badge-completed">Already Assigned</span>
-                  <button class="btn-danger-sm" onclick="window.unassignBulkParticipant('${existingAssign.id}', '${s.name}', '${selectedProg.name}')">
-                    <i class="fa-solid fa-user-minus"></i> Remove
-                  </button>
+                  ${isTeamAuthorized() ? `
+                    <button class="btn-danger-sm" onclick="window.unassignBulkParticipant('${existingAssign.id}', '${s.name}', '${selectedProg.name}')">
+                      <i class="fa-solid fa-user-minus"></i> Remove
+                    </button>
+                  ` : ''}
                 </div>
               ` : ''}
             </div>
@@ -3362,6 +3518,7 @@
     }
 
     window.unassignBulkParticipant = async (assignmentId, studentName, progName) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       if (confirm(`Remove "${progName}" for ${studentName}?`)) {
         try {
           await deleteDoc(doc(db, 'assignments', assignmentId));
@@ -3380,6 +3537,7 @@
     };
 
     async function saveItemBulkAssignment() {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       const progId = document.getElementById('bulk-item-name-select').value;
       const prog = state.programmes.find(p => p.id === progId);
       if (!prog) return showToast('Please select a programme first', 'warning');
@@ -3393,7 +3551,6 @@
         const student = state.students.find(s => s.id === studentId);
         if (!student) continue;
 
-        // Duplicate checking for student assignment
         const alreadyAssigned = state.assignments.some(a => 
           (a.studentDocId === student.id || a.studentName?.trim().toLowerCase() === student.name.trim().toLowerCase()) &&
           (a.programmeDocId === prog.id || a.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase())
@@ -3573,6 +3730,7 @@
     }
 
     window.openStatusManageModal = (studentDocId) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
 
@@ -3625,6 +3783,7 @@
     };
 
     window.updatePracticeStatusDirect = async (practiceId, newStatus, studentDocId, studentName, progName) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       await updateDoc(doc(db, 'practice', practiceId), { status: newStatus });
       showToast('Practice status updated', 'success');
       logActivity(`Updated status to "${newStatus}" for ${studentName} - ${progName}`);
@@ -3632,6 +3791,7 @@
     };
 
     window.updatePracticeStatus = async (id, status) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       const item = state.practice.find(p => p.id === id);
       await updateDoc(doc(db, 'practice', id), { status });
       showToast('Practice status updated', 'success');
@@ -3709,9 +3869,11 @@
             <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender === 'Male' ? 'Boys' : 'Girls'}</span> <span class="badge badge-visitor">${p.category}</span></p>
             <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: <strong>${countText}</strong></p>
             <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
-            <div style="margin-top:0.8rem; text-align:right;">
-              <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete Programme</button>
-            </div>
+            ${state.isSuperAdmin ? `
+              <div style="margin-top:0.8rem; text-align:right;">
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete Programme</button>
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('') : '<p>No programmes found for this selection.</p>';
@@ -3813,7 +3975,7 @@
                 <th>Gender Section</th>
                 <th>Max Limit</th>
                 <th>Assigned Count</th>
-                <th class="no-print">Action</th>
+                ${state.isSuperAdmin ? `<th class="no-print">Action</th>` : ''}
               </tr>
             </thead>
             <tbody>
@@ -3827,9 +3989,11 @@
                     <td>${p.gender === 'Male' ? 'Boys' : 'Girls'}</td>
                     <td>${limitText}</td>
                     <td>${assignedCount} ${p.maxParticipants ? '/ ' + p.maxParticipants : ''}</td>
-                    <td>
-                      <button class="btn-danger-sm" onclick="window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
-                    </td>
+                    ${state.isSuperAdmin ? `
+                      <td>
+                        <button class="btn-danger-sm" onclick="window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                      </td>
+                    ` : ''}
                   </tr>
                 `;
               }).join('') : '<tr><td colspan="6" class="text-center">No programmes found.</td></tr>'}
@@ -3879,12 +4043,15 @@
             return `<li>[Roll No: ${roll}] ${cls} - ${a.studentName}</li>`;
           }).join('') : '<li>No students assigned yet.</li>'}
         </ul>
-        <button class="btn-danger full-width" onclick="window.deleteProgramme('${p.id}'); closeModal('modal-prog-details');"><i class="fa-solid fa-trash"></i> Delete This Programme Entirely</button>
+        ${state.isSuperAdmin ? `
+          <button class="btn-danger full-width" onclick="window.deleteProgramme('${p.id}'); closeModal('modal-prog-details');"><i class="fa-solid fa-trash"></i> Delete This Programme Entirely</button>
+        ` : ''}
       `;
       openModal('modal-prog-details');
     };
 
     window.deleteProgramme = async (id) => {
+      if (!state.isSuperAdmin) return showToast('Super Admin permission required to delete programmes!', 'error');
       const prog = state.programmes.find(p => p.id === id);
       if (!prog) return;
 
@@ -3953,8 +4120,10 @@
             <td><span class="badge badge-visitor">${s.category}</span></td>
             <td>${s.team}</td>
             <td>
-              <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+              ${isTeamAuthorized() ? `
+                <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
+              ` : '<small style="opacity:0.5;">-</small>'}
             </td>
           </tr>
         `;
@@ -4126,6 +4295,7 @@
     }
 
     window.editStudent = (id) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       const s = state.students.find(x => x.id === id);
       if (!s) return;
       document.getElementById('student-doc-id').value = s.id;
@@ -4139,6 +4309,7 @@
     };
 
     window.deleteStudent = async (id) => {
+      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
       const s = state.students.find(x => x.id === id);
       if (confirm('Delete student record?')) {
         await deleteDoc(doc(db, 'students', id));
@@ -4148,6 +4319,7 @@
     };
 
     function openProgrammeModal(type) {
+      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
       document.getElementById('form-programme').reset();
       document.getElementById('prog-doc-id').value = '';
       document.getElementById('prog-type-hidden').value = type;
@@ -4186,11 +4358,13 @@
             <td>${p.studentGender === 'Male' ? 'Boys' : 'Girls'} / ${p.studentCategory}</td>
             <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
             <td>
-              <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
-                <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
-                <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
-                <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
-              </select>
+              ${isTeamAuthorized() ? `
+                <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
+                  <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
+                  <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
+                  <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
+                </select>
+              ` : '<small style="opacity:0.6;">View Only</small>'}
             </td>
           </tr>
         `;
@@ -4237,8 +4411,7 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.style.cssText = `padding: 0.9rem 1.3rem; border-radius: 8px; background: ${type==='success'?'#10b981':'#ef4444'}; color: #fff; font-size: 0.9rem; font-weight: 500;`;
-      toast.textContent = `✅ ${msg}`;
+      toast.innerHTML = `${type === 'success' ? '✅' : '⚠️'} ${msg}`;
       container.appendChild(toast);
       setTimeout(() => toast.remove(), 3200);
     }
