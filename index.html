@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Hidayathul Islam Madrasa Achangi - Rabi'ul Awwal Programme Management System">
   
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -24,13 +24,13 @@
       --text-dark: #111827;
       --card-bg-light: #ffffff;
       --glass-border-light: rgba(13, 92, 58, 0.12);
-      --shadow-light: 0 10px 25px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      --shadow-light: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
 
       --bg-dark: #0a110e;
       --text-light: #f3f4f6;
       --card-bg-dark: rgba(18, 30, 25, 0.95);
       --glass-border-dark: rgba(212, 175, 55, 0.2);
-      --shadow-dark: 0 10px 25px -3px rgba(0, 0, 0, 0.5);
+      --shadow-dark: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
     }
 
     * {
@@ -38,36 +38,37 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
       width: 100%;
       min-height: 100vh;
       overflow-x: hidden;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
     }
 
-    body.light-mode { background-color: var(--bg-light); color: var(--text-dark); }
     body.dark-mode { background-color: var(--bg-dark); color: var(--text-light); }
 
     .single-judge-slip-card {
       border: 2px dashed var(--accent-gold);
-      padding: 2rem;
-      border-radius: 14px;
+      padding: 1rem;
+      border-radius: 10px;
       background: white;
       color: #111;
-      max-width: 750px;
-      margin: 1.5rem auto;
+      max-width: 100%;
+      margin: 0.8rem auto;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
     .judge-slip-top-header {
       text-align: center;
       border-bottom: 2px solid #0d5c3a;
-      padding-bottom: 0.8rem;
-      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
     }
-    .judge-slip-top-header h2 { font-family: 'Amiri', serif; font-size: 1.6rem; color: #0d5c3a; }
-    .judge-slip-top-header p { font-weight: 700; font-size: 0.85rem; color: #d4af37; text-transform: uppercase; }
+    .judge-slip-top-header h2 { font-family: 'Amiri', serif; font-size: 1.2rem; color: #0d5c3a; }
+    .judge-slip-top-header p { font-weight: 700; font-size: 0.75rem; color: #d4af37; text-transform: uppercase; }
 
     .app-container { 
       display: flex; 
@@ -85,74 +86,74 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 0.8rem;
       text-align: center;
       color: #ffffff;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      overflow-y: auto;
     }
     #team-selection-gateway.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-    .gateway-header h1 { font-family: 'Amiri', serif; font-size: 2.2rem; color: #ffffff; margin-bottom: 0.3rem; letter-spacing: 0.5px; }
-    .gateway-header h2 { font-size: 1.1rem; color: var(--accent-gold); font-weight: 600; margin-bottom: 2rem; letter-spacing: 1px; text-transform: uppercase; }
-    .gateway-subtitle { font-size: 1rem; color: rgba(255, 255, 255, 0.85); font-weight: 500; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 1.5px; }
+    .gateway-header h1 { font-family: 'Amiri', serif; font-size: 1.4rem; color: #ffffff; margin-bottom: 0.2rem; line-height: 1.2; }
+    .gateway-header h2 { font-size: 0.8rem; color: var(--accent-gold); font-weight: 600; margin-bottom: 1rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    .gateway-subtitle { font-size: 0.8rem; color: rgba(255, 255, 255, 0.85); font-weight: 500; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
 
-    .teams-gateway-grid { display: flex; gap: 2rem; max-width: 800px; width: 100%; justify-content: center; flex-wrap: wrap; }
+    .teams-gateway-grid { display: flex; gap: 0.8rem; max-width: 650px; width: 100%; justify-content: center; flex-wrap: wrap; }
     
     .team-gateway-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 2px solid rgba(212, 175, 55, 0.3);
-      border-radius: 20px;
-      padding: 2.5rem 2rem;
-      flex: 1; min-width: 280px; max-width: 350px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 14px;
+      padding: 1.5rem 1rem;
+      flex: 1; min-width: 240px; max-width: 300px;
       cursor: pointer;
       backdrop-filter: blur(10px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
+      gap: 0.8rem;
     }
-    .team-gateway-card:hover { transform: translateY(-8px); border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.12); box-shadow: 0 20px 40px rgba(13, 92, 58, 0.5); }
-    .team-gateway-card.green-team { border-left: 6px solid #10b981; }
-    .team-gateway-card.blue-team { border-left: 6px solid #3b82f6; }
+    .team-gateway-card.green-team { border-left: 4px solid #10b981; }
+    .team-gateway-card.blue-team { border-left: 4px solid #3b82f6; }
 
-    .team-gateway-icon { width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #ffffff; }
+    .team-gateway-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #ffffff; }
     .green-team .team-gateway-icon { background: linear-gradient(135deg, #10b981, #059669); }
     .blue-team .team-gateway-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
 
-    .team-gateway-card h3 { font-size: 1.35rem; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; }
-    .team-gateway-btn { margin-top: 0.5rem; padding: 0.75rem 1.8rem; border-radius: 30px; font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .team-gateway-card h3 { font-size: 1rem; font-weight: 700; color: #ffffff; }
+    .team-gateway-btn { margin-top: 0.2rem; padding: 0.5rem 1.2rem; border-radius: 30px; font-weight: 700; font-size: 0.8rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem; }
     .green-team .team-gateway-btn { background: #10b981; color: #ffffff; }
     .blue-team .team-gateway-btn { background: #3b82f6; color: #ffffff; }
 
     .announcement-ticker {
       background: linear-gradient(90deg, #d4af37, #f59e0b, #d4af37);
       color: #072e1d;
-      padding: 0.6rem 1rem;
+      padding: 0.4rem 0.7rem;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       display: none;
       align-items: center;
-      gap: 1rem;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-      position: sticky; top: 70px; z-index: 85;
+      gap: 0.7rem;
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+      position: sticky; top: 50px; z-index: 85;
       overflow: hidden;
       width: 100%;
     }
     .announcement-ticker.active { display: flex; }
-    .ticker-badge { background: #072e1d; color: var(--accent-gold); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
-    .ticker-content { white-space: nowrap; animation: marquee 25s linear infinite; }
+    .ticker-badge { background: #072e1d; color: var(--accent-gold); padding: 0.1rem 0.35rem; border-radius: 12px; font-size: 0.6rem; text-transform: uppercase; flex-shrink: 0; }
+    .ticker-content { white-space: nowrap; animation: marquee 18s linear infinite; }
     @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
     .glass-card {
       background: var(--card-bg-light);
       border: 1px solid var(--glass-border-light);
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 10px;
+      padding: 0.85rem;
       box-shadow: var(--shadow-light);
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.85rem;
       width: 100%;
+      overflow: hidden;
     }
     body.dark-mode .glass-card {
       background: var(--card-bg-dark);
@@ -161,7 +162,7 @@
     }
 
     .sidebar {
-      width: 270px;
+      width: 240px;
       background: linear-gradient(180deg, #052214 0%, #0d5c3a 100%);
       color: #ffffff;
       display: flex;
@@ -169,171 +170,170 @@
       position: fixed;
       top: 0; bottom: 0; left: 0;
       z-index: 100;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(-100%);
+      transition: transform 0.2s ease-in-out;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.3);
     }
+    .sidebar.open { transform: translateX(0); }
 
     .sidebar-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(3px);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 99;
     }
     .sidebar-overlay.active { display: block; }
 
     .sidebar-header {
-      padding: 1.25rem;
+      padding: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 0.5rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .sidebar-logo { font-size: 2rem; color: var(--accent-gold); }
-    .sidebar-title h3 { font-size: 1rem; font-weight: 700; letter-spacing: 0.5px; }
-    .sidebar-title p { font-size: 0.7rem; color: var(--accent-gold); font-weight: 500; }
+    .sidebar-logo { font-size: 1.4rem; color: var(--accent-gold); }
+    .sidebar-title h3 { font-size: 0.85rem; font-weight: 700; }
+    .sidebar-title p { font-size: 0.55rem; color: var(--accent-gold); font-weight: 500; }
 
-    .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.5rem 0; }
+    .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.3rem 0; }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1.25rem;
+      gap: 0.6rem;
+      padding: 0.6rem 1rem;
       color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.8rem;
       font-weight: 500;
       white-space: nowrap;
     }
-    .nav-item i { font-size: 1rem; width: 20px; text-align: center; color: rgba(255, 255, 255, 0.75); }
+    .nav-item i { font-size: 0.85rem; width: 16px; text-align: center; color: rgba(255, 255, 255, 0.75); }
     .nav-item:hover, .nav-item.active {
-      background: rgba(212, 175, 55, 0.18);
+      background: rgba(212, 175, 55, 0.15);
       color: var(--accent-gold);
-      border-left: 4px solid var(--accent-gold);
+      border-left: 3px solid var(--accent-gold);
     }
     .nav-item:hover i, .nav-item.active i { color: var(--accent-gold); }
 
-    .sidebar-footer { padding: 1rem 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .sidebar-footer { padding: 0.7rem 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
     .main-content {
       flex: 1;
-      margin-left: 270px;
+      margin-left: 0;
       display: flex;
       flex-direction: column;
       min-width: 0;
-      width: calc(100% - 270px);
+      width: 100%;
     }
 
     .topbar {
-      height: 70px;
-      padding: 0 2rem;
+      height: 50px;
+      padding: 0 0.7rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--glass-border-light);
       background: var(--card-bg-light);
-      backdrop-filter: blur(10px);
       position: sticky; top: 0; z-index: 90;
       width: 100%;
     }
     body.dark-mode .topbar { background: var(--card-bg-dark); border-bottom-color: var(--glass-border-dark); }
 
-    .topbar-left { display: flex; align-items: center; gap: 1rem; }
+    .topbar-left { display: flex; align-items: center; gap: 0.5rem; }
     
     .current-team-pill {
       background: rgba(212, 175, 55, 0.15);
       color: var(--accent-gold);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      padding: 0.35rem 0.85rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.65rem;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.25rem;
     }
 
     .view-container { 
-      padding: 1.8rem; 
+      padding: 0.65rem; 
       flex: 1; 
       width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
     }
     .app-view { display: none; width: 100%; }
-    .app-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    .app-view.active { display: block; }
 
     .hero-banner {
       background: linear-gradient(135deg, #052214 0%, #0d5c3a 50%, #157a4c 100%);
       color: white;
-      padding: 1.8rem 2rem;
-      border-radius: 18px;
+      padding: 1rem;
+      border-radius: 10px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 12px 30px -5px rgba(13, 92, 58, 0.3);
-      position: relative;
-      overflow: hidden;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      box-shadow: 0 5px 12px -2px rgba(13, 92, 58, 0.3);
       width: 100%;
     }
     
-    .hero-text-content { flex: 1; padding-right: 1rem; }
-    .hero-banner h1 { font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 0.6rem; }
+    .hero-text-content { flex: 1; }
+    .hero-banner h1 { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 0.2rem; line-height: 1.2; }
     .hero-banner h1 span { color: var(--accent-gold); display: block; }
-    .hero-subtitle { font-size: 0.78rem; color: rgba(255, 255, 255, 0.85); font-weight: 500; text-transform: uppercase; }
+    .hero-subtitle { font-size: 0.65rem; color: rgba(255, 255, 255, 0.85); font-weight: 500; text-transform: uppercase; }
 
     .hero-badge {
       background: rgba(212, 175, 55, 0.2);
       color: var(--accent-gold);
       border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 12px;
       font-weight: 600;
-      font-size: 0.78rem;
+      font-size: 0.65rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.25rem;
+      align-self: flex-start;
     }
 
     .team-info-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-      gap: 1.2rem; 
-      font-size: 0.9rem; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 0.6rem; 
+      font-size: 0.78rem; 
       width: 100%;
     }
-    .info-item { display: flex; flex-direction: column; gap: 0.2rem; }
-    .info-label { font-size: 0.75rem; text-transform: uppercase; color: #6b7280; font-weight: 600; }
+    .info-item { display: flex; flex-direction: column; gap: 0.1rem; }
+    .info-label { font-size: 0.6rem; text-transform: uppercase; color: #6b7280; font-weight: 600; }
     body.dark-mode .info-label { color: #9ca3af; }
-    .info-value { font-weight: 600; color: var(--text-dark); }
+    .info-value { font-weight: 600; color: var(--text-dark); word-break: break-word; font-size: 0.75rem; }
     body.dark-mode .info-value { color: var(--text-light); }
-    .highlight-gold { color: var(--primary-green); font-weight: 700; font-size: 1rem; }
+    .highlight-gold { color: var(--primary-green); font-weight: 700; font-size: 0.8rem; }
     body.dark-mode .highlight-gold { color: var(--accent-gold); }
 
-    /* EXPANDED STATS GRID FOR FULL SCREEN USAGE */
     .stats-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-      gap: 1.25rem; 
+      grid-template-columns: 1fr; 
+      gap: 0.7rem; 
       width: 100%;
     }
     .stat-card {
       background: var(--card-bg-light);
       border: 1px solid var(--glass-border-light);
-      border-radius: 14px;
-      padding: 1.25rem 1.4rem;
+      border-radius: 9px;
+      padding: 0.8rem;
       display: flex; 
       align-items: center; 
-      gap: 1.1rem;
+      gap: 0.8rem;
       cursor: pointer;
-      transition: all 0.25s ease;
       box-shadow: var(--shadow-light);
     }
-    .stat-card:hover { transform: translateY(-4px); }
     body.dark-mode .stat-card { background: var(--card-bg-dark); border-color: var(--glass-border-dark); }
 
-    .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: white; flex-shrink: 0; }
+    .stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: white; flex-shrink: 0; }
     .stat-icon.green { background: linear-gradient(135deg, #10b981, #059669); } 
     .stat-icon.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); } 
     .stat-icon.pink { background: linear-gradient(135deg, #ec4899, #db2777); }
@@ -341,60 +341,57 @@
     .stat-icon.orange { background: linear-gradient(135deg, #f97316, #ea580c); } 
     .stat-icon.indigo { background: linear-gradient(135deg, #6366f1, #4f46e5); }
     .stat-icon.purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); } 
-    .stat-icon.teal { background: linear-gradient(135deg, #14b8a6, #0d9488); }
 
-    .stat-info p { font-size: 0.82rem; font-weight: 500; opacity: 0.8; }
-    .stat-info h3 { font-size: 1.4rem; font-weight: 700; margin: 0.1rem 0; }
+    .stat-info p { font-size: 0.72rem; font-weight: 500; opacity: 0.8; }
+    .stat-info h3 { font-size: 1.05rem; font-weight: 700; margin: 0.05rem 0; }
 
-    .progress-bar-container { margin-top: 1rem; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem; }
-    .progress-track { height: 10px; background: rgba(0,0,0,0.06); border-radius: 6px; overflow: hidden; }
+    .progress-bar-container { margin-top: 0.6rem; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 0.2rem; }
+    .progress-track { height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden; }
     body.dark-mode .progress-track { background: rgba(255,255,255,0.1); }
-    .progress-fill { height: 100%; transition: width 0.5s ease; }
+    .progress-fill { height: 100%; transition: width 0.3s ease; }
 
     .bg-success { background-color: #10b981; } .bg-warning { background-color: #f59e0b; } .bg-danger { background-color: #ef4444; }
 
     .dashboard-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-      gap: 1.5rem; 
+      grid-template-columns: 1fr; 
+      gap: 0.85rem; 
       width: 100%;
     }
-    .activity-list { list-style: none; max-height: 260px; overflow-y: auto; }
-    .activity-list li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.88rem; }
+    .activity-list { list-style: none; max-height: 180px; overflow-y: auto; }
+    .activity-list li { padding: 0.45rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.75rem; }
 
     .form-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-      gap: 1rem; 
+      grid-template-columns: 1fr; 
+      gap: 0.7rem; 
       width: 100%;
     }
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-    .form-group label { font-size: 0.85rem; font-weight: 600; opacity: 0.9; }
+    .form-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    .form-group label { font-size: 0.75rem; font-weight: 600; opacity: 0.9; }
 
     .form-control {
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      border-radius: 6px;
       border: 1px solid rgba(0,0,0,0.15);
-      background: rgba(255, 255, 255, 0.8);
-      font-size: 0.92rem; outline: none;
+      background: rgba(255, 255, 255, 0.85);
+      font-size: 0.82rem; outline: none;
       width: 100%;
     }
     body.dark-mode .form-control { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.15); color: white; }
 
-    .btn-primary { background: var(--primary-green); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .btn-primary:hover { background: var(--secondary-green); }
-    .btn-secondary { background: var(--accent-gold); color: #072e1d; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .btn-action-sm { padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; }
+    .btn-primary { background: var(--primary-green); color: white; border: none; padding: 0.6rem 0.9rem; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; font-size: 0.82rem; width: 100%; }
+    .btn-secondary { background: var(--accent-gold); color: #072e1d; border: none; padding: 0.6rem 0.9rem; border-radius: 6px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; font-size: 0.82rem; width: 100%; }
+    .btn-action-sm { padding: 0.25rem 0.55rem; border-radius: 12px; font-size: 0.68rem; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem; }
     .btn-action-sm.btn-manage { background: rgba(212, 175, 55, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
 
-    .btn-whatsapp { background: #25d366; color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 0.85rem; border-radius: 6px; cursor: pointer; }
-    .btn-danger-sm { background: #ef4444; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; }
+    .btn-whatsapp { background: #25d366; color: white; border: none; padding: 0.6rem 0.9rem; border-radius: 6px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; font-size: 0.82rem; width: 100%; text-decoration: none; text-align: center; }
+    .btn-danger { background: #dc2626; color: white; border: none; padding: 0.35rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+    .btn-danger-sm { background: #ef4444; color: white; border: none; padding: 0.2rem 0.45rem; border-radius: 4px; cursor: pointer; font-size: 0.65rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.2rem; }
     
-    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
+    .icon-btn { background: none; border: none; font-size: 1.05rem; cursor: pointer; color: inherit; padding: 0.15rem; }
 
-    /* DYNAMIC ACCESS RESTRICTION CLASSES */
     .admin-only-action { display: none !important; }
     body.is-team-admin .admin-only-action { display: inline-flex !important; }
     body.is-team-admin div.admin-only-action { display: block !important; }
@@ -405,20 +402,20 @@
 
     .student-practice-cards-list { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-      gap: 1rem; 
+      grid-template-columns: 1fr; 
+      gap: 0.7rem; 
       width: 100%;
     }
 
     .student-practice-card {
       background: var(--card-bg-light);
       border: 1px solid var(--glass-border-light);
-      border-radius: 12px;
-      padding: 1.1rem;
+      border-radius: 9px;
+      padding: 0.8rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      gap: 0.5rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
       width: 100%;
     }
     body.dark-mode .student-practice-card {
@@ -431,26 +428,27 @@
       justify-content: space-between;
       align-items: flex-start;
       border-bottom: 1px solid rgba(0,0,0,0.06);
-      padding-bottom: 0.6rem;
+      padding-bottom: 0.4rem;
+      gap: 0.35rem;
     }
     body.dark-mode .student-practice-header { border-bottom-color: rgba(255,255,255,0.08); }
 
-    .student-name-title { font-size: 1.05rem; font-weight: 700; color: var(--primary-green); }
+    .student-name-title { font-size: 0.9rem; font-weight: 700; color: var(--primary-green); }
     body.dark-mode .student-name-title { color: var(--accent-gold); }
 
-    .student-meta-info { font-size: 0.8rem; font-weight: 600; color: #6b7280; margin-top: 0.2rem; }
+    .student-meta-info { font-size: 0.68rem; font-weight: 600; color: #6b7280; margin-top: 0.1rem; }
     body.dark-mode .student-meta-info { color: #9ca3af; }
 
-    .programmes-badges-group { display: flex; flex-direction: column; gap: 0.5rem; }
-    .badge-section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.2rem; }
-    .badges-flex-container { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .programmes-badges-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .badge-section-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.1rem; }
+    .badges-flex-container { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; min-width: 650px; }
-    .data-table th, .data-table td { padding: 0.75rem 0.85rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: nowrap; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.78rem; min-width: 100%; }
+    .data-table th, .data-table td { padding: 0.5rem 0.55rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); white-space: nowrap; }
     .data-table th { font-weight: 700; color: var(--accent-gold); background: rgba(0,0,0,0.02); }
 
-    .badge { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 2px; }
+    .badge { padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.65rem; font-weight: 700; display: inline-block; margin: 2px; }
     .badge-visitor { background: #6b7280; color: white; }
     .badge-admin { background: var(--accent-gold); color: #072e1d; }
     .badge-learning { background: #f59e0b; color: #fff; }
@@ -459,65 +457,54 @@
 
     .cards-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-      gap: 1.25rem; 
+      grid-template-columns: 1fr; 
+      gap: 0.8rem; 
       width: 100%;
     }
     .programme-card { border-left: 4px solid var(--accent-gold); cursor: pointer; }
 
-    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem; width: 100%; }
-    .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.45rem; width: 100%; }
+    .tab-btn { background: rgba(0, 0, 0, 0.05); color: inherit; border: 1px solid var(--glass-border-light); padding: 0.35rem 0.6rem; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.75rem; flex: 1; text-align: center; min-width: 75px; }
     .tab-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
 
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(2px);
       z-index: 9999999;
       align-items: center;
       justify-content: center;
       padding: 0.5rem;
       overflow-y: auto;
     }
-    .modal.active {
-      display: flex;
-      animation: fadeInModal 0.2s ease-out;
-    }
-    @keyframes fadeInModal {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
+    .modal.active { display: flex; }
 
     .modal-content {
       width: 100%;
-      max-width: 600px;
+      max-width: 480px;
       background: var(--card-bg-light);
       border: 2px solid var(--accent-gold);
-      max-height: 90vh;
+      max-height: 82vh;
       overflow-y: auto;
-      border-radius: 20px;
-      padding: 1.5rem;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+      border-radius: 12px;
+      padding: 0.9rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
       position: relative;
       margin: auto;
     }
-    body.dark-mode .modal-content {
-      background: #0d1f17;
-      border-color: var(--accent-gold);
-    }
-    .modal-content.wide { max-width: 850px; }
+    body.dark-mode .modal-content { background: #0d1f17; border-color: var(--accent-gold); }
+    .modal-content.wide { max-width: 650px; }
     
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0.7rem;
       border-bottom: 1px solid rgba(212,175,55,0.3);
-      padding-bottom: 0.6rem;
-      position: sticky;
-      top: 0;
+      padding-bottom: 0.35rem;
+      position: sticky; top: 0;
       background: inherit;
       z-index: 10;
     }
@@ -525,39 +512,35 @@
       background: rgba(239, 68, 68, 0.15);
       border: 1px solid #ef4444;
       color: #ef4444;
-      width: 36px;
-      height: 36px;
+      width: 28px; height: 28px;
       border-radius: 50%;
-      font-size: 1.2rem;
+      font-size: 0.95rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-weight: bold;
     }
 
     .status-manage-card {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--glass-border-light);
-      border-radius: 12px;
-      padding: 0.9rem 1rem;
-      margin-bottom: 0.8rem;
+      border-radius: 8px;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      gap: 0.35rem;
     }
     body.dark-mode .status-manage-card { background: rgba(18, 30, 25, 0.85); border-color: var(--glass-border-dark); }
     
     .status-manage-header { display: flex; justify-content: space-between; align-items: center; }
-    .status-manage-header strong { font-size: 0.95rem; color: var(--primary-green); }
+    .status-manage-header strong { font-size: 0.82rem; color: var(--primary-green); }
     body.dark-mode .status-manage-header strong { color: var(--accent-gold); }
 
     .status-select-dropdown {
       width: 100%;
-      padding: 0.6rem;
-      border-radius: 8px;
-      font-size: 0.88rem;
+      padding: 0.45rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
       font-weight: 600;
       border: 1.5px solid var(--primary-green);
       outline: none;
@@ -567,110 +550,93 @@
 
     .student-app-card-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-      gap: 0.8rem; 
-      max-height: 350px; 
+      grid-template-columns: 1fr; 
+      gap: 0.5rem; 
+      max-height: 250px; 
       overflow-y: auto; 
-      padding: 0.3rem; 
+      padding: 0.15rem; 
       width: 100%;
     }
-    .student-app-card { background: rgba(255, 255, 255, 0.9); border: 1.5px solid var(--glass-border-light); border-radius: 12px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
+    .student-app-card { background: rgba(255, 255, 255, 0.9); border: 1.5px solid var(--glass-border-light); border-radius: 8px; padding: 0.55rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
     body.dark-mode .student-app-card { background: rgba(0, 0, 0, 0.25); }
     .student-app-card.active { border-width: 2px; background: rgba(13, 92, 58, 0.15); border-color: var(--primary-green); }
-    .student-avatar-icon { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .student-avatar-icon { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
 
     .selector-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-      gap: 0.65rem; 
-      margin-top: 0.4rem; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 0.4rem; 
+      margin-top: 0.2rem; 
       width: 100%;
     }
 
     .selector-chip {
       background: rgba(0, 0, 0, 0.03);
       border: 1.5px solid var(--glass-border-light);
-      border-radius: 12px;
-      padding: 0.75rem 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 8px;
+      padding: 0.5rem 0.35rem;
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.3rem;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; text-align: center;
       user-select: none;
     }
     body.dark-mode .selector-chip { background: rgba(255, 255, 255, 0.03); }
-    .selector-chip:hover { border-color: var(--accent-gold); transform: translateY(-2px); }
     .selector-chip.selected {
-      background: rgba(13, 92, 58, 0.12);
+      background: rgba(13, 92, 58, 0.15);
       border-color: var(--primary-green);
       color: var(--primary-green);
       font-weight: 700;
-      box-shadow: 0 4px 12px rgba(13, 92, 58, 0.15);
     }
-    body.dark-mode .selector-chip.selected { background: rgba(212, 175, 55, 0.18); border-color: var(--accent-gold); }
+    body.dark-mode .selector-chip.selected { background: rgba(212, 175, 55, 0.2); border-color: var(--accent-gold); }
 
     .filter-bar { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 0.8rem; 
+      grid-template-columns: 1fr; 
+      gap: 0.5rem; 
       width: 100%;
     }
-    .action-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 1.25rem 0; width: 100%; }
+    .action-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.35rem; }
+    .divider { border: 0; height: 1px; background: var(--glass-border-light); margin: 0.8rem 0; width: 100%; }
 
-    .loading-screen { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #072e1d; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
-    .spinner { width: 52px; height: 52px; border: 5px solid rgba(255,255,255,0.15); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1.2rem; }
+    .loading-screen { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #072e1d; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+    .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.15); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 0.7rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999999; display: flex; flex-direction: column; gap: 0.6rem; pointer-events: none; }
-    .toast { padding: 0.9rem 1.4rem; border-radius: 10px; color: #fff; font-size: 0.95rem; font-weight: 600; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; animation: slideDown 0.3s ease; }
-    @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .toast.success { background: #10b981; border-left: 5px solid #059669; }
-    .toast.error { background: #ef4444; border-left: 5px solid #b91c1c; }
-    .toast.warning { background: #f59e0b; color: #000; border-left: 5px solid #d97706; }
+    .toast-container { position: fixed; top: 10px; right: 10px; z-index: 999999999; display: flex; flex-direction: column; gap: 0.35rem; pointer-events: none; width: calc(100% - 20px); max-width: 320px; }
+    .toast { padding: 0.7rem 0.9rem; border-radius: 6px; color: #fff; font-size: 0.82rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: auto; }
+    .toast.success { background: #10b981; border-left: 4px solid #059669; }
+    .toast.error { background: #ef4444; border-left: 4px solid #b91c1c; }
+    .toast.warning { background: #f59e0b; color: #000; border-left: 4px solid #d97706; }
 
-    .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: 12px; background: white; color: #111; margin-top: 1rem; width: 100%; }
-    .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.8rem; margin-bottom: 1rem; }
+    .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 0.9rem; border-radius: 8px; background: white; color: #111; margin-top: 0.6rem; width: 100%; }
+    .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem; margin-bottom: 0.6rem; }
 
-    .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 2.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 1.5rem; }
+    .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 1.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 0.9rem; }
 
     .floating-publish-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
+      position: fixed; bottom: 15px; right: 15px;
       background: linear-gradient(135deg, var(--accent-gold), #b89628);
-      color: #072e1d;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 999;
-      border: 2px solid #fff;
-      transition: transform 0.3s ease;
+      color: #072e1d; width: 45px; height: 45px; border-radius: 50%;
+      display: none; align-items: center; justify-content: center; font-size: 1.1rem;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; border: 2px solid #fff;
     }
-    .floating-publish-btn:hover { transform: scale(1.1); }
 
-    .mobile-only { display: none; }
+    .mobile-only { display: inline-flex !important; align-items: center; justify-content: center; }
 
-    @media (max-width: 900px) {
-      .sidebar { width: 82%; max-width: 300px; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); }
-      .sidebar.open { transform: translateX(0); }
-      .main-content { margin-left: 0; width: 100%; }
-      .topbar { padding: 0 1rem; }
+    @media (min-width: 768px) {
+      .sidebar { transform: translateX(0); width: 240px; }
+      .main-content { margin-left: 240px; width: calc(100% - 240px); }
+      .mobile-only { display: none !important; }
+      .sidebar-overlay { display: none !important; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-grid { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { grid-template-columns: repeat(3, 1fr); }
+      .student-practice-cards-list { grid-template-columns: repeat(2, 1fr); }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .selector-grid { grid-template-columns: repeat(4, 1fr); }
       .view-container { padding: 1rem; }
-      .mobile-only { display: inline-flex !important; align-items: center; justify-content: center; }
-      .hero-banner { flex-direction: column; gap: 1rem; padding: 1.5rem; }
-      #vs-tables-grid { grid-template-columns: 1fr !important; }
     }
 
     @media print {
@@ -711,8 +677,8 @@
 
   <div id="loading-screen" class="loading-screen">
     <div class="spinner"></div>
-    <h2 style="font-family:'Amiri', serif; font-size: 2rem; color: var(--accent-gold);">Hidayathul Islam Madrasa</h2>
-    <p>Rabi'ul Awwal Programme Management System</p>
+    <h2 style="font-family:'Amiri', serif; font-size: 1.4rem; color: var(--accent-gold);">Hidayathul Islam Madrasa</h2>
+    <p style="font-size: 0.75rem;">Rabi'ul Awwal Programme Management System</p>
   </div>
 
   <div id="toast-container" class="toast-container"></div>
@@ -727,7 +693,7 @@
           <h3>HIDAYATHUL ISLAM</h3>
           <p>ACHANGI - RABI'UL AWWAL</p>
         </div>
-        <button id="close-sidebar" class="mobile-only icon-btn"><i class="fa-solid fa-xmark"></i></button>
+        <button id="close-sidebar" class="mobile-only icon-btn" style="color:#fff;"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
       <nav class="sidebar-menu">
@@ -759,26 +725,26 @@
         </div>
 
         <div id="login-buttons-container">
-          <button id="btn-team-admin-login" class="btn-primary full-width mb-1" style="font-size:0.8rem; padding:0.65rem 0.5rem; text-transform: uppercase;">
-            <i class="fa-solid fa-shield-halved"></i> <span id="team-login-btn-text">MADEENATHU-SSALAM Admin Login</span>
+          <button id="btn-team-admin-login" class="btn-primary full-width mb-1" style="font-size:0.72rem; padding:0.45rem 0.3rem; text-transform: uppercase;">
+            <i class="fa-solid fa-shield-halved"></i> <span id="team-login-btn-text">MADEENATHU-SSALAM Admin</span>
           </button>
 
-          <button id="btn-super-admin-login" class="btn-secondary full-width mb-2" style="font-size:0.8rem; padding:0.65rem 0.5rem;">
+          <button id="btn-super-admin-login" class="btn-secondary full-width mb-2" style="font-size:0.72rem; padding:0.45rem 0.3rem;">
             <i class="fa-solid fa-crown"></i> Super Admin Login
           </button>
         </div>
 
-        <button id="btn-signout-action" class="btn-primary full-width mb-2" style="display:none; background:#dc2626;">
+        <button id="btn-signout-action" class="btn-primary full-width mb-2" style="display:none; background:#dc2626; font-size:0.75rem;">
           <i class="fa-solid fa-right-from-bracket"></i> Sign Out
         </button>
 
-        <a href="https://wa.me/919113695271?text=Hello%20Hidayathul%20Islam%20Madrasa%20Support" target="_blank" class="btn-whatsapp full-width" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.3rem;">
+        <a href="https://wa.me/919113695271?text=Hello%20Hidayathul%20Islam%20Madrasa%20Support" target="_blank" class="btn-whatsapp full-width" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.3rem; margin-top: 0.2rem; font-size: 0.75rem;">
           <i class="fa-brands fa-whatsapp"></i> Helpline Support
         </a>
 
-        <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem;">
+        <div style="text-align: center; margin-top: 0.6rem; font-size: 0.6rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.4rem;">
           <span style="opacity: 0.7; color: #fff;">Designed & Developed by</span><br>
-          <strong style="color: var(--accent-gold); font-size: 0.82rem;">ABDUL KAREEM FAZILY AL-JALALI</strong>
+          <strong style="color: var(--accent-gold); font-size: 0.72rem;">ABDUL KAREEM FAZILY AL-JALALI</strong>
         </div>
       </div>
     </aside>
@@ -787,14 +753,11 @@
       <header class="topbar">
         <div class="topbar-left">
           <button id="toggle-sidebar" class="icon-btn mobile-only"><i class="fa-solid fa-bars"></i></button>
-          <h2 id="page-title">Dashboard</h2>
+          <h2 id="page-title" style="font-size: 1rem; font-weight: 700;">Dashboard</h2>
         </div>
-        <div class="topbar-right" style="display:flex; align-items:center; gap: 1rem;">
+        <div class="topbar-right" style="display:flex; align-items:center; gap: 0.5rem;">
           <div id="current-team-pill-display" class="current-team-pill"><i class="fa-solid fa-shield-halved"></i> <span id="topbar-team-name">MADEENATHU-SSALAM</span></div>
           <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
-          <div style="display:flex; align-items:center; gap:0.5rem; font-weight:600;" class="mobile-only-hide">
-            <i class="fa-solid fa-circle-user" style="color:var(--accent-gold); font-size:1.4rem;"></i>
-          </div>
         </div>
       </header>
 
@@ -836,12 +799,12 @@
           </div>
 
           <div class="glass-card mb-2" style="background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(13,92,58,0.1)); border: 1.5px solid var(--accent-gold);">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem;">
               <div>
-                <h3><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> Team Versus Comparison Portal</h3>
-                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">രണ്ട് ടീമുകളുടെയും (MADEENATHU-SSALAM vs MADEENATHU-NNOOR) മത്സരാർത്ഥികളെ ഒരേ പേജിൽ നേർക്കുനേർ കാണാം.</p>
+                <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> Team Versus Comparison Portal</h3>
+                <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Compare participants from both teams side by side in English.</p>
               </div>
-              <button onclick="window.openTeamVersusView()" class="btn-secondary"><i class="fa-solid fa-arrow-right"></i> Open Comparison View</button>
+              <button onclick="window.openTeamVersusView()" class="btn-secondary" style="font-size: 0.78rem; padding: 0.4rem 0.8rem;"><i class="fa-solid fa-arrow-right"></i> Open Comparison</button>
             </div>
           </div>
 
@@ -882,7 +845,7 @@
 
           <div class="dashboard-grid mt-2">
             <div class="glass-card">
-              <h3><i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i> Practice Progress Analytics</h3>
+              <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-chart-pie" style="color:var(--accent-gold);"></i> Practice Progress Analytics</h3>
               <hr class="divider">
               <div class="progress-bar-container">
                 <div class="progress-label"><span>Stage Ready</span><span id="label-ready-count">0</span></div>
@@ -899,7 +862,7 @@
             </div>
 
             <div class="glass-card">
-              <h3><i class="fa-solid fa-bell" style="color:var(--accent-gold);"></i> Recent Activity Audit</h3>
+              <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-bell" style="color:var(--accent-gold);"></i> Recent Activity Audit</h3>
               <hr class="divider">
               <ul id="activity-list" class="activity-list">
                 <li class="empty-state">No recent activities recorded.</li>
@@ -910,10 +873,10 @@
           <div class="glass-card mt-2">
             <div class="action-header">
               <div>
-                <h2><i class="fa-solid fa-graduation-cap" style="color:var(--accent-gold);"></i> Student Practice Status Overview</h2>
-                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Track completed items, pending practice, and manage progress in real time.</p>
+                <h2 style="font-size: 0.9rem;"><i class="fa-solid fa-graduation-cap" style="color:var(--accent-gold);"></i> Student Practice Status Overview</h2>
+                <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Track completed items and manage progress in real time.</p>
               </div>
-              <button onclick="window.openPracticeTrackerView()" class="btn-action-sm btn-manage"><i class="fa-solid fa-spinner"></i> Full Practice Tracker</button>
+              <button onclick="window.openPracticeTrackerView()" class="btn-action-sm btn-manage"><i class="fa-solid fa-spinner"></i> Full Tracker</button>
             </div>
             <hr class="divider">
             <div class="filter-bar mb-2">
@@ -928,7 +891,7 @@
                 <option value="General">General</option>
               </select>
               <select id="dash-practice-gender-filter" class="form-control">
-                <option value="">All Sections (Boys & Girls)</option>
+                <option value="">All Sections</option>
                 <option value="Male">Boys Section</option>
                 <option value="Female">Girls Section</option>
               </select>
@@ -943,38 +906,38 @@
 
         <section id="view-live-results" class="app-view">
           <div class="glass-card mb-2" style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #157a4c 100%); color: #fff; border: 2px solid var(--accent-gold);">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.2rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; margin-bottom:0.8rem;">
               <div>
-                <h2 style="font-family:'Amiri', serif; font-size:1.8rem; color:var(--accent-gold);">🏆 LIVE CHAMPIONSHIP & RESULTS CENTER</h2>
-                <p style="font-size:0.85rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard & Results</p>
+                <h2 style="font-family:'Amiri', serif; font-size:1.2rem; color:var(--accent-gold);">🏆 LIVE CHAMPIONSHIP & RESULTS CENTER</h2>
+                <p style="font-size:0.72rem; opacity:0.9;">Hidayathul Islam Madrasa Achangi &bull; Rabi'ul Awwal Championship Leaderboard</p>
               </div>
               <div id="admin-result-action-btn-container"></div>
             </div>
 
-            <div style="background:rgba(0,0,0,0.3); border:1px solid var(--accent-gold); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1.2rem;">
-              <span style="font-size:0.8rem; text-transform:uppercase; color:var(--accent-gold); font-weight:700;"><i class="fa-solid fa-trophy"></i> Current Leading Team</span>
-              <div id="championship-leader-display" style="font-size:1.4rem; font-weight:800; margin-top:0.2rem;">Loading Leaderboard...</div>
+            <div style="background:rgba(0,0,0,0.3); border:1px solid var(--accent-gold); border-radius:8px; padding:0.7rem; text-align:center; margin-bottom:0.8rem;">
+              <span style="font-size:0.68rem; text-transform:uppercase; color:var(--accent-gold); font-weight:700;"><i class="fa-solid fa-trophy"></i> Current Leading Team</span>
+              <div id="championship-leader-display" style="font-size:1.1rem; font-weight:800; margin-top:0.15rem;">Loading Leaderboard...</div>
             </div>
 
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-bottom:1.2rem;">
-              <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
-                <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-SSALAM</h4>
-                <div id="team1-score-display" style="font-size:1.6rem; font-weight:800; color:var(--accent-gold);">0 Points</div>
-                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.6rem; margin-bottom:0.8rem;">
+              <div style="background:rgba(255,255,255,0.08); border:1px solid var(--accent-gold); border-radius:8px; padding:0.7rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-SSALAM')">
+                <h4 style="font-size:0.85rem; margin:0.15rem 0;">MADEENATHU-SSALAM</h4>
+                <div id="team1-score-display" style="font-size:1.1rem; font-weight:800; color:var(--accent-gold);">0 Pts</div>
+                <small style="opacity:0.9; text-decoration: underline; font-size: 0.65rem;">View winners</small>
               </div>
-              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:1.1rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-NNOOR')">
-                <h4 style="font-size:1.1rem; margin:0.3rem 0;">MADEENATHU-NNOOR</h4>
-                <div id="team2-score-display" style="font-size:1.6rem; font-weight:800; color:#fff;">0 Points</div>
-                <small style="opacity:0.9; text-decoration: underline; font-weight: 600;">Click to view team winners</small>
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:0.7rem; text-align:center; cursor:pointer;" onclick="window.showTeamWinners('MADEENATHU-NNOOR')">
+                <h4 style="font-size:0.85rem; margin:0.15rem 0;">MADEENATHU-NNOOR</h4>
+                <div id="team2-score-display" style="font-size:1.1rem; font-weight:800; color:#fff;">0 Pts</div>
+                <small style="opacity:0.9; text-decoration: underline; font-size: 0.65rem;">View winners</small>
               </div>
             </div>
 
-            <div style="background:rgba(0,0,0,0.25); padding:1.2rem; border-radius:12px; border:1px solid rgba(212,175,55,0.3);">
-              <h4 style="margin-bottom:0.8rem; color:var(--accent-gold); font-size:1rem;"><i class="fa-solid fa-magnifying-glass"></i> Public Result Search Portal</h4>
+            <div style="background:rgba(0,0,0,0.25); padding:0.8rem; border-radius:8px; border:1px solid rgba(212,175,55,0.3);">
+              <h4 style="margin-bottom:0.5rem; color:var(--accent-gold); font-size:0.8rem;"><i class="fa-solid fa-magnifying-glass"></i> Public Result Search Portal</h4>
               
-              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:1rem; margin-bottom:1rem;">
+              <div style="display:grid; grid-template-columns: 1fr; gap:0.6rem; margin-bottom:0.6rem;">
                 <div class="form-group">
-                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 1: Select Category</label>
+                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 1: Select Category</label>
                   <select id="pub-search-category" class="form-control" onchange="onPublicSearchFilterChange()">
                     <option value="All">All Categories</option>
                     <option value="Sub Junior">Sub Junior</option>
@@ -985,7 +948,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Section</label>
+                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Section</label>
                   <select id="pub-search-gender" class="form-control" onchange="onPublicSearchFilterChange()">
                     <option value="All">All Sections (Boys & Girls)</option>
                     <option value="Boys">Boys</option>
@@ -994,7 +957,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label style="font-size:0.8rem; color:var(--accent-gold); font-weight:700;">Step 3: Select Programme Type</label>
+                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 3: Select Programme Type</label>
                   <select id="pub-search-type" class="form-control" onchange="onPublicSearchFilterChange()">
                     <option value="All">All Types (Stage & Non-Stage)</option>
                     <option value="Stage">Stage</option>
@@ -1004,17 +967,17 @@
               </div>
 
               <div class="form-group">
-                <label style="font-size:0.85rem; color:var(--accent-gold); font-weight:700;">Step 4: Available Programmes from Database (Dynamic)</label>
-                <div id="pub-programmes-chips-container" style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.4rem; min-height:45px; background:rgba(0,0,0,0.15); padding:0.8rem; border-radius:8px;">
-                  <span style="font-size:0.85rem; opacity:0.7; font-style:italic;">Loading programmes from database...</span>
+                <label style="font-size:0.75rem; color:var(--accent-gold); font-weight:700;">Step 4: Available Programmes</label>
+                <div id="pub-programmes-chips-container" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.2rem; min-height:35px; background:rgba(0,0,0,0.15); padding:0.5rem; border-radius:5px;">
+                  <span style="font-size:0.75rem; opacity:0.7; font-style:italic;">Loading programmes...</span>
                 </div>
               </div>
             </div>
 
             <div class="mt-2">
-              <h4 style="margin-bottom:0.6rem; color:var(--accent-gold); font-size:0.95rem;"><i class="fa-solid fa-award"></i> Winner Showcase & Latest Published Results</h4>
-              <div id="home-winner-showcase-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:0.8rem;">
-                <p style="font-size:0.85rem; opacity:0.7; text-align:center;">No winners published yet.</p>
+              <h4 style="margin-bottom:0.35rem; color:var(--accent-gold); font-size:0.8rem;"><i class="fa-solid fa-award"></i> Winner Showcase & Latest Results</h4>
+              <div id="home-winner-showcase-grid" style="display:grid; grid-template-columns: 1fr; gap:0.5rem;">
+                <p style="font-size:0.75rem; opacity:0.7; text-align:center;">No winners published yet.</p>
               </div>
             </div>
           </div>
@@ -1022,22 +985,22 @@
 
         <section id="view-admin-result-management" class="app-view">
           <div class="glass-card mb-2">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem;">
               <div>
-                <h2><i class="fa-solid fa-trophy" style="color:var(--accent-gold);"></i> Result Management & Publishing Hub</h2>
-                <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">Publish results, manage 1st, 2nd, and 3rd place winners, and auto-generate certificates & status posters.</p>
+                <h2 style="font-size: 1rem;"><i class="fa-solid fa-trophy" style="color:var(--accent-gold);"></i> Result Management Hub</h2>
+                <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Publish results and manage winners.</p>
               </div>
-              <button onclick="openModal('modal-publish-result')" class="btn-primary super-admin-only-action"><i class="fa-solid fa-plus"></i> Publish Result</button>
+              <button onclick="openModal('modal-publish-result')" class="btn-primary super-admin-only-action" style="width: auto; font-size:0.78rem; padding:0.45rem 0.75rem;"><i class="fa-solid fa-plus"></i> Publish Result</button>
             </div>
           </div>
 
           <div class="glass-card">
-            <h3><i class="fa-solid fa-list" style="color:var(--accent-gold);"></i> Published Results Directory</h3>
-            <p style="font-size:0.82rem; opacity:0.8; margin-bottom:1rem;">Manage all published results grouped by categories.</p>
+            <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-list" style="color:var(--accent-gold);"></i> Published Results Directory</h3>
+            <p style="font-size:0.72rem; opacity:0.8; margin-bottom:0.6rem;">Manage all published results grouped by categories.</p>
             
             <div class="tab-buttons mb-2" id="results-directory-category-tabs">
-              <button class="tab-btn active" data-cat="All">All Categories</button>
-              <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
+              <button class="tab-btn active" data-cat="All">All</button>
+              <button class="tab-btn" data-cat="Sub Junior">Sub Jr</button>
               <button class="tab-btn" data-cat="Junior">Junior</button>
               <button class="tab-btn" data-cat="Senior">Senior</button>
               <button class="tab-btn" data-cat="General">General</button>
@@ -1047,13 +1010,13 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Programme Name</th>
+                    <th>Programme</th>
                     <th>Category</th>
                     <th>Section</th>
                     <th>Team</th>
-                    <th>1st Place</th>
-                    <th>2nd Place</th>
-                    <th>3rd Place</th>
+                    <th>1st</th>
+                    <th>2nd</th>
+                    <th>3rd</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -1068,19 +1031,19 @@
         <section id="view-students" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header">
-              <h2><i class="fa-solid fa-user-graduate" style="color:var(--accent-gold);"></i> Student Directory & Management</h2>
-              <button id="btn-add-student" class="btn-primary admin-only-action"><i class="fa-solid fa-plus"></i> Add Student</button>
+              <h2 style="font-size: 1rem;"><i class="fa-solid fa-user-graduate" style="color:var(--accent-gold);"></i> Student Directory</h2>
+              <button id="btn-add-student" class="btn-primary admin-only-action" style="width: auto; font-size:0.78rem; padding:0.45rem 0.75rem;"><i class="fa-solid fa-plus"></i> Add Student</button>
             </div>
             <hr class="divider">
             
             <div class="tab-buttons mb-2" id="student-section-tabs">
-              <button class="tab-btn active" data-tab="all"><i class="fa-solid fa-users"></i> All Students</button>
-              <button class="tab-btn" data-tab="boys"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section</button>
-              <button class="tab-btn" data-tab="girls"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section</button>
+              <button class="tab-btn active" data-tab="all"><i class="fa-solid fa-users"></i> All</button>
+              <button class="tab-btn" data-tab="boys"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys</button>
+              <button class="tab-btn" data-tab="girls"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls</button>
             </div>
 
             <div class="filter-bar">
-              <input type="text" id="filter-search-student" class="form-control" placeholder="Search student name or Roll No...">
+              <input type="text" id="filter-search-student" class="form-control" placeholder="Search name or Roll No...">
               <select id="filter-student-class" class="form-control">
                 <option value="">All Classes</option>
               </select>
@@ -1100,9 +1063,9 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Roll No / ID</th>
-                    <th>Student Info (Class - Name)</th>
-                    <th>Gender Section</th>
+                    <th>Roll No</th>
+                    <th>Student Info</th>
+                    <th>Section</th>
                     <th>Class</th>
                     <th>Category</th>
                     <th>Team</th>
@@ -1118,28 +1081,28 @@
         <section id="view-programmes" class="app-view">
           <div class="glass-card mb-2">
             <div class="action-header mb-2">
-              <h2><i class="fa-solid fa-microphone" style="color:var(--accent-gold);"></i> Programmes Management</h2>
-              <div class="flex-gap super-admin-only-action">
-                <button id="btn-add-stage-prog" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Stage Programme</button>
-                <button id="btn-add-non-stage-prog" class="btn-secondary" style="background:#4f46e5; color:white;"><i class="fa-solid fa-plus"></i> Add Non-Stage Programme</button>
+              <h2 style="font-size: 1rem;"><i class="fa-solid fa-microphone" style="color:var(--accent-gold);"></i> Programmes</h2>
+              <div class="flex-gap super-admin-only-action" style="display:flex; gap: 0.35rem; flex-wrap: wrap;">
+                <button id="btn-add-stage-prog" class="btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;"><i class="fa-solid fa-plus"></i> Stage</button>
+                <button id="btn-add-non-stage-prog" class="btn-secondary" style="background:#4f46e5; color:white; font-size: 0.75rem; padding: 0.4rem 0.6rem;"><i class="fa-solid fa-plus"></i> Non-Stage</button>
               </div>
             </div>
             <hr class="divider">
             
             <div class="tab-buttons mb-2" id="programme-type-tabs">
-              <button class="tab-btn active" data-type="Stage"><i class="fa-solid fa-microphone"></i> Stage Programmes</button>
-              <button class="tab-btn" data-type="Non-Stage"><i class="fa-solid fa-pen-ruler"></i> Non-Stage Programmes</button>
+              <button class="tab-btn active" data-type="Stage">Stage</button>
+              <button class="tab-btn" data-type="Non-Stage">Non-Stage</button>
             </div>
 
-            <div class="tab-buttons" id="prog-sec-tabs">
-              <button class="tab-btn active" data-sec="All"><i class="fa-solid fa-users"></i> All Sections</button>
-              <button class="tab-btn" data-sec="Male"><i class="fa-solid fa-mars"></i> Boys Section</button>
-              <button class="tab-btn" data-sec="Female"><i class="fa-solid fa-venus"></i> Girls Section</button>
+            <div class="tab-buttons mb-2" id="prog-sec-tabs">
+              <button class="tab-btn active" data-sec="All">All Sections</button>
+              <button class="tab-btn" data-sec="Male">Boys</button>
+              <button class="tab-btn" data-sec="Female">Girls</button>
             </div>
 
             <div class="tab-buttons" id="prog-cat-tabs">
               <button class="tab-btn active" data-cat="All">All Categories</button>
-              <button class="tab-btn" data-cat="Sub Junior">Sub Junior</button>
+              <button class="tab-btn" data-cat="Sub Junior">Sub Jr</button>
               <button class="tab-btn" data-cat="Junior">Junior</button>
               <button class="tab-btn" data-cat="Senior">Senior</button>
               <button class="tab-btn" data-cat="General">General</button>
@@ -1150,34 +1113,34 @@
 
         <section id="view-item-bulk-assign" class="app-view">
           <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Bulk Programme Assignment</h2>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">സെലക്ഷൻ ക്രമം: Category ➔ Section ➔ Type ➔ Programme ➔ Select Students</p>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-list-check" style="color:var(--accent-gold);"></i> Bulk Programme Assignment</h2>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Category ➔ Section ➔ Type ➔ Programme ➔ Students</p>
             <hr class="divider">
 
-            <div style="display:flex; flex-direction:column; gap:1.2rem;">
+            <div style="display:flex; flex-direction:column; gap:0.8rem;">
               <div class="form-group">
                 <label style="font-weight:700; color:var(--primary-green);">1. Select Category</label>
                 <div class="selector-grid" id="grid-bulk-cat">
-                  <div class="selector-chip" data-val="Sub Junior"><i class="fa-solid fa-child"></i> Sub Junior</div>
-                  <div class="selector-chip" data-val="Junior"><i class="fa-solid fa-user-graduate"></i> Junior</div>
-                  <div class="selector-chip" data-val="Senior"><i class="fa-solid fa-user-large"></i> Senior</div>
-                  <div class="selector-chip" data-val="General"><i class="fa-solid fa-users"></i> General</div>
+                  <div class="selector-chip" data-val="Sub Junior">Sub Junior</div>
+                  <div class="selector-chip" data-val="Junior">Junior</div>
+                  <div class="selector-chip" data-val="Senior">Senior</div>
+                  <div class="selector-chip" data-val="General">General</div>
                 </div>
               </div>
 
               <div class="form-group" id="group-bulk-gender" style="display:none;">
                 <label style="font-weight:700; color:var(--primary-green);">2. Select Section</label>
-                <div class="selector-grid" id="grid-bulk-gender">
-                  <div class="selector-chip" data-val="Male"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section</div>
-                  <div class="selector-chip" data-val="Female"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section</div>
+                <div class="selector-grid" id="grid-bulk-gender" style="grid-template-columns: repeat(2, 1fr);">
+                  <div class="selector-chip" data-val="Male"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys</div>
+                  <div class="selector-chip" data-val="Female"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls</div>
                 </div>
               </div>
 
               <div class="form-group" id="group-bulk-type" style="display:none;">
                 <label style="font-weight:700; color:var(--primary-green);">3. Select Programme Type</label>
-                <div class="selector-grid" id="grid-bulk-type">
-                  <div class="selector-chip" data-val="Stage"><i class="fa-solid fa-microphone" style="color:#d97706;"></i> Stage Item</div>
-                  <div class="selector-chip" data-val="Non-Stage"><i class="fa-solid fa-pen-ruler" style="color:#4f46e5;"></i> Non-Stage Item</div>
+                <div class="selector-grid" id="grid-bulk-type" style="grid-template-columns: repeat(2, 1fr);">
+                  <div class="selector-chip" data-val="Stage"><i class="fa-solid fa-microphone" style="color:#d97706;"></i> Stage</div>
+                  <div class="selector-chip" data-val="Non-Stage"><i class="fa-solid fa-pen-ruler" style="color:#4f46e5;"></i> Non-Stage</div>
                 </div>
               </div>
 
@@ -1191,27 +1154,27 @@
           </div>
 
           <div id="bulk-students-container" class="glass-card" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.35rem;">
               <div>
-                <h3 id="bulk-selected-item-title" style="color:var(--primary-green);">Select Students for Programme</h3>
-                <p id="bulk-selected-item-subtitle" style="font-size:0.82rem; color:var(--accent-gold); font-weight:600;"></p>
+                <h3 id="bulk-selected-item-title" style="color:var(--primary-green); font-size: 0.9rem;">Select Students</h3>
+                <p id="bulk-selected-item-subtitle" style="font-size:0.7rem; color:var(--accent-gold); font-weight:600;"></p>
               </div>
-              <button id="btn-save-item-bulk" class="btn-primary admin-only-action"><i class="fa-solid fa-circle-check"></i> Save Assignments for Selected Students</button>
+              <button id="btn-save-item-bulk" class="btn-primary admin-only-action" style="width: auto; font-size: 0.78rem;"><i class="fa-solid fa-circle-check"></i> Save</button>
             </div>
             <hr class="divider">
-            <div id="bulk-students-checklist" style="max-height: 420px; overflow-y: auto; border:1px solid var(--glass-border-light); padding:1rem; border-radius:12px; background:rgba(0,0,0,0.02);"></div>
+            <div id="bulk-students-checklist" style="max-height: 320px; overflow-y: auto; border:1px solid var(--glass-border-light); padding:0.6rem; border-radius:8px; background:rgba(0,0,0,0.02);"></div>
           </div>
         </section>
 
         <section id="view-category-pdf" class="app-view">
           <div class="glass-card mb-2 no-print">
-            <h2><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> Category-wise & Type-wise PDF Export Manager</h2>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">ആൺകുട്ടികളുടെയും പെൺകുട്ടികളുടെയും കാറ്റഗറി തിരിച്ചുള്ള Stage പ്രോഗ്രാമുകളും Non-Stage പ്രോഗ്രാമുകളും വേറെ വേറെ ആയി ഡൗൺലോഡ് ചെയ്യാം.</p>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> PDF Export Manager</h2>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Download category-wise and type-wise programme sheets.</p>
             <hr class="divider">
 
             <div class="form-grid">
-              <div class="glass-card" style="background:rgba(37,99,235,0.05); border: 1.5px solid #2563eb;">
-                <h3><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section PDF Export</h3>
+              <div class="glass-card" style="background:rgba(37,99,235,0.05); border: 1.5px solid #2563eb; margin-bottom: 0;">
+                <h3 style="font-size: 0.85rem;"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section PDF</h3>
                 <div class="form-group mt-2">
                   <label style="font-weight:700; color:#2563eb;">Select Category</label>
                   <select id="cat-pdf-boys-select" class="form-control" style="font-weight:600; border: 1.5px solid #2563eb;">
@@ -1221,14 +1184,14 @@
                     <option value="General">General</option>
                   </select>
                 </div>
-                <div class="flex-gap mt-2">
-                  <button id="btn-generate-boys-stage-pdf" class="btn-primary full-width" style="background:#2563eb;"><i class="fa-solid fa-microphone"></i> Stage PDF</button>
-                  <button id="btn-generate-boys-nonstage-pdf" class="btn-primary full-width" style="background:#4f46e5;"><i class="fa-solid fa-pen-ruler"></i> Non-Stage PDF</button>
+                <div style="display:flex; gap:0.35rem; margin-top:0.6rem;">
+                  <button id="btn-generate-boys-stage-pdf" class="btn-primary" style="background:#2563eb; font-size:0.75rem;"><i class="fa-solid fa-microphone"></i> Stage</button>
+                  <button id="btn-generate-boys-nonstage-pdf" class="btn-primary" style="background:#4f46e5; font-size:0.75rem;"><i class="fa-solid fa-pen-ruler"></i> Non-Stage</button>
                 </div>
               </div>
 
-              <div class="glass-card" style="background:rgba(219,39,119,0.05); border: 1.5px solid #db2777;">
-                <h3><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section PDF Export</h3>
+              <div class="glass-card" style="background:rgba(219,39,119,0.05); border: 1.5px solid #db2777; margin-bottom: 0;">
+                <h3 style="font-size: 0.85rem;"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section PDF</h3>
                 <div class="form-group mt-2">
                   <label style="font-weight:700; color:#db2777;">Select Category</label>
                   <select id="cat-pdf-girls-select" class="form-control" style="font-weight:600; border: 1.5px solid #db2777;">
@@ -1238,21 +1201,21 @@
                     <option value="General">General</option>
                   </select>
                 </div>
-                <div class="flex-gap mt-2">
-                  <button id="btn-generate-girls-stage-pdf" class="btn-primary full-width" style="background:#db2777;"><i class="fa-solid fa-microphone"></i> Stage PDF</button>
-                  <button id="btn-generate-girls-nonstage-pdf" class="btn-primary full-width" style="background:#7c3aed;"><i class="fa-solid fa-pen-ruler"></i> Non-Stage PDF</button>
+                <div style="display:flex; gap:0.35rem; margin-top:0.6rem;">
+                  <button id="btn-generate-girls-stage-pdf" class="btn-primary" style="background:#db2777; font-size:0.75rem;"><i class="fa-solid fa-microphone"></i> Stage</button>
+                  <button id="btn-generate-girls-nonstage-pdf" class="btn-primary" style="background:#7c3aed; font-size:0.75rem;"><i class="fa-solid fa-pen-ruler"></i> Non-Stage</button>
                 </div>
               </div>
             </div>
           </div>
 
           <div id="category-pdf-preview-card" class="glass-card" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;" class="no-print">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.35rem;" class="no-print">
               <div>
-                <h3 id="category-pdf-title-out" style="color:var(--primary-green);">Programmes List</h3>
-                <p id="category-pdf-subtitle-out" style="font-size:0.85rem; opacity:0.8;"></p>
+                <h3 id="category-pdf-title-out" style="color:var(--primary-green); font-size: 0.9rem;">Programmes List</h3>
+                <p id="category-pdf-subtitle-out" style="font-size:0.7rem; opacity:0.8;"></p>
               </div>
-              <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Download / Print PDF</button>
+              <button onclick="window.print()" class="btn-secondary" style="width:auto; font-size:0.78rem;"><i class="fa-solid fa-print"></i> Download PDF</button>
             </div>
             <hr class="divider no-print">
             <div id="category-pdf-output-area"></div>
@@ -1261,7 +1224,7 @@
 
         <section id="view-reports" class="app-view">
           <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-file-invoice" style="color:var(--accent-gold);"></i> Reports & Export Manager</h2>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-file-invoice" style="color:var(--accent-gold);"></i> Reports & Export Manager</h2>
             <hr class="divider">
             <div class="form-group">
               <label>Select Report Type</label>
@@ -1271,7 +1234,7 @@
                 <option value="practice">Practice Status Summary Report</option>
               </select>
             </div>
-            <div class="flex-gap mt-2">
+            <div style="display:flex; gap:0.4rem; margin-top:0.8rem;">
               <button id="btn-export-csv" class="btn-primary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
               <button id="btn-print-report" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Report</button>
             </div>
@@ -1283,8 +1246,8 @@
 
         <section id="view-judges-slip" class="app-view">
           <div class="glass-card mb-2 no-print">
-            <h2><i class="fa-solid fa-award" style="color:var(--accent-gold);"></i> Judges Slip Generator</h2>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">ഒരു പ്രോഗ്രാം തിരഞ്ഞെടുത്താൽ ഇരു ടീമുകളിലെയും മത്സരാർത്ഥികളുടെ ചെസ്റ്റ് നമ്പറുകൾ മാത്രം അടങ്ങിയ സ്ലിപ്പ് ലഭിക്കും.</p>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-award" style="color:var(--accent-gold);"></i> Judges Slip Generator</h2>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Select programme to generate contestant chest numbers slip.</p>
             <hr class="divider">
             <div class="form-grid mb-2">
               <div class="form-group">
@@ -1303,14 +1266,14 @@
                   <option value="Female">Girls Section</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="grid-column: 1 / -1;">
                 <label>Select Programme</label>
                 <select id="js-programme-select" class="form-control">
                   <option value="">-- Choose Programme --</option>
                 </select>
               </div>
             </div>
-            <div class="flex-gap">
+            <div style="display:flex; gap:0.4rem;">
               <button onclick="window.generateSingleJudgeSlip()" class="btn-primary"><i class="fa-solid fa-receipt"></i> Generate Slip</button>
               <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Slip</button>
             </div>
@@ -1323,8 +1286,8 @@
 
         <section id="view-settings" class="app-view">
           <div class="glass-card mb-2">
-            <h2><i class="fa-solid fa-gear" style="color:var(--accent-gold);"></i> Team Leadership Settings</h2>
-            <p style="font-size:0.85rem; opacity:0.8;">Updates apply exclusively to the currently active team.</p>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-gear" style="color:var(--accent-gold);"></i> Team Leadership Settings</h2>
+            <p style="font-size:0.72rem; opacity:0.8;">Updates apply exclusively to the currently active team.</p>
             <hr class="divider">
             <form id="form-team-settings">
               <div class="form-grid">
@@ -1338,43 +1301,43 @@
                 </div>
                 <div class="form-group">
                   <label>Boys Team Leaders</label>
-                  <input type="text" id="team-boys-leaders-input" class="form-control" placeholder="Boys team leaders">
+                  <input type="text" id="team-boys-leaders-input" class="form-control" placeholder="Boys leaders">
                 </div>
                 <div class="form-group">
                   <label>Girls Team Leaders</label>
-                  <input type="text" id="team-girls-leaders-input" class="form-control" placeholder="Girls team leaders">
+                  <input type="text" id="team-girls-leaders-input" class="form-control" placeholder="Girls leaders">
                 </div>
               </div>
-              <button type="submit" class="btn-primary mt-2 admin-only-action"><i class="fa-solid fa-floppy-disk"></i> Save Team Settings</button>
+              <button type="submit" class="btn-primary mt-2 admin-only-action"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
             </form>
           </div>
 
           <div class="glass-card mb-2" id="admin-announcement-card" style="display:none;">
-            <h3><i class="fa-solid fa-bullhorn" style="color:var(--accent-gold);"></i> Live Announcement Ticker Manager</h3>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Enter any announcement message below to display it live across the top ticker banner.</p>
+            <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-bullhorn" style="color:var(--accent-gold);"></i> Announcement Ticker Manager</h3>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Broadcast live ticker message across the top banner.</p>
             <hr class="divider">
             <form id="form-announcement">
               <div class="form-group mb-2">
                 <label>Announcement Message</label>
                 <textarea id="announcement-input" class="form-control" rows="2" placeholder="Type live announcement here..."></textarea>
               </div>
-              <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Broadcast Announcement</button>
+              <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Broadcast</button>
             </form>
           </div>
 
           <div class="glass-card">
-            <h3><i class="fa-solid fa-database" style="color:var(--accent-gold);"></i> System Settings & Navigation</h3>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.3rem;">Switch between teams seamlessly.</p>
+            <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-database" style="color:var(--accent-gold);"></i> System Gateway</h3>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Switch between teams seamlessly.</p>
             <hr class="divider">
-            <div class="flex-gap" style="flex-wrap:wrap;">
-              <button onclick="window.openTeamSwitchGateway()" class="btn-secondary" style="padding:0.6rem 1.2rem;"><i class="fa-solid fa-people-roof"></i> Switch Team Gateway</button>
+            <div>
+              <button onclick="window.openTeamSwitchGateway()" class="btn-secondary"><i class="fa-solid fa-people-roof"></i> Switch Team Gateway</button>
             </div>
           </div>
         </section>
 
         <section id="view-parent-slip" class="app-view">
           <div class="glass-card mb-2 filter-card-parent">
-            <h2><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-receipt" style="color:var(--accent-gold);"></i> Student Programme List & Slip</h2>
             <hr class="divider">
             <div class="form-grid mb-2">
               <div class="form-group">
@@ -1395,7 +1358,7 @@
               </div>
             </div>
             <div class="form-group mb-2">
-              <label style="color:var(--primary-green); font-size:0.95rem;"><strong>3. Choose Student Name:</strong></label>
+              <label style="color:var(--primary-green); font-size:0.8rem;"><strong>3. Choose Student Name:</strong></label>
               <input type="hidden" id="slip-selected-student-id">
               <div id="slip-student-cards-grid" class="student-app-card-grid mt-1"></div>
             </div>
@@ -1404,68 +1367,68 @@
           <div id="parent-slip-preview-container" class="glass-card">
             <div id="printable-slip-area" class="parent-slip-card">
               <div class="slip-header">
-                <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.8rem;">HIDAYATHUL ISLAM MADRASA - ACHANGI</h2>
-                <p style="font-weight:600; font-size:0.9rem; color:#d4af37;">RABI'UL AWWAL PROGRAMME PARTICIPATION SLIP</p>
+                <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.2rem;">HIDAYATHUL ISLAM MADRASA - ACHANGI</h2>
+                <p style="font-weight:600; font-size:0.7rem; color:#d4af37;">RABI'UL AWWAL PROGRAMME PARTICIPATION SLIP</p>
               </div>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; font-size:0.95rem;">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; margin-bottom:0.6rem; font-size:0.78rem;">
                 <div><strong>Student Name:</strong> <span id="slip-out-name" style="color:#0d5c3a; font-weight:700;">-</span></div>
-                <div><strong>Student Roll No / ID:</strong> <span id="slip-out-id" style="font-weight:700;">-</span></div>
+                <div><strong>Roll No:</strong> <span id="slip-out-id" style="font-weight:700;">-</span></div>
                 <div><strong>Class:</strong> <span id="slip-out-class">-</span></div>
                 <div><strong>Category:</strong> <span id="slip-out-category">-</span></div>
                 <div><strong>Team:</strong> <span id="slip-out-team" style="color:#d4af37; font-weight:700;">-</span></div>
-                <div><strong>Gender Section:</strong> <span id="slip-out-gender">-</span></div>
+                <div><strong>Section:</strong> <span id="slip-out-gender">-</span></div>
               </div>
-              <h4 style="border-bottom:1px solid #ccc; padding-bottom:0.3rem; margin-bottom:0.5rem; color:#0d5c3a;">Assigned Programmes List:</h4>
-              <table class="data-table" style="width:100%; margin-bottom:1rem;">
+              <h4 style="border-bottom:1px solid #ccc; padding-bottom:0.2rem; margin-bottom:0.3rem; color:#0d5c3a; font-size:0.8rem;">Assigned Programmes:</h4>
+              <table class="data-table" style="width:100%; margin-bottom:0.6rem;">
                 <thead>
                   <tr style="background:#f4f7f5; color:#0d5c3a;">
                     <th>#</th>
                     <th>Programme Item Name</th>
-                    <th>Category / Type / Status</th>
+                    <th>Details / Status</th>
                   </tr>
                 </thead>
                 <tbody id="slip-out-table-body">
-                  <tr><td colspan="3" class="text-center">Select a student above to view assigned programmes.</td></tr>
+                  <tr><td colspan="3" class="text-center">Select a student above to view.</td></tr>
                 </tbody>
               </table>
-              <div style="text-align:right; font-size:0.8rem; margin-top:1.5rem; border-top:1px solid #eee; padding-top:0.5rem;">
+              <div style="text-align:right; font-size:0.65rem; margin-top:0.8rem; border-top:1px solid #eee; padding-top:0.3rem;">
                 <p>Hidayathul Islam Madrasa - Achangi | Rabi'ul Awwal Committee</p>
               </div>
             </div>
-            <div class="flex-gap mt-2">
-              <button id="btn-print-parent-slip" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Slip / Save PDF</button>
-              <button id="btn-whatsapp-parent-slip" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Send to WhatsApp</button>
+            <div style="display:flex; gap:0.4rem; margin-top:0.8rem; flex-wrap:wrap;">
+              <button id="btn-print-parent-slip" class="btn-secondary" style="flex:1;"><i class="fa-solid fa-print"></i> Print Slip</button>
+              <button id="btn-whatsapp-parent-slip" class="btn-whatsapp" style="flex:1;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
             </div>
           </div>
         </section>
 
         <section id="view-team-versus" class="app-view">
           <div class="glass-card mb-2 no-print">
-            <h2><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> Team vs Team Head-to-Head Comparison</h2>
-            <p style="font-size:0.85rem; opacity:0.8; margin-top:0.2rem;">മത്സരങ്ങൾ തിരഞ്ഞെടുത്ത് രണ്ട് ടീമുകളിലെയും (MADEENATHU-SSALAM vs MADEENATHU-NNOOR) മത്സരാർത്ഥികളെ ഒരേ പേജിൽ നേർക്കുനേർ കാണാം.</p>
+            <h2 style="font-size: 1rem;"><i class="fa-solid fa-code-compare" style="color:var(--accent-gold);"></i> Team vs Team Head-to-Head Comparison</h2>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Select programme and compare participants from both teams side by side in English.</p>
             <hr class="divider">
-            <div style="display:flex; flex-direction:column; gap:1.2rem;">
+            <div style="display:flex; flex-direction:column; gap:0.8rem;">
               <div class="form-group">
                 <label style="font-weight:700; color:var(--primary-green);">1. Select Category</label>
                 <div class="selector-grid" id="grid-vs-cat">
-                  <div class="selector-chip" data-val="Sub Junior"><i class="fa-solid fa-child"></i> Sub Junior</div>
-                  <div class="selector-chip" data-val="Junior"><i class="fa-solid fa-user-graduate"></i> Junior</div>
-                  <div class="selector-chip" data-val="Senior"><i class="fa-solid fa-user-large"></i> Senior</div>
-                  <div class="selector-chip" data-val="General"><i class="fa-solid fa-users"></i> General</div>
+                  <div class="selector-chip" data-val="Sub Junior">Sub Junior</div>
+                  <div class="selector-chip" data-val="Junior">Junior</div>
+                  <div class="selector-chip" data-val="Senior">Senior</div>
+                  <div class="selector-chip" data-val="General">General</div>
                 </div>
               </div>
               <div class="form-group" id="group-vs-gender" style="display:none;">
                 <label style="font-weight:700; color:var(--primary-green);">2. Select Section</label>
-                <div class="selector-grid" id="grid-vs-gender">
-                  <div class="selector-chip" data-val="Male"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section</div>
-                  <div class="selector-chip" data-val="Female"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section</div>
+                <div class="selector-grid" id="grid-vs-gender" style="grid-template-columns: repeat(2, 1fr);">
+                  <div class="selector-chip" data-val="Male"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys</div>
+                  <div class="selector-chip" data-val="Female"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls</div>
                 </div>
               </div>
               <div class="form-group" id="group-vs-type" style="display:none;">
                 <label style="font-weight:700; color:var(--primary-green);">3. Select Programme Type</label>
-                <div class="selector-grid" id="grid-vs-type">
-                  <div class="selector-chip" data-val="Stage"><i class="fa-solid fa-microphone" style="color:#d97706;"></i> Stage Item</div>
-                  <div class="selector-chip" data-val="Non-Stage"><i class="fa-solid fa-pen-ruler" style="color:#4f46e5;"></i> Non-Stage Item</div>
+                <div class="selector-grid" id="grid-vs-type" style="grid-template-columns: repeat(2, 1fr);">
+                  <div class="selector-chip" data-val="Stage"><i class="fa-solid fa-microphone" style="color:#d97706;"></i> Stage</div>
+                  <div class="selector-chip" data-val="Non-Stage"><i class="fa-solid fa-pen-ruler" style="color:#4f46e5;"></i> Non-Stage</div>
                 </div>
               </div>
               <div class="form-group" id="group-vs-prog" style="display:none;">
@@ -1477,22 +1440,26 @@
             </div>
           </div>
           <div id="vs-results-card" class="glass-card" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.35rem;">
               <div>
-                <h1 id="vs-prog-title-out" style="color:#0d5c3a; font-size: 2rem; font-weight: 800; text-transform: uppercase;">Programme Comparison</h1>
-                <p id="vs-prog-subtitle-out" style="font-size:1rem; color:var(--accent-gold); font-weight:700; margin-top:0.2rem;"></p>
+                <h1 id="vs-prog-title-out" style="color:#0d5c3a; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;">Programme Comparison</h1>
+                <p id="vs-prog-subtitle-out" style="font-size:0.75rem; color:var(--accent-gold); font-weight:700; margin-top:0.1rem;"></p>
               </div>
-              <button onclick="window.print()" class="btn-secondary no-print"><i class="fa-solid fa-print"></i> Print Comparison</button>
+              <button onclick="window.print()" class="btn-secondary no-print" style="width:auto; font-size:0.78rem;"><i class="fa-solid fa-print"></i> Print</button>
             </div>
             <hr class="divider">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" id="vs-tables-grid">
-              <div style="background: rgba(13, 92, 58, 0.05); padding: 1rem; border-radius: 12px; border: 1.5px solid var(--primary-green);">
-                <h3 style="color: var(--primary-green); text-align: center; margin-bottom: 0.8rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 0.4rem;">MADEENATHU-SSALAM</h3>
-                <div id="team1-participants-list"></div>
+            <div style="display:grid; grid-template-columns: 1fr; gap: 0.8rem;" id="vs-tables-grid">
+              <div style="background: rgba(13, 92, 58, 0.05); padding: 0.7rem; border-radius: 8px; border: 1.5px solid var(--primary-green); overflow: hidden;">
+                <h3 style="color: var(--primary-green); text-align: center; margin-bottom: 0.5rem; border-bottom: 2px solid var(--primary-green); padding-bottom: 0.2rem; font-size: 0.85rem;">MADEENATHU-SSALAM</h3>
+                <div class="table-responsive">
+                  <div id="team1-participants-list"></div>
+                </div>
               </div>
-              <div style="background: rgba(212, 175, 55, 0.08); padding: 1rem; border-radius: 12px; border: 1.5px solid var(--accent-gold);">
-                <h3 style="color: #b89628; text-align: center; margin-bottom: 0.8rem; border-bottom: 2px solid var(--accent-gold); padding-bottom: 0.4rem;">MADEENATHU-NNOOR</h3>
-                <div id="team2-participants-list"></div>
+              <div style="background: rgba(212, 175, 55, 0.08); padding: 0.7rem; border-radius: 8px; border: 1.5px solid var(--accent-gold); overflow: hidden;">
+                <h3 style="color: #b89628; text-align: center; margin-bottom: 0.5rem; border-bottom: 2px solid var(--accent-gold); padding-bottom: 0.2rem; font-size: 0.85rem;">MADEENATHU-NNOOR</h3>
+                <div class="table-responsive">
+                  <div id="team2-participants-list"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -1500,19 +1467,19 @@
 
         <section id="view-practice-tracker" class="app-view">
           <div class="glass-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
-              <h2><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.35rem;">
+              <h2 style="font-size: 1rem;"><i class="fa-solid fa-spinner" style="color:var(--accent-gold);"></i> Realtime Practice Tracker</h2>
             </div>
             <hr class="divider">
             <div class="table-responsive">
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Student Info (Roll No - Class - Name)</th>
+                    <th>Student Info</th>
                     <th>Programme</th>
-                    <th>Gender / Category</th>
-                    <th>Current Status</th>
-                    <th>Change Practice Status</th>
+                    <th>Section / Cat</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody id="tbody-practice-tracker"></tbody>
@@ -1529,11 +1496,10 @@
     <i class="fa-solid fa-trophy"></i>
   </div>
 
-  <!-- MODALS -->
   <div id="modal-auth" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
-        <h3 id="login-modal-title"><i class="fa-solid fa-shield-halved"></i> Admin Login</h3>
+        <h3 id="login-modal-title" style="font-size: 1rem;"><i class="fa-solid fa-shield-halved"></i> Admin Login</h3>
         <button class="close-modal">×</button>
       </div>
       <form id="form-login">
@@ -1545,7 +1511,7 @@
           <label>Password</label>
           <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
         </div>
-        <button type="submit" class="btn-primary full-width mt-2" id="login-submit-btn">Sign In</button>
+        <button type="submit" class="btn-primary full-width mt-2">Sign In</button>
       </form>
     </div>
   </div>
@@ -1553,7 +1519,7 @@
   <div id="modal-team-winners" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
-        <h3 id="modal-team-title" style="color:var(--accent-gold);">Team Winners List</h3>
+        <h3 id="modal-team-title" style="color:var(--accent-gold); font-size: 1rem;">Team Winners List</h3>
         <button class="close-modal" onclick="closeModal('modal-team-winners')">×</button>
       </div>
       <div id="modal-team-winners-list" class="table-responsive"></div>
@@ -1563,7 +1529,7 @@
   <div id="modal-student" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
-        <h3 id="modal-student-title">Add Student</h3>
+        <h3 id="modal-student-title" style="font-size: 1rem;">Add Student</h3>
         <button class="close-modal">×</button>
       </div>
       <form id="form-student">
@@ -1606,7 +1572,7 @@
   <div id="modal-programme" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
-        <h3 id="modal-prog-title">Add Programme</h3>
+        <h3 id="modal-prog-title" style="font-size: 1rem;">Add Programme</h3>
         <button class="close-modal">×</button>
       </div>
       <form id="form-programme">
@@ -1645,8 +1611,8 @@
     <div class="modal-content glass-card wide">
       <div class="modal-header">
         <div>
-          <h3 id="modal-status-student-name">Manage Practice Progress</h3>
-          <p id="modal-status-student-sub" style="font-size:0.8rem; color:var(--accent-gold); font-weight:600;"></p>
+          <h3 id="modal-status-student-name" style="font-size: 0.95rem;">Manage Progress</h3>
+          <p id="modal-status-student-sub" style="font-size:0.68rem; color:var(--accent-gold); font-weight:600;"></p>
         </div>
         <button class="close-modal">×</button>
       </div>
@@ -1657,7 +1623,7 @@
   <div id="modal-dashboard-details" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
-        <h3 id="dash-details-title">Details View</h3>
+        <h3 id="dash-details-title" style="font-size: 1rem;">Details View</h3>
         <button class="close-modal">×</button>
       </div>
       <div id="dash-details-content" class="table-responsive"></div>
@@ -1667,7 +1633,7 @@
   <div id="modal-prog-details" class="modal">
     <div class="modal-content glass-card">
       <div class="modal-header">
-        <h3 id="details-prog-title">Programme Details</h3>
+        <h3 id="details-prog-title" style="font-size: 1rem;">Programme Details</h3>
         <button class="close-modal">×</button>
       </div>
       <div id="details-prog-body"></div>
@@ -1677,35 +1643,35 @@
   <div id="modal-result-details" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
-        <h3 id="res-modal-title" style="color:var(--accent-gold);">Programme Result Details</h3>
+        <h3 id="res-modal-title" style="color:var(--accent-gold); font-size: 1rem;">Result Details</h3>
         <button class="close-modal">×</button>
       </div>
-      <div id="res-modal-meta" style="font-size:0.9rem; margin-bottom:1rem; opacity:0.9; background:rgba(0,0,0,0.05); padding:10px; border-radius:8px;"></div>
-      <div id="res-modal-winners-list" style="display:flex; flex-direction:column; gap:0.8rem;"></div>
+      <div id="res-modal-meta" style="font-size:0.75rem; margin-bottom:0.6rem; opacity:0.9; background:rgba(0,0,0,0.05); padding:6px; border-radius:5px;"></div>
+      <div id="res-modal-winners-list" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
     </div>
   </div>
 
   <div id="modal-certificate" class="modal">
-    <div class="modal-content glass-card wide" style="max-width: 950px; text-align:center;">
+    <div class="modal-content glass-card wide" style="max-width: 800px; text-align:center;">
       <div id="certificate-print-area"></div>
-      <div class="flex-gap mt-2 no-print" style="display:flex; justify-content:center; gap:1rem;">
-        <button onclick="window.print()" class="btn-secondary"><i class="fa-solid fa-print"></i> Print Certificate / PDF</button>
-        <button onclick="document.getElementById('modal-certificate').classList.remove('active')" class="btn-primary" style="background:#6b7280;">Close</button>
+      <div class="flex-gap mt-2 no-print" style="display:flex; justify-content:center; gap:0.6rem; flex-wrap:wrap;">
+        <button onclick="window.print()" class="btn-secondary" style="width:auto;"><i class="fa-solid fa-print"></i> Print</button>
+        <button onclick="document.getElementById('modal-certificate').classList.remove('active')" class="btn-primary" style="background:#6b7280; width:auto;">Close</button>
       </div>
     </div>
   </div>
 
   <div id="modal-poster" class="modal">
-    <div class="modal-content glass-card" style="max-width: 480px; text-align:center;">
+    <div class="modal-content glass-card" style="max-width: 370px; text-align:center;">
       <div id="poster-print-area"></div>
       <button onclick="document.getElementById('modal-poster').classList.remove('active')" class="btn-primary mt-2" style="width:100%; background:#6b7280;">Close</button>
     </div>
   </div>
 
   <div id="modal-publish-result" class="modal">
-    <div class="modal-content glass-card wide" style="max-width: 720px;">
+    <div class="modal-content glass-card wide" style="max-width: 600px;">
       <div class="modal-header">
-        <h3 id="modal-pub-title">🏆 Publish Result (1st, 2nd, 3rd)</h3>
+        <h3 id="modal-pub-title" style="font-size: 1rem;">🏆 Publish Result (1st, 2nd, 3rd)</h3>
         <button class="close-modal" onclick="closeModal('modal-publish-result')">×</button>
       </div>
       <form id="form-publish-result">
@@ -1721,54 +1687,54 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Select Section (Boys / Girls)</label>
+            <label>Select Section</label>
             <select id="pub-gender" class="form-control" required onchange="updatePublishProgrammeAndParticipantOptions()">
               <option value="Boys">Boys</option>
               <option value="Girls">Girls</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Select Programme Type</label>
+            <label>Programme Type</label>
             <select id="pub-type" class="form-control" required onchange="updatePublishProgrammeAndParticipantOptions()">
               <option value="Stage">Stage</option>
               <option value="Non-Stage">Non-Stage</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Select Programme Name</label>
+            <label>Programme Name</label>
             <select id="pub-prog-name-select" class="form-control" required onchange="updatePublishParticipantDropdowns()">
               <option value="">-- Choose Programme --</option>
             </select>
           </div>
           
-          <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:10px; border-radius:8px; border:1px solid var(--accent-gold);">
-            <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner Name (10 Points)</label>
+          <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:6px; border-radius:5px; border:1px solid var(--accent-gold);">
+            <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner (10 Pts)</label>
             <select id="pub-1st-student-select" class="form-control mb-1" onchange="onFirstStudentSelectChange(this.value)">
-              <option value="">-- Select from assigned list or type below --</option>
+              <option value="">-- Select from assigned list --</option>
             </select>
             <input type="text" id="pub-1st-student" class="form-control mt-1" placeholder="1st Place Winner Name" oninput="manualFirstStudentInput(this.value)">
-            <small id="detected-team-label" style="color:var(--accent-gold); font-weight:700; margin-top:4px; display:block;">Team: Auto-detected from student</small>
+            <small id="detected-team-label" style="color:var(--accent-gold); font-weight:700; margin-top:2px; display:block;">Team: Auto-detected</small>
           </div>
 
-          <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
-            <label style="font-weight:700;">2nd Place Winner Name (5 Points)</label>
+          <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:6px; border-radius:5px; border:1px solid rgba(255,255,255,0.2);">
+            <label style="font-weight:700;">2nd Place Winner (5 Pts)</label>
             <select id="pub-2nd-student-select" class="form-control mb-1" onchange="onSecondStudentSelectChange(this.value)">
-              <option value="">-- Select from assigned list or type below --</option>
+              <option value="">-- Select from assigned list --</option>
             </select>
             <input type="text" id="pub-2nd-student" class="form-control mt-1" placeholder="2nd Place Winner Name" oninput="manualSecondStudentInput(this.value)">
-            <small id="detected-team-label-2nd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
+            <small id="detected-team-label-2nd" style="color:var(--accent-gold); font-weight:600; margin-top:2px; display:block;">Team: Auto-detected</small>
           </div>
 
-          <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
-            <label style="font-weight:700;">3rd Place Winner Name (3 Points)</label>
+          <div class="form-group" style="grid-column: 1 / -1; background:rgba(255,255,255,0.05); padding:6px; border-radius:5px; border:1px solid rgba(255,255,255,0.2);">
+            <label style="font-weight:700;">3rd Place Winner (3 Pts)</label>
             <select id="pub-3rd-student-select" class="form-control mb-1" onchange="onThirdStudentSelectChange(this.value)">
-              <option value="">-- Select from assigned list or type below --</option>
+              <option value="">-- Select from assigned list --</option>
             </select>
             <input type="text" id="pub-3rd-student" class="form-control mt-1" placeholder="3rd Place Winner Name" oninput="manualThirdStudentInput(this.value)">
-            <small id="detected-team-label-3rd" style="color:var(--accent-gold); font-weight:600; margin-top:4px; display:block;">Team: Auto-detected from student</small>
+            <small id="detected-team-label-3rd" style="color:var(--accent-gold); font-weight:600; margin-top:2px; display:block;">Team: Auto-detected</small>
           </div>
         </div>
-        <button type="submit" class="btn-primary full-width mt-2" style="width:100%; margin-top:1.2rem;">Publish Result & Auto-Calculate Points</button>
+        <button type="submit" class="btn-primary full-width mt-2" style="width:100%; margin-top:0.8rem;">Publish Result</button>
       </form>
     </div>
   </div>
@@ -1795,9 +1761,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    enableIndexedDbPersistence(db).catch((err) => {
-      if (err.code === 'failed-precondition') console.warn('Persistence enabled in first tab only.');
-    });
+    enableIndexedDbPersistence(db).catch(() => {});
 
     const state = {
       currentUser: null,
@@ -1849,9 +1813,7 @@
           message: actionMessage,
           timestamp: new Date().toISOString()
         });
-      } catch (e) {
-        console.error("Error writing audit log:", e);
-      }
+      } catch (e) {}
     }
 
     function getStudentRollNo(student, assignment) {
@@ -1881,15 +1843,15 @@
         const loader = document.getElementById('loading-screen');
         if (loader) {
           loader.style.opacity = '0';
-          setTimeout(() => loader.style.display = 'none', 500);
+          setTimeout(() => loader.style.display = 'none', 300);
         }
-      }, 800);
+      }, 300);
     }
 
     function updateSidebarTeamButtons() {
       const teamBtnText = document.getElementById('team-login-btn-text');
       if (teamBtnText) {
-        teamBtnText.textContent = `${state.activeTeam} Admin Login`;
+        teamBtnText.textContent = `${state.activeTeam} Admin`;
       }
     }
 
@@ -1927,8 +1889,6 @@
         if (id === 'modal-publish-result') {
           updatePublishProgrammeAndParticipantOptions();
         }
-      } else {
-        console.error("Modal not found: " + id);
       }
     };
 
@@ -1983,7 +1943,7 @@
         const emailInput = document.getElementById('login-email');
         const emailLabel = document.getElementById('login-email-label');
 
-        modalTitle.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${state.activeTeam} Admin Login`;
+        modalTitle.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${state.activeTeam} Admin`;
         emailLabel.textContent = `${state.activeTeam} Admin Email`;
         
         if (state.activeTeam === 'MADEENATHU-SSALAM') {
@@ -2029,7 +1989,6 @@
           showToast(`Welcome! Logged in successfully`, 'success');
           logActivity(`Admin logged in: ${emailInput}`);
         } catch (err) {
-          console.error("Login failed:", err);
           showToast('Invalid admin credentials', 'error');
         }
       });
@@ -2038,7 +1997,7 @@
       if (pubForm) {
         pubForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          if (!state.isSuperAdmin) return showToast('Super Admin permission required to publish results!', 'error');
+          if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
 
           const docId = document.getElementById('pub-doc-id').value;
           const progSelect = document.getElementById('pub-prog-name-select');
@@ -2054,7 +2013,7 @@
           });
 
           if (isDuplicate) {
-            showToast(`⚠️ ഈ പ്രോഗ്രാം (${programmeName}) ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
+            showToast(`⚠️ ഈ പ്രോഗ്രാം ഇതിനകം പബ്ലിഷ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
             return;
           }
           
@@ -2087,25 +2046,22 @@
               await updateDoc(doc(db, 'publishedResults', docId), resData);
               closeModal('modal-publish-result');
               showToast('Result Updated Successfully', 'success');
-              logActivity(`Updated result: ${resData.programmeName}`);
             } else {
               await addDoc(collection(db, 'publishedResults'), resData);
               closeModal('modal-publish-result');
-              showToast('Result Published Successfully & Points Auto-Calculated', 'success');
-              logActivity(`Published result: ${resData.programmeName}`);
+              showToast('Result Published Successfully', 'success');
             }
             pubForm.reset();
             document.getElementById('pub-doc-id').value = '';
           } catch (err) {
-            console.error("Firebase save error:", err);
-            showToast('Failed to save result. Check permissions.', 'error');
+            showToast('Failed to save result', 'error');
           }
         });
       }
 
       document.getElementById('form-team-settings').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!isTeamAuthorized()) return showToast(`Permission denied! Only ${state.activeTeam} Admin can save settings here.`, 'error');
+        if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
         
         const data = {
           advisors: document.getElementById('team-advisors-input').value,
@@ -2115,7 +2071,6 @@
         try {
           await setDoc(doc(db, 'teams', state.activeTeam), data, { merge: true });
           showToast('Team settings saved', 'success');
-          logActivity(`Updated team leadership settings for ${state.activeTeam}`);
         } catch (err) {
           showToast('Error saving settings', 'error');
         }
@@ -2132,16 +2087,14 @@
             team: state.activeTeam,
             timestamp: new Date().toISOString()
           }, { merge: true });
-          showToast('Live announcement updated successfully!', 'success');
-          logActivity(`Updated announcement: "${msg}"`);
+          showToast('Announcement updated!', 'success');
         } catch (err) {
-          console.error(err);
           showToast('Failed to update announcement', 'error');
         }
       });
 
       document.getElementById('btn-add-student').addEventListener('click', () => {
-        if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+        if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
         document.getElementById('form-student').reset();
         document.getElementById('student-doc-id').value = '';
         document.getElementById('modal-student-title').textContent = 'Add Student';
@@ -2150,7 +2103,7 @@
 
       document.getElementById('form-student').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+        if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
 
         const docId = document.getElementById('student-doc-id').value;
         const studentData = {
@@ -2166,11 +2119,9 @@
           if (docId) {
             await updateDoc(doc(db, 'students', docId), studentData);
             showToast('Student record updated', 'success');
-            logActivity(`Updated student: ${studentData.name} (Roll: ${studentData.rollNo})`);
           } else {
             await addDoc(collection(db, 'students'), studentData);
-            showToast(`New student added successfully!`, 'success');
-            logActivity(`Added new student: ${studentData.name} (Roll: ${studentData.rollNo})`);
+            showToast('New student added successfully!', 'success');
           }
           closeModal('modal-student');
         } catch (err) {
@@ -2193,7 +2144,7 @@
 
       document.getElementById('form-programme').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!state.isSuperAdmin) return showToast('Super Admin permission required to add programmes!', 'error');
+        if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
 
         const docId = document.getElementById('prog-doc-id').value;
         const maxVal = document.getElementById('prog-max-input').value;
@@ -2211,7 +2162,7 @@
         });
 
         if (isDuplicate) {
-          showToast(`⚠️ ഈ പ്രോഗ്രാം (${progName}) ഈ കാറ്റഗറിയിലും സെക്ഷനിലും ഇതിനകം ആഡ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
+          showToast(`⚠️ ഈ പ്രോഗ്രാം ഇതിനകം ആഡ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
           return;
         }
         
@@ -2228,11 +2179,9 @@
           if (docId) {
             await updateDoc(doc(db, 'programmes', docId), progData);
             showToast('Programme updated', 'success');
-            logActivity(`Updated programme: ${progData.name}`);
           } else {
             await addDoc(collection(db, 'programmes'), progData);
             showToast('Programme saved successfully!', 'success');
-            logActivity(`Added programme: ${progData.name} (${progData.category})`);
           }
           closeModal('modal-programme');
           onPublicSearchFilterChange();
@@ -2296,18 +2245,18 @@
       const label = document.getElementById(labelId);
       if (!label) return;
       if (!studentName) {
-        label.textContent = "Team: Auto-detected from student";
+        label.textContent = "Team: Auto-detected";
         return;
       }
       const foundStd = state.students.find(s => s.name.trim().toLowerCase() === studentName.trim().toLowerCase());
       if (foundStd && foundStd.team) {
-        label.innerHTML = `Team: <strong style="color:#10b981; font-size:1rem;">${foundStd.team}</strong>`;
+        label.innerHTML = `Team: <strong style="color:#10b981;">${foundStd.team}</strong>`;
       } else {
         const foundAssign = state.assignments.find(a => a.studentName?.trim().toLowerCase() === studentName.trim().toLowerCase());
         if (foundAssign && foundAssign.team) {
-          label.innerHTML = `Team: <strong style="color:#10b981; font-size:1rem;">${foundAssign.team}</strong>`;
+          label.innerHTML = `Team: <strong style="color:#10b981;">${foundAssign.team}</strong>`;
         } else {
-          label.innerHTML = `Team: <span style="color:var(--accent-gold);">Not found in database</span>`;
+          label.innerHTML = `Team: <span style="color:var(--accent-gold);">Not found</span>`;
         }
       }
     }
@@ -2335,7 +2284,7 @@
             state.isSuperAdmin = false;
             state.adminTeam = 'MADEENATHU-SSALAM';
             state.activeTeam = 'MADEENATHU-SSALAM';
-            roleBadge.textContent = 'Madeenathu-Ssalam Admin';
+            roleBadge.textContent = 'Ssalam Admin';
             roleBadge.className = 'badge badge-completed';
             document.body.classList.remove('is-super-admin');
             if (judgeMenu) judgeMenu.style.display = 'none';
@@ -2345,7 +2294,7 @@
             state.isSuperAdmin = false;
             state.adminTeam = 'MADEENATHU-NNOOR';
             state.activeTeam = 'MADEENATHU-NNOOR';
-            roleBadge.textContent = 'Madeenathu-Nnoor Admin';
+            roleBadge.textContent = 'Nnoor Admin';
             roleBadge.className = 'badge badge-stageready';
             document.body.classList.remove('is-super-admin');
             if (judgeMenu) judgeMenu.style.display = 'none';
@@ -2391,7 +2340,7 @@
       const container = document.getElementById('admin-result-action-btn-container');
       if (!container) return;
       if (state.isSuperAdmin) {
-        container.innerHTML = `<button class="btn-secondary" onclick="openModal('modal-publish-result')"><i class="fa-solid fa-plus"></i> Publish Result</button>`;
+        container.innerHTML = `<button class="btn-secondary" onclick="openModal('modal-publish-result')" style="font-size:0.75rem; padding:0.4rem 0.7rem;"><i class="fa-solid fa-plus"></i> Publish</button>`;
       } else {
         container.innerHTML = '';
       }
@@ -2451,14 +2400,14 @@
         contestants.forEach((c, idx) => {
           rowsHtml += `
             <tr style="border-bottom:1px solid #ddd;">
-              <td style="padding:10px; text-align:center; font-weight:bold; font-size:1.1rem;">${idx + 1}</td>
-              <td style="padding:10px; text-align:center; font-weight:bold; font-size:1.3rem; color:#0d5c3a;">${c.rollNo}</td>
-              <td style="padding:10px;"></td>
+              <td style="padding:6px; text-align:center; font-weight:bold;">${idx + 1}</td>
+              <td style="padding:6px; text-align:center; font-weight:bold; color:#0d5c3a;">${c.rollNo}</td>
+              <td style="padding:6px;"></td>
             </tr>
           `;
         });
       } else {
-        rowsHtml = `<tr><td colspan="3" class="text-center" style="padding:15px; color:#ef4444;">No contestants found for this programme.</td></tr>`;
+        rowsHtml = `<tr><td colspan="3" class="text-center" style="padding:8px; color:#ef4444;">No contestants found.</td></tr>`;
       }
 
       area.innerHTML = `
@@ -2468,19 +2417,19 @@
             <p>RABI'UL AWWAL OFFICIAL JUDGES SLIP</p>
           </div>
           
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; margin-bottom:1rem; font-size:0.95rem; background:#f8faf9; padding:10px; border-radius:8px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.3rem; margin-bottom:0.6rem; font-size:0.75rem; background:#f8faf9; padding:6px; border-radius:5px;">
             <div><strong>Programme:</strong> <span style="color:#0d5c3a; font-weight:700;">${progName}</span></div>
             <div><strong>Category:</strong> <span style="color:#d4af37; font-weight:700;">${cat}</span></div>
-            <div><strong>Section:</strong> <span>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</span></div>
-            <div><strong>Total Contestants:</strong> <span>${contestants.length}</span></div>
+            <div><strong>Section:</strong> <span>${gender === 'Male' ? 'Boys' : 'Girls'}</span></div>
+            <div><strong>Contestants:</strong> <span>${contestants.length}</span></div>
           </div>
 
-          <table style="width:100%; border-collapse:collapse; margin-bottom:1.5rem; font-size:0.9rem;">
+          <table style="width:100%; border-collapse:collapse; margin-bottom:0.8rem; font-size:0.78rem;">
             <thead>
               <tr style="background:#0d5c3a; color:#fff;">
-                <th style="padding:8px; width:15%; text-align:center;">Sl No</th>
-                <th style="padding:8px; width:45%; text-align:center;">Contestant Chest No / Roll No</th>
-                <th style="padding:8px; width:40%; text-align:center;">Marks / Remarks</th>
+                <th style="padding:4px; width:15%; text-align:center;">Sl No</th>
+                <th style="padding:4px; width:45%; text-align:center;">Roll No / Chest No</th>
+                <th style="padding:4px; width:40%; text-align:center;">Marks / Remarks</th>
               </tr>
             </thead>
             <tbody>
@@ -2488,9 +2437,9 @@
             </tbody>
           </table>
 
-          <div style="display:flex; justify-content:space-between; margin-top:2rem; font-size:0.85rem; border-top:1px dashed #ccc; padding-top:1rem;">
-            <div><strong>Judge Name:</strong> ........................................</div>
-            <div><strong>Signature:</strong> ........................................</div>
+          <div style="display:flex; justify-content:space-between; margin-top:1rem; font-size:0.68rem; border-top:1px dashed #ccc; padding-top:0.5rem;">
+            <div><strong>Judge:</strong> ....................</div>
+            <div><strong>Sign:</strong> ....................</div>
           </div>
         </div>
       `;
@@ -2603,8 +2552,9 @@
       });
       activeSnapshotUnsubscribers.push(unsubResults);
 
-      const unsubPractice = onSnapshot(query(collection(db, 'practice'), where('team', '==', state.activeTeam)), (s) => {
-        state.practice = s.docs.map(d => ({ id: d.id, ...d.data() }));
+      const unsubPractice = onSnapshot(collection(db, 'practice'), (s) => {
+        let allPrac = s.docs.map(d => ({ id: d.id, ...d.data() }));
+        state.practice = allPrac.filter(p => !p.team || p.team === state.activeTeam);
         renderPracticeTable();
         updateDashboardStats();
         renderDashboardStudentStatusTable();
@@ -2649,17 +2599,17 @@
         }
       });
 
-      document.getElementById('team1-score-display').textContent = `${t1Pts} Points`;
-      document.getElementById('team2-score-display').textContent = `${t2Pts} Points`;
+      document.getElementById('team1-score-display').textContent = `${t1Pts} Pts`;
+      document.getElementById('team2-score-display').textContent = `${t2Pts} Pts`;
 
       const leaderEl = document.getElementById('championship-leader-display');
       
       if (t1Pts > t2Pts) {
-        leaderEl.innerHTML = `🏆 MADEENATHU-SSALAM (${t1Pts} Points) — Lead by ${t1Pts - t2Pts} Points`;
+        leaderEl.innerHTML = `🏆 MADEENATHU-SSALAM Lead by ${t1Pts - t2Pts} Pts`;
       } else if (t2Pts > t1Pts) {
-        leaderEl.innerHTML = `🏆 MADEENATHU-NNOOR (${t2Pts} Points) — Lead by ${t2Pts - t1Pts} Points`;
+        leaderEl.innerHTML = `🏆 MADEENATHU-NNOOR Lead by ${t2Pts - t1Pts} Pts`;
       } else {
-        leaderEl.innerHTML = `🤝 Both Teams Tied at ${t1Pts} Points!`;
+        leaderEl.innerHTML = `🤝 Both Teams Tied at ${t1Pts} Pts`;
       }
     }
 
@@ -2667,7 +2617,7 @@
       const listEl = document.getElementById('modal-team-winners-list');
       const titleEl = document.getElementById('modal-team-title');
       
-      titleEl.textContent = teamName + ' - Detailed Winners List';
+      titleEl.textContent = teamName + ' - Winners';
       
       const teamWinners = state.publishedResults.filter(r => {
         const t1 = getStudentTeam(r.firstStudent) || r.team;
@@ -2677,18 +2627,17 @@
       });
       
       if(teamWinners.length === 0) {
-        listEl.innerHTML = '<p class="text-center" style="padding: 1.5rem; color:#ef4444;">No winners found for this team yet.</p>';
+        listEl.innerHTML = '<p class="text-center" style="padding: 0.9rem; color:#ef4444;">No winners found yet.</p>';
       } else {
         let html = `
           <table class="data-table">
             <thead>
               <tr>
-                <th>Programme Name</th>
+                <th>Programme</th>
                 <th>Category</th>
-                <th>Section</th>
-                <th>1st Place</th>
-                <th>2nd Place</th>
-                <th>3rd Place</th>
+                <th>1st</th>
+                <th>2nd</th>
+                <th>3rd</th>
               </tr>
             </thead>
             <tbody>
@@ -2701,10 +2650,9 @@
                   <tr>
                     <td><strong>${r.programmeName}</strong></td>
                     <td><span class="badge badge-visitor">${r.category}</span></td>
-                    <td>${r.gender || '-'}</td>
-                    <td>${r.firstStudent ? `${r.firstStudent} ${t1 === teamName ? '<span style="color:#10b981; font-size:0.75rem;">(Theirs)</span>' : ''}` : '-'}</td>
-                    <td>${r.secondStudent ? `${r.secondStudent} ${t2 === teamName ? '<span style="color:#10b981; font-size:0.75rem;">(Theirs)</span>' : ''}` : '-'}</td>
-                    <td>${r.thirdStudent ? `${r.thirdStudent} ${t3 === teamName ? '<span style="color:#10b981; font-size:0.75rem;">(Theirs)</span>' : ''}` : '-'}</td>
+                    <td>${r.firstStudent ? `${r.firstStudent} ${t1 === teamName ? '<span style="color:#10b981; font-size:0.6rem;">(Their)</span>' : ''}` : '-'}</td>
+                    <td>${r.secondStudent ? `${r.secondStudent} ${t2 === teamName ? '<span style="color:#10b981; font-size:0.6rem;">(Their)</span>' : ''}` : '-'}</td>
+                    <td>${r.thirdStudent ? `${r.thirdStudent} ${t3 === teamName ? '<span style="color:#10b981; font-size:0.6rem;">(Their)</span>' : ''}` : '-'}</td>
                   </tr>
                 `;
               }).join('')}
@@ -2732,13 +2680,13 @@
       }));
 
       if (matchedProgs.length === 0) {
-        container.innerHTML = `<span style="font-size:0.85rem; opacity:0.7; font-style:italic; color:#ef4444;">No programmes available for this search filter.</span>`;
+        container.innerHTML = `<span style="font-size:0.7rem; opacity:0.7; font-style:italic; color:#ef4444;">No programmes available.</span>`;
         return;
       }
 
       container.innerHTML = matchedProgs.map(prog => `
-        <button onclick="window.openResultDetailsPage('${prog.name}', '${prog.category}', '${prog.gender === 'Male' ? 'Boys' : 'Girls'}', '${prog.type}')" style="background:rgba(212,175,55,0.2); border:1px solid var(--accent-gold); color:#fff; padding:0.5rem 1rem; border-radius:20px; font-weight:600; cursor:pointer; font-size:0.85rem;">
-          <i class="fa-solid fa-award"></i> ${prog.name} (${prog.category} - ${prog.type})
+        <button onclick="window.openResultDetailsPage('${prog.name}', '${prog.category}', '${prog.gender === 'Male' ? 'Boys' : 'Girls'}', '${prog.type}')" style="background:rgba(212,175,55,0.2); border:1px solid var(--accent-gold); color:#fff; padding:0.3rem 0.6rem; border-radius:12px; font-weight:600; cursor:pointer; font-size:0.7rem;">
+          <i class="fa-solid fa-award"></i> ${prog.name} (${prog.category})
         </button>
       `).join('');
     };
@@ -2792,29 +2740,10 @@
         }
       });
 
-      let optionsHtml = '<option value="">-- Select from assigned list or type below --</option>';
+      let optionsHtml = '<option value="">-- Select from assigned list --</option>';
       uniqueNamesMap.forEach(item => {
         optionsHtml += `<option value="${item.name}">${item.name} (${item.team})</option>`;
       });
-
-      if (uniqueNamesMap.size === 0) {
-        const fallbackStudents = state.students.filter(s => {
-          const sGender = s.gender === 'Male' ? 'Boys' : 'Girls';
-          return s.category === cat && sGender === gender;
-        });
-        const fallbackMap = new Map();
-        fallbackStudents.forEach(s => {
-          if (s.name) {
-            const cleanNameKey = s.name.trim().toLowerCase();
-            if (!fallbackMap.has(cleanNameKey)) {
-              fallbackMap.set(cleanNameKey, s.name);
-            }
-          }
-        });
-        fallbackMap.forEach(name => {
-          optionsHtml += `<option value="${name}">${name}</option>`;
-        });
-      }
 
       student1Select.innerHTML = optionsHtml;
       student2Select.innerHTML = optionsHtml;
@@ -2826,12 +2755,8 @@
       const modalMeta = document.getElementById('res-modal-meta');
       const modalWinners = document.getElementById('res-modal-winners-list');
 
-      modalTitle.textContent = `${programmeName} - Result Details`;
-      modalMeta.innerHTML = `
-        <strong>Category:</strong> ${category} &bull; 
-        <strong>Section:</strong> ${gender} Section &bull; 
-        <strong>Type:</strong> ${type} Programme
-      `;
+      modalTitle.textContent = `${programmeName}`;
+      modalMeta.innerHTML = `<strong>Category:</strong> ${category} &bull; <strong>Section:</strong> ${gender}`;
 
       const result = state.publishedResults.find(r => 
         r.programmeName.trim().toLowerCase() === programmeName.trim().toLowerCase() &&
@@ -2843,10 +2768,9 @@
 
       if (!result) {
         modalWinners.innerHTML = `
-          <div style="text-align:center; padding: 2.5rem 1rem; background: rgba(239, 68, 68, 0.08); border-radius: 12px; border: 1.5px dashed #ef4444;">
-            <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏳</div>
-            <h4 style="color: #ef4444; font-size: 1.2rem; font-weight: 700;">Results Not Published Yet</h4>
-            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem;">The scores and winner details for ${programmeName} have not been published yet.</p>
+          <div style="text-align:center; padding: 1.2rem 0.6rem; background: rgba(239, 68, 68, 0.08); border-radius: 8px; border: 1.5px dashed #ef4444;">
+            <div style="font-size: 1.3rem; margin-bottom: 0.25rem;">⏳</div>
+            <h4 style="color: #ef4444; font-size: 0.9rem; font-weight: 700;">Results Not Published Yet</h4>
           </div>
         `;
         openModal('modal-result-details');
@@ -2859,13 +2783,13 @@
         const studentName = result.firstStudent || result.studentName;
         const t1 = getStudentTeam(studentName) || result.team;
         winnersHtml += `
-          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.8rem;">
+          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin">1st Place (10 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${studentName}</h3>
-              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--primary-green);">${t1}</strong></p>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--primary-green);">${t1}</strong></p>
             </div>
-            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+            <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
               <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${t1}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
               <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${t1}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
@@ -2877,13 +2801,13 @@
         const studentName = result.secondStudent;
         const t2 = getStudentTeam(studentName) || 'N/A';
         winnersHtml += `
-          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.8rem;">
+          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin" style="background:#9ca3af; color:#fff;">2nd Place (5 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${studentName}</h3>
-              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--accent-gold);">${t2}</strong></p>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--accent-gold);">${t2}</strong></p>
             </div>
-            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+            <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
               <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${t2}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
               <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${t2}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
@@ -2895,13 +2819,13 @@
         const studentName = result.thirdStudent;
         const t3 = getStudentTeam(studentName) || 'N/A';
         winnersHtml += `
-          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.8rem;">
+          <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin" style="background:#b45309; color:#fff;">3rd Place (3 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1.4rem; font-weight:800; margin-top:0.3rem;">${studentName}</h3>
-              <p style="font-size:0.9rem; font-weight:600; opacity:0.9; margin-top:0.2rem;">Team: <strong style="color:var(--accent-gold);">${t3}</strong></p>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--accent-gold);">${t3}</strong></p>
             </div>
-            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+            <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
               <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${t3}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
               <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${t3}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
@@ -2917,20 +2841,20 @@
       closeModal('modal-result-details');
       const area = document.getElementById('certificate-print-area');
       area.innerHTML = `
-        <div style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 50%, #08110b 100%); border: 6px solid var(--accent-gold); border-radius: 16px; padding: 2.5rem; color: #fff; text-align: center; margin: 1rem auto;">
-          <h3 style="font-family:'Amiri', serif; font-size:1.4rem; color:var(--accent-gold);">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h3>
-          <h1 style="font-family:'Amiri', serif; font-size:1.8rem; margin-top:0.4rem;">HIDAYATHUL ISLAM MADRASA - ACHANGI</h1>
-          <p style="font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; color:var(--accent-gold); font-weight:600; margin-bottom:1.5rem;">Rabi'ul Awwal Winner Certificate</p>
+        <div style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 50%, #08110b 100%); border: 2.5px solid var(--accent-gold); border-radius: 9px; padding: 1rem; color: #fff; text-align: center; margin: 0.3rem auto;">
+          <h3 style="font-family:'Amiri', serif; font-size:0.9rem; color:var(--accent-gold);">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h3>
+          <h1 style="font-family:'Amiri', serif; font-size:1.1rem; margin-top:0.2rem;">HIDAYATHUL ISLAM MADRASA - ACHANGI</h1>
+          <p style="font-size:0.6rem; letter-spacing:1px; text-transform:uppercase; color:var(--accent-gold); font-weight:600; margin-bottom:0.6rem;">Winner Certificate</p>
           
-          <p style="font-size:0.9rem; opacity:0.9;">This is proudly presented to</p>
-          <h2 style="font-size:2.2rem; color:var(--accent-gold); font-family:'Amiri', serif; margin:0.4rem 0;">${studentName}</h2>
-          <p style="font-size:0.95rem;">Category: <strong>${category}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${teamName}</strong></p>
-          <p style="font-size:1.05rem; margin-top:0.6rem;">for securing <strong style="color:var(--accent-gold);">${positionText}</strong> in <strong style="color:var(--accent-gold);">${progName}</strong></p>
+          <p style="font-size:0.7rem; opacity:0.9;">This is proudly presented to</p>
+          <h2 style="font-size:1.25rem; color:var(--accent-gold); font-family:'Amiri', serif; margin:0.2rem 0;">${studentName}</h2>
+          <p style="font-size:0.7rem;">Category: <strong>${category}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${teamName}</strong></p>
+          <p style="font-size:0.75rem; margin-top:0.25rem;">for securing <strong style="color:var(--accent-gold);">${positionText}</strong> in <strong style="color:var(--accent-gold);">${progName}</strong></p>
           
-          <div style="display:flex; justify-content:space-between; margin-top:2.5rem; font-size:0.8rem; border-top:1px solid rgba(212,175,55,0.4); padding-top:0.8rem;">
-            <div>Principal Signature</div>
-            <div>Official Madrasa Seal</div>
-            <div>Usthad Signature</div>
+          <div style="display:flex; justify-content:space-between; margin-top:1.2rem; font-size:0.6rem; border-top:1px solid rgba(212,175,55,0.4); padding-top:0.4rem;">
+            <div>Principal</div>
+            <div>Madrasa Seal</div>
+            <div>Usthad</div>
           </div>
         </div>
       `;
@@ -2941,13 +2865,13 @@
       closeModal('modal-result-details');
       const area = document.getElementById('poster-print-area');
       area.innerHTML = `
-        <div style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #06150c 100%); border: 5px solid var(--accent-gold); border-radius: 20px; padding: 2rem; color: #fff; text-align: center;">
-          <h3 style="font-family:'Amiri', serif; color:var(--accent-gold); font-size:1.1rem;">HIDAYATHUL ISLAM MADRASA</h3>
-          <div style="font-size:3.5rem; margin:0.8rem 0;">🏆</div>
-          <h1 style="font-size:1.4rem; color:var(--accent-gold); font-family:'Amiri', serif; margin-bottom:0.2rem;">${positionText.toUpperCase()} WINNER</h1>
-          <h2 style="font-size:1.5rem; margin:0.4rem 0;">${studentName}</h2>
-          <p style="font-size:0.9rem; opacity:0.9;">${progName} (${category})</p>
-          <p style="font-size:0.85rem; font-weight:700; color:var(--accent-gold); margin-top:0.4rem;">Team: ${teamName}</p>
+        <div style="background: linear-gradient(135deg, #052214 0%, #0d5c3a 60%, #06150c 100%); border: 2.5px solid var(--accent-gold); border-radius: 12px; padding: 1rem; color: #fff; text-align: center;">
+          <h3 style="font-family:'Amiri', serif; color:var(--accent-gold); font-size:0.78rem;">HIDAYATHUL ISLAM MADRASA</h3>
+          <div style="font-size:2.2rem; margin:0.3rem 0;">🏆</div>
+          <h1 style="font-size:1rem; color:var(--accent-gold); font-family:'Amiri', serif; margin-bottom:0.1rem;">${positionText.toUpperCase()}</h1>
+          <h2 style="font-size:1.1rem; margin:0.15rem 0;">${studentName}</h2>
+          <p style="font-size:0.7rem; opacity:0.9;">${progName} (${category})</p>
+          <p style="font-size:0.68rem; font-weight:700; color:var(--accent-gold); margin-top:0.2rem;">Team: ${teamName}</p>
         </div>
       `;
       openModal('modal-poster');
@@ -2989,11 +2913,10 @@
           <td>${r.secondStudent || '-'}</td>
           <td>${r.thirdStudent || '-'}</td>
           <td>
-            <button class="btn-action-sm btn-manage" onclick="window.openResultDetailsPageFromId('${r.id}')" style="background:rgba(59,130,246,0.2); color:#3b82f6; border-color:#3b82f6;"><i class="fa-solid fa-eye"></i> View</button>
+            <button class="btn-action-sm btn-manage" onclick="window.openResultDetailsPageFromId('${r.id}')"><i class="fa-solid fa-eye"></i></button>
             ${state.isSuperAdmin ? `
-              <button class="btn-action-sm btn-manage" onclick="window.editPublishedResult('${r.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
-              <button class="btn-action-sm btn-manage" onclick="window.republishResult('${r.id}')" style="background:rgba(16,185,129,0.2); color:#10b981; border-color:#10b981;"><i class="fa-solid fa-rotate"></i> Republish</button>
-              <button class="btn-danger-sm" onclick="window.deletePublishedResult('${r.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+              <button class="btn-action-sm btn-manage" onclick="window.editPublishedResult('${r.id}')"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn-danger-sm" onclick="window.deletePublishedResult('${r.id}')"><i class="fa-solid fa-trash"></i></button>
             ` : ''}
           </td>
         </tr>
@@ -3001,7 +2924,7 @@
     }
 
     window.editPublishedResult = function(id) {
-      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
+      if (!state.isSuperAdmin) return showToast('Super Admin required!', 'error');
       const r = state.publishedResults.find(x => x.id === id);
       if (!r) return;
 
@@ -3024,12 +2947,6 @@
       openModal('modal-publish-result');
     };
 
-    window.republishResult = function(id) {
-      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
-      showToast('Result Published Successfully', 'success');
-      logActivity(`Republished result ID: ${id}`);
-    };
-
     window.openResultDetailsPageFromId = function(id) {
       const r = state.publishedResults.find(x => x.id === id);
       if (!r) return;
@@ -3037,15 +2954,13 @@
     };
 
     window.deletePublishedResult = async function(id) {
-      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
-      if (confirm('Are you sure you want to delete this published result?')) {
+      if (!state.isSuperAdmin) return showToast('Super Admin required!', 'error');
+      if (confirm('Delete this published result?')) {
         try {
           await deleteDoc(doc(db, 'publishedResults', id));
-          showToast('Result Deleted Successfully', 'success');
-          logActivity(`Deleted published result ID: ${id}`);
+          showToast('Deleted successfully', 'success');
         } catch (err) {
-          console.error(err);
-          showToast('Failed to delete result', 'error');
+          showToast('Failed to delete', 'error');
         }
       }
     };
@@ -3057,7 +2972,7 @@
       const recentWinners = [...state.publishedResults].reverse().slice(0, 4);
 
       if (recentWinners.length === 0) {
-        showcaseGrid.innerHTML = `<p style="font-size:0.85rem; opacity:0.7; text-align:center; grid-column: 1 / -1;">No winners published yet.</p>`;
+        showcaseGrid.innerHTML = `<p style="font-size:0.72rem; opacity:0.7; text-align:center;">No winners published yet.</p>`;
         return;
       }
 
@@ -3065,11 +2980,11 @@
         const winnerName = r.firstStudent || r.studentName || 'Winner';
         const t1 = getStudentTeam(winnerName) || r.team;
         return `
-          <div style="background:rgba(255,255,255,0.07); border:1px solid rgba(212,175,55,0.3); border-radius:10px; padding:0.9rem; text-align:center; cursor:pointer;" onclick="window.openResultDetailsPage('${r.programmeName}', '${r.category}', '${r.gender || 'Boys'}', '${r.programmeType || 'Stage'}')">
-            <div style="font-size:1.2rem; margin-bottom:0.2rem;">🏆</div>
-            <h5 style="color:var(--accent-gold); font-size:0.95rem; margin-bottom:0.1rem;">${winnerName}</h5>
-            <p style="font-size:0.8rem; font-weight:600;">${r.programmeName}</p>
-            <span class="badge badge-admin mt-1" style="font-size:0.7rem;">1st Place &bull; ${t1}</span>
+          <div style="background:rgba(255,255,255,0.07); border:1px solid rgba(212,175,55,0.3); border-radius:6px; padding:0.6rem; text-align:center; cursor:pointer;" onclick="window.openResultDetailsPage('${r.programmeName}', '${r.category}', '${r.gender || 'Boys'}', '${r.programmeType || 'Stage'}')">
+            <div style="font-size:0.9rem; margin-bottom:0.05rem;">🏆</div>
+            <h5 style="color:var(--accent-gold); font-size:0.8rem; margin-bottom:0.05rem;">${winnerName}</h5>
+            <p style="font-size:0.68rem; font-weight:600;">${r.programmeName}</p>
+            <span class="badge badge-admin mt-1" style="font-size:0.55rem;">1st &bull; ${t1}</span>
           </div>
         `;
       }).join('');
@@ -3080,7 +2995,7 @@
       if (!listEl) return;
 
       if (state.auditLogs.length === 0) {
-        listEl.innerHTML = `<li class="empty-state">No recent activities for this team.</li>`;
+        listEl.innerHTML = `<li class="empty-state">No recent activities.</li>`;
         return;
       }
 
@@ -3088,9 +3003,9 @@
         const timeStr = log.timestamp ? new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
         return `
           <li>
-            <i class="fa-solid fa-angle-right" style="color:var(--accent-gold); margin-right: 0.4rem;"></i>
+            <i class="fa-solid fa-angle-right" style="color:var(--accent-gold); margin-right: 0.25rem;"></i>
             <span>${log.message}</span>
-            <small style="float: right; opacity: 0.6; font-size: 0.75rem;">${timeStr}</small>
+            <small style="float: right; opacity: 0.6; font-size: 0.65rem;">${timeStr}</small>
           </li>
         `;
       }).join('');
@@ -3182,14 +3097,14 @@
       );
 
       if (categoryProgrammes.length === 0) {
-        showToast(`No ${progType} programmes found for ${selectedCategory}`, 'warning');
+        showToast(`No programmes found`, 'warning');
         card.style.display = 'none';
         return;
       }
 
       card.style.display = 'block';
       titleEl.textContent = `HIDAYATHUL ISLAM MADRASA - ACHANGI`;
-      subtitleEl.textContent = `${progType} Programmes List | Category: ${selectedCategory} | Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'}`;
+      subtitleEl.textContent = `${progType} List | Category: ${selectedCategory} | Section: ${gender === 'Male' ? 'Boys' : 'Girls'}`;
 
       let fullHtml = '';
       const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
@@ -3232,34 +3147,32 @@
 
         fullHtml += `
           <div class="prog-page-break">
-            <div style="text-align:center; margin-bottom: 1.2rem; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.8rem;">
-              <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.6rem;">HIDAYATHUL ISLAM MADRASA - ACHANGI</h2>
-              <p style="font-size:0.85rem; font-weight:600; color:#d4af37;">RABI'UL AWWAL ${progType.toUpperCase()} PROGRAMMES PARTICIPANTS LIST</p>
+            <div style="text-align:center; margin-bottom: 0.6rem; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem;">
+              <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.1rem;">HIDAYATHUL ISLAM MADRASA</h2>
+              <p style="font-size:0.68rem; font-weight:600; color:#d4af37;">${progType.toUpperCase()} PROGRAMME SHEET</p>
             </div>
-            <div style="margin-bottom: 1.2rem; background: #f8faf9; padding: 1rem; border-radius: 8px; border-left: 5px solid #0d5c3a;">
-              <h1 style="color:#0d5c3a; font-size: 2.2rem; font-weight: 800; text-transform: uppercase; margin:0;">${prog.name}</h1>
-              <p style="font-size: 1rem; color: #d4af37; font-weight: 700; margin-top: 0.3rem;">
-                Category: ${selectedCategory} &nbsp;|&nbsp; Section: ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} &nbsp;|&nbsp; Type: ${progType} Item
+            <div style="margin-bottom: 0.6rem; background: #f8faf9; padding: 0.6rem; border-radius: 5px; border-left: 4px solid #0d5c3a;">
+              <h1 style="color:#0d5c3a; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; margin:0;">${prog.name}</h1>
+              <p style="font-size: 0.72rem; color: #d4af37; font-weight: 700; margin-top: 0.1rem;">
+                Category: ${selectedCategory} &nbsp;|&nbsp; Section: ${gender === 'Male' ? 'Boys' : 'Girls'}
               </p>
             </div>
             <table class="data-table" style="width:100%;">
               <thead>
                 <tr style="background:#f4f7f5; color:#0d5c3a;">
-                  <th style="width:10%;">#</th>
-                  <th style="width:25%;">Roll No / ID</th>
-                  <th style="width:40%;">Student Name</th>
-                  <th style="width:25%;">Section</th>
+                  <th style="width:12%;">#</th>
+                  <th style="width:28%;">Roll No</th>
+                  <th style="width:60%;">Student Name</th>
                 </tr>
               </thead>
               <tbody>
                 ${matchedItems.length > 0 ? matchedItems.map((s, idx) => `
                   <tr>
                     <td><strong>${idx + 1}</strong></td>
-                    <td><strong style="font-size:1.05rem; color:#0d5c3a;">${s.rollNo}</strong></td>
+                    <td><strong style="color:#0d5c3a;">${s.rollNo}</strong></td>
                     <td><strong style="color:#0d5c3a;">${s.name}</strong></td>
-                    <td>${gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
                   </tr>
-                `).join('') : `<tr><td colspan="4" class="text-center" style="color:#ef4444; padding: 1rem;">No participants assigned to this programme.</td></tr>`}
+                `).join('') : `<tr><td colspan="3" class="text-center" style="color:#ef4444; padding: 0.6rem;">No participants assigned.</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -3267,7 +3180,7 @@
       });
 
       outputArea.innerHTML = fullHtml;
-      showToast(`Generated ${progType} PDF successfully`, 'success');
+      showToast(`PDF ready for download`, 'success');
     }
 
     function populateStudentClassFilterOptions() {
@@ -3320,7 +3233,7 @@
       studentList = sortByClass(studentList);
 
       if (studentList.length === 0) {
-        container.innerHTML = `<p class="text-center" style="padding: 1.5rem 0;">No matching student records found.</p>`;
+        container.innerHTML = `<p class="text-center" style="padding: 0.8rem 0;">No matching student records found.</p>`;
         return;
       }
 
@@ -3337,7 +3250,7 @@
           const icon = p.status === 'Stage Ready' ? '⭐' : (p.status === 'Completed' ? '✅' : '🟡');
           const bClass = p.status === 'Stage Ready' ? 'badge-stageready' : (p.status === 'Completed' ? 'badge-completed' : 'badge-learning');
           
-          let deleteBtnHtml = isTeamAuthorized() ? ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; margin-left:4px;" title="Delete Programme"><i class="fa-solid fa-trash"></i></button>` : '';
+          let deleteBtnHtml = isTeamAuthorized() ? ` <button onclick="window.removeStudentPracticeItem('${p.id}', '${s.name}', '${p.programmeName}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.68rem; margin-left:2.5px;" title="Delete"><i class="fa-solid fa-trash"></i></button>` : '';
 
           return `<span class="badge ${bClass}">${icon} ${p.programmeName}${deleteBtnHtml}</span>`;
         };
@@ -3347,9 +3260,7 @@
 
         let actionBtnHtml = '';
         if (isTeamAuthorized() && studentPractice.length > 0) {
-          actionBtnHtml = `<button class="btn-action-sm btn-manage" onclick="window.openStatusManageModal('${s.id}')"><i class="fa-solid fa-sliders"></i> Manage Progress</button>`;
-        } else {
-          actionBtnHtml = '';
+          actionBtnHtml = `<button class="btn-action-sm btn-manage" onclick="window.openStatusManageModal('${s.id}')"><i class="fa-solid fa-sliders"></i> Manage</button>`;
         }
 
         const cleanRoll = getStudentRollNo(s, null);
@@ -3359,7 +3270,7 @@
             <div class="student-practice-header">
               <div>
                 <div class="student-name-title">Class ${s.class} - ${s.name}</div>
-                <div class="student-meta-info">Roll No: <strong>${cleanRoll}</strong> &nbsp;|&nbsp; Category: ${s.category} (${s.gender === 'Male' ? 'Boy' : 'Girl'})</div>
+                <div class="student-meta-info">Roll: <strong>${cleanRoll}</strong> &bull; ${s.category} (${s.gender === 'Male' ? 'Boy' : 'Girl'})</div>
               </div>
               <div>${actionBtnHtml}</div>
             </div>
@@ -3377,7 +3288,7 @@
                 </div>
               ` : ''}
               ${studentPractice.length === 0 ? `
-                <div style="font-size: 0.82rem; opacity:0.65; font-style: italic;">No stage programmes assigned to this student.</div>
+                <div style="font-size: 0.72rem; opacity:0.65; font-style: italic;">No stage programmes assigned.</div>
               ` : ''}
             </div>
           </div>
@@ -3386,7 +3297,7 @@
     }
 
     window.removeStudentPracticeItem = async (practiceId, studentName, progName) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       if (confirm(`Remove "${progName}" for ${studentName}?`)) {
         try {
           await deleteDoc(doc(db, 'practice', practiceId));
@@ -3396,11 +3307,9 @@
             await deleteDoc(doc(db, 'assignments', assign.id));
           }
 
-          showToast(`Removed ${progName} for ${studentName}`, 'success');
-          logActivity(`Removed "${progName}" from ${studentName} via Dashboard Card`);
+          showToast(`Removed successfully`, 'success');
         } catch (err) {
-          console.error(err);
-          showToast('Failed to remove item', 'error');
+          showToast('Failed to remove', 'error');
         }
       }
     };
@@ -3474,8 +3383,8 @@
       if (!selectedProg) return;
 
       container.style.display = 'block';
-      titleEl.textContent = `Assign Item: "${selectedProg.name}"`;
-      subtitleEl.textContent = `${cat} | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
+      titleEl.textContent = `Assign: "${selectedProg.name}"`;
+      subtitleEl.textContent = `${cat} | ${gender === 'Male' ? 'Boys' : 'Girls'} | ${type}`;
 
       const activeStudents = state.students.filter(s => s.team === state.activeTeam);
       let targetStudents = activeStudents.filter(s => s.category === cat && s.gender === gender);
@@ -3493,20 +3402,20 @@
         const roll = getStudentRollNo(s, null);
 
         return `
-          <div style="display:flex; align-items:center; justify-content:space-between; padding: 0.6rem; border-bottom: 1px solid rgba(0,0,0,0.05); ${isAssigned ? 'background:rgba(16, 185, 129, 0.08);' : ''}">
-            <div style="display:flex; align-items:center; gap:0.8rem; flex:1;">
-              <input type="checkbox" value="${s.id}" class="bulk-std-cb" id="bulk-std-${s.id}" ${isAssigned ? 'checked disabled' : ''} style="width:18px; height:18px; cursor:pointer;">
-              <label for="bulk-std-${s.id}" style="cursor:pointer; font-size:0.92rem;">
-                <strong>[Roll: ${roll}]</strong> Class ${s.class} - ${s.name} 
+          <div style="display:flex; align-items:center; justify-content:space-between; padding: 0.4rem; border-bottom: 1px solid rgba(0,0,0,0.05); ${isAssigned ? 'background:rgba(16, 185, 129, 0.08);' : ''}">
+            <div style="display:flex; align-items:center; gap:0.45rem; flex:1;">
+              <input type="checkbox" value="${s.id}" class="bulk-std-cb" id="bulk-std-${s.id}" ${isAssigned ? 'checked disabled' : ''} style="width:14px; height:14px; cursor:pointer;">
+              <label for="bulk-std-${s.id}" style="cursor:pointer; font-size:0.78rem;">
+                <strong>[${roll}]</strong> Class ${s.class} - ${s.name} 
               </label>
             </div>
             <div>
               ${isAssigned ? `
-                <div style="display:flex; align-items:center; gap:0.5rem;">
-                  <span class="badge badge-completed">Already Assigned</span>
+                <div style="display:flex; align-items:center; gap:0.3rem;">
+                  <span class="badge badge-completed">Assigned</span>
                   ${isTeamAuthorized() ? `
                     <button class="btn-danger-sm" onclick="window.unassignBulkParticipant('${existingAssign.id}', '${s.name}', '${selectedProg.name}')">
-                      <i class="fa-solid fa-user-minus"></i> Remove
+                      <i class="fa-solid fa-user-minus"></i>
                     </button>
                   ` : ''}
                 </div>
@@ -3518,7 +3427,7 @@
     }
 
     window.unassignBulkParticipant = async (assignmentId, studentName, progName) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       if (confirm(`Remove "${progName}" for ${studentName}?`)) {
         try {
           await deleteDoc(doc(db, 'assignments', assignmentId));
@@ -3526,18 +3435,16 @@
           for (const pr of practiceMatches) {
             await deleteDoc(doc(db, 'practice', pr.id));
           }
-          showToast(`Removed ${progName} for ${studentName}`, 'success');
-          logActivity(`Unassigned "${progName}" from ${studentName} via Bulk Panel`);
+          showToast(`Removed successfully`, 'success');
           renderBulkStudentChecklist();
         } catch (err) {
-          console.error(err);
-          showToast('Failed to remove assignment', 'error');
+          showToast('Failed to remove', 'error');
         }
       }
     };
 
     async function saveItemBulkAssignment() {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       const progId = document.getElementById('bulk-item-name-select').value;
       const prog = state.programmes.find(p => p.id === progId);
       if (!prog) return showToast('Please select a programme first', 'warning');
@@ -3556,10 +3463,7 @@
           (a.programmeDocId === prog.id || a.programmeName?.trim().toLowerCase() === prog.name.trim().toLowerCase())
         );
 
-        if (alreadyAssigned) {
-          showToast(`⚠️ ${student.name} എന്ന കുട്ടിക്ക് ഈ പ്രോഗ്രാം ഇതിനകം ആഡ് ചെയ്തിട്ടുണ്ട്!`, 'warning');
-          continue;
-        }
+        if (alreadyAssigned) continue;
 
         try {
           const cleanRoll = getStudentRollNo(student, null);
@@ -3587,14 +3491,11 @@
           });
 
           count++;
-        } catch (err) {
-          console.error(err);
-        }
+        } catch (err) {}
       }
 
       if (count > 0) {
-        showToast(`Assigned ${prog.name} to ${count} student(s) successfully!`, 'success');
-        logActivity(`Bulk assigned "${prog.name}" to ${count} student(s)`);
+        showToast(`Assigned to ${count} student(s) successfully!`, 'success');
         renderBulkStudentChecklist();
       }
     }
@@ -3669,7 +3570,7 @@
 
       container.style.display = 'block';
       titleEl.textContent = selectedProg.name;
-      subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys Section' : 'Girls Section'} | ${type} Item`;
+      subtitleEl.textContent = `${cat} Category | ${gender === 'Male' ? 'Boys' : 'Girls'} | ${type}`;
 
       const getTeamList = (teamName) => {
         const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
@@ -3702,14 +3603,14 @@
       const t2Data = getTeamList('MADEENATHU-NNOOR');
 
       const createTableHtml = (dataList) => {
-        if (dataList.length === 0) return `<p style="text-align:center; color:#ef4444; padding:0.8rem;">No participants assigned.</p>`;
+        if (dataList.length === 0) return `<p style="text-align:center; color:#ef4444; padding:0.4rem; font-size:0.72rem;">No participants assigned.</p>`;
         return `
           <table class="data-table" style="width:100%;">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Roll No</th>
-                <th>Name</th>
+                <th style="width:15%;">#</th>
+                <th style="width:30%;">Roll</th>
+                <th style="width:55%;">Name</th>
               </tr>
             </thead>
             <tbody>
@@ -3730,7 +3631,7 @@
     }
 
     window.openStatusManageModal = (studentDocId) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       const s = state.students.find(x => x.id === studentDocId);
       if (!s) return;
 
@@ -3746,7 +3647,7 @@
       });
 
       document.getElementById('modal-status-student-name').textContent = `${s.name}`;
-      document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)} | ${s.category} (${s.gender})`;
+      document.getElementById('modal-status-student-sub').textContent = `Class ${s.class} | Roll: ${getStudentRollNo(s, null)}`;
 
       const container = document.getElementById('modal-status-items-container');
       const uniquePracticeItems = [];
@@ -3777,27 +3678,22 @@
             </div>
           </div>
         `;
-      }).join('') || '<p>No stage items assigned.</p>';
+      }).join('') || '<p style="font-size:0.75rem;">No stage items assigned.</p>';
 
       openModal('modal-manage-student-status');
     };
 
     window.updatePracticeStatusDirect = async (practiceId, newStatus, studentDocId, studentName, progName) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       await updateDoc(doc(db, 'practice', practiceId), { status: newStatus });
-      showToast('Practice status updated', 'success');
-      logActivity(`Updated status to "${newStatus}" for ${studentName} - ${progName}`);
+      showToast('Status updated', 'success');
       window.openStatusManageModal(studentDocId);
     };
 
     window.updatePracticeStatus = async (id, status) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
-      const item = state.practice.find(p => p.id === id);
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       await updateDoc(doc(db, 'practice', id), { status });
-      showToast('Practice status updated', 'success');
-      if (item) {
-        logActivity(`Updated status to "${status}" for ${item.studentName} - ${item.programmeName}`);
-      }
+      showToast('Status updated', 'success');
     };
 
     function setupStudentSectionTabs() {
@@ -3864,19 +3760,19 @@
         const countText = hasLimit ? `${assignedCount} / ${p.maxParticipants}` : `${assignedCount} Participants`;
 
         return `
-          <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')">
-            <h3>${p.name}</h3>
-            <p style="margin-top:0.3rem;"><span class="badge badge-admin">${p.gender === 'Male' ? 'Boys' : 'Girls'}</span> <span class="badge badge-visitor">${p.category}</span></p>
-            <p style="font-size:0.85rem; margin-top:0.5rem;">Participants: <strong>${countText}</strong></p>
+          <div class="glass-card programme-card" onclick="window.viewProgrammeDetails('${p.id}')" style="margin-bottom:0;">
+            <h3 style="font-size:0.9rem;">${p.name}</h3>
+            <p style="margin-top:0.15rem;"><span class="badge badge-admin">${p.gender === 'Male' ? 'Boys' : 'Girls'}</span> <span class="badge badge-visitor">${p.category}</span></p>
+            <p style="font-size:0.72rem; margin-top:0.3rem;">Participants: <strong>${countText}</strong></p>
             <div class="progress-track mt-1"><div class="progress-fill bg-success" style="width:${percent}%"></div></div>
             ${state.isSuperAdmin ? `
-              <div style="margin-top:0.8rem; text-align:right;">
-                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete Programme</button>
+              <div style="margin-top:0.45rem; text-align:right;">
+                <button class="btn-danger" onclick="event.stopPropagation(); window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
               </div>
             ` : ''}
           </div>
         `;
-      }).join('') : '<p>No programmes found for this selection.</p>';
+      }).join('') : '<p style="font-size:0.75rem;">No programmes found.</p>';
     }
 
     window.showDashboardDetails = (type) => {
@@ -3901,12 +3797,12 @@
         if (state.dashModalFilterCat !== 'All') list = list.filter(s => s.category === state.dashModalFilterCat);
 
         list = sortByClass(list);
-        titleEl.textContent = type === 'total-boys' ? 'Boys Section Directory' : (type === 'total-girls' ? 'Girls Section Directory' : 'All Students Directory');
+        titleEl.textContent = type === 'total-boys' ? 'Boys Directory' : (type === 'total-girls' ? 'Girls Directory' : 'All Students');
 
         html = `
           <div class="tab-buttons mb-2">
             <button class="tab-btn ${state.dashModalFilterCat === 'All' ? 'active' : ''}" onclick="window.filterDashModalCat('All')">All</button>
-            <button class="tab-btn ${state.dashModalFilterCat === 'Sub Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Sub Junior')">Sub Junior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Sub Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Sub Junior')">Sub Jr</button>
             <button class="tab-btn ${state.dashModalFilterCat === 'Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Junior')">Junior</button>
             <button class="tab-btn ${state.dashModalFilterCat === 'Senior' ? 'active' : ''}" onclick="window.filterDashModalCat('Senior')">Senior</button>
             <button class="tab-btn ${state.dashModalFilterCat === 'General' ? 'active' : ''}" onclick="window.filterDashModalCat('General')">General</button>
@@ -3914,9 +3810,8 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>Roll No / ID</th>
+                <th>Roll</th>
                 <th>Student Info</th>
-                <th>Gender Section</th>
                 <th>Class</th>
                 <th>Category</th>
               </tr>
@@ -3929,14 +3824,13 @@
                     <td><strong>${cleanRoll}</strong></td>
                     <td>
                       <strong style="color: var(--primary-green);">Class ${s.class} - ${s.name}</strong>
-                      <br><small style="color: #6b7280; font-size: 0.75rem;">Click to view student programme slip ➔</small>
+                      <br><small style="color: #6b7280; font-size: 0.65rem;">Click to view slip ➔</small>
                     </td>
-                    <td>${s.gender === 'Male' ? 'Boys' : 'Girls'}</td>
                     <td>Class ${s.class}</td>
                     <td><span class="badge badge-visitor">${s.category}</span></td>
                   </tr>
                 `;
-              }).join('') : '<tr><td colspan="5" class="text-center">No students found.</td></tr>'}
+              }).join('') : '<tr><td colspan="4" class="text-center">No students found.</td></tr>'}
             </tbody>
           </table>
         `;
@@ -3950,7 +3844,7 @@
         if (type === 'boys-non-stage') { gender = 'Male'; progType = 'Non-Stage'; }
 
         const genderLabel = gender === 'Male' ? 'Boys' : 'Girls';
-        titleEl.textContent = `${genderLabel} ${progType} Programmes List`;
+        titleEl.textContent = `${genderLabel} ${progType} Programmes`;
 
         let list = state.programmes.filter(p => p.gender === gender && p.type === progType);
         if (state.dashModalFilterCat !== 'All') list = list.filter(p => p.category === state.dashModalFilterCat);
@@ -3961,42 +3855,30 @@
 
         html = `
           <div class="tab-buttons mb-2">
-            <button class="tab-btn ${state.dashModalFilterCat === 'All' ? 'active' : ''}" onclick="window.filterDashModalCat('All')">All Categories</button>
-            <button class="tab-btn ${state.dashModalFilterCat === 'Sub Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Sub Junior')">Sub Junior</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'All' ? 'active' : ''}" onclick="window.filterDashModalCat('All')">All</button>
+            <button class="tab-btn ${state.dashModalFilterCat === 'Sub Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Sub Junior')">Sub Jr</button>
             <button class="tab-btn ${state.dashModalFilterCat === 'Junior' ? 'active' : ''}" onclick="window.filterDashModalCat('Junior')">Junior</button>
             <button class="tab-btn ${state.dashModalFilterCat === 'Senior' ? 'active' : ''}" onclick="window.filterDashModalCat('Senior')">Senior</button>
-            <button class="tab-btn ${state.dashModalFilterCat === 'General' ? 'active' : ''}" onclick="window.filterDashModalCat('General')">General</button>
           </div>
           <table class="data-table">
             <thead>
               <tr>
-                <th>Programme Item</th>
+                <th>Programme Name</th>
                 <th>Category</th>
-                <th>Gender Section</th>
-                <th>Max Limit</th>
-                <th>Assigned Count</th>
-                ${state.isSuperAdmin ? `<th class="no-print">Action</th>` : ''}
+                <th>Count</th>
               </tr>
             </thead>
             <tbody>
               ${list.length ? list.map(p => {
                 const assignedCount = activeAssignments.filter(a => a.programmeDocId === p.id).length;
-                const limitText = p.maxParticipants ? p.maxParticipants : 'Unlimited';
                 return `
                   <tr>
                     <td><strong>${p.name}</strong></td>
                     <td><span class="badge badge-visitor">${p.category}</span></td>
-                    <td>${p.gender === 'Male' ? 'Boys' : 'Girls'}</td>
-                    <td>${limitText}</td>
                     <td>${assignedCount} ${p.maxParticipants ? '/ ' + p.maxParticipants : ''}</td>
-                    ${state.isSuperAdmin ? `
-                      <td>
-                        <button class="btn-danger-sm" onclick="window.deleteProgramme('${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
-                      </td>
-                    ` : ''}
                   </tr>
                 `;
-              }).join('') : '<tr><td colspan="6" class="text-center">No programmes found.</td></tr>'}
+              }).join('') : '<tr><td colspan="3" class="text-center">No programmes found.</td></tr>'}
             </tbody>
           </table>
         `;
@@ -4014,7 +3896,7 @@
         window.selectStudentForSlip(studentDocId);
         const targetCard = document.getElementById(`slip-std-card-${studentDocId}`);
         if (targetCard) targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 200);
+      }, 100);
     };
 
     window.filterDashModalCat = (cat) => {
@@ -4031,31 +3913,30 @@
       const body = document.getElementById('details-prog-body');
       
       body.innerHTML = `
-        <p><strong>Section:</strong> ${p.gender === 'Male' ? 'Boys' : 'Girls'} | <strong>Category:</strong> ${p.category}</p>
-        <p><strong>Max Limit:</strong> ${p.maxParticipants ? p.maxParticipants : 'Unlimited'}</p>
+        <p style="font-size:0.75rem;"><strong>Section:</strong> ${p.gender === 'Male' ? 'Boys' : 'Girls'} | <strong>Category:</strong> ${p.category}</p>
         <hr class="divider">
-        <h4>Assigned Participants (${assigned.length})</h4>
+        <h4 style="font-size:0.85rem;">Assigned Participants (${assigned.length})</h4>
         <ul class="activity-list mb-2">
           ${assigned.length ? assigned.map(a => {
             const student = state.students.find(s => s.id === a.studentDocId || s.name === a.studentName);
             const roll = getStudentRollNo(student, a);
             const cls = student?.class ? `Class ${student.class}` : '';
-            return `<li>[Roll No: ${roll}] ${cls} - ${a.studentName}</li>`;
+            return `<li>[Roll: ${roll}] ${cls} - ${a.studentName}</li>`;
           }).join('') : '<li>No students assigned yet.</li>'}
         </ul>
         ${state.isSuperAdmin ? `
-          <button class="btn-danger full-width" onclick="window.deleteProgramme('${p.id}'); closeModal('modal-prog-details');"><i class="fa-solid fa-trash"></i> Delete This Programme Entirely</button>
+          <button class="btn-danger full-width" onclick="window.deleteProgramme('${p.id}'); closeModal('modal-prog-details');"><i class="fa-solid fa-trash"></i> Delete Programme</button>
         ` : ''}
       `;
       openModal('modal-prog-details');
     };
 
     window.deleteProgramme = async (id) => {
-      if (!state.isSuperAdmin) return showToast('Super Admin permission required to delete programmes!', 'error');
+      if (!state.isSuperAdmin) return showToast('Super Admin required!', 'error');
       const prog = state.programmes.find(p => p.id === id);
       if (!prog) return;
 
-      if (confirm(`Are you sure you want to completely delete "${prog.name}"? This will remove all related assignments and tracking data.`)) {
+      if (confirm(`Delete "${prog.name}" completely?`)) {
         try {
           await deleteDoc(doc(db, 'programmes', id));
           
@@ -4069,12 +3950,10 @@
             await deleteDoc(doc(db, 'practice', prac.id));
           }
 
-          showToast('Programme deleted successfully', 'success');
-          logActivity(`Deleted programme completely: ${prog.name}`);
+          showToast('Deleted successfully', 'success');
           onPublicSearchFilterChange();
         } catch (err) {
-          console.error(err);
-          showToast('Failed to delete programme', 'error');
+          showToast('Failed to delete', 'error');
         }
       }
     };
@@ -4105,7 +3984,7 @@
       filtered = sortByClass(filtered);
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No student records found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No students found.</td></tr>`;
         return;
       }
 
@@ -4113,9 +3992,9 @@
         const cleanRoll = getStudentRollNo(s, null);
         return `
           <tr>
-            <td><strong style="color:var(--primary-green); font-size:1rem;">${cleanRoll}</strong></td>
+            <td><strong style="color:var(--primary-green);">${cleanRoll}</strong></td>
             <td><strong>Class ${s.class} - ${s.name}</strong></td>
-            <td>${s.gender === 'Male' ? 'Boys Section' : 'Girls Section'}</td>
+            <td>${s.gender === 'Male' ? 'Boys' : 'Girls'}</td>
             <td>Class ${s.class}</td>
             <td><span class="badge badge-visitor">${s.category}</span></td>
             <td>${s.team}</td>
@@ -4123,7 +4002,7 @@
               ${isTeamAuthorized() ? `
                 <button class="icon-btn" onclick="window.editStudent('${s.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
                 <button class="icon-btn" onclick="window.deleteStudent('${s.id}')"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
-              ` : '<small style="opacity:0.5;">-</small>'}
+              ` : '<small>-</small>'}
             </td>
           </tr>
         `;
@@ -4160,7 +4039,7 @@
       hiddenInput.value = '';
 
       if (filteredStudents.length === 0) {
-        grid.innerHTML = '<p style="grid-column:1/-1; color:#ef4444; font-size:0.85rem;">No matching students found.</p>';
+        grid.innerHTML = '<p style="grid-column:1/-1; color:#ef4444; font-size:0.72rem;">No students found.</p>';
         renderParentSlip();
         return;
       }
@@ -4171,8 +4050,8 @@
           <div class="student-app-card" onclick="window.selectStudentForSlip('${s.id}')" id="slip-std-card-${s.id}">
             <div class="student-avatar-icon"><i class="fa-solid fa-user"></i></div>
             <div class="student-card-info">
-              <h4>${s.name}</h4>
-              <small style="color:var(--accent-gold); font-weight:bold;">Roll No: ${roll}</small>
+              <h4 style="font-size:0.8rem;">${s.name}</h4>
+              <small style="color:var(--accent-gold); font-weight:bold;">Roll: ${roll}</small>
             </div>
           </div>
         `;
@@ -4201,7 +4080,7 @@
         document.getElementById('slip-out-category').textContent = '-';
         document.getElementById('slip-out-team').textContent = '-';
         document.getElementById('slip-out-gender').textContent = '-';
-        document.getElementById('slip-out-table-body').innerHTML = `<tr><td colspan="3" class="text-center">Select a student above to view assigned programmes.</td></tr>`;
+        document.getElementById('slip-out-table-body').innerHTML = `<tr><td colspan="3" class="text-center">Select a student above.</td></tr>`;
         return;
       }
 
@@ -4211,7 +4090,7 @@
       document.getElementById('slip-out-class').textContent = `Class ${s.class}`;
       document.getElementById('slip-out-category').textContent = s.category;
       document.getElementById('slip-out-team').textContent = s.team;
-      document.getElementById('slip-out-gender').textContent = s.gender === 'Male' ? 'Boys Section' : 'Girls Section';
+      document.getElementById('slip-out-gender').textContent = s.gender === 'Male' ? 'Boys' : 'Girls';
 
       const activeProgDocIds = new Set(state.programmes.map(p => p.id));
       const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
@@ -4231,31 +4110,26 @@
           r.category === s.category
         );
 
-        const practiceRecord = state.practice.find(p => p.studentName === s.name && p.programmeName?.trim().toLowerCase() === a.programmeName?.trim().toLowerCase());
-        const isCompleted = publishedRes || (practiceRecord && (practiceRecord.status === 'Completed' || practiceRecord.status === 'Stage Ready'));
-
         let statusBadge = '';
         if (publishedRes) {
           if (publishedRes.firstStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
-            statusBadge = `<span style="background:#d4af37; color:#072e1d; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">🏆 1st Place</span>`;
+            statusBadge = `<span style="background:#d4af37; color:#072e1d; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">🏆 1st Place</span>`;
           } else if (publishedRes.secondStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
-            statusBadge = `<span style="background:#9ca3af; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">🥈 2nd Place</span>`;
+            statusBadge = `<span style="background:#9ca3af; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">🥈 2nd Place</span>`;
           } else if (publishedRes.thirdStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
-            statusBadge = `<span style="background:#b45309; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">🥉 3rd Place</span>`;
+            statusBadge = `<span style="background:#b45309; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">🥉 3rd Place</span>`;
           } else {
-            statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">✅ Completed / Participated</span>`;
+            statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">✅ Done</span>`;
           }
-        } else if (isCompleted) {
-          statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">✅ Completed</span>`;
         } else {
-          statusBadge = `<span style="background:#f59e0b; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:bold;">⏳ Pending / Upcoming</span>`;
+          statusBadge = `<span style="background:#f59e0b; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">⏳ Pending</span>`;
         }
 
-        rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>${a.programmeType} (${a.studentCategory}) <br> ${statusBadge}</td></tr>`;
+        rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>${a.programmeType} <br>${statusBadge}</td></tr>`;
       });
 
       if (userAssignments.length === 0) {
-        rowsHtml = `<tr><td colspan="3" class="text-center">No active programmes assigned for this student yet.</td></tr>`;
+        rowsHtml = `<tr><td colspan="3" class="text-center">No programmes assigned.</td></tr>`;
       }
 
       document.getElementById('slip-out-table-body').innerHTML = rowsHtml;
@@ -4264,7 +4138,7 @@
     function shareWhatsAppSlip() {
       const studentId = document.getElementById('slip-selected-student-id').value;
       const s = state.students.find(x => x.id === studentId);
-      if (!s) return showToast('Please select a student first', 'warning');
+      if (!s) return showToast('Please select a student', 'warning');
 
       const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
       const userAssignments = state.assignments.filter(a => {
@@ -4280,22 +4154,20 @@
 
       const cleanRoll = getStudentRollNo(s, null);
       const text = `*HIDAYATHUL ISLAM MADRASA - ACHANGI*\n` +
-                   `*Rabi'ul Awwal Programme List*\n\n` +
-                   `👤 *Student Name:* ${s.name}\n` +
-                   `🆔 *Roll No / ID:* ${cleanRoll}\n` +
+                   `*Programme Slip*\n\n` +
+                   `👤 *Name:* ${s.name}\n` +
+                   `🆔 *Roll No:* ${cleanRoll}\n` +
                    `📚 *Class:* ${s.class}\n` +
                    `🏷️ *Category:* ${s.category}\n` +
                    `🚩 *Team:* ${s.team}\n` +
                    `_______________________________\n` +
-                   `*Assigned Programmes List:* \n${progsText}\n` +
-                   `_Hidayathul Islam Madrasa - Rabi'ul Awwal Committee_\n` +
-                   `💬 *Helpline Support:* https://wa.me/919113695271`;
+                   `*Assigned Programmes:* \n${progsText}`;
 
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
     }
 
     window.editStudent = (id) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       const s = state.students.find(x => x.id === id);
       if (!s) return;
       document.getElementById('student-doc-id').value = s.id;
@@ -4304,22 +4176,20 @@
       document.getElementById('student-gender-input').value = s.gender;
       document.getElementById('student-class-input').value = s.class;
       document.getElementById('student-category-input').value = s.category;
-      document.getElementById('modal-student-title').textContent = 'Edit Student Record';
+      document.getElementById('modal-student-title').textContent = 'Edit Student';
       openModal('modal-student');
     };
 
     window.deleteStudent = async (id) => {
-      if (!isTeamAuthorized()) return showToast(`Permission denied! You can only manage ${state.adminTeam}`, 'error');
-      const s = state.students.find(x => x.id === id);
+      if (!isTeamAuthorized()) return showToast(`Permission denied!`, 'error');
       if (confirm('Delete student record?')) {
         await deleteDoc(doc(db, 'students', id));
-        showToast('Student deleted', 'success');
-        if (s) logActivity(`Deleted student: ${s.name}`);
+        showToast('Deleted successfully', 'success');
       }
     };
 
     function openProgrammeModal(type) {
-      if (!state.isSuperAdmin) return showToast('Super Admin permission required!', 'error');
+      if (!state.isSuperAdmin) return showToast('Super Admin required!', 'error');
       document.getElementById('form-programme').reset();
       document.getElementById('prog-doc-id').value = '';
       document.getElementById('prog-type-hidden').value = type;
@@ -4353,18 +4223,18 @@
 
         return `
           <tr>
-            <td><strong>[Roll: ${roll}] Class ${cls} - ${p.studentName}</strong></td>
+            <td><strong>[${roll}] Class ${cls} - ${p.studentName}</strong></td>
             <td>${p.programmeName}</td>
             <td>${p.studentGender === 'Male' ? 'Boys' : 'Girls'} / ${p.studentCategory}</td>
             <td><span class="badge badge-visitor">${p.status || 'Learning'}</span></td>
             <td>
               ${isTeamAuthorized() ? `
-                <select class="form-control" onchange="window.updatePracticeStatus('${p.id}', this.value)">
-                  <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>🟡 Learning</option>
-                  <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>✅ Completed</option>
-                  <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>⭐ Stage Ready</option>
+                <select class="form-control" style="padding:0.2rem;" onchange="window.updatePracticeStatus('${p.id}', this.value)">
+                  <option value="Learning" ${p.status === 'Learning' ? 'selected' : ''}>Learning</option>
+                  <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                  <option value="Stage Ready" ${p.status === 'Stage Ready' ? 'selected' : ''}>Ready</option>
                 </select>
-              ` : '<small style="opacity:0.6;">View Only</small>'}
+              ` : '<small>View</small>'}
             </td>
           </tr>
         `;
@@ -4381,14 +4251,14 @@
 
       if (type === 'students') {
         const sorted = sortByClass(activeStudents);
-        container.innerHTML = `<table class="data-table"><thead><tr><th>Roll No / ID</th><th>Student Name</th><th>Gender Section</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => {
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Roll</th><th>Name</th><th>Section</th><th>Category</th><th>Class</th></tr></thead><tbody>${sorted.map(s => {
           const cleanRoll = getStudentRollNo(s, null);
           return `<tr><td>${cleanRoll}</td><td>Class ${s.class} - ${s.name}</td><td>${s.gender === 'Male' ? 'Boys' : 'Girls'}</td><td>${s.category}</td><td>Class ${s.class}</td></tr>`;
         }).join('')}</tbody></table>`;
       } else if (type === 'programme') {
         container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th></tr></thead><tbody>${activeAssignments.map(a => `<tr><td>${a.studentName}</td><td>${a.programmeName}</td></tr>`).join('')}</tbody></table>`;
       } else {
-        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${state.practice.map(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
+        container.innerHTML = `<table class="data-table"><thead><tr><th>Student</th><th>Programme</th><th>Status</th></tr></thead><tbody>${state.practice.path(p => `<tr><td>${p.studentName}</td><td>${p.programmeName}</td><td>${p.status}</td></tr>`).join('')}</tbody></table>`;
       }
     }
 
@@ -4413,7 +4283,7 @@
       toast.className = `toast ${type}`;
       toast.innerHTML = `${type === 'success' ? '✅' : '⚠️'} ${msg}`;
       container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3200);
+      setTimeout(() => toast.remove(), 2000);
     }
   </script>
 </body>
