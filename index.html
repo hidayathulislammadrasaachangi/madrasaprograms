@@ -4105,29 +4105,31 @@
       let rowsHtml = '';
       let index = 1;
       userAssignments.forEach(a => {
-        const publishedRes = state.publishedResults.find(r => 
-          r.programmeName?.trim().toLowerCase() === a.programmeName?.trim().toLowerCase() &&
-          r.category === s.category
-        );
-
-        const practiceRecord = state.practice.find(p => p.studentName === s.name && p.programmeName?.trim().toLowerCase() === a.programmeName?.trim().toLowerCase());
-        const isCompleted = publishedRes || (practiceRecord && (practiceRecord.status === 'Completed' || practiceRecord.status === 'Stage Ready'));
+        // Find published result regardless of category to ensure robustness
+        const publishedRes = state.publishedResults.find(r => {
+          const resProg = (r.programmeName || '').trim().toLowerCase();
+          const assignProg = (a.programmeName || '').trim().toLowerCase();
+          return resProg === assignProg;
+        });
 
         let statusBadge = '';
         if (publishedRes) {
-          if (publishedRes.firstStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
-            statusBadge = `<span style="background:#d4af37; color:#072e1d; padding:2px 4px; border-radius:5px; font-size:0.6rem; font-weight:bold;">🏆 1st</span>`;
-          } else if (publishedRes.secondStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
-            statusBadge = `<span style="background:#9ca3af; color:#fff; padding:2px 4px; border-radius:5px; font-size:0.6rem; font-weight:bold;">🥈 2nd</span>`;
-          } else if (publishedRes.thirdStudent?.trim().toLowerCase() === s.name.trim().toLowerCase()) {
-            statusBadge = `<span style="background:#b45309; color:#fff; padding:2px 4px; border-radius:5px; font-size:0.6rem; font-weight:bold;">🥉 3rd</span>`;
+          const sName = s.name.trim().toLowerCase();
+          const first = (publishedRes.firstStudent || publishedRes.studentName || '').trim().toLowerCase();
+          const second = (publishedRes.secondStudent || '').trim().toLowerCase();
+          const third = (publishedRes.thirdStudent || '').trim().toLowerCase();
+
+          if (first === sName) {
+            statusBadge = `<span style="background:#d4af37; color:#072e1d; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">🏆 1st Place</span>`;
+          } else if (second === sName) {
+            statusBadge = `<span style="background:#9ca3af; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">🥈 2nd Place</span>`;
+          } else if (third === sName) {
+            statusBadge = `<span style="background:#b45309; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">🥉 3rd Place</span>`;
           } else {
-            statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 4px; border-radius:5px; font-size:0.6rem; font-weight:bold;">✅ Done</span>`;
+            statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">✅ Done</span>`;
           }
-        } else if (isCompleted) {
-          statusBadge = `<span style="background:#10b981; color:#fff; padding:2px 4px; border-radius:5px; font-size:0.6rem; font-weight:bold;">✅ Done</span>`;
         } else {
-          statusBadge = `<span style="background:#f59e0b; color:#fff; padding:2px 4px; border-radius:5px; font-size:0.6rem; font-weight:bold;">⏳ Pending</span>`;
+          statusBadge = `<span style="background:#f59e0b; color:#fff; padding:2px 6px; border-radius:5px; font-size:0.65rem; font-weight:bold;">⏳ Pending</span>`;
         }
 
         rowsHtml += `<tr><td>${index++}</td><td><strong>${a.programmeName}</strong></td><td>${a.programmeType} <br>${statusBadge}</td></tr>`;
