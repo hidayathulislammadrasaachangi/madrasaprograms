@@ -612,7 +612,7 @@
     .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 0.9rem; border-radius: 8px; background: white; color: #111; margin-top: 0.6rem; width: 100%; }
     .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem; margin-bottom: 0.6rem; }
 
-    .prog-page-break { page-break-after: always; break-after: page; margin-bottom: 1.5rem; border-bottom: 2px dashed #ccc; padding-bottom: 0.9rem; }
+    .prog-page-break { page-break-inside: avoid; break-inside: avoid; margin-bottom: 2rem; border-bottom: 2px dashed #ccc; padding-bottom: 0.9rem; }
 
     .floating-publish-btn {
       position: fixed; bottom: 15px; right: 15px;
@@ -646,7 +646,7 @@
       .view-container { padding: 0 !important; }
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
-      .prog-page-break { page-break-after: always !important; break-after: page !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
+      .prog-page-break { page-break-inside: avoid !important; break-inside: avoid !important; border-bottom: none !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
       .single-judge-slip-card { border: 2px dashed #000 !important; box-shadow: none !important; margin: 0 auto; width: 100%; }
     }
   </style>
@@ -3091,7 +3091,6 @@
 
       if (!card || !outputArea) return;
 
-      const activeProgNames = new Set(state.programmes.map(p => p.name.trim().toLowerCase()));
       const categoryProgrammes = getUniqueProgrammes(
         state.programmes.filter(p => p.gender === gender && p.category === selectedCategory && p.type === progType)
       );
@@ -3110,12 +3109,10 @@
       const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       categoryProgrammes.forEach((prog) => {
-        // Updated assignment matching to safely catch names & IDs
         const assignedRecords = activeAssignments.filter(a => {
           const assignProgName = (a.programmeName || '').trim().toLowerCase();
-          if (!activeProgNames.has(assignProgName)) return false;
-
-          const matchProg = (a.programmeDocId === prog.id) || (assignProgName === prog.name.trim().toLowerCase());
+          const progName = (prog.name || '').trim().toLowerCase();
+          const matchProg = (a.programmeDocId === prog.id) || (assignProgName === progName);
           
           const studentObj = state.students.find(s => s.id === a.studentDocId || s.name?.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const studentGender = studentObj ? studentObj.gender : a.studentGender;
@@ -3140,7 +3137,6 @@
           }
         });
 
-        // Unique filter to prevent name duplication bugs in lists
         const uniqueMatchedMap = new Map();
         matchedItems.forEach(item => {
           uniqueMatchedMap.set(item.name.trim().toLowerCase(), item);
@@ -3159,7 +3155,7 @@
         });
 
         fullHtml += `
-          <div class="prog-page-break">
+          <div class="prog-page-break" style="page-break-inside: avoid; break-inside: avoid; margin-bottom: 2rem;">
             <div style="text-align:center; margin-bottom: 0.6rem; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem;">
               <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.1rem;">HIDAYATHUL ISLAM MADRASA</h2>
               <p style="font-size:0.68rem; font-weight:600; color:#d4af37;">${progType.toUpperCase()} PROGRAMME SHEET</p>
