@@ -3110,12 +3110,14 @@
       const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
 
       categoryProgrammes.forEach((prog) => {
+        // Updated assignment matching to safely catch names & IDs
         const assignedRecords = activeAssignments.filter(a => {
           const assignProgName = (a.programmeName || '').trim().toLowerCase();
           if (!activeProgNames.has(assignProgName)) return false;
 
           const matchProg = (a.programmeDocId === prog.id) || (assignProgName === prog.name.trim().toLowerCase());
-          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
+          
+          const studentObj = state.students.find(s => s.id === a.studentDocId || s.name?.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const studentGender = studentObj ? studentObj.gender : a.studentGender;
           const studentCat = studentObj ? studentObj.category : a.studentCategory;
 
@@ -3124,15 +3126,26 @@
 
         let matchedItems = [];
         assignedRecords.forEach(a => {
-          const student = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
+          const student = state.students.find(s => s.id === a.studentDocId || s.name?.trim().toLowerCase() === a.studentName?.trim().toLowerCase());
           const cleanRoll = getStudentRollNo(student, a);
-          matchedItems.push({
-            assignmentId: a.id,
-            name: a.studentName,
-            class: student?.class || 'N/A',
-            rollNo: cleanRoll
-          });
+          const studentName = student ? student.name : a.studentName;
+
+          if (studentName) {
+            matchedItems.push({
+              assignmentId: a.id,
+              name: studentName,
+              class: student?.class || 'N/A',
+              rollNo: cleanRoll
+            });
+          }
         });
+
+        // Unique filter to prevent name duplication bugs in lists
+        const uniqueMatchedMap = new Map();
+        matchedItems.forEach(item => {
+          uniqueMatchedMap.set(item.name.trim().toLowerCase(), item);
+        });
+        matchedItems = Array.from(uniqueMatchedMap.values());
 
         matchedItems.sort((a, b) => {
           const rA = parseInt(a.rollNo, 10);
@@ -4105,7 +4118,6 @@
       let rowsHtml = '';
       let index = 1;
       userAssignments.forEach(a => {
-        // Find published result regardless of category to ensure robustness
         const publishedRes = state.publishedResults.find(r => {
           const resProg = (r.programmeName || '').trim().toLowerCase();
           const assignProg = (a.programmeName || '').trim().toLowerCase();
