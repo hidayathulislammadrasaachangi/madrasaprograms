@@ -615,10 +615,8 @@
     .prog-page-break { 
       page-break-inside: avoid; 
       break-inside: avoid; 
-      page-break-after: always;
-      break-after: page;
-      margin-bottom: 1.5rem; 
-      padding-bottom: 0.9rem; 
+      margin-bottom: 1.2rem; 
+      padding-bottom: 0.5rem; 
     }
 
     .floating-publish-btn {
@@ -656,10 +654,7 @@
       .prog-page-break { 
         page-break-inside: avoid !important; 
         break-inside: avoid !important; 
-        page-break-after: always !important;
-        break-after: page !important;
-        margin-bottom: 0 !important; 
-        padding-bottom: 0 !important; 
+        margin-bottom: 0.8rem !important; 
       }
       .single-judge-slip-card { border: 2px dashed #000 !important; box-shadow: none !important; margin: 0 auto; width: 100%; }
     }
@@ -3170,32 +3165,32 @@
 
         fullHtml += `
           <div class="prog-page-break">
-            <div style="text-align:center; margin-bottom: 0.6rem; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem;">
-              <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1.1rem;">HIDAYATHUL ISLAM MADRASA</h2>
-              <p style="font-size:0.68rem; font-weight:600; color:#d4af37;">${progType.toUpperCase()} PROGRAMME SHEET</p>
+            <div style="text-align:center; margin-bottom: 0.4rem; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.3rem;">
+              <h2 style="color:#0d5c3a; font-family:'Amiri', serif; font-size:1rem;">HIDAYATHUL ISLAM MADRASA</h2>
+              <p style="font-size:0.6rem; font-weight:600; color:#d4af37;">${progType.toUpperCase()} PROGRAMME SHEET</p>
             </div>
-            <div style="margin-bottom: 0.6rem; background: #f8faf9; padding: 0.6rem; border-radius: 5px; border-left: 4px solid #0d5c3a;">
-              <h1 style="color:#0d5c3a; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; margin:0;">${prog.name}</h1>
-              <p style="font-size: 0.72rem; color: #d4af37; font-weight: 700; margin-top: 0.1rem;">
+            <div style="margin-bottom: 0.4rem; background: #f8faf9; padding: 0.4rem; border-radius: 5px; border-left: 4px solid #0d5c3a;">
+              <h1 style="color:#0d5c3a; font-size: 1.05rem; font-weight: 800; text-transform: uppercase; margin:0;">${prog.name}</h1>
+              <p style="font-size: 0.65rem; color: #d4af37; font-weight: 700; margin-top: 0.05rem;">
                 Category: ${selectedCategory} &nbsp;|&nbsp; Section: ${gender === 'Male' ? 'Boys' : 'Girls'}
               </p>
             </div>
             <table class="data-table" style="width:100%;">
               <thead>
                 <tr style="background:#f4f7f5; color:#0d5c3a;">
-                  <th style="width:12%;">#</th>
-                  <th style="width:28%;">Roll No</th>
-                  <th style="width:60%;">Student Name</th>
+                  <th style="width:12%; padding:4px;">#</th>
+                  <th style="width:28%; padding:4px;">Roll No</th>
+                  <th style="width:60%; padding:4px;">Student Name</th>
                 </tr>
               </thead>
               <tbody>
                 ${matchedItems.length > 0 ? matchedItems.map((s, idx) => `
                   <tr>
-                    <td><strong>${idx + 1}</strong></td>
-                    <td><strong style="color:#0d5c3a;">${s.rollNo}</strong></td>
-                    <td><strong style="color:#0d5c3a;">${s.name}</strong></td>
+                    <td style="padding:4px;"><strong>${idx + 1}</strong></td>
+                    <td style="padding:4px;"><strong style="color:#0d5c3a;">${s.rollNo}</strong></td>
+                    <td style="padding:4px;"><strong style="color:#0d5c3a;">${s.name}</strong></td>
                   </tr>
-                `).join('') : `<tr><td colspan="3" class="text-center" style="color:#ef4444; padding: 0.6rem;">No participants assigned.</td></tr>`}
+                `).join('') : `<tr><td colspan="3" class="text-center" style="color:#ef4444; padding: 0.4rem;">No participants assigned.</td></tr>`}
               </tbody>
             </table>
           </div>
