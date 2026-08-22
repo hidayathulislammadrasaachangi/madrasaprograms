@@ -612,10 +612,13 @@
     .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 0.9rem; border-radius: 8px; background: white; color: #111; margin-top: 0.6rem; width: 100%; }
     .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem; margin-bottom: 0.6rem; }
 
+    /* പ്രോഗ്രാം ബ്ലോക്കുകൾ പേജിൽ മുറിഞ്ഞുപോകാതിരിക്കാൻ */
     .prog-page-break { 
-      page-break-inside: avoid; 
-      break-inside: avoid; 
-      margin-bottom: 1.2rem; 
+      page-break-inside: avoid !important; 
+      break-inside: avoid !important; 
+      page-break-before: auto;
+      page-break-after: auto;
+      margin-bottom: 1.5rem; 
       padding-bottom: 0.5rem; 
     }
 
@@ -651,10 +654,12 @@
       .view-container { padding: 0 !important; }
       .app-view { display: none !important; }
       .app-view.active { display: block !important; }
+      
       .prog-page-break { 
         page-break-inside: avoid !important; 
         break-inside: avoid !important; 
-        margin-bottom: 0.8rem !important; 
+        page-break-before: always !important; 
+        margin-bottom: 1rem !important; 
       }
       .single-judge-slip-card { border: 2px dashed #000 !important; box-shadow: none !important; margin: 0 auto; width: 100%; }
     }
@@ -713,7 +718,9 @@
         <a href="#" class="nav-item" data-view="item-bulk-assign"><i class="fa-solid fa-list-check"></i> <span>Bulk Assignment</span></a>
         
         <a href="#" class="nav-item" data-view="admin-result-management" id="menu-result-management" style="display:none;"><i class="fa-solid fa-trophy"></i> <span>Result Management</span></a>
-        <a href="#" class="nav-item" data-view="category-pdf"><i class="fa-solid fa-file-pdf"></i> <span>PDF Export</span></a>
+        
+        <a href="#" class="nav-item super-admin-only-action" data-view="category-pdf"><i class="fa-solid fa-file-pdf"></i> <span>PDF Export</span></a>
+        
         <a href="#" class="nav-item" data-view="reports"><i class="fa-solid fa-file-invoice"></i> <span>Reports</span></a>
         <a href="#" class="nav-item" data-view="judges-slip" id="menu-judges-slip" style="display:none;"><i class="fa-solid fa-award"></i> <span>Judges Slip (Single)</span></a>
         
@@ -1175,13 +1182,15 @@
           </div>
         </section>
 
+        <!-- PDF Export View (സൂപ്പർ അഡ്മിന് മാത്രം) -->
         <section id="view-category-pdf" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2 style="font-size: 1rem;"><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> PDF Export Manager</h2>
-            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Download category-wise and type-wise programme sheets.</p>
+            <p style="font-size:0.72rem; opacity:0.8; margin-top:0.1rem;">Download category-wise and type-wise programme sheets with chest numbers.</p>
             <hr class="divider">
 
             <div class="form-grid">
+              <!-- Boys Section PDF Box -->
               <div class="glass-card" style="background:rgba(37,99,235,0.05); border: 1.5px solid #2563eb; margin-bottom: 0;">
                 <h3 style="font-size: 0.85rem;"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section PDF</h3>
                 <div class="form-group mt-2">
@@ -1199,6 +1208,7 @@
                 </div>
               </div>
 
+              <!-- Girls Section PDF Box -->
               <div class="glass-card" style="background:rgba(219,39,119,0.05); border: 1.5px solid #db2777; margin-bottom: 0;">
                 <h3 style="font-size: 0.85rem;"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section PDF</h3>
                 <div class="form-group mt-2">
@@ -3115,7 +3125,7 @@
       subtitleEl.textContent = `${progType} List | Category: ${selectedCategory} | Section: ${gender === 'Male' ? 'Boys' : 'Girls'}`;
 
       let fullHtml = '';
-      const activeAssignments = state.assignments.filter(a => a.team === state.activeTeam);
+      const activeAssignments = state.assignments;
 
       categoryProgrammes.forEach((prog) => {
         const assignedRecords = activeAssignments.filter(a => {
@@ -3178,9 +3188,9 @@
             <table class="data-table" style="width:100%;">
               <thead>
                 <tr style="background:#f4f7f5; color:#0d5c3a;">
-                  <th style="width:12%; padding:4px;">#</th>
-                  <th style="width:28%; padding:4px;">Roll No</th>
-                  <th style="width:60%; padding:4px;">Student Name</th>
+                  <th style="width:15%; padding:4px;">#</th>
+                  <th style="width:35%; padding:4px;">Chest / Roll No</th>
+                  <th style="width:50%; padding:4px;">Student Name</th>
                 </tr>
               </thead>
               <tbody>
