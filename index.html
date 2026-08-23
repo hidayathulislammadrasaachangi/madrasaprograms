@@ -947,6 +947,12 @@
               </div>
             </div>
 
+            <!-- ആൺകുട്ടികളുടെയും പെൺകുട്ടികളുടെയും ഫലങ്ങൾ വെവ്വേറെ കാണാനുള്ള സെക്ഷൻ -->
+            <div style="display:flex; gap:0.4rem; margin-bottom:0.6rem;">
+              <button class="tab-btn active" id="btn-pub-tab-boys" onclick="window.switchPubGenderTab('Boys')" style="background:#2563eb; color:#fff; border:none;"><i class="fa-solid fa-mars"></i> Boys Results</button>
+              <button class="tab-btn" id="btn-pub-tab-girls" onclick="window.switchPubGenderTab('Girls')" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid #db2777;"><i class="fa-solid fa-venus"></i> Girls Results</button>
+            </div>
+
             <div style="background:rgba(0,0,0,0.25); padding:0.8rem; border-radius:8px; border:1px solid rgba(212,175,55,0.3);">
               <h4 style="margin-bottom:0.5rem; color:var(--accent-gold); font-size:0.8rem;"><i class="fa-solid fa-magnifying-glass"></i> Public Result Search Portal</h4>
               
@@ -963,16 +969,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Section</label>
-                  <select id="pub-search-gender" class="form-control" onchange="onPublicSearchFilterChange()">
-                    <option value="All">All Sections (Boys & Girls)</option>
-                    <option value="Boys">Boys</option>
-                    <option value="Girls">Girls</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 3: Select Programme Type</label>
+                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Programme Type</label>
                   <select id="pub-search-type" class="form-control" onchange="onPublicSearchFilterChange()">
                     <option value="All">All Types (Stage & Non-Stage)</option>
                     <option value="Stage">Stage</option>
@@ -982,7 +979,7 @@
               </div>
 
               <div class="form-group">
-                <label style="font-size:0.75rem; color:var(--accent-gold); font-weight:700;">Step 4: Available Programmes</label>
+                <label style="font-size:0.75rem; color:var(--accent-gold); font-weight:700;">Step 3: Available Programmes</label>
                 <div id="pub-programmes-chips-container" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.2rem; min-height:35px; background:rgba(0,0,0,0.15); padding:0.5rem; border-radius:5px;">
                   <span style="font-size:0.75rem; opacity:0.7; font-style:italic;">Loading programmes...</span>
                 </div>
@@ -1013,6 +1010,12 @@
             <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-list" style="color:var(--accent-gold);"></i> Published Results Directory</h3>
             <p style="font-size:0.72rem; opacity:0.8; margin-bottom:0.6rem;">Manage all published results grouped by categories.</p>
             
+            <!-- ആൺകുട്ടികളുടെയും പെൺകുട്ടികളുടെയും സെക്ഷൻ മാറ്റാനുള്ള ടാബുകൾ -->
+            <div class="tab-buttons mb-2" id="results-gender-tabs">
+              <button class="tab-btn active" data-gender="Boys" onclick="window.switchManageGenderTab('Boys')"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Results</button>
+              <button class="tab-btn" data-gender="Girls" onclick="window.switchManageGenderTab('Girls')"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Results</button>
+            </div>
+
             <div class="tab-buttons mb-2" id="results-directory-category-tabs">
               <button class="tab-btn active" data-cat="All">All</button>
               <button class="tab-btn" data-cat="Sub Junior">Sub Jr</button>
@@ -1806,6 +1809,8 @@
       selectedProgCat: 'All',
       dashModalFilterCat: 'All',
       resultsDirCategoryFilter: 'All',
+      resultsDirGenderFilter: 'Boys',
+      pubSearchGenderTab: 'Boys',
       activeDashModalType: '',
       bulkSelection: { category: '', gender: '', type: '' },
       vsSelection: { category: '', gender: '', type: '' },
@@ -2239,6 +2244,34 @@
       document.getElementById('js-category').addEventListener('change', updateJudgeSlipProgrammeOptions);
       document.getElementById('js-gender').addEventListener('change', updateJudgeSlipProgrammeOptions);
     }
+
+    window.switchPubGenderTab = function(gender) {
+      state.pubSearchGenderTab = gender;
+      const btnBoys = document.getElementById('btn-pub-tab-boys');
+      const btnGirls = document.getElementById('btn-pub-tab-girls');
+      if (gender === 'Boys') {
+        btnBoys.style.background = '#2563eb';
+        btnBoys.style.border = 'none';
+        btnGirls.style.background = 'rgba(255,255,255,0.1)';
+        btnGirls.style.border = '1px solid #db2777';
+      } else {
+        btnGirls.style.background = '#db2777';
+        btnGirls.style.border = 'none';
+        btnBoys.style.background = 'rgba(255,255,255,0.1)';
+        btnBoys.style.border = '1px solid #2563eb';
+      }
+      onPublicSearchFilterChange();
+    };
+
+    window.switchManageGenderTab = function(gender) {
+      state.resultsDirGenderFilter = gender;
+      const btns = document.querySelectorAll('#results-gender-tabs .tab-btn');
+      btns.forEach(b => {
+        if (b.getAttribute('data-gender') === gender) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      renderManagePublishedResultsTable();
+    };
 
     window.onFirstStudentSelectChange = function(val) {
       document.getElementById('pub-1st-student').value = val;
@@ -2692,21 +2725,31 @@
 
     window.onPublicSearchFilterChange = function() {
       const cat = document.getElementById('pub-search-category').value;
-      const gender = document.getElementById('pub-search-gender').value;
+      const gender = state.pubSearchGenderTab; // ആൺകുട്ടികൾ അതോ പെൺകുട്ടികൾ എന്ന് ഫിൽട്ടർ ചെയ്യും
       const type = document.getElementById('pub-search-type').value;
       const container = document.getElementById('pub-programmes-chips-container');
       if (!container) return;
 
+      const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
+
       const matchedProgs = getUniqueProgrammes(state.programmes.filter(p => {
         const pGenderMapped = p.gender === 'Male' ? 'Boys' : 'Girls';
         const matchCat = (cat === 'All' || p.category === cat);
-        const matchGender = (gender === 'All' || pGenderMapped === gender);
+        const matchGender = (pGenderMapped === gender);
         const matchType = (type === 'All' || p.type === type);
-        return matchCat && matchGender && matchType;
+        
+        // ഈ പ്രോഗ്രാമിന് റിസൾട്ട് പബ്ലിഷ് ചെയ്തിട്ടുണ്ടോ എന്ന് പരിശോധിക്കാം
+        const hasResult = activeResults.some(res => 
+          res.programmeName?.trim().toLowerCase() === p.name.trim().toLowerCase() &&
+          res.category === p.category &&
+          res.gender === pGenderMapped
+        );
+
+        return matchCat && matchGender && matchType && hasResult;
       }));
 
       if (matchedProgs.length === 0) {
-        container.innerHTML = `<span style="font-size:0.7rem; opacity:0.7; font-style:italic; color:#ef4444;">No programmes available.</span>`;
+        container.innerHTML = `<span style="font-size:0.7rem; opacity:0.7; font-style:italic; color:#ef4444;">No published results available for ${gender}.</span>`;
         return;
       }
 
@@ -2925,13 +2968,17 @@
       const tbody = document.getElementById('tbody-manage-published-results');
       if (!tbody) return;
 
-      let list = state.publishedResults;
+      let list = state.publishedResults.filter(r => {
+        const rGender = r.gender || 'Boys';
+        return rGender === state.resultsDirGenderFilter;
+      });
+
       if (state.resultsDirCategoryFilter && state.resultsDirCategoryFilter !== 'All') {
         list = list.filter(r => r.category === state.resultsDirCategoryFilter);
       }
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No results published yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No results published for ${state.resultsDirGenderFilter}.</td></tr>`;
         return;
       }
 
@@ -3018,11 +3065,11 @@
       const showcaseGrid = document.getElementById('home-winner-showcase-grid');
       if (!showcaseGrid) return;
 
-      const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
+      const activeResults = state.publishedResults.filter(r => (state.isSuperAdmin || r.status !== 'hidden') && (r.gender || 'Boys') === state.pubSearchGenderTab);
       const recentWinners = [...activeResults].reverse().slice(0, 4);
 
       if (recentWinners.length === 0) {
-        showcaseGrid.innerHTML = `<p style="font-size:0.72rem; opacity:0.7; text-align:center;">No winners published yet.</p>`;
+        showcaseGrid.innerHTML = `<p style="font-size:0.72rem; opacity:0.7; text-align:center;">No published results for ${state.pubSearchGenderTab}.</p>`;
         return;
       }
 
