@@ -2938,8 +2938,8 @@
       tbody.innerHTML = list.map(r => {
         const isHidden = r.status === 'hidden';
         const statusBadge = isHidden 
-          ? `<span class="badge" style="background:#ef4444; color:#fff;">Hidden</span>` 
-          : `<span class="badge" style="background:#10b981; color:#fff;">Published</span>`;
+          ? `<span class="badge" style="background:#ef4444; color:#fff; cursor:pointer;" onclick="window.toggleResultStatus('${r.id}', 'published')" title="Click to Publish">Hidden</span>` 
+          : `<span class="badge" style="background:#10b981; color:#fff; cursor:pointer;" onclick="window.toggleResultStatus('${r.id}', 'hidden')" title="Click to Hide">Published</span>`;
 
         return `
           <tr>
@@ -2960,6 +2960,16 @@
         `;
       }).join('');
     }
+
+    window.toggleResultStatus = async function(id, newStatus) {
+      if (!state.isSuperAdmin) return showToast('Super Admin required!', 'error');
+      try {
+        await updateDoc(doc(db, 'publishedResults', id), { status: newStatus });
+        showToast(newStatus === 'hidden' ? 'Result Hidden Successfully' : 'Result Published Successfully', 'success');
+      } catch (err) {
+        showToast('Failed to update status', 'error');
+      }
+    };
 
     window.editPublishedResult = function(id) {
       if (!state.isSuperAdmin) return showToast('Super Admin required!', 'error');
