@@ -2604,7 +2604,6 @@
     function updateChampionshipScoreboard() {
       let t1Pts = 0, t2Pts = 0;
 
-      // പോയിന്റുകൾ കണക്കാക്കുമ്പോൾ പബ്ലിഷ് ആയവ അല്ലെങ്കിൽ സൂപ്പർ അഡ്മിൻ വ്യൂ മാത്രം എടുക്കാം
       const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
 
       activeResults.forEach(r => {
@@ -2762,14 +2761,16 @@
         if (a.studentName) {
           const cleanNameKey = a.studentName.trim().toLowerCase();
           if (!uniqueNamesMap.has(cleanNameKey)) {
-            uniqueNamesMap.set(cleanNameKey, { name: a.studentName, team: a.team || '' });
+            const studentObj = state.students.find(s => s.id === a.studentDocId || s.name.trim().toLowerCase() === a.studentName.trim().toLowerCase());
+            const rollNo = getStudentRollNo(studentObj, a);
+            uniqueNamesMap.set(cleanNameKey, { name: a.studentName, team: a.team || '', rollNo: rollNo });
           }
         }
       });
 
       let optionsHtml = '<option value="">-- Select from assigned list --</option>';
       uniqueNamesMap.forEach(item => {
-        optionsHtml += `<option value="${item.name}">${item.name} (${item.team})</option>`;
+        optionsHtml += `<option value="${item.name}">[${item.rollNo}] ${item.name} (${item.team})</option>`;
       });
 
       student1Select.innerHTML = optionsHtml;
@@ -2793,7 +2794,6 @@
 
       state.currentViewingResult = result || null;
 
-      // റിസൾട്ട് ഹൈഡ് ചെയ്തിട്ടുണ്ടെങ്കിൽ സൂപ്പർ അഡ്മിൻ അല്ലാത്തവർക്ക് കാണാൻ പാടില്ല
       const isHidden = result && result.status === 'hidden';
       if (!result || (isHidden && !state.isSuperAdmin)) {
         modalWinners.innerHTML = `
@@ -3008,7 +3008,6 @@
       const showcaseGrid = document.getElementById('home-winner-showcase-grid');
       if (!showcaseGrid) return;
 
-      // ഹൈഡ് ചെയ്യാത്ത റിസൾട്ടുകൾ മാത്രം പബ്ലിക് വ്യൂവിൽ കാണിക്കുക
       const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
       const recentWinners = [...activeResults].reverse().slice(0, 4);
 
