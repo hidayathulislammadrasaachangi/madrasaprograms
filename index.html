@@ -612,7 +612,6 @@
     .parent-slip-card { border: 2px dashed var(--accent-gold); padding: 0.9rem; border-radius: 8px; background: white; color: #111; margin-top: 0.6rem; width: 100%; }
     .slip-header { text-align: center; border-bottom: 2px solid #0d5c3a; padding-bottom: 0.4rem; margin-bottom: 0.6rem; }
 
-    /* പ്രോഗ്രാം ബ്ലോക്കുകൾ പേജിൽ മുറിഞ്ഞുപോകാതിരിക്കാൻ */
     .prog-page-break { 
       page-break-inside: avoid !important; 
       break-inside: avoid !important; 
@@ -1031,13 +1030,12 @@
                     <th>Section</th>
                     <th>Team</th>
                     <th>1st</th>
-                    <th>2nd</th>
-                    <th>3rd</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody id="tbody-manage-published-results">
-                  <tr><td colspan="8" class="text-center">No results published yet.</td></tr>
+                  <tr><td colspan="7" class="text-center">No results published yet.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1182,7 +1180,6 @@
           </div>
         </section>
 
-        <!-- PDF Export View (സൂപ്പർ അഡ്മിന് മാത്രം) -->
         <section id="view-category-pdf" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2 style="font-size: 1rem;"><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> PDF Export Manager</h2>
@@ -1190,7 +1187,6 @@
             <hr class="divider">
 
             <div class="form-grid">
-              <!-- Boys Section PDF Box -->
               <div class="glass-card" style="background:rgba(37,99,235,0.05); border: 1.5px solid #2563eb; margin-bottom: 0;">
                 <h3 style="font-size: 0.85rem;"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Section PDF</h3>
                 <div class="form-group mt-2">
@@ -1208,7 +1204,6 @@
                 </div>
               </div>
 
-              <!-- Girls Section PDF Box -->
               <div class="glass-card" style="background:rgba(219,39,119,0.05); border: 1.5px solid #db2777; margin-bottom: 0;">
                 <h3 style="font-size: 0.85rem;"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Section PDF</h3>
                 <div class="form-group mt-2">
@@ -1725,6 +1720,14 @@
               <option value="">-- Choose Programme --</option>
             </select>
           </div>
+
+          <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:6px; border-radius:5px; border:1px solid var(--accent-gold);">
+            <label style="color:var(--accent-gold); font-weight:700;">Result Visibility Option</label>
+            <select id="pub-visibility-status" class="form-control mb-1" style="font-weight:600;">
+              <option value="published">🟢 Publish (Visible to Everyone)</option>
+              <option value="hidden">🔴 Hide (Hidden from Public)</option>
+            </select>
+          </div>
           
           <div class="form-group" style="grid-column: 1 / -1; background:rgba(212,175,55,0.08); padding:6px; border-radius:5px; border:1px solid var(--accent-gold);">
             <label style="color:var(--accent-gold); font-weight:700;">1st Place Winner (10 Pts)</label>
@@ -2057,6 +2060,7 @@
             firstStudent: firstStudentName,
             secondStudent: document.getElementById('pub-2nd-student').value || '',
             thirdStudent: document.getElementById('pub-3rd-student').value || '',
+            status: document.getElementById('pub-visibility-status').value || 'published',
             timestamp: new Date().toISOString()
           };
 
@@ -2600,7 +2604,10 @@
     function updateChampionshipScoreboard() {
       let t1Pts = 0, t2Pts = 0;
 
-      state.publishedResults.forEach(r => {
+      // പോയിന്റുകൾ കണക്കാക്കുമ്പോൾ പബ്ലിഷ് ആയവ അല്ലെങ്കിൽ സൂപ്പർ അഡ്മിൻ വ്യൂ മാത്രം എടുക്കാം
+      const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
+
+      activeResults.forEach(r => {
         if (r.firstStudent) {
           const t1 = getStudentTeam(r.firstStudent) || r.team;
           if (t1 === 'MADEENATHU-SSALAM') t1Pts += 10;
@@ -2638,7 +2645,8 @@
       
       titleEl.textContent = teamName + ' - Winners';
       
-      const teamWinners = state.publishedResults.filter(r => {
+      const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
+      const teamWinners = activeResults.filter(r => {
         const t1 = getStudentTeam(r.firstStudent) || r.team;
         const t2 = getStudentTeam(r.secondStudent);
         const t3 = getStudentTeam(r.thirdStudent);
@@ -2785,7 +2793,9 @@
 
       state.currentViewingResult = result || null;
 
-      if (!result) {
+      // റിസൾട്ട് ഹൈഡ് ചെയ്തിട്ടുണ്ടെങ്കിൽ സൂപ്പർ അഡ്മിൻ അല്ലാത്തവർക്ക് കാണാൻ പാടില്ല
+      const isHidden = result && result.status === 'hidden';
+      if (!result || (isHidden && !state.isSuperAdmin)) {
         modalWinners.innerHTML = `
           <div style="text-align:center; padding: 1.2rem 0.6rem; background: rgba(239, 68, 68, 0.08); border-radius: 8px; border: 1.5px dashed #ef4444;">
             <div style="font-size: 1.3rem; margin-bottom: 0.25rem;">⏳</div>
@@ -2797,6 +2807,9 @@
       }
 
       let winnersHtml = '';
+      if (isHidden && state.isSuperAdmin) {
+        winnersHtml += `<div style="background:rgba(239, 68, 68, 0.15); color:#ef4444; padding:5px; border-radius:4px; font-size:0.7rem; font-weight:bold; text-align:center; margin-bottom:0.5rem;">⚠️ THIS RESULT IS CURRENTLY HIDDEN FROM PUBLIC</div>`;
+      }
 
       if (result.firstStudent || result.studentName) {
         const studentName = result.firstStudent || result.studentName;
@@ -2918,28 +2931,34 @@
       }
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center">No results published yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No results published yet.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = list.map(r => `
-        <tr>
-          <td><strong>${r.programmeName}</strong></td>
-          <td><span class="badge badge-visitor">${r.category}</span></td>
-          <td>${r.gender || 'Boys'}</td>
-          <td><strong>${r.team}</strong></td>
-          <td>${r.firstStudent || r.studentName || '-'}</td>
-          <td>${r.secondStudent || '-'}</td>
-          <td>${r.thirdStudent || '-'}</td>
-          <td>
-            <button class="btn-action-sm btn-manage" onclick="window.openResultDetailsPageFromId('${r.id}')"><i class="fa-solid fa-eye"></i></button>
-            ${state.isSuperAdmin ? `
-              <button class="btn-action-sm btn-manage" onclick="window.editPublishedResult('${r.id}')"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn-danger-sm" onclick="window.deletePublishedResult('${r.id}')"><i class="fa-solid fa-trash"></i></button>
-            ` : ''}
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = list.map(r => {
+        const isHidden = r.status === 'hidden';
+        const statusBadge = isHidden 
+          ? `<span class="badge" style="background:#ef4444; color:#fff;">Hidden</span>` 
+          : `<span class="badge" style="background:#10b981; color:#fff;">Published</span>`;
+
+        return `
+          <tr>
+            <td><strong>${r.programmeName}</strong></td>
+            <td><span class="badge badge-visitor">${r.category}</span></td>
+            <td>${r.gender || 'Boys'}</td>
+            <td><strong>${r.team}</strong></td>
+            <td>${r.firstStudent || r.studentName || '-'}</td>
+            <td>${statusBadge}</td>
+            <td>
+              <button class="btn-action-sm btn-manage" onclick="window.openResultDetailsPageFromId('${r.id}')"><i class="fa-solid fa-eye"></i></button>
+              ${state.isSuperAdmin ? `
+                <button class="btn-action-sm btn-manage" onclick="window.editPublishedResult('${r.id}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-danger-sm" onclick="window.deletePublishedResult('${r.id}')"><i class="fa-solid fa-trash"></i></button>
+              ` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     window.editPublishedResult = function(id) {
@@ -2951,6 +2970,7 @@
       document.getElementById('pub-category').value = r.category || 'Sub Junior';
       document.getElementById('pub-gender').value = r.gender || 'Boys';
       document.getElementById('pub-type').value = r.programmeType || 'Stage';
+      document.getElementById('pub-visibility-status').value = r.status || 'published';
       
       updatePublishProgrammeAndParticipantOptions();
       document.getElementById('pub-prog-name-select').value = r.programmeName || '';
@@ -2988,7 +3008,9 @@
       const showcaseGrid = document.getElementById('home-winner-showcase-grid');
       if (!showcaseGrid) return;
 
-      const recentWinners = [...state.publishedResults].reverse().slice(0, 4);
+      // ഹൈഡ് ചെയ്യാത്ത റിസൾട്ടുകൾ മാത്രം പബ്ലിക് വ്യൂവിൽ കാണിക്കുക
+      const activeResults = state.publishedResults.filter(r => state.isSuperAdmin || r.status !== 'hidden');
+      const recentWinners = [...activeResults].reverse().slice(0, 4);
 
       if (recentWinners.length === 0) {
         showcaseGrid.innerHTML = `<p style="font-size:0.72rem; opacity:0.7; text-align:center;">No winners published yet.</p>`;
@@ -4136,7 +4158,7 @@
         const publishedRes = state.publishedResults.find(r => {
           const resProg = (r.programmeName || '').trim().toLowerCase();
           const assignProg = (a.programmeName || '').trim().toLowerCase();
-          return resProg === assignProg;
+          return resProg === assignProg && (state.isSuperAdmin || r.status !== 'hidden');
         });
 
         let statusBadge = '';
