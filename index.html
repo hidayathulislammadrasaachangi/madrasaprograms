@@ -2849,6 +2849,16 @@
         return;
       }
 
+      // കുട്ടിയുടെ ചെസ്സ് നമ്പർ (Roll No) കണ്ടെത്താൻ സഹായിക്കുന്ന ഹെൽപ്പർ ഫങ്ഷൻ
+      const getStudentRoll = (studentName) => {
+        if (!studentName) return '-';
+        const foundStd = state.students.find(s => s.name.trim().toLowerCase() === studentName.trim().toLowerCase());
+        if (foundStd) return getStudentRollNo(foundStd, null);
+        const foundAssign = state.assignments.find(a => a.studentName?.trim().toLowerCase() === studentName.trim().toLowerCase());
+        if (foundAssign) return getStudentRollNo(null, foundAssign);
+        return '-';
+      };
+
       let winnersHtml = '';
       if (isHidden && state.isSuperAdmin) {
         winnersHtml += `<div style="background:rgba(239, 68, 68, 0.15); color:#ef4444; padding:5px; border-radius:4px; font-size:0.7rem; font-weight:bold; text-align:center; margin-bottom:0.5rem;">⚠️ THIS RESULT IS CURRENTLY HIDDEN FROM PUBLIC</div>`;
@@ -2857,11 +2867,12 @@
       if (result.firstStudent || result.studentName) {
         const studentName = result.firstStudent || result.studentName;
         const t1 = getStudentTeam(studentName) || result.team;
+        const roll1 = getStudentRoll(studentName);
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin">1st Place (10 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName} <span style="font-size:0.8rem; color:#fff; background:var(--primary-green); padding:1px 6px; border-radius:4px; margin-left:6px;">Chest No: ${roll1}</span></h3>
               <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--primary-green);">${t1}</strong></p>
             </div>
             <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
@@ -2875,11 +2886,12 @@
       if (result.secondStudent) {
         const studentName = result.secondStudent;
         const t2 = getStudentTeam(studentName) || 'N/A';
+        const roll2 = getStudentRoll(studentName);
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin" style="background:#9ca3af; color:#fff;">2nd Place (5 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName} <span style="font-size:0.8rem; color:#fff; background:#6b7280; padding:1px 6px; border-radius:4px; margin-left:6px;">Chest No: ${roll2}</span></h3>
               <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--accent-gold);">${t2}</strong></p>
             </div>
             <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
@@ -2893,11 +2905,12 @@
       if (result.thirdStudent) {
         const studentName = result.thirdStudent;
         const t3 = getStudentTeam(studentName) || 'N/A';
+        const roll3 = getStudentRoll(studentName);
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin" style="background:#b45309; color:#fff;">3rd Place (3 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName} <span style="font-size:0.8rem; color:#fff; background:#b45309; padding:1px 6px; border-radius:4px; margin-left:6px;">Chest No: ${roll3}</span></h3>
               <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--accent-gold);">${t3}</strong></p>
             </div>
             <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
