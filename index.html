@@ -716,7 +716,8 @@
         <a href="#" class="nav-item" data-view="programmes"><i class="fa-solid fa-microphone"></i> <span>Programmes</span></a>
         <a href="#" class="nav-item" data-view="item-bulk-assign"><i class="fa-solid fa-list-check"></i> <span>Bulk Assignment</span></a>
         
-        <a href="#" class="nav-item" data-view="admin-result-management" id="menu-result-management" style="display:none;"><i class="fa-solid fa-trophy"></i> <span>Result Management</span></a>
+        <!-- സൂപ്പർ അഡ്മിന് മാത്രം കാണുന്ന Result Management ഓപ്ഷൻ -->
+        <a href="#" class="nav-item super-admin-only-action" data-view="admin-result-management" id="menu-result-management"><i class="fa-solid fa-trophy"></i> <span>Result Management</span></a>
         
         <a href="#" class="nav-item super-admin-only-action" data-view="category-pdf"><i class="fa-solid fa-file-pdf"></i> <span>PDF Export</span></a>
         
@@ -958,7 +959,7 @@
               
               <div style="display:grid; grid-template-columns: 1fr; gap:0.6rem; margin-bottom:0.6rem;">
                 <div class="form-group">
-                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 1: Select Category</label>
+                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 1: Select Category (Junior, Senior, General, Sub Junior)</label>
                   <select id="pub-search-category" class="form-control" onchange="onPublicSearchFilterChange()">
                     <option value="All">All Categories</option>
                     <option value="Sub Junior">Sub Junior</option>
@@ -969,7 +970,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Programme Type</label>
+                  <label style="font-size:0.7rem; color:var(--accent-gold); font-weight:700;">Step 2: Select Programme Type (Stage & Non-Stage)</label>
                   <select id="pub-search-type" class="form-control" onchange="onPublicSearchFilterChange()">
                     <option value="All">All Types (Stage & Non-Stage)</option>
                     <option value="Stage">Stage</option>
@@ -995,6 +996,7 @@
           </div>
         </section>
 
+        <!-- Result Management View (സൂപ്പർ അഡ്മിന് മാത്രം) -->
         <section id="view-admin-result-management" class="app-view">
           <div class="glass-card mb-2">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem;">
@@ -1010,7 +1012,6 @@
             <h3 style="font-size: 0.9rem;"><i class="fa-solid fa-list" style="color:var(--accent-gold);"></i> Published Results Directory</h3>
             <p style="font-size:0.72rem; opacity:0.8; margin-bottom:0.6rem;">Manage all published results grouped by categories.</p>
             
-            <!-- ആൺകുട്ടികളുടെയും പെൺകുട്ടികളുടെയും സെക്ഷൻ മാറ്റാനുള്ള ടാബുകൾ -->
             <div class="tab-buttons mb-2" id="results-gender-tabs">
               <button class="tab-btn active" data-gender="Boys" onclick="window.switchManageGenderTab('Boys')"><i class="fa-solid fa-mars" style="color:#2563eb;"></i> Boys Results</button>
               <button class="tab-btn" data-gender="Girls" onclick="window.switchManageGenderTab('Girls')"><i class="fa-solid fa-venus" style="color:#db2777;"></i> Girls Results</button>
@@ -1183,6 +1184,7 @@
           </div>
         </section>
 
+        <!-- PDF Export Manager (ജൂനിയർ, സീനിയർ, ജനറൽ, സബ് ജൂനിയർ & ആൺകുട്ടി/പെൺകുട്ടി വ്യത്യാസത്തോടെ) -->
         <section id="view-category-pdf" class="app-view">
           <div class="glass-card mb-2 no-print">
             <h2 style="font-size: 1rem;"><i class="fa-solid fa-file-pdf" style="color:var(--accent-gold);"></i> PDF Export Manager</h2>
@@ -1657,6 +1659,7 @@
     </div>
   </div>
 
+  <!-- Result Details Modal (ചെസ്റ്റ് നമ്പറും ഗ്രൂപ്പിന്റെ പേരും ഉൾപ്പെടുത്തി അപ്ഡേറ്റ് ചെയ്തത്) -->
   <div id="modal-result-details" class="modal">
     <div class="modal-content glass-card wide">
       <div class="modal-header">
@@ -2725,7 +2728,7 @@
 
     window.onPublicSearchFilterChange = function() {
       const cat = document.getElementById('pub-search-category').value;
-      const gender = state.pubSearchGenderTab; // ആൺകുട്ടികൾ അതോ പെൺകുട്ടികൾ എന്ന് ഫിൽട്ടർ ചെയ്യും
+      const gender = state.pubSearchGenderTab; 
       const type = document.getElementById('pub-search-type').value;
       const container = document.getElementById('pub-programmes-chips-container');
       if (!container) return;
@@ -2738,7 +2741,6 @@
         const matchGender = (pGenderMapped === gender);
         const matchType = (type === 'All' || p.type === type);
         
-        // ഈ പ്രോഗ്രാമിന് റിസൾട്ട് പബ്ലിഷ് ചെയ്തിട്ടുണ്ടോ എന്ന് പരിശോധിക്കാം
         const hasResult = activeResults.some(res => 
           res.programmeName?.trim().toLowerCase() === p.name.trim().toLowerCase() &&
           res.category === p.category &&
@@ -2821,6 +2823,7 @@
       student3Select.innerHTML = optionsHtml;
     };
 
+    // ലൈവ് റിസൾട്ടിൽ കുട്ടിയുടെ ചെസ്റ്റ് നമ്പറും ഗ്രൂപ്പിന്റെ പേരും (Team) വരുന്ന രീതിയിലുള്ള വ്യവസ്ഥകൾ
     window.openResultDetailsPage = function(programmeName, category, gender, type) {
       const modalTitle = document.getElementById('res-modal-title');
       const modalMeta = document.getElementById('res-modal-meta');
@@ -2849,35 +2852,33 @@
         return;
       }
 
-      // കുട്ടിയുടെ ചെസ്സ് നമ്പർ (Roll No) കണ്ടെത്താൻ സഹായിക്കുന്ന ഹെൽപ്പർ ഫങ്ഷൻ
-      const getStudentRoll = (studentName) => {
-        if (!studentName) return '-';
-        const foundStd = state.students.find(s => s.name.trim().toLowerCase() === studentName.trim().toLowerCase());
-        if (foundStd) return getStudentRollNo(foundStd, null);
-        const foundAssign = state.assignments.find(a => a.studentName?.trim().toLowerCase() === studentName.trim().toLowerCase());
-        if (foundAssign) return getStudentRollNo(null, foundAssign);
-        return '-';
-      };
-
       let winnersHtml = '';
       if (isHidden && state.isSuperAdmin) {
         winnersHtml += `<div style="background:rgba(239, 68, 68, 0.15); color:#ef4444; padding:5px; border-radius:4px; font-size:0.7rem; font-weight:bold; text-align:center; margin-bottom:0.5rem;">⚠️ THIS RESULT IS CURRENTLY HIDDEN FROM PUBLIC</div>`;
       }
 
+      // വിദ്യാർത്ഥിയുടെ ചെസ്റ്റ് നമ്പറും ടീം പേരും കണ്ടെത്താൻ ഹെൽപ്പർ ഫങ്ഷൻ
+      const getStudentDetailsByName = (name) => {
+        if (!name) return { roll: '-', team: 'N/A' };
+        const std = state.students.find(s => s.name.trim().toLowerCase() === name.trim().toLowerCase());
+        const roll = getStudentRollNo(std, null);
+        const team = (std && std.team) ? std.team : (getStudentTeam(name) || 'N/A');
+        return { roll, team };
+      };
+
       if (result.firstStudent || result.studentName) {
         const studentName = result.firstStudent || result.studentName;
-        const t1 = getStudentTeam(studentName) || result.team;
-        const roll1 = getStudentRoll(studentName);
+        const details = getStudentDetailsByName(studentName);
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin">1st Place (10 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName} <span style="font-size:0.8rem; color:#fff; background:var(--primary-green); padding:1px 6px; border-radius:4px; margin-left:6px;">Chest No: ${roll1}</span></h3>
-              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--primary-green);">${t1}</strong></p>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Chest No / Roll: <strong style="color:var(--primary-green);">${details.roll}</strong> &bull; Team: <strong style="color:var(--primary-green);">${details.team}</strong></p>
             </div>
             <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
-              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${t1}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
-              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${t1}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
+              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${details.team}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
+              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '1st Place', '${result.programmeName}', '${result.category}', '${details.team}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
           </div>
         `;
@@ -2885,18 +2886,17 @@
 
       if (result.secondStudent) {
         const studentName = result.secondStudent;
-        const t2 = getStudentTeam(studentName) || 'N/A';
-        const roll2 = getStudentRoll(studentName);
+        const details = getStudentDetailsByName(studentName);
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin" style="background:#9ca3af; color:#fff;">2nd Place (5 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName} <span style="font-size:0.8rem; color:#fff; background:#6b7280; padding:1px 6px; border-radius:4px; margin-left:6px;">Chest No: ${roll2}</span></h3>
-              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--accent-gold);">${t2}</strong></p>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Chest No / Roll: <strong style="color:var(--primary-green);">${details.roll}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${details.team}</strong></p>
             </div>
             <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
-              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${t2}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
-              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${t2}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
+              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${details.team}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
+              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '2nd Place', '${result.programmeName}', '${result.category}', '${details.team}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
           </div>
         `;
@@ -2904,18 +2904,17 @@
 
       if (result.thirdStudent) {
         const studentName = result.thirdStudent;
-        const t3 = getStudentTeam(studentName) || 'N/A';
-        const roll3 = getStudentRoll(studentName);
+        const details = getStudentDetailsByName(studentName);
         winnersHtml += `
           <div style="background:rgba(212,175,55,0.12); border:1.5px solid var(--accent-gold); border-radius:8px; padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
             <div>
               <span class="badge badge-admin" style="background:#b45309; color:#fff;">3rd Place (3 Pts)</span>
-              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName} <span style="font-size:0.8rem; color:#fff; background:#b45309; padding:1px 6px; border-radius:4px; margin-left:6px;">Chest No: ${roll3}</span></h3>
-              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Team: <strong style="color:var(--accent-gold);">${t3}</strong></p>
+              <h3 style="color:var(--accent-gold); font-size:1rem; font-weight:800; margin-top:0.15rem;">${studentName}</h3>
+              <p style="font-size:0.72rem; font-weight:600; opacity:0.9;">Chest No / Roll: <strong style="color:var(--primary-green);">${details.roll}</strong> &bull; Team: <strong style="color:var(--accent-gold);">${details.team}</strong></p>
             </div>
             <div style="display:flex; gap:0.3rem; justify-content:flex-end; flex-wrap:wrap;">
-              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${t3}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
-              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${t3}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
+              <button class="btn-action-sm" onclick="window.openSpecificCertificateModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${details.team}')" style="background:var(--primary-green); color:#fff;"><i class="fa-solid fa-award"></i> Certificate</button>
+              <button class="btn-action-sm" onclick="window.openSpecificPosterModal('${studentName}', '3rd Place', '${result.programmeName}', '${result.category}', '${details.team}')" style="background:var(--accent-gold); color:#072e1d;"><i class="fa-solid fa-image"></i> Poster</button>
             </div>
           </div>
         `;
@@ -3190,6 +3189,7 @@
       return unique;
     }
 
+    // PDF Export function (ജൂനിയർ, സീനിയർ, ജനറൽ, സബ് ജൂനിയർ കാറ്റഗറികൾക്കും ആൺകുട്ടി/പെൺകുട്ടി വ്യത്യാസങ്ങൾക്കും അനുസൃതമായി)
     function generateGenderWisePDF(gender, progType) {
       const selectId = gender === 'Male' ? 'cat-pdf-boys-select' : 'cat-pdf-girls-select';
       const selectedCategory = document.getElementById(selectId).value;
